@@ -35,12 +35,12 @@ Rendered contexts color the mascot by mood:
 | Mood | Hex | Meaning |
 |------|-----|---------|
 | idle | `#334155` | neutral / at rest |
-| accent | `#0ea5e9` | working / thinking |
-| success | `#10b981` | positive outcome |
-| warning | `#f59e0b` | needs attention |
-| danger | `#ef4444` | blocked / failed |
+| accent | `#6366f1` | working / thinking |
+| ok | `#22c55e` | positive outcome |
+| warn | `#eab308` | needs attention |
+| err | `#ef4444` | blocked / failed |
 
-Terminal contexts use tone names instead of hex: idle, accent, ok, warn, err, muted.
+These five keys and hex values are [`kit/mark.json`](kit/mark.json) → `moodColorsUiOnly` (Thingscorp default kit). A kit fork or local overlay may replace them; do not keep a second mood table in brand docs. Terminal contexts use the same tone names (plus optional host-only `muted`) instead of hex.
 
 ## 4. Expression table
 
@@ -49,14 +49,14 @@ Terminal contexts use tone names instead of hex: idle, accent, ok, warn, err, mu
 | idle | ●● | idle | ready | — |
 | blink | ── | idle | blink (automatic, every 6–14s while idle) | — |
 | evaluating | ◐◑ | accent | checking rules | pulse |
-| allowed | >< | success | permitted | bounce |
-| asking | ?? | warning | needs approval | — |
-| denied | ┃┃ | danger | blocked | shake |
+| allowed | >< | ok | permitted | bounce |
+| asking | ?? | warn | needs approval | — |
+| denied | ┃┃ | err | blocked | shake |
 | sandboxing | ◇◇ | idle | contained | — |
 | executing | ◣◢ | accent | focused | pulse |
-| completed | ▴▴ | success | done | bounce |
-| warning | ◆◆ | warning | caution | bounce |
-| error | ×× | danger | failed | shake |
+| completed | ▴▴ | ok | done | bounce |
+| warning | ◆◆ | warn | caution | bounce |
+| error | ×× | err | failed | shake |
 | cancelled | ◦◦ | idle | interrupted | — |
 | offline | ‒‒ | idle | sleeping | — |
 | loadingRight | ●● | accent | loading | pulse |
@@ -79,7 +79,6 @@ The `loadingLeft` frame mirrors the body:
 
 ## Sources
 
-Expression tables ported from the canonical implementations:
+Machine source of truth: [`kit/mark.json`](kit/mark.json) (faces, tones, glyphs) and [`kit/scene.json`](kit/scene.json) (scene vocabulary). This guide narrates those numbers; it does not invent a second table.
 
-- Thingscorp/Mininja — `apps/web/lib/mascot.ts`
-- Thingscorp/mininja-console — `src/lib/mascot.ts`
+Historical note: early ports lived in Thingscorp/Mininja `apps/web/lib/mascot.ts` and Thingscorp/mininja-console `src/lib/mascot.ts`. Those hosts must stay aligned to kit — they are not live SoT.
