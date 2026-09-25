@@ -1,0 +1,78 @@
+# Mininja Mark Construction
+
+The Mininja mark **is** a stacked three-line Unicode lockup. The glyphs are the mark — not a redrawn cartoon face. The mascot has no name.
+
+## Canonical stack (idle)
+
+```
+▚████
+██ ●●
+▀▀▀▀▀
+```
+
+Five columns × three rows on a monospace grid. Never rearrange the three lines. Never put text inside the lockup. Never stretch, skew, or rotate.
+
+## Character-by-character
+
+### Line 1 — mask / hood (5 cells)
+
+| Col | Glyph | Code point | Notes |
+|-----|-------|------------|-------|
+| 1 | ▚ | U+259A | Quadrant upper left and lower right |
+| 2 | █ | U+2588 | Full block |
+| 3 | █ | U+2588 | Full block |
+| 4 | █ | U+2588 | Full block |
+| 5 | █ | U+2588 | Full block |
+
+String: `▚████`
+
+### Line 2 — eyes row (5 cells)
+
+| Col | Glyph | Code point | Notes |
+|-----|-------|------------|-------|
+| 1 | █ | U+2588 | Full block (body) |
+| 2 | █ | U+2588 | Full block (body) |
+| 3 | ` ` | U+0020 | Space (gap before eyes) |
+| 4–5 | *eyes* | *varies* | Two-character eye slot from STYLEGUIDE |
+
+Idle string: `██ ●●` (eyes = ●● = U+25CF U+25CF)
+
+Only the eye slot (columns 4–5) changes by expression state. Do not invent eyes outside the STYLEGUIDE table.
+
+### Line 3 — chin (5 cells)
+
+| Col | Glyph | Code point | Notes |
+|-----|-------|------------|-------|
+| 1–5 | ▀ | U+2580 | Upper half block × 5 |
+
+String: `▀▀▀▀▀`
+
+## Body rules
+
+- Lines 1 and 3 are **static** across all states except `loadingLeft`.
+- Line 2 body cells (columns 1–2) and the space (column 3) stay fixed except when mirroring for `loadingLeft`.
+- Mood colors in STYLEGUIDE apply only in app UI; brand assets keep the stack monochrome.
+
+## Mirrored stack (`loadingLeft`)
+
+```
+████▞
+●● ██
+▀▀▀▀▀
+```
+
+| Line | String | Notes |
+|------|--------|-------|
+| 1 | `████▞` | Four U+2588, then U+259E (▞) |
+| 2 | `●● ██` | Eyes in columns 1–2, space, two U+2588 |
+| 3 | `▀▀▀▀▀` | Same chin as canonical |
+
+## Expression eyes (columns 4–5 of line 2, except loadingLeft)
+
+See [STYLEGUIDE.md](STYLEGUIDE.md). Idle reference: ●●. States use the same three-line stack with only the eye glyphs (and the mirrored body for `loadingLeft`) substituted.
+
+## Related
+
+- [STYLEGUIDE.md](STYLEGUIDE.md) — expression table and moods
+- [BRAND-RULES.md](BRAND-RULES.md) — clearspace, size, don'ts
+- [assets/](assets/) — monochrome SVG/PNG exports of each state as this glyph stack

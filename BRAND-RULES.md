@@ -2,6 +2,31 @@
 
 Rules for reproducing and placing the Mininja mark. The mascot has no name. See [STYLEGUIDE.md](STYLEGUIDE.md) for expression states and mood colors in app UI.
 
+## The stacked mark
+
+The mark **is** this three-line Unicode lockup on a monospace grid (glyphs are the mark):
+
+```
+▚████
+██ ●●
+▀▀▀▀▀
+```
+
+- Line 1 (mask/hood): `▚████` — U+259A + four U+2588
+- Line 2 (eyes row): `██ ●●` — two U+2588, space, two-character eye slot (idle: U+25CF U+25CF)
+- Line 3 (chin): `▀▀▀▀▀` — five U+2580
+
+`loadingLeft` mirrors the body:
+
+```
+████▞
+●● ██
+▀▀▀▀▀
+```
+
+Full character-by-character breakdown: [CONSTRUCTION.md](CONSTRUCTION.md). Expression eyes: [STYLEGUIDE.md](STYLEGUIDE.md).
+
+
 ## Clearspace
 
 Keep a minimum clearspace equal to **one block-row height** on all sides of the lockup. No other marks, text, or imagery may enter this zone.
