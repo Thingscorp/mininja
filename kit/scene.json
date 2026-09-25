@@ -1,5 +1,5 @@
 {
-  "version": "1.4.0",
+  "version": "1.5.0",
   "source": "Thingscorp/mininja-console src/lib/scene.ts",
   "geometry": {
     "stageWidthPx": 420,

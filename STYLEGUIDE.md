@@ -47,7 +47,7 @@ These five keys and hex values are [`kit/mark.json`](kit/mark.json) → `moodCol
 | State | Eyes | Mood | Meaning | Motion |
 |-------|------|------|---------|--------|
 | idle | ●● | idle | ready | — |
-| blink | ── | idle | blink (automatic, every 6–14s while idle) | — |
+| blink | ── | idle | blink face (glyphs/tone in kit) | — |
 | evaluating | ◐◑ | accent | checking rules | pulse |
 | allowed | >< | ok | permitted | bounce |
 | asking | ?? | warn | needs approval | — |
@@ -73,7 +73,7 @@ The `loadingLeft` frame mirrors the body:
 ## 5. Usage
 
 - Use `idle` as the default resting state.
-- `blink` fires automatically every 6–14 seconds while idle; never trigger it manually as a response.
+- `blink` glyphs and tone live in [`kit/mark.json`](kit/mark.json). Auto-blink every **6–14s** while idle is **host guidance only** (not a kit constant) — choose your timer, or skip auto-blink; never fire `blink` manually as a response face.
 - Match the state to what the system is actually doing (e.g. `evaluating` while checking rules, `asking` when blocked on approval, `error` on failure).
 - Do not use the mark's expressions to convey anything outside this table.
 

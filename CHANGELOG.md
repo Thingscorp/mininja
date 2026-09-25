@@ -4,8 +4,9 @@ Version history of the Mininja mark and this brand repository.
 
 ## 1.5.0 — 2026-09-25
 
-Public monorepo (Unix modules): `kit/` pure data SoT; `adapters/*` tiny filters; `examples/` compose only; optional `console/` and `bot/` each one program.
+Public monorepo (Unix modules): `kit/` pure data SoT at **1.5.0** (mark.json + scene.json); `adapters/*` tiny filters; `examples/` compose only; optional `console/` and `bot/` each one program.
 
+- Kit JSON version aligned to **1.5.0** with this monorepo release
 - Presence ladder front-and-center in README + PORTING.md (mark → faces → scoot → scene)
 - `console/` — cleaned web terminal buddy (no personal loops, no baked auth secrets, no stale mascot names)
 - `bot/` — cleaned Mac launcher; remote host is env-only; no second React tree

@@ -72,7 +72,7 @@ Mininja + environments are **modular Legos**. Pieces — **mark**, **faces**, **
 | [`console/`](console/) | Optional terminal buddy (aligns to kit). |
 | [`bot/`](bot/) | Optional Mac launcher — calls `../console`, never vendors a second UI. |
 
-Root docs narrate. Numbers live in `kit/` — fork or overlay when you mean to.  
+Root docs narrate. Numbers live in `kit/` — **fork or overlay when you mean to** (Lego law). Shame only **silent dual constant tables** that drift beside kit in the same tree.  
 Brand law: [`STYLEGUIDE.md`](STYLEGUIDE.md) · [`CONSTRUCTION.md`](CONSTRUCTION.md) · [`BRAND-RULES.md`](BRAND-RULES.md) · [`TRADEMARK.md`](TRADEMARK.md) · [`SCENERY.md`](SCENERY.md) · [`TERMINAL-MOTION.md`](TERMINAL-MOTION.md).
 
 ---
