@@ -4,6 +4,10 @@ Optional Mac launcher: Mininja console programs plus **named teammates** on a co
 
 This folder is a lean launcher. It does **not** ship a second React console — for the web buddy see [`../console`](../console). Brand SoT remains the repo root (`kit/`, adapters, examples).
 
+## Status
+
+The local HTTP UI (`static/` + `server.py`) is intentional launcher scaffolding, not a second React console. Whether it stays a product surface alongside [`../console`](../console) is a **deferred product call** — keep the UI; do not strip it.
+
 ## Quick start
 
 ```bash
@@ -58,7 +62,7 @@ Runtime state lives in the platform application-support directory:
 ~/Library/Application Support/MininjaBot/
 ```
 
-(Override with `MININJA_BOT_DATA` if you need a custom location.)
+(Override with `MININJA_DATA` if you need a custom location.)
 
 ## Layout
 
@@ -72,6 +76,3 @@ bot/
   seed/pages.txt    # public docs catalog (snapshots not vendored)
 ```
 
-## Local HTTP UI
-
-The local HTTP UI (`static/` + `server.py`, served at `http://127.0.0.1:8787/` via `./mininja`) is **intentional for now**. Whether it stays, moves, or is replaced is a product call deferred — do not strip it in scrub or cleanup passes.

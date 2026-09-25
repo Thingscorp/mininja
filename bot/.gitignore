@@ -10,3 +10,5 @@ icon.iconset/
 auth.json
 
 ralph-items.json
+seed/official/
+.mininja/

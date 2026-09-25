@@ -138,16 +138,14 @@ export default defineConfig(({ command }) => ({
     pgliteBootstrapPlugin(),
     // Before tanstackStart so /auth/popup never falls through to the SPA.
     authPopupPlugin(),
-    // PWA head + ?install=1 tutorial page; runs before Start/Nitro.
+    // Grok PWA install chrome (grokPwaPlugin / server/middleware) is intentionally
+    // not shipped in this public tree — product assets live under public/.
     tailwindcss(),
     tanstackStart(),
     ...(command === "build"
       ? [
           nitro({
             preset: "vercel",
-            // Auto-registers server/middleware/* (the PWA install page +
-            // manifest + head-tag middleware). Nitro v3 defaults serverDir to
-            // false, so removing this silently unwires /?install=1 on deploys.
           }),
         ]
       : []),

@@ -2,7 +2,7 @@
  * Brand-asset gate shared by browser-smoke.mjs (and unit-testable without a
  * browser): a canvas app is almost always a game / visually rich app, and
  * those must ship a custom share card — the default og.grok.me placeholder is
- * not acceptable for them (see .grok/skills/og/SKILL.md).
+ * not acceptable for them (ship public/og.jpg and wire og:image to the app host).
  *
  * Games must also emit og:type="x:game" in the root head so X can present the
  * unfurl as a game card (see og skill § "og:type for games").
@@ -50,7 +50,7 @@ export function rootDeclaresOgTypeGame(rootTsx) {
 }
 
 export function computeBrandWarnings({ hasCanvas, workspaceRoot = "/workspace" }) {
-  const skillPath = join(workspaceRoot, ".grok/skills/og/SKILL.md");
+  const skillPath = "public/og.jpg (custom share card; no og.grok.me placeholder)";
   const rootTsxPath = join(workspaceRoot, "src/routes/__root.tsx");
   const rootTsx = existsSync(rootTsxPath) ? readFileSync(rootTsxPath, "utf8") : "";
   const cardPath = [
