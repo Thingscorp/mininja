@@ -12,7 +12,7 @@ Inside the terrarium **habitat glass**, a repository can appear as a **branch th
 | Growth | Integer **0..5** (`garden.growth`) |
 | Placement | Same as other props: stage-local `{ kind, x, y, w?, h?, growth? }` |
 
-Creature = mark. Habitat = stages / props / scene weather. Garden branches are **props** — silhouette décor, not a second product surface.
+Creature = mark. Habitat = stages / props / scene weather. Garden branches are **props** — silhouette décor, not a second product surface. In language terms: garden growth values are **easy mods** (nouns in the habitat vocabulary); they do not rewrite grammar — see [LANGUAGE.md](LANGUAGE.md).
 
 ## Growth scale (SoT)
 

@@ -4,7 +4,7 @@ Version history of the Mininja mark and this brand repository.
 
 ## Unreleased / next
 
-- Docs: **Mininja as a language** for terminal habitat — lexicon/types/verbs/grammar map; creature + habitat glass = v1 surface; recipes later over same vocabulary ([LANGUAGE.md](LANGUAGE.md); cross-links in BRAND, README, PORTING, RECIPES)
+- Docs: intentional **Mininja as a language** framing — thesis, design principles, fixed-rules vs easy-mods (HTML/CSS analogy), well-formed programs, dialects; creature + habitat = v1; recipes = later programs on same ids ([LANGUAGE.md](LANGUAGE.md); BRAND / README / PORTING / RECIPES agree)
 - Docs: one connected **system graph** (creature · habitat · garden · later recipes) — recipe seams kept open; recipes remain a later plate, not v1 required ([RECIPES.md](RECIPES.md), [GARDEN.md](GARDEN.md), [BRAND.md](BRAND.md), [PORTING.md](PORTING.md))
 
 ## 1.6.1 — 2026-09-25
