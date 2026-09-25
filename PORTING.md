@@ -6,10 +6,6 @@ Craft bar: inevitable defaults, clean contracts, zero footguns — remixable lik
 
 Porting = implementing the language on a host — see [LANGUAGE.md](LANGUAGE.md).
 
-### Port = host runtime
-
-A port is a **runtime** for the Mininja language: load kit (the document / stdlib), render the lexicon, obey fixed grammar (presence ladder + geometry lock), and apply presentation via adapters, overlays, or kit forks — like loading HTML and applying CSS. Do not invent parallel expression ids; keep portable addresses so later recipe programs can target them.
-
 Machine data: [`kit/mark.json`](kit/mark.json) · [`kit/scene.json`](kit/scene.json).
 
 ## The invitation (mark)

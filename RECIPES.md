@@ -6,7 +6,7 @@ First Mininja is the **terrarium** as creature + habitat glass only: Unicode mar
 
 Design only. Schema + intent for IFTTT-style links from notifications and events to Mininja faces, actions, stages, and mood chrome. **No runtime stubs in this doc.** Mascot unnamed. Spell it **Mininja**.
 
-Recipes are **later programs** — behaviors that target the language’s same structural ids (kit addresses), the way scripts target a DOM. Designed that way so a future runner plugs into creature + habitat without a second lexicon. See [LANGUAGE.md](LANGUAGE.md).
+Recipes = later programs over the same vocabulary — see [LANGUAGE.md](LANGUAGE.md).
 
 > Quality / product metaphors only (“Apple of Terminal Buddies,” “terrarium for Devs,” “IFTTT-style”). **Not affiliated with Apple Inc. or IFTTT Inc.**
 
@@ -39,7 +39,7 @@ Creature, habitat, garden, and (later) recipes are **one connected system** — 
 | **Garden** | `repoBranch` prop + growth **0..5** — [GARDEN.md](GARDEN.md) |
 | **Recipes** (later) | Normalized events → expressions that target those **same** bricks |
 
-They share **one vocabulary** — structural ids stay addressable across plates. Changing a face id, stage id, or growth field must stay **recipe-compatible** so a later program can still target it. v1 ships creature + habitat (+ optional garden props) **without** a recipe runner; the seams stay open.
+They share **one vocabulary**. Changing a face id, stage id, or growth field must stay **recipe-compatible** so a later runner can still target it. v1 ships creature + habitat (+ optional garden props) **without** a recipe runner; the seams stay open.
 
 ---
 

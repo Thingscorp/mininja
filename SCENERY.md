@@ -2,7 +2,7 @@
 
 Canonical terminal world for the Mininja mark — the **habitat glass** inside the **terrarium for Devs**. Glass box on the desk = console / bot surface; creature = Unicode mark (unnamed); habitat glass = stages, props, and **scene weather** as scenery chrome from kit. Machine source of truth: [`kit/scene.json`](kit/scene.json). Console `src/lib/scene.ts` is a historical source and must stay aligned to kit — it is not live SoT. The mascot has no name.
 
-This document is the **formal geometry** of the strip — habitat **nouns** and locked **grammar** in the Mininja language ([LANGUAGE.md](LANGUAGE.md)). Motion laws live in [TERMINAL-MOTION.md](TERMINAL-MOTION.md).
+This document is the **formal geometry** of the strip. Motion laws live in [TERMINAL-MOTION.md](TERMINAL-MOTION.md).
 
 ![Stage strip](assets/visuals/stage-strip.png)
 

@@ -1,6 +1,6 @@
 # Mininja Mark Construction
 
-The Mininja mark **is** a stacked three-line Unicode lockup — the language’s atomic **lexicon** ([LANGUAGE.md](LANGUAGE.md)). The glyphs are the mark — not a redrawn cartoon face. The mascot has no name.
+The Mininja mark **is** a stacked three-line Unicode lockup. The glyphs are the mark — not a redrawn cartoon face. The mascot has no name.
 
 ![Mark construction](assets/visuals/construction.png)
 
