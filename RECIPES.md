@@ -2,35 +2,42 @@
 
 Design only. Schema + intent for IFTTT-style links from notifications and events to Mininja faces, actions, stages, and mood chrome. **No runtime stubs in this doc.** Mascot unnamed. Spell it **Mininja**.
 
-> Quality / product metaphors only (“Apple of Terminal Buddies,” “IFTTT-style”). **Not affiliated with Apple Inc. or IFTTT Inc.**
+> Quality / product metaphors only (“Apple of Terminal Buddies,” “terrarium for devs,” “IFTTT-style”). **Not affiliated with Apple Inc. or IFTTT Inc.**
 
 ---
 
 ## 1. Why
 
-Mininja wants to be the **Apple of Terminal Buddies** — obsessive craft, taste, purity of default — and a buddy that **reacts to the world**, not only to typed commands.
+Mininja wants to be the **Apple of Terminal Buddies** — obsessive craft, taste, purity of default — and a **terrarium for devs**: a small glass world you keep on the desk that reacts when the outside weather changes.
 
-People already love the **faces** as the output channel. Recipes make the world push into that channel: CI fails → error face; calendar pings → asking; Slack DM → evaluating. The buddy stays loveable because the reaction is a three-line expression people already paste and share — not another dashboard.
+| Terrarium | Mininja |
+|-----------|---------|
+| **Weather into the glass** | **Recipes** — events from CI, Slack, calendar, OS notify land as normalized rain |
+| **Creature reactions** | **Faces** — the output channel people love (error, asking, completed, blink…) |
+| **Habitat** | **Stages** — nightwatch → rooftop strip the creature lives in |
+
+People already love the faces. Recipes are how the world pushes weather into the glass without turning the buddy into another dashboard: CI fails → error face; calendar in 5m → asking; Slack DM → evaluating; idle timeout → blink. The creature stays loveable because the reaction is still three lines of Unicode.
 
 ---
 
-## 2. Unix / Lego model
+## 2. Unix / Lego model (terrarium as Legos)
 
-Recipes are **data plates**. Everything else is a brick or a stud.
+Recipes are **data plates** (weather scripts). Everything else is a brick or a stud. The terrarium is modular — swap weather, creature mood, or habitat without rebuilding the glass.
 
-| Piece | Role |
-|-------|------|
-| **Bridges** | Emit **normalized events** (webhook, OS notification, CI hook, …). One job: absorb a host’s shape → emit the shared event JSON. |
-| **Recipes** | Data plates: `when` matchers → `then` expressions. Forkable, remixable, no code required. |
-| **Kit** | Bricks: faces / actions / stages / mood chrome from [`kit/mark.json`](kit/mark.json) · [`kit/scene.json`](kit/scene.json). |
-| **Adapters** | Render bricks (strings → ANSI / React / host). |
-| **Console / bot** | Optional **runners** — apply recipes and drive the buddy. Never the only place recipes can live. |
+| Piece | Terrarium | Role |
+|-------|-----------|------|
+| **Bridges** | Sensors outside the glass | Emit **normalized events** (webhook, OS notification, CI hook, …). One job: absorb a host’s shape → emit the shared event JSON. |
+| **Recipes** | Weather into the glass | Data plates: `when` matchers → `then` expressions. Forkable, remixable, no code required. |
+| **Kit faces** | Creature reactions | Bricks from [`kit/mark.json`](kit/mark.json). |
+| **Kit stages / actions / mood** | Habitat + motion | Bricks from [`kit/scene.json`](kit/scene.json). |
+| **Adapters** | Glass / light | Render bricks (strings → ANSI / React / host). |
+| **Console / bot** | Optional vivarium runners | Apply recipes and drive the buddy. Never the only place recipes can live. |
 
 Russ’s law applies: pieces snap; rules are data; forking is encouraged. Shame only silent dual tables that drift beside kit.
 
 ```
-  bridge ──► normalized event ──► recipe matcher ──► kit brick ──► adapter ──► face / stage
-                 (data)              (data plate)     (data)        (stud)
+  bridge ──► normalized event ──► recipe (weather) ──► face / stage (creature · habitat)
+  (sensor)        (data)            (data plate)              (kit bricks → adapter)
 ```
 
 ---
@@ -225,9 +232,9 @@ Optional later sync is opt-in and out of scope for v0.
 
 ## 9. Forking
 
-Users remix recipes like Legos: copy a plate, change a face id, add a tag matcher, drop a stage. Publish **recipe packs** later (folders of JSON + a one-line README) — community, not a locked marketplace.
+Users remix recipes like Legos (and terrarium weather packs): copy a plate, change a face id, add a tag matcher, drop a stage / habitat. Publish **recipe packs** later (folders of JSON + a one-line README) — community, not a locked marketplace.
 
-Kit faces / actions / stages remain the shared brick vocabulary so packs stay portable across adapters and hosts.
+Kit faces / actions / stages remain the shared brick vocabulary so packs stay portable across adapters and hosts — same creature grammar, different weather.
 
 ---
 
@@ -260,4 +267,4 @@ Each phase stays Unix-small: one new job, kit unchanged unless a new face/action
 - Presence ladder: [`PORTING.md`](PORTING.md)
 - Faces / moods: [`STYLEGUIDE.md`](STYLEGUIDE.md) · [`kit/mark.json`](kit/mark.json)
 - Stages / motion: [`SCENERY.md`](SCENERY.md) · [`TERMINAL-MOTION.md`](TERMINAL-MOTION.md) · [`kit/scene.json`](kit/scene.json)
-- Brand / metaphors: [`BRAND.md`](BRAND.md) · [`TRADEMARK.md`](TRADEMARK.md)
+- Brand / metaphors (Apple · terrarium): [`BRAND.md`](BRAND.md) · [`TRADEMARK.md`](TRADEMARK.md)

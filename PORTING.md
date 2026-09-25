@@ -2,7 +2,7 @@
 
 Copy three lines. Graduate when you want more. The mascot has no name and no he/him.
 
-Craft bar: inevitable defaults, clean contracts, zero footguns — remixable like Legos. (Taste standard, not a company claim.)
+Craft bar: inevitable defaults, clean contracts, zero footguns — remixable like Legos; optionally a **terrarium for devs** (weather → creature → habitat via [`RECIPES.md`](RECIPES.md)). (Taste standard, not a company claim.)
 
 Machine data: [`kit/mark.json`](kit/mark.json) · [`kit/scene.json`](kit/scene.json).
 

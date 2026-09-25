@@ -21,11 +21,12 @@ Mininja is also a **terrarium for developers** — a self-contained living habit
 | Piece | Role |
 |-------|------|
 | **Creature** | The mark — warm, **unnamed**, three lines of Unicode |
-| **Habitat** | Stages, props, weather inside the strip ([`kit/scene.json`](kit/scene.json), narrated in [SCENERY.md](SCENERY.md)) |
+| **Creature reactions** | **Faces** — moods the creature shows when weather hits |
+| **Habitat** | **Stages**, props, weather inside the strip ([`kit/scene.json`](kit/scene.json), narrated in [SCENERY.md](SCENERY.md)) |
 | **Glass** | Scenery geometry — the clear walls of the world |
-| **Weather from outside** | Recipes ([RECIPES.md](RECIPES.md)) — IFTTT-style events push climate into the tank (CI, chat, calendar → face / stage / mood) |
+| **Weather into the glass** | **Recipes** ([RECIPES.md](RECIPES.md)) — IFTTT-style events push climate into the tank (CI, chat, calendar → face / stage / mood) |
 
-Craft (Apple-of-buddies) sets the default climate; Lego remix lets you restock bricks or open a new tank. Metaphors only — not affiliated with Apple Inc. or IFTTT Inc.
+Short map: **recipes = weather · faces = creature reactions · stages = habitat.** Design-only for recipes in v0; creature and habitat already live in kit. Craft (Apple-of-buddies) sets the default climate; Lego remix lets you restock bricks or open a new tank. Metaphors only — not affiliated with Apple Inc. or IFTTT Inc.
 
 ## Still true
 
@@ -35,4 +36,4 @@ Craft (Apple-of-buddies) sets the default climate; Lego remix lets you restock b
 - **Mascot unnamed** — no personal name; no he/him
 - **Spelling: Mininja** — never “minija”
 
-Reproduction law: [BRAND-RULES.md](BRAND-RULES.md) · [STYLEGUIDE.md](STYLEGUIDE.md) · [PORTING.md](PORTING.md).
+Reproduction law: [BRAND-RULES.md](BRAND-RULES.md) · [STYLEGUIDE.md](STYLEGUIDE.md) · [PORTING.md](PORTING.md) · [RECIPES.md](RECIPES.md).

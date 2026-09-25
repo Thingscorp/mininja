@@ -6,7 +6,7 @@
 ▀▀▀▀▀
 ```
 
-**The Apple of Terminal Buddies** — and a **terrarium for devs**: obsessive craft in a self-contained living habitat on the desk or in the terminal. Creature = the warm **unnamed** mark; habitat = stages, props, weather behind scenery glass; weather from outside via IFTTT-style [`RECIPES.md`](RECIPES.md). Lego remix stays open — fork kit, overlay a scene, restock the tank.
+**The Apple of Terminal Buddies** — and a **terrarium for devs**: obsessive craft in a self-contained living habitat on the desk or in the terminal. **Recipes = weather into the glass; faces = creature reactions; stages = habitat.** Creature = the warm **unnamed** mark; glass = scenery; outside weather via IFTTT-style [`RECIPES.md`](RECIPES.md). Lego remix stays open — fork kit, overlay a scene, restock the tank.
 
 **Three lines of Unicode. That’s the whole brand.** Paste them, print them, or grow faces → scoot → scene only as far as you want. Kit = data. Unix-small. Spell it **Mininja** (not “minija”).
 
@@ -117,4 +117,4 @@ Glimpse in the wild: https://github.com/user-attachments/assets/76965444-03ec-45
 Mark and brand docs: [`TRADEMARK.md`](TRADEMARK.md) (first use, ™ / ® rules).  
 Code under `adapters/`, `examples/`, `console/`, and `bot/` is MIT — [`LICENSE`](LICENSE).
 
-<sup>“The Apple of Terminal Buddies” is a quality metaphor only — not affiliated with Apple Inc.</sup>
+<sup>“The Apple of Terminal Buddies” and “terrarium for devs” are quality metaphors only — not affiliated with Apple Inc. or IFTTT Inc.</sup>
