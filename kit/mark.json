@@ -1,0 +1,301 @@
+{
+  "version": "1.4.0",
+  "name": "Mininja mark",
+  "owner": "Thingscorp LLC",
+  "mascotNamed": false,
+  "forbiddenNames": [
+    "Casque"
+  ],
+  "grid": {
+    "columns": 5,
+    "rows": 3,
+    "cellAspect": "1:1",
+    "totalCells": 15
+  },
+  "codepoints": {
+    "hoodCornerRightFacing": "U+259A",
+    "hoodCornerLeftFacing": "U+259E",
+    "fullBlock": "U+2588",
+    "upperHalfBlock": "U+2580",
+    "space": "U+0020"
+  },
+  "canonicalIdle": {
+    "lines": [
+      "\u259a\u2588\u2588\u2588\u2588",
+      "\u2588\u2588 \u25cf\u25cf",
+      "\u2580\u2580\u2580\u2580\u2580"
+    ],
+    "note": "Glyphs ARE the mark. Five columns \u00d7 three rows."
+  },
+  "mirroredIdle": {
+    "lines": [
+      "\u2588\u2588\u2588\u2588\u259e",
+      "\u25cf\u25cf \u2588\u2588",
+      "\u2580\u2580\u2580\u2580\u2580"
+    ],
+    "usedBy": [
+      "loadingLeft",
+      "facing-left"
+    ]
+  },
+  "clearspace": {
+    "rule": "one block-row height on all sides",
+    "asFractionOfHeight": 0.3333333333333333
+  },
+  "minimumSize": {
+    "digitalPxHeight": 24,
+    "terminalRows": 3,
+    "minCellPx": 8
+  },
+  "monochrome": true,
+  "moodColorsUiOnly": {
+    "idle": "#334155",
+    "accent": "#6366f1",
+    "ok": "#22c55e",
+    "warn": "#eab308",
+    "err": "#ef4444"
+  },
+  "faces": {
+    "idle": {
+      "eyes": [
+        "\u25cf",
+        "\u25cf"
+      ],
+      "tone": "idle",
+      "motion": null,
+      "mirrored": false,
+      "lines": [
+        "\u259a\u2588\u2588\u2588\u2588",
+        "\u2588\u2588 \u25cf\u25cf",
+        "\u2580\u2580\u2580\u2580\u2580"
+      ]
+    },
+    "blink": {
+      "eyes": [
+        "\u2500",
+        "\u2500"
+      ],
+      "tone": "idle",
+      "motion": null,
+      "mirrored": false,
+      "lines": [
+        "\u259a\u2588\u2588\u2588\u2588",
+        "\u2588\u2588 \u2500\u2500",
+        "\u2580\u2580\u2580\u2580\u2580"
+      ]
+    },
+    "evaluating": {
+      "eyes": [
+        "\u25d0",
+        "\u25d1"
+      ],
+      "tone": "accent",
+      "motion": "pulse",
+      "mirrored": false,
+      "lines": [
+        "\u259a\u2588\u2588\u2588\u2588",
+        "\u2588\u2588 \u25d0\u25d1",
+        "\u2580\u2580\u2580\u2580\u2580"
+      ]
+    },
+    "allowed": {
+      "eyes": [
+        ">",
+        "<"
+      ],
+      "tone": "ok",
+      "motion": "bounce",
+      "mirrored": false,
+      "lines": [
+        "\u259a\u2588\u2588\u2588\u2588",
+        "\u2588\u2588 ><",
+        "\u2580\u2580\u2580\u2580\u2580"
+      ]
+    },
+    "asking": {
+      "eyes": [
+        "?",
+        "?"
+      ],
+      "tone": "warn",
+      "motion": null,
+      "mirrored": false,
+      "lines": [
+        "\u259a\u2588\u2588\u2588\u2588",
+        "\u2588\u2588 ??",
+        "\u2580\u2580\u2580\u2580\u2580"
+      ]
+    },
+    "denied": {
+      "eyes": [
+        "\u2503",
+        "\u2503"
+      ],
+      "tone": "err",
+      "motion": "shake",
+      "mirrored": false,
+      "lines": [
+        "\u259a\u2588\u2588\u2588\u2588",
+        "\u2588\u2588 \u2503\u2503",
+        "\u2580\u2580\u2580\u2580\u2580"
+      ]
+    },
+    "sandboxing": {
+      "eyes": [
+        "\u25c7",
+        "\u25c7"
+      ],
+      "tone": "idle",
+      "motion": null,
+      "mirrored": false,
+      "lines": [
+        "\u259a\u2588\u2588\u2588\u2588",
+        "\u2588\u2588 \u25c7\u25c7",
+        "\u2580\u2580\u2580\u2580\u2580"
+      ]
+    },
+    "executing": {
+      "eyes": [
+        "\u25e3",
+        "\u25e2"
+      ],
+      "tone": "accent",
+      "motion": "pulse",
+      "mirrored": false,
+      "lines": [
+        "\u259a\u2588\u2588\u2588\u2588",
+        "\u2588\u2588 \u25e3\u25e2",
+        "\u2580\u2580\u2580\u2580\u2580"
+      ]
+    },
+    "completed": {
+      "eyes": [
+        "\u25b4",
+        "\u25b4"
+      ],
+      "tone": "ok",
+      "motion": "bounce",
+      "mirrored": false,
+      "lines": [
+        "\u259a\u2588\u2588\u2588\u2588",
+        "\u2588\u2588 \u25b4\u25b4",
+        "\u2580\u2580\u2580\u2580\u2580"
+      ]
+    },
+    "warning": {
+      "eyes": [
+        "\u25c6",
+        "\u25c6"
+      ],
+      "tone": "warn",
+      "motion": "bounce",
+      "mirrored": false,
+      "lines": [
+        "\u259a\u2588\u2588\u2588\u2588",
+        "\u2588\u2588 \u25c6\u25c6",
+        "\u2580\u2580\u2580\u2580\u2580"
+      ]
+    },
+    "error": {
+      "eyes": [
+        "\u00d7",
+        "\u00d7"
+      ],
+      "tone": "err",
+      "motion": "shake",
+      "mirrored": false,
+      "lines": [
+        "\u259a\u2588\u2588\u2588\u2588",
+        "\u2588\u2588 \u00d7\u00d7",
+        "\u2580\u2580\u2580\u2580\u2580"
+      ]
+    },
+    "cancelled": {
+      "eyes": [
+        "\u25e6",
+        "\u25e6"
+      ],
+      "tone": "idle",
+      "motion": null,
+      "mirrored": false,
+      "lines": [
+        "\u259a\u2588\u2588\u2588\u2588",
+        "\u2588\u2588 \u25e6\u25e6",
+        "\u2580\u2580\u2580\u2580\u2580"
+      ]
+    },
+    "offline": {
+      "eyes": [
+        "\u2012",
+        "\u2012"
+      ],
+      "tone": "idle",
+      "motion": null,
+      "mirrored": false,
+      "lines": [
+        "\u259a\u2588\u2588\u2588\u2588",
+        "\u2588\u2588 \u2012\u2012",
+        "\u2580\u2580\u2580\u2580\u2580"
+      ]
+    },
+    "loadingRight": {
+      "eyes": [
+        "\u25cf",
+        "\u25cf"
+      ],
+      "tone": "accent",
+      "motion": "pulse",
+      "mirrored": false,
+      "lines": [
+        "\u259a\u2588\u2588\u2588\u2588",
+        "\u2588\u2588 \u25cf\u25cf",
+        "\u2580\u2580\u2580\u2580\u2580"
+      ]
+    },
+    "loadingLeft": {
+      "eyes": [
+        "\u25cf",
+        "\u25cf"
+      ],
+      "tone": "accent",
+      "motion": "pulse",
+      "mirrored": true,
+      "lines": [
+        "\u2588\u2588\u2588\u2588\u259e",
+        "\u25cf\u25cf \u2588\u2588",
+        "\u2580\u2580\u2580\u2580\u2580"
+      ]
+    }
+  },
+  "presenceLadder": [
+    {
+      "level": 1,
+      "id": "mark-only",
+      "needs": [
+        "canonicalIdle"
+      ]
+    },
+    {
+      "level": 2,
+      "id": "face-states",
+      "needs": [
+        "faces"
+      ]
+    },
+    {
+      "level": 3,
+      "id": "scoot-facing",
+      "needs": [
+        "faces",
+        "mirroredIdle"
+      ]
+    },
+    {
+      "level": 4,
+      "id": "scene-strip",
+      "needs": [
+        "kit/scene.json"
+      ]
+    }
+  ]
+}

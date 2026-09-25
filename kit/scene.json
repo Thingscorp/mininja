@@ -1,0 +1,764 @@
+{
+  "version": "1.4.0",
+  "source": "Thingscorp/mininja-console src/lib/scene.ts",
+  "geometry": {
+    "stageWidthPx": 420,
+    "stageCount": 7,
+    "worldWidthPx": 2940,
+    "anchorRatio": 0.42,
+    "restOffsetPx": 176.4,
+    "formula": {
+      "stageOrigin": "x_i = i * stageWidthPx",
+      "restPoint": "c_i = x_i + anchorRatio * stageWidthPx",
+      "worldWidth": "stageCount * stageWidthPx"
+    }
+  },
+  "defaultScene": {
+    "emotion": "idle",
+    "action": "idle",
+    "stage": "dock",
+    "facing": "right",
+    "line": "",
+    "intensity": 1,
+    "holdMs": 0
+  },
+  "motion": {
+    "walkPxPerSec": 170,
+    "runPxPerSec": 280,
+    "patrolPxPerSec": 26,
+    "arriveEpsilonPx": 6,
+    "patrolInsetLeftPx": 56,
+    "patrolInsetRightPx": 90,
+    "patrolSpanPx": 274,
+    "cameraLookAheadRight": 0.32,
+    "cameraLookAheadLeft": 0.52,
+    "cameraFollowRatePerSec": 5.2,
+    "stepPeriodMovingSec": 0.16,
+    "stepPeriodIdleSec": 0.28,
+    "dtClampSec": 0.05,
+    "adjacentStageWalkSec": 2.470588,
+    "adjacentStageRunSec": 1.5,
+    "fullPatrolSec": 10.538462
+  },
+  "weather": [
+    "clear",
+    "haze",
+    "night",
+    "sparks",
+    "scan",
+    "rain"
+  ],
+  "propKinds": [
+    "block",
+    "shelf",
+    "lamp",
+    "crate",
+    "screen",
+    "antenna",
+    "moon",
+    "barrier",
+    "cable"
+  ],
+  "stages": [
+    {
+      "index": 0,
+      "id": "nightwatch",
+      "label": "night watch",
+      "hint": "sleep / offline",
+      "x": 0,
+      "width": 420,
+      "center": 176.4,
+      "weather": "night",
+      "props": [
+        {
+          "kind": "moon",
+          "x": 310,
+          "y": 10,
+          "w": 18,
+          "h": 18
+        },
+        {
+          "kind": "antenna",
+          "x": 48,
+          "y": 28,
+          "w": 4,
+          "h": 36
+        },
+        {
+          "kind": "block",
+          "x": 20,
+          "y": 72,
+          "w": 56,
+          "h": 14
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "id": "dock",
+      "label": "dock",
+      "hint": "home bay",
+      "x": 420,
+      "width": 420,
+      "center": 596.4,
+      "weather": "haze",
+      "props": [
+        {
+          "kind": "crate",
+          "x": 28,
+          "y": 62,
+          "w": 28,
+          "h": 22
+        },
+        {
+          "kind": "crate",
+          "x": 52,
+          "y": 70,
+          "w": 22,
+          "h": 14
+        },
+        {
+          "kind": "cable",
+          "x": 90,
+          "y": 84,
+          "w": 120,
+          "h": 2
+        },
+        {
+          "kind": "screen",
+          "x": 300,
+          "y": 36,
+          "w": 46,
+          "h": 28
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "id": "desk",
+      "label": "desk",
+      "hint": "status, plan, brief",
+      "x": 840,
+      "width": 420,
+      "center": 1016.4,
+      "weather": "clear",
+      "props": [
+        {
+          "kind": "screen",
+          "x": 40,
+          "y": 30,
+          "w": 54,
+          "h": 34
+        },
+        {
+          "kind": "lamp",
+          "x": 110,
+          "y": 24,
+          "w": 10,
+          "h": 40
+        },
+        {
+          "kind": "block",
+          "x": 140,
+          "y": 72,
+          "w": 36,
+          "h": 10
+        },
+        {
+          "kind": "crate",
+          "x": 330,
+          "y": 66,
+          "w": 26,
+          "h": 18
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "id": "workshop",
+      "label": "workshop",
+      "hint": "ralph, execute, refine",
+      "x": 1260,
+      "width": 420,
+      "center": 1436.4,
+      "weather": "sparks",
+      "props": [
+        {
+          "kind": "block",
+          "x": 24,
+          "y": 68,
+          "w": 80,
+          "h": 16
+        },
+        {
+          "kind": "antenna",
+          "x": 200,
+          "y": 20,
+          "w": 3,
+          "h": 48
+        },
+        {
+          "kind": "crate",
+          "x": 240,
+          "y": 60,
+          "w": 30,
+          "h": 24
+        },
+        {
+          "kind": "lamp",
+          "x": 320,
+          "y": 18,
+          "w": 12,
+          "h": 46
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "id": "archives",
+      "label": "archives",
+      "hint": "look, pgeon, memory",
+      "x": 1680,
+      "width": 420,
+      "center": 1856.4,
+      "weather": "scan",
+      "props": [
+        {
+          "kind": "shelf",
+          "x": 16,
+          "y": 16,
+          "w": 18,
+          "h": 70
+        },
+        {
+          "kind": "shelf",
+          "x": 42,
+          "y": 16,
+          "w": 18,
+          "h": 70
+        },
+        {
+          "kind": "shelf",
+          "x": 68,
+          "y": 16,
+          "w": 18,
+          "h": 70
+        },
+        {
+          "kind": "shelf",
+          "x": 340,
+          "y": 16,
+          "w": 18,
+          "h": 70
+        },
+        {
+          "kind": "crate",
+          "x": 200,
+          "y": 66,
+          "w": 24,
+          "h": 18
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "id": "gate",
+      "label": "gate",
+      "hint": "ask, deny, unknown",
+      "x": 2100,
+      "width": 420,
+      "center": 2276.4,
+      "weather": "haze",
+      "props": [
+        {
+          "kind": "barrier",
+          "x": 170,
+          "y": 48,
+          "w": 80,
+          "h": 36
+        },
+        {
+          "kind": "lamp",
+          "x": 150,
+          "y": 14,
+          "w": 10,
+          "h": 50
+        },
+        {
+          "kind": "lamp",
+          "x": 258,
+          "y": 14,
+          "w": 10,
+          "h": 50
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "id": "rooftop",
+      "label": "rooftop",
+      "hint": "completed / proud",
+      "x": 2520,
+      "width": 420,
+      "center": 2696.4,
+      "weather": "clear",
+      "props": [
+        {
+          "kind": "block",
+          "x": 20,
+          "y": 70,
+          "w": 40,
+          "h": 16
+        },
+        {
+          "kind": "block",
+          "x": 70,
+          "y": 58,
+          "w": 28,
+          "h": 28
+        },
+        {
+          "kind": "antenna",
+          "x": 300,
+          "y": 12,
+          "w": 4,
+          "h": 56
+        },
+        {
+          "kind": "block",
+          "x": 340,
+          "y": 64,
+          "w": 48,
+          "h": 22
+        }
+      ]
+    }
+  ],
+  "emotions": [
+    {
+      "id": "idle",
+      "label": "idle",
+      "tone": "idle",
+      "eyes": [
+        "\u25cf",
+        "\u25cf"
+      ],
+      "hint": "at rest, nothing asked"
+    },
+    {
+      "id": "curious",
+      "label": "curious",
+      "tone": "accent",
+      "eyes": [
+        "\u25c9",
+        "\u25cf"
+      ],
+      "hint": "looking into something"
+    },
+    {
+      "id": "focused",
+      "label": "focused",
+      "tone": "accent",
+      "eyes": [
+        "\u25d0",
+        "\u25d1"
+      ],
+      "motion": "pulse",
+      "hint": "working a problem"
+    },
+    {
+      "id": "happy",
+      "label": "happy",
+      "tone": "ok",
+      "eyes": [
+        ">",
+        "<"
+      ],
+      "motion": "bounce",
+      "hint": "pleased with the result"
+    },
+    {
+      "id": "proud",
+      "label": "proud",
+      "tone": "ok",
+      "eyes": [
+        "\u25b4",
+        "\u25b4"
+      ],
+      "motion": "bounce",
+      "hint": "finished something worth keeping"
+    },
+    {
+      "id": "mischievous",
+      "label": "mischievous",
+      "tone": "accent",
+      "eyes": [
+        "\u00ac",
+        "\u00ac"
+      ],
+      "hint": "about to try a side path"
+    },
+    {
+      "id": "worried",
+      "label": "worried",
+      "tone": "warn",
+      "eyes": [
+        "\u25c6",
+        "\u25c6"
+      ],
+      "motion": "sway",
+      "hint": "something is in the way"
+    },
+    {
+      "id": "confused",
+      "label": "confused",
+      "tone": "warn",
+      "eyes": [
+        "?",
+        "?"
+      ],
+      "hint": "did not understand"
+    },
+    {
+      "id": "startled",
+      "label": "startled",
+      "tone": "err",
+      "eyes": [
+        "\u25ce",
+        "\u25ce"
+      ],
+      "motion": "shake",
+      "hint": "unexpected failure"
+    },
+    {
+      "id": "embarrassed",
+      "label": "embarrassed",
+      "tone": "muted",
+      "eyes": [
+        "\u25e6",
+        "\u25e6"
+      ],
+      "hint": "cancelled or walked back"
+    },
+    {
+      "id": "frustrated",
+      "label": "frustrated",
+      "tone": "err",
+      "eyes": [
+        "\u00d7",
+        "\u00d7"
+      ],
+      "motion": "shake",
+      "hint": "blocked or denied"
+    },
+    {
+      "id": "determined",
+      "label": "determined",
+      "tone": "accent",
+      "eyes": [
+        "\u25e3",
+        "\u25e2"
+      ],
+      "motion": "pulse",
+      "hint": "executing a run"
+    },
+    {
+      "id": "relieved",
+      "label": "relieved",
+      "tone": "ok",
+      "eyes": [
+        "\u25e0",
+        "\u25e0"
+      ],
+      "hint": "a hold cleared"
+    },
+    {
+      "id": "sleepy",
+      "label": "sleepy",
+      "tone": "muted",
+      "eyes": [
+        "\u2012",
+        "\u2012"
+      ],
+      "hint": "offline / watching paused"
+    },
+    {
+      "id": "alert",
+      "label": "alert",
+      "tone": "accent",
+      "eyes": [
+        "\u25cf",
+        "\u25cf"
+      ],
+      "motion": "pulse",
+      "hint": "just woke, scanning"
+    },
+    {
+      "id": "sad",
+      "label": "sad",
+      "tone": "muted",
+      "eyes": [
+        ".",
+        "."
+      ],
+      "hint": "nothing eligible, empty result"
+    }
+  ],
+  "actions": [
+    {
+      "id": "idle",
+      "label": "idle",
+      "motion": "none",
+      "pose": "stand",
+      "fx": "none",
+      "hint": "standing"
+    },
+    {
+      "id": "blink",
+      "label": "blink",
+      "motion": "none",
+      "pose": "stand",
+      "fx": "none",
+      "hint": "eyes closed a beat"
+    },
+    {
+      "id": "walk",
+      "label": "walk",
+      "motion": "bob",
+      "pose": "stand",
+      "fx": "none",
+      "hint": "moving between places"
+    },
+    {
+      "id": "run",
+      "label": "run",
+      "motion": "bob",
+      "pose": "stand",
+      "fx": "none",
+      "hint": "hurrying to a place"
+    },
+    {
+      "id": "think",
+      "label": "think",
+      "motion": "pulse",
+      "pose": "stand",
+      "fx": "think",
+      "hint": "evaluating"
+    },
+    {
+      "id": "scan",
+      "label": "scan",
+      "motion": "pulse",
+      "pose": "stand",
+      "fx": "scan",
+      "hint": "reading a service or file"
+    },
+    {
+      "id": "type",
+      "label": "type",
+      "motion": "pulse",
+      "pose": "lean",
+      "fx": "type",
+      "hint": "writing or executing"
+    },
+    {
+      "id": "read",
+      "label": "read",
+      "motion": "sway",
+      "pose": "stand",
+      "fx": "none",
+      "hint": "reviewing current state"
+    },
+    {
+      "id": "point",
+      "label": "point",
+      "motion": "none",
+      "pose": "lean",
+      "fx": "none",
+      "hint": "indicating a next step"
+    },
+    {
+      "id": "wave",
+      "label": "wave",
+      "motion": "bounce",
+      "pose": "stand",
+      "fx": "wave",
+      "hint": "greeting or help"
+    },
+    {
+      "id": "jump",
+      "label": "jump",
+      "motion": "hop",
+      "pose": "jump",
+      "fx": "spark",
+      "hint": "celebrating"
+    },
+    {
+      "id": "crouch",
+      "label": "crouch",
+      "motion": "none",
+      "pose": "crouch",
+      "fx": "none",
+      "hint": "inspecting something low"
+    },
+    {
+      "id": "lookBack",
+      "label": "look back",
+      "motion": "sway",
+      "pose": "stand",
+      "fx": "none",
+      "hint": "checking what was left"
+    },
+    {
+      "id": "celebrate",
+      "label": "celebrate",
+      "motion": "bounce",
+      "pose": "jump",
+      "fx": "spark",
+      "hint": "done"
+    },
+    {
+      "id": "shakeHead",
+      "label": "shake head",
+      "motion": "shake",
+      "pose": "stand",
+      "fx": "none",
+      "hint": "no / unknown"
+    },
+    {
+      "id": "nod",
+      "label": "nod",
+      "motion": "bob",
+      "pose": "stand",
+      "fx": "none",
+      "hint": "yes / allowed"
+    },
+    {
+      "id": "search",
+      "label": "search",
+      "motion": "sway",
+      "pose": "lean",
+      "fx": "search",
+      "hint": "looking for an answer"
+    },
+    {
+      "id": "wait",
+      "label": "wait",
+      "motion": "sway",
+      "pose": "stand",
+      "fx": "none",
+      "hint": "listening for input"
+    },
+    {
+      "id": "sleep",
+      "label": "sleep",
+      "motion": "none",
+      "pose": "crouch",
+      "fx": "sleep",
+      "hint": "offline"
+    },
+    {
+      "id": "carry",
+      "label": "carry",
+      "motion": "bob",
+      "pose": "lean",
+      "fx": "none",
+      "hint": "saving / moving a stream"
+    },
+    {
+      "id": "peek",
+      "label": "peek",
+      "motion": "none",
+      "pose": "crouch",
+      "fx": "search",
+      "hint": "checking a hidden detail"
+    },
+    {
+      "id": "climb",
+      "label": "climb",
+      "motion": "hop",
+      "pose": "jump",
+      "fx": "none",
+      "hint": "changing elevation"
+    }
+  ],
+  "legacyFaceBridge": {
+    "idle": {
+      "emotion": "idle",
+      "action": "idle"
+    },
+    "blink": {
+      "emotion": "idle",
+      "action": "blink"
+    },
+    "evaluating": {
+      "emotion": "focused",
+      "action": "think",
+      "stage": "desk"
+    },
+    "loadingRight": {
+      "emotion": "focused",
+      "action": "walk",
+      "facing": "right"
+    },
+    "loadingLeft": {
+      "emotion": "focused",
+      "action": "walk",
+      "facing": "left"
+    },
+    "allowed": {
+      "emotion": "happy",
+      "action": "nod",
+      "stage": "desk"
+    },
+    "asking": {
+      "emotion": "curious",
+      "action": "wait"
+    },
+    "denied": {
+      "emotion": "frustrated",
+      "action": "shakeHead",
+      "stage": "gate"
+    },
+    "sandbox": {
+      "emotion": "mischievous",
+      "action": "peek",
+      "stage": "workshop"
+    },
+    "executing": {
+      "emotion": "determined",
+      "action": "type",
+      "stage": "workshop"
+    },
+    "completed": {
+      "emotion": "proud",
+      "action": "celebrate",
+      "stage": "rooftop"
+    },
+    "warning": {
+      "emotion": "worried",
+      "action": "point",
+      "stage": "gate"
+    },
+    "error": {
+      "emotion": "confused",
+      "action": "shakeHead",
+      "stage": "gate"
+    },
+    "cancelled": {
+      "emotion": "embarrassed",
+      "action": "lookBack",
+      "stage": "dock"
+    },
+    "offline": {
+      "emotion": "sleepy",
+      "action": "sleep",
+      "stage": "nightwatch"
+    }
+  },
+  "fallbacks": {
+    "unknownEmotion": "curious",
+    "unknownAction": "wait",
+    "unknownStage": "keep-current"
+  }
+}
