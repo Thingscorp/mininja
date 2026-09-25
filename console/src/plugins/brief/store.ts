@@ -1,7 +1,9 @@
 import { LEDGER } from "../../lib/mininja.ts";
 import { schedule } from "../../lib/blockers.ts";
 import { listKept, peek } from "../../lib/stream.ts";
-import itemsDoc from "../../../.ralph/items.json" with { type: "json" };
+
+/** Public build: no personal ralph backlog. Local `.ralph/items.json` is gitignored. */
+const ralphItems: { id: string; passes?: boolean; blocked?: boolean }[] = [];
 
 export type Line = { kind: "fact" | "source" | "loop"; text: string };
 
@@ -26,7 +28,7 @@ export function compile(): Line[] {
   for (const job of schedule()) {
     lines.push({ kind: "loop", text: job.ready ? job.title : `${job.title}  after ${job.waitingOn.join(", ")}` });
   }
-  for (const item of itemsDoc.items) {
+  for (const item of ralphItems) {
     if (item.passes) continue;
     lines.push({
       kind: "loop",

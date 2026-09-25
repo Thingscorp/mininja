@@ -7,12 +7,13 @@ describe("ralph", () => {
     const card = cardFor("ralph");
     assert.equal(card.title, "ralph");
     assert.ok(card.fields?.some((f) => f.label === "wait"));
-    assert.ok((card.rows?.length ?? 0) === 0 || card.bottom === "Nothing eligible.");
+    assert.equal(card.bottom, "Nothing eligible.");
+    assert.equal(card.face, "completed");
   });
 
-  it("inspects an item", () => {
-    const card = cardFor("ralph turn-reads-stream");
-    assert.equal(card.title, "turn-reads-stream");
-    assert.equal(card.tag, "pass");
+  it("unknown id is an error", () => {
+    const card = cardFor("ralph nonexistent-item");
+    assert.equal(card.title, "ralph");
+    assert.equal(card.face, "error");
   });
 });

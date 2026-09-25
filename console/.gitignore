@@ -16,3 +16,7 @@ dist/
 .DS_Store
 /tmp/
 *.log
+
+# Personal agent loop state (never commit)
+.ralph/
+ralph-items.json

@@ -1,7 +1,7 @@
 import type { Card } from "@/lib/mininja";
 import type { Program } from "../types.ts";
-import itemsDoc from "../../../.ralph/items.json" with { type: "json" };
 
+/** Public build ships with an empty loop. Local `.ralph/items.json` is gitignored. */
 type Item = {
   id: string;
   category: string;
@@ -10,7 +10,7 @@ type Item = {
   description: string;
 };
 
-const items = itemsDoc.items as Item[];
+const items: Item[] = [];
 
 function counts() {
   const passing = items.filter((i) => i.passes).length;

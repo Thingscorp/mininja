@@ -71,3 +71,7 @@ bot/
   scripts/          # cmd, tint, seed, check, install-app
   seed/pages.txt    # public docs catalog (snapshots not vendored)
 ```
+
+## Local HTTP UI
+
+The local HTTP UI (`static/` + `server.py`, served at `http://127.0.0.1:8787/` via `./mininja`) is **intentional for now**. Whether it stays, moves, or is replaced is a product call deferred — do not strip it in scrub or cleanup passes.
