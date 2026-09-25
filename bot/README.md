@@ -67,7 +67,7 @@ bot/
   mininja           # dispatcher
   server.py         # local HTTP + SSE
   console/          # Python program engine (not the React app)
-  static/           # UI
+  static/           # UI (IBM Plex Mono under static/fonts/OFL.txt)
   scripts/          # cmd, tint, seed, check, install-app
   seed/pages.txt    # public docs catalog (snapshots not vendored)
 ```
