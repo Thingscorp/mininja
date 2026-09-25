@@ -8,7 +8,7 @@
 
 ## Why people love Mininja
 
-It is a **port-first Unicode helper**: three lines of block characters you can paste into a README or run from a shell in under a minute. The **mark is the product** — not a logo file beside an app, not a redrawn mascot cart. Progressive presence lets you ship the idle lockup first, then faces, a scoot, or a full terminal scene only when you want them. The mascot is warm and **unnamed** (never call it something else; never misspell the brand as “minija”). The repo stays **Unix-small**: tiny modules, one job each, numbers only in [`kit/`](kit/).
+It is a **port-first Unicode helper**: three lines of block characters you can paste into a README or run from a shell in under a minute. The **mark is the product** — not a logo file beside an app, not a redrawn mascot card. Progressive presence lets you ship the idle lockup first, then faces, a scoot, or a full terminal scene only when you want them. The mascot is a warm helper and **unnamed** (never give it a personal name; never misspell the brand as “minija”). The repo stays **Unix-small**: [`kit/`](kit/) is data, [`adapters/`](adapters/) are filters, [`console/`](console/) and [`bot/`](bot/) are optional.
 
 Owned by [Thingscorp LLC](https://github.com/Thingscorp). The glyphs *are* the mark.
 
