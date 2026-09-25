@@ -362,7 +362,7 @@ export const LEGACY_INTENT: Record<string, SceneIntent> = {
   allowed: { emotion: "happy", action: "nod", stage: "desk" },
   asking: { emotion: "curious", action: "wait" },
   denied: { emotion: "frustrated", action: "shakeHead", stage: "gate" },
-  sandbox: { emotion: "mischievous", action: "peek", stage: "workshop" },
+  sandboxing: { emotion: "mischievous", action: "peek", stage: "workshop" },
   executing: { emotion: "determined", action: "type", stage: "workshop" },
   completed: { emotion: "proud", action: "celebrate", stage: "rooftop" },
   warning: { emotion: "worried", action: "point", stage: "gate" },

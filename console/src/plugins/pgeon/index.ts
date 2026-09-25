@@ -90,7 +90,7 @@ function voteCard(authorRaw: string): Card {
       { label: "wins", value: String(wins) },
     ],
     bottom: !answer.passed ? "best unchanged" : undefined,
-    face: answer.passed ? "completed" : "sandbox",
+    face: answer.passed ? "completed" : "sandboxing",
   };
 }
 

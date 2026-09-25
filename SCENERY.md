@@ -1,6 +1,6 @@
 # Scenery
 
-Canonical terminal world for the Mininja mark in console / buddy surfaces. Sourced from [Thingscorp/mininja-console](https://github.com/Thingscorp/mininja-console) (`src/lib/scene.ts`, banner renderer). The mascot has no name.
+Canonical terminal world for the Mininja mark in console / buddy surfaces. Machine source of truth: [`kit/scene.json`](kit/scene.json). Console `src/lib/scene.ts` is a historical source and must stay aligned to kit — it is not live SoT. The mascot has no name.
 
 This document is the **formal geometry** of the strip. Motion laws live in [TERMINAL-MOTION.md](TERMINAL-MOTION.md).
 

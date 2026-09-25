@@ -24,7 +24,7 @@ export const PIGEON: Record<PigeonPose, string[][]> = {
 
 const FROM_FACE: Record<string, PigeonPose> = {
   allowed: "best",
-  sandbox: "flap",
+  sandboxing: "flap",
   denied: "sulk",
   error: "startle",
   cancelled: "sulk",

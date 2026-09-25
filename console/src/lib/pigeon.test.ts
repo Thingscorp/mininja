@@ -16,7 +16,7 @@ describe("pgeon pigeon", () => {
 
   it("faces map onto bird poses", () => {
     assert.equal(poseFromFace("allowed"), "best");
-    assert.equal(poseFromFace("sandbox"), "flap");
+    assert.equal(poseFromFace("sandboxing"), "flap");
     assert.equal(poseFromFace("denied"), "sulk");
   });
 

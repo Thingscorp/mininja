@@ -52,7 +52,7 @@ Terminal contexts use tone names instead of hex: idle, accent, ok, warn, err, mu
 | allowed | >< | success | permitted | bounce |
 | asking | ?? | warning | needs approval | — |
 | denied | ┃┃ | danger | blocked | shake |
-| sandboxing / sandbox | ◇◇ | idle | contained | — |
+| sandboxing | ◇◇ | idle | contained | — |
 | executing | ◣◢ | accent | focused | pulse |
 | completed | ▴▴ | success | done | bounce |
 | warning | ◆◆ | warning | caution | bounce |

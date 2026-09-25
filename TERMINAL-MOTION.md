@@ -1,6 +1,6 @@
 # Terminal motion
 
-Formal locomotion laws for the Mininja mark in terminal / console surfaces. Sourced from [Thingscorp/mininja-console](https://github.com/Thingscorp/mininja-console) (`src/lib/scene.ts`, `src/components/banner.tsx`). The mascot has no name.
+Formal locomotion laws for the Mininja mark in terminal / console surfaces. Machine source of truth: [`kit/scene.json`](kit/scene.json). Console `src/lib/scene.ts` / `banner.tsx` are a historical source and must stay aligned to kit — they are not live SoT. The mascot has no name.
 
 Scenery symbols \(W, N, L, \alpha, x_i, c_i\) are defined in [SCENERY.md](SCENERY.md).
 

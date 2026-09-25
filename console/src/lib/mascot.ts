@@ -19,7 +19,7 @@ export type MascotState =
   | "allowed"
   | "asking"
   | "denied"
-  | "sandbox"
+  | "sandboxing"
   | "executing"
   | "completed"
   | "warning"
@@ -53,7 +53,7 @@ export const FRAMES: Record<MascotState, Frame> = {
   allowed: legacyFrame("allowed"),
   asking: legacyFrame("asking"),
   denied: legacyFrame("denied"),
-  sandbox: legacyFrame("sandbox"),
+  sandboxing: legacyFrame("sandboxing"),
   executing: legacyFrame("executing"),
   completed: legacyFrame("completed"),
   warning: legacyFrame("warning"),

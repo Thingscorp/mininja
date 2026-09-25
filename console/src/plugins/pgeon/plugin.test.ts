@@ -23,9 +23,9 @@ describe("pgeon plugin", () => {
     assert.ok(card.fields?.some((f) => f.label === "bob" && f.value.includes("gated")));
   });
 
-  it("vote bob leaves best on carol and uses sandbox face", () => {
+  it("vote bob leaves best on carol and uses sandboxing face", () => {
     const card = cardFor("pgeon vote bob");
-    assert.equal(card.face, "sandbox");
+    assert.equal(card.face, "sandboxing");
     assert.match(card.bottom ?? "", /best unchanged/);
     assert.equal(cardFor("pgeon best").fields?.find((f) => f.label === "best")?.value.includes("carol"), true);
   });

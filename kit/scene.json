@@ -720,7 +720,7 @@
       "action": "shakeHead",
       "stage": "gate"
     },
-    "sandbox": {
+    "sandboxing": {
       "emotion": "mischievous",
       "action": "peek",
       "stage": "workshop"
