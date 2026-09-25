@@ -65,3 +65,8 @@ Place the mark on a **solid dark or solid light** background only. Do not place 
 - Don't rearrange the three lines or swap glyphs outside the STYLEGUIDE expression table.
 - Don't put text inside the lockup.
 - Don't rotate the mark.
+
+## Terminal scenery and motion
+
+When the mark appears as a living buddy in a terminal or console banner, follow [SCENERY.md](SCENERY.md) (stages, weather, props) and [TERMINAL-MOTION.md](TERMINAL-MOTION.md) (walk, patrol, facing, reduced motion). Those rules are part of the brand, not product-only details.
+
