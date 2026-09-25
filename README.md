@@ -74,7 +74,7 @@ Mininja + environments are **modular Legos**. Pieces — **mark**, **faces**, **
 | [`bot/`](bot/) | Optional Mac launcher — calls `../console`, never vendors a second UI. |
 
 Root docs narrate. Numbers live in `kit/` — **fork or overlay when you mean to** (Lego law). Shame only **silent dual constant tables** that drift beside kit in the same tree.  
-Brand law: [`BRAND.md`](BRAND.md) · [`STYLEGUIDE.md`](STYLEGUIDE.md) · [`CONSTRUCTION.md`](CONSTRUCTION.md) · [`BRAND-RULES.md`](BRAND-RULES.md) · [`TRADEMARK.md`](TRADEMARK.md) · [`SCENERY.md`](SCENERY.md) · [`GARDEN.md`](GARDEN.md) · [`TERMINAL-MOTION.md`](TERMINAL-MOTION.md).
+Brand law: [`BRAND.md`](BRAND.md) · [`LANGUAGE.md`](LANGUAGE.md) · [`STYLEGUIDE.md`](STYLEGUIDE.md) · [`CONSTRUCTION.md`](CONSTRUCTION.md) · [`BRAND-RULES.md`](BRAND-RULES.md) · [`TRADEMARK.md`](TRADEMARK.md) · [`SCENERY.md`](SCENERY.md) · [`GARDEN.md`](GARDEN.md) · [`TERMINAL-MOTION.md`](TERMINAL-MOTION.md).
 
 Later plate (not first Mininja): [`RECIPES.md`](RECIPES.md).
 
