@@ -64,6 +64,52 @@ if (existsSync(consoleDir) && g && m) {
       `kit stages length ${scene.stages?.length} != stageCount ${g.stageCount}`,
     );
   }
+
+  // Habitat: stage ids in console STAGE_SEED must match kit order.
+  const seedSlice = sceneTs.slice(
+    sceneTs.indexOf("const STAGE_SEED"),
+    sceneTs.indexOf("for (const e of EMOTION_SEED)"),
+  );
+  const consoleStageIds = [...seedSlice.matchAll(/id:\s*"([^"]+)"/g)].map((x) => x[1]);
+  const kitStageIds = (scene.stages || []).map((s) => s.id);
+  if (consoleStageIds.join(",") !== kitStageIds.join(",")) {
+    errors.push(
+      `console STAGE_SEED ids [${consoleStageIds}] != kit stages [${kitStageIds}]`,
+    );
+  }
+
+  // Habitat chrome: register* + SceneIntent must remain the extension surface.
+  for (const api of [
+    "registerEmotion",
+    "registerAction",
+    "registerStage",
+    "SceneIntent",
+  ]) {
+    if (!sceneTs.includes(api)) {
+      errors.push(`console scene.ts missing habitat API ${api}`);
+    }
+  }
+
+  // Banner camera look-ahead ratios from kit motion.
+  const laR = m.cameraLookAheadRight;
+  const laL = m.cameraLookAheadLeft;
+  const follow = m.cameraFollowRatePerSec;
+  if (laR != null && !bannerTs.includes(`* ${laR}`) && !bannerTs.includes(`*${laR}`)) {
+    errors.push(`console banner.tsx missing cameraLookAheadRight ${laR}`);
+  }
+  if (laL != null && !bannerTs.includes(`* ${laL}`) && !bannerTs.includes(`*${laL}`)) {
+    errors.push(`console banner.tsx missing cameraLookAheadLeft ${laL}`);
+  }
+  if (follow != null && !bannerTs.includes(String(follow))) {
+    errors.push(`console banner.tsx missing cameraFollowRatePerSec ${follow}`);
+  }
+
+  // Prop kinds closed set — every kit kind must appear in console seed or types.
+  for (const kind of scene.propKinds || []) {
+    if (!sceneTs.includes(`"${kind}"`) && !sceneTs.includes(`'${kind}'`)) {
+      errors.push(`console scene.ts missing propKind ${kind}`);
+    }
+  }
 }
 
 if (errors.length) {
@@ -77,6 +123,7 @@ const bits = [
   `scene v${scene.version}`,
   g ? `stageWidthPx=${g.stageWidthPx}` : null,
   m ? `walk=${m.walkPxPerSec} run=${m.runPxPerSec}` : null,
-  existsSync(consoleDir) ? "console aligned" : "console absent (skipped)",
+  scene.stages ? `stages=${scene.stages.length}` : null,
+  existsSync(consoleDir) ? "console habitat aligned" : "console absent (skipped)",
 ].filter(Boolean);
 console.log(`kit/check-consumers OK — ${bits.join(" · ")}`);
