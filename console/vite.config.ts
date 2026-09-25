@@ -132,6 +132,8 @@ export default defineConfig(({ command }) => ({
     host: "0.0.0.0",
     port: 8080,
     strictPort: true,
+    // console consumes ../kit (monorepo SoT) — allow Vite to read outside console/
+    fs: { allow: [".."] },
   },
   resolve: { tsconfigPaths: true },
   plugins: [

@@ -49,4 +49,6 @@ Sign-in with an external broker is **env-only**. Set `GROK_AUTH_CLIENT_ID` / `GR
 
 ## Bring your own kit
 
+Props and weather ride on kit stages today (`registerStage`); dedicated `registerProp` / `registerWeather` are a follow-up if overlays need them without replacing a whole stage.
+
 Kit JSON under [`../kit`](../kit) is Lego bricks: scene and mark rules meant to be overridden. Forks and overlays of kit are first-class and encouraged — keep this console shell, swap the numbers for your environment.

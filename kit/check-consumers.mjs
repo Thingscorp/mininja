@@ -65,17 +65,17 @@ if (existsSync(consoleDir) && g && m) {
     );
   }
 
-  // Habitat: stage ids in console STAGE_SEED must match kit order.
-  const seedSlice = sceneTs.slice(
-    sceneTs.indexOf("const STAGE_SEED"),
-    sceneTs.indexOf("for (const e of EMOTION_SEED)"),
-  );
-  const consoleStageIds = [...seedSlice.matchAll(/id:\s*"([^"]+)"/g)].map((x) => x[1]);
-  const kitStageIds = (scene.stages || []).map((s) => s.id);
-  if (consoleStageIds.join(",") !== kitStageIds.join(",")) {
+  // Habitat: console must load/register from kit — forbid STAGE_SEED dual table.
+  if (/\bSTAGE_SEED\b/.test(sceneTs) || /\bEMOTION_SEED\b/.test(sceneTs) || /\bACTION_SEED\b/.test(sceneTs)) {
     errors.push(
-      `console STAGE_SEED ids [${consoleStageIds}] != kit stages [${kitStageIds}]`,
+      "console scene.ts must not define STAGE_SEED/EMOTION_SEED/ACTION_SEED (kit is SoT)",
     );
+  }
+  if (!sceneTs.includes("kit/scene.json") || !sceneTs.includes("registerFromKit")) {
+    errors.push("console scene.ts must import kit/scene.json and call registerFromKit()");
+  }
+  if (/Casque/i.test(sceneTs)) {
+    errors.push("console scene.ts must not contain Casque (mascot unnamed; kit.forbiddenNames only)");
   }
 
   // Habitat chrome: register* + SceneIntent must remain the extension surface.

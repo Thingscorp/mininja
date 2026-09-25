@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Assert console scene constants match kit/scene.json.
- * kit/ is the only SoT — this fails if someone forks the numbers.
+ * Assert console scene runtime loads kit/scene.json (SoT) — no forked STAGE_SEED.
+ * kit/ is the only catalog SoT — this fails if someone reintroduces dual tables.
  */
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -11,13 +11,17 @@ const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..", "..");
 const kit = JSON.parse(readFileSync(join(root, "kit", "scene.json"), "utf8"));
 const sceneSrc = readFileSync(join(here, "..", "src", "lib", "scene.ts"), "utf8");
-const bannerSrc = readFileSync(join(here, "..", "src", "components", "banner.tsx"), "utf8");
 
 const g = kit.geometry;
-const m = kit.motion;
 const widthMatch = sceneSrc.match(/export const STAGE_WIDTH\s*=\s*(\d+)/);
 const width = widthMatch ? Number(widthMatch[1]) : null;
 const anchorOk = sceneSrc.includes(`* ${g.anchorRatio}`) || sceneSrc.includes(`*${g.anchorRatio}`);
+const loadsKit =
+  sceneSrc.includes("kit/scene.json") && sceneSrc.includes("registerFromKit");
+const dualTable =
+  /\bSTAGE_SEED\b/.test(sceneSrc) ||
+  /\bEMOTION_SEED\b/.test(sceneSrc) ||
+  /\bACTION_SEED\b/.test(sceneSrc);
 
 const errors = [];
 if (width !== g.stageWidthPx) {
@@ -29,24 +33,14 @@ if (!anchorOk) {
 if ((kit.stages?.length ?? 0) !== g.stageCount) {
   errors.push(`kit stages length ${kit.stages?.length} != stageCount ${g.stageCount}`);
 }
-
-const seedSlice = sceneSrc.slice(
-  sceneSrc.indexOf("const STAGE_SEED"),
-  sceneSrc.indexOf("for (const e of EMOTION_SEED)"),
-);
-const consoleIds = [...seedSlice.matchAll(/id:\s*"([^"]+)"/g)].map((x) => x[1]);
-const kitIds = (kit.stages || []).map((s) => s.id);
-if (consoleIds.join(",") !== kitIds.join(",")) {
-  errors.push(`STAGE_SEED ids [${consoleIds}] != kit [${kitIds}]`);
+if (!loadsKit) {
+  errors.push("scene.ts must import kit/scene.json and call registerFromKit()");
 }
-
-const speedLit = new RegExp(
-  String.raw`intensity\s*>=\s*2\s*\?\s*${m.walkPxPerSec === undefined ? "" : m.runPxPerSec}\s*:\s*${m.walkPxPerSec}`,
-);
-if (m?.walkPxPerSec != null && !speedLit.test(bannerSrc)) {
-  errors.push(
-    `banner walk/run must match kit (expected intensity >= 2 ? ${m.runPxPerSec} : ${m.walkPxPerSec})`,
-  );
+if (dualTable) {
+  errors.push("scene.ts must not define STAGE_SEED / EMOTION_SEED / ACTION_SEED (kit is SoT)");
+}
+if (/Casque/i.test(sceneSrc)) {
+  errors.push("scene.ts must not contain Casque (mascot unnamed)");
 }
 
 if (errors.length) {
@@ -55,5 +49,5 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  `kit-align OK — stageWidthPx=${g.stageWidthPx} anchorRatio=${g.anchorRatio} stages=${kitIds.join(",")}`,
+  `kit-align OK — stageWidthPx=${g.stageWidthPx} anchorRatio=${g.anchorRatio} stages=${g.stageCount} load=kit`,
 );

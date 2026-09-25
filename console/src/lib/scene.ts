@@ -4,9 +4,12 @@
  * AI / programs drive the mascot AND the banner by emitting a SceneIntent:
  *   { emotion, action, stage, facing?, line?, intensity? }
  *
- * Unknown ids fall back (curious / wait / dock). Register new ones with
- * registerEmotion / registerAction / registerStage — no renderer rewrite.
+ * Catalogs (emotions / actions / stages / props / weather on stages) load from
+ * kit/scene.json — the only SoT. Register overlays with registerEmotion /
+ * registerAction / registerStage — no renderer rewrite. The mascot has no name.
  */
+
+import kit from "../../../kit/scene.json" with { type: "json" };
 
 export type Facing = "left" | "right";
 export type Intensity = 0 | 1 | 2;
@@ -72,6 +75,7 @@ export type Scene = {
   holdMs: number;
 };
 
+/** Must match kit.geometry.stageWidthPx (assert + kit/check-consumers). */
 export const STAGE_WIDTH = 420;
 
 const emotions = new Map<string, EmotionDef>();
@@ -90,12 +94,15 @@ export function registerStage(def: StageDef): void {
   stages.set(def.id, def);
 }
 
+const fbEmotion = kit.fallbacks.unknownEmotion;
+const fbAction = kit.fallbacks.unknownAction;
+
 export function getEmotion(id: string): EmotionDef {
-  return emotions.get(id) ?? emotions.get("curious")!;
+  return emotions.get(id) ?? emotions.get(fbEmotion)!;
 }
 
 export function getAction(id: string): ActionDef {
-  return actions.get(id) ?? actions.get("wait")!;
+  return actions.get(id) ?? actions.get(fbAction)!;
 }
 
 export function getStage(id: string): StageDef {
@@ -134,174 +141,73 @@ export function catalog(): { emotions: string[]; actions: string[]; stages: stri
   };
 }
 
-const EMOTION_SEED: EmotionDef[] = [
-  { id: "idle", label: "idle", tone: "idle", eyes: ["●", "●"], hint: "at rest, nothing asked" },
-  { id: "curious", label: "curious", tone: "accent", eyes: ["◉", "●"], hint: "looking into something" },
-  { id: "focused", label: "focused", tone: "accent", eyes: ["◐", "◑"], motion: "pulse", hint: "working a problem" },
-  { id: "happy", label: "happy", tone: "ok", eyes: [">", "<"], motion: "bounce", hint: "pleased with the result" },
-  { id: "proud", label: "proud", tone: "ok", eyes: ["▴", "▴"], motion: "bounce", hint: "finished something worth keeping" },
-  { id: "mischievous", label: "mischievous", tone: "accent", eyes: ["¬", "¬"], hint: "about to try a side path" },
-  { id: "worried", label: "worried", tone: "warn", eyes: ["◆", "◆"], motion: "sway", hint: "something is in the way" },
-  { id: "confused", label: "confused", tone: "warn", eyes: ["?", "?"], hint: "did not understand" },
-  { id: "startled", label: "startled", tone: "err", eyes: ["◎", "◎"], motion: "shake", hint: "unexpected failure" },
-  { id: "embarrassed", label: "embarrassed", tone: "muted", eyes: ["◦", "◦"], hint: "cancelled or walked back" },
-  { id: "frustrated", label: "frustrated", tone: "err", eyes: ["×", "×"], motion: "shake", hint: "blocked or denied" },
-  { id: "determined", label: "determined", tone: "accent", eyes: ["◣", "◢"], motion: "pulse", hint: "executing a run" },
-  { id: "relieved", label: "relieved", tone: "ok", eyes: ["◠", "◠"], hint: "a hold cleared" },
-  { id: "sleepy", label: "sleepy", tone: "muted", eyes: ["‒", "‒"], hint: "offline / watching paused" },
-  { id: "alert", label: "alert", tone: "accent", eyes: ["●", "●"], motion: "pulse", hint: "just woke, scanning" },
-  { id: "sad", label: "sad", tone: "muted", eyes: [".", "."], hint: "nothing eligible, empty result" },
-];
+if (kit.geometry.stageWidthPx !== STAGE_WIDTH) {
+  throw new Error(
+    `kit geometry.stageWidthPx=${kit.geometry.stageWidthPx} != console STAGE_WIDTH=${STAGE_WIDTH}`,
+  );
+}
+if (kit.geometry.anchorRatio !== 0.42) {
+  throw new Error(`kit geometry.anchorRatio=${kit.geometry.anchorRatio} != console anchor 0.42`);
+}
 
-const ACTION_SEED: ActionDef[] = [
-  { id: "idle", label: "idle", motion: "none", pose: "stand", fx: "none", hint: "standing" },
-  { id: "blink", label: "blink", motion: "none", pose: "stand", fx: "none", hint: "eyes closed a beat" },
-  { id: "walk", label: "walk", motion: "bob", pose: "stand", fx: "none", hint: "moving between places" },
-  { id: "run", label: "run", motion: "bob", pose: "stand", fx: "none", hint: "hurrying to a place" },
-  { id: "think", label: "think", motion: "pulse", pose: "stand", fx: "think", hint: "evaluating" },
-  { id: "scan", label: "scan", motion: "pulse", pose: "stand", fx: "scan", hint: "reading a service or file" },
-  { id: "type", label: "type", motion: "pulse", pose: "lean", fx: "type", hint: "writing or executing" },
-  { id: "read", label: "read", motion: "sway", pose: "stand", fx: "none", hint: "reviewing current state" },
-  { id: "point", label: "point", motion: "none", pose: "lean", fx: "none", hint: "indicating a next step" },
-  { id: "wave", label: "wave", motion: "bounce", pose: "stand", fx: "wave", hint: "greeting or help" },
-  { id: "jump", label: "jump", motion: "hop", pose: "jump", fx: "spark", hint: "celebrating" },
-  { id: "crouch", label: "crouch", motion: "none", pose: "crouch", fx: "none", hint: "inspecting something low" },
-  { id: "lookBack", label: "look back", motion: "sway", pose: "stand", fx: "none", hint: "checking what was left" },
-  { id: "celebrate", label: "celebrate", motion: "bounce", pose: "jump", fx: "spark", hint: "done" },
-  { id: "shakeHead", label: "shake head", motion: "shake", pose: "stand", fx: "none", hint: "no / unknown" },
-  { id: "nod", label: "nod", motion: "bob", pose: "stand", fx: "none", hint: "yes / allowed" },
-  { id: "search", label: "search", motion: "sway", pose: "lean", fx: "search", hint: "looking for an answer" },
-  { id: "wait", label: "wait", motion: "sway", pose: "stand", fx: "none", hint: "listening for input" },
-  { id: "sleep", label: "sleep", motion: "none", pose: "crouch", fx: "sleep", hint: "offline" },
-  { id: "carry", label: "carry", motion: "bob", pose: "lean", fx: "none", hint: "saving / moving a stream" },
-  { id: "peek", label: "peek", motion: "none", pose: "crouch", fx: "search", hint: "checking a hidden detail" },
-  { id: "climb", label: "climb", motion: "hop", pose: "jump", fx: "none", hint: "changing elevation" },
-];
+/** Load kit catalogs into the register maps. Props/weather ride on StageDef — no separate registerProp/Weather. */
+function registerFromKit(): void {
+  for (const e of kit.emotions) {
+    registerEmotion({
+      id: e.id,
+      label: e.label,
+      tone: e.tone as Tone,
+      eyes: e.eyes as [string, string],
+      ...(e.motion ? { motion: e.motion as Motion } : {}),
+      hint: e.hint,
+    });
+  }
+  for (const a of kit.actions) {
+    registerAction({
+      id: a.id,
+      label: a.label,
+      motion: a.motion as Motion,
+      pose: a.pose as Pose,
+      fx: a.fx as Fx,
+      hint: a.hint,
+    });
+  }
+  for (const s of kit.stages) {
+    registerStage({
+      id: s.id,
+      label: s.label,
+      x: s.x,
+      width: s.width,
+      weather: s.weather as Weather,
+      hint: s.hint,
+      props: s.props as StageProp[],
+    });
+  }
+}
 
-const STAGE_SEED: StageDef[] = [
-  {
-    id: "nightwatch",
-    label: "night watch",
-    x: 0,
-    width: STAGE_WIDTH,
-    weather: "night",
-    hint: "sleep / offline",
-    props: [
-      { kind: "moon", x: 310, y: 10, w: 18, h: 18 },
-      { kind: "antenna", x: 48, y: 28, w: 4, h: 36 },
-      { kind: "block", x: 20, y: 72, w: 56, h: 14 },
-    ],
-  },
-  {
-    id: "dock",
-    label: "dock",
-    x: STAGE_WIDTH,
-    width: STAGE_WIDTH,
-    weather: "haze",
-    hint: "home bay",
-    props: [
-      { kind: "crate", x: 28, y: 62, w: 28, h: 22 },
-      { kind: "crate", x: 52, y: 70, w: 22, h: 14 },
-      { kind: "cable", x: 90, y: 84, w: 120, h: 2 },
-      { kind: "screen", x: 300, y: 36, w: 46, h: 28 },
-    ],
-  },
-  {
-    id: "desk",
-    label: "desk",
-    x: STAGE_WIDTH * 2,
-    width: STAGE_WIDTH,
-    weather: "clear",
-    hint: "status, plan, brief",
-    props: [
-      { kind: "screen", x: 40, y: 30, w: 54, h: 34 },
-      { kind: "lamp", x: 110, y: 24, w: 10, h: 40 },
-      { kind: "block", x: 140, y: 72, w: 36, h: 10 },
-      { kind: "crate", x: 330, y: 66, w: 26, h: 18 },
-    ],
-  },
-  {
-    id: "workshop",
-    label: "workshop",
-    x: STAGE_WIDTH * 3,
-    width: STAGE_WIDTH,
-    weather: "sparks",
-    hint: "ralph, execute, refine",
-    props: [
-      { kind: "block", x: 24, y: 68, w: 80, h: 16 },
-      { kind: "antenna", x: 200, y: 20, w: 3, h: 48 },
-      { kind: "crate", x: 240, y: 60, w: 30, h: 24 },
-      { kind: "lamp", x: 320, y: 18, w: 12, h: 46 },
-    ],
-  },
-  {
-    id: "archives",
-    label: "archives",
-    x: STAGE_WIDTH * 4,
-    width: STAGE_WIDTH,
-    weather: "scan",
-    hint: "look, pgeon, memory",
-    props: [
-      { kind: "shelf", x: 16, y: 16, w: 18, h: 70 },
-      { kind: "shelf", x: 42, y: 16, w: 18, h: 70 },
-      { kind: "shelf", x: 68, y: 16, w: 18, h: 70 },
-      { kind: "shelf", x: 340, y: 16, w: 18, h: 70 },
-      { kind: "crate", x: 200, y: 66, w: 24, h: 18 },
-    ],
-  },
-  {
-    id: "gate",
-    label: "gate",
-    x: STAGE_WIDTH * 5,
-    width: STAGE_WIDTH,
-    weather: "haze",
-    hint: "ask, deny, unknown",
-    props: [
-      { kind: "barrier", x: 170, y: 48, w: 80, h: 36 },
-      { kind: "lamp", x: 150, y: 14, w: 10, h: 50 },
-      { kind: "lamp", x: 258, y: 14, w: 10, h: 50 },
-    ],
-  },
-  {
-    id: "rooftop",
-    label: "rooftop",
-    x: STAGE_WIDTH * 6,
-    width: STAGE_WIDTH,
-    weather: "clear",
-    hint: "completed / proud",
-    props: [
-      { kind: "block", x: 20, y: 70, w: 40, h: 16 },
-      { kind: "block", x: 70, y: 58, w: 28, h: 28 },
-      { kind: "antenna", x: 300, y: 12, w: 4, h: 56 },
-      { kind: "block", x: 340, y: 64, w: 48, h: 22 },
-    ],
-  },
-];
+registerFromKit();
 
-for (const e of EMOTION_SEED) registerEmotion(e);
-for (const a of ACTION_SEED) registerAction(a);
-for (const s of STAGE_SEED) registerStage(s);
-
+const kitDefault = kit.defaultScene;
 export const DEFAULT_SCENE: Scene = {
-  emotion: "idle",
-  action: "idle",
-  stage: "dock",
-  facing: "right",
-  line: "",
-  intensity: 1,
-  holdMs: 0,
+  emotion: kitDefault.emotion,
+  action: kitDefault.action,
+  stage: kitDefault.stage,
+  facing: kitDefault.facing as Facing,
+  line: kitDefault.line,
+  intensity: kitDefault.intensity as Intensity,
+  holdMs: kitDefault.holdMs,
 };
 
 export function applyIntent(current: Scene, intent: SceneIntent): Scene {
   const emotion = intent.emotion
     ? hasEmotion(intent.emotion)
       ? intent.emotion
-      : "curious"
+      : fbEmotion
     : current.emotion;
   const action = intent.action
     ? hasAction(intent.action)
       ? intent.action
-      : "wait"
+      : fbAction
     : current.action;
   const nextStage = intent.stage
     ? hasStage(intent.stage)
@@ -352,24 +258,10 @@ export function nearestStage(x: number): StageDef {
   return best;
 }
 
-/** Legacy mascot states still accepted as a compact face id. */
-export const LEGACY_INTENT: Record<string, SceneIntent> = {
-  idle: { emotion: "idle", action: "idle" },
-  blink: { emotion: "idle", action: "blink" },
-  evaluating: { emotion: "focused", action: "think", stage: "desk" },
-  loadingRight: { emotion: "focused", action: "walk", facing: "right" },
-  loadingLeft: { emotion: "focused", action: "walk", facing: "left" },
-  allowed: { emotion: "happy", action: "nod", stage: "desk" },
-  asking: { emotion: "curious", action: "wait" },
-  denied: { emotion: "frustrated", action: "shakeHead", stage: "gate" },
-  sandboxing: { emotion: "mischievous", action: "peek", stage: "workshop" },
-  executing: { emotion: "determined", action: "type", stage: "workshop" },
-  completed: { emotion: "proud", action: "celebrate", stage: "rooftop" },
-  warning: { emotion: "worried", action: "point", stage: "gate" },
-  error: { emotion: "confused", action: "shakeHead", stage: "gate" },
-  cancelled: { emotion: "embarrassed", action: "lookBack", stage: "dock" },
-  offline: { emotion: "sleepy", action: "sleep", stage: "nightwatch" },
-};
+/** Legacy mascot states still accepted as a compact face id — from kit.legacyFaceBridge. */
+export const LEGACY_INTENT: Record<string, SceneIntent> = Object.fromEntries(
+  Object.entries(kit.legacyFaceBridge).map(([face, intent]) => [face, { ...intent } as SceneIntent]),
+);
 
 export function intentFromLegacy(face?: string): SceneIntent | undefined {
   if (!face) return undefined;
