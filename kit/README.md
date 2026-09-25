@@ -7,6 +7,10 @@ This directory is the DNA of the mark: glyphs and scene math, nothing else. Root
 | [mark.json](mark.json) | Grid, codepoints, 15 faces, clearspace, min size |
 | [scene.json](scene.json) | Geometry, stages, props, motion speeds, emotions, actions |
 
+## Brand voice (kit)
+
+Default kit is the loveable, integrated set — craft and taste in small Unicode pieces (*Apple of terminal buddies* as a quality metaphor only; **not** Apple Inc. affiliation or endorsement). Those same pieces are **premium Legos**: remixable. Environments fork or overlay without shame.
+
 ## Legos: pieces that snap
 
 Mininja + an environment is **modular Legos**. The pieces are meant to click together and to be swapped:

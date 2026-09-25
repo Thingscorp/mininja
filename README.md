@@ -8,6 +8,8 @@
 
 **Three lines of Unicode. That’s the whole brand.** Paste them into a README, print them from a shell, or grow them into faces, a scoot, and a terminal scene — only as far as you want. The mascot is warm and **unnamed**. Spell it **Mininja** (not “minija”).
 
+The aim is *the Apple of terminal buddies*: craft, taste, integrated simplicity, a loveable default — a quality metaphor, **not** any affiliation with or endorsement by Apple Inc. The bricks stay Lego-open: premium pieces you can still fork, overlay, and remix.
+
 Owned by [Thingscorp LLC](https://github.com/Thingscorp). The glyphs *are* the mark.
 
 ---
