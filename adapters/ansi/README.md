@@ -1,6 +1,6 @@
 # adapters/ansi
 
-Colorize mark only. Pipes `adapters/mark` → ANSI.
+Colorize mark only. **Node** (imports `adapters/mark/lockup.mjs` → `node:fs`).
 
 | in | out |
 |----|-----|
@@ -11,9 +11,11 @@ Colorize mark only. Pipes `adapters/mark` → ANSI.
 import { ansiLockup, colorize } from "./render.mjs";
 import { linesFor } from "../mark/lockup.mjs";
 
-ansiLockup("executing");
+ansiLockup("executing");                 // face → ANSI (loads kit)
 ansiLockup("idle", { color: false });
-colorize(linesFor("allowed"), "ok");
+colorize(linesFor("allowed"), "ok");     // strings → ANSI
 ```
 
 Monochrome when `color: false`. Mood codes are optional chrome. No `console/` imports.
+
+Browsers: render lines with `adapters/mark/from-kit.mjs`, then style with CSS (`currentColor`) — skip this filter.

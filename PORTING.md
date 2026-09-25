@@ -69,6 +69,8 @@ Do **not** drag level 4 into a favicon. Do **not** replace glyphs with a redrawn
 
 ## Level 2 — one filter
 
+**Node** (loads kit from disk):
+
 ```js
 import { lockup } from "./adapters/mark/lockup.mjs";
 process.stdout.write(lockup("allowed") + "\n");
@@ -79,7 +81,15 @@ import { ansiLockup } from "./adapters/ansi/render.mjs";
 process.stdout.write(ansiLockup("executing") + "\n");
 ```
 
-Adapters never import `console/`. Examples only compose adapters.
+**Browser** — do not import `lockup.mjs` or `ansi/` (`node:fs`). Pass kit JSON into the pure mark filter, then present:
+
+```js
+import mark from "./kit/mark.json" with { type: "json" };
+import { linesFor } from "./adapters/mark/from-kit.mjs";
+// linesFor(mark, "allowed") → adapters/react <Mininja lines={...} />
+```
+
+`lockup()` / `ansiLockup()` return **strings** (already joined). Adapters never import `console/`. Examples only compose adapters.
 
 ## Invariants (every port)
 

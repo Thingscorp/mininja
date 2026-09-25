@@ -1,6 +1,6 @@
 /**
  * Presentational mark. Levels 1–3.
- * Pass `lines` from adapters/mark or kit/mark.json.
+ * Pass `lines` from adapters/mark/from-kit (or Node lockup.mjs) or kit/mark.json.
  * Mascot has no name — aria-label stays "Mininja mark".
  */
 import type { CSSProperties } from "react";
@@ -26,7 +26,7 @@ export type MininjaProps = {
   /** Host hint only — does not load kit data. */
   face?: MininjaFace;
   facing?: "left" | "right";
-  /** Required: three mark lines from adapters/mark or kit/mark.json. */
+  /** Required: three mark lines from from-kit / lockup or kit/mark.json. */
   lines: [string, string, string];
   className?: string;
   style?: CSSProperties;
