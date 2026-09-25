@@ -32,9 +32,9 @@ function seed(): Store {
       },
     ],
     answers: [
-      { id: "a1", question_id: "add", author: "alice", passed: true, votes: 1 },
-      { id: "a2", question_id: "add", author: "carol", passed: true, votes: 3 },
-      { id: "a3", question_id: "add", author: "bob", passed: false, votes: 5 },
+      { id: "a1", question_id: "add", author: "alpha", passed: true, votes: 1 },
+      { id: "a2", question_id: "add", author: "charlie", passed: true, votes: 3 },
+      { id: "a3", question_id: "add", author: "bravo", passed: false, votes: 5 },
     ],
   };
 }

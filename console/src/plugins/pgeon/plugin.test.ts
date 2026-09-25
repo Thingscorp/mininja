@@ -11,23 +11,23 @@ describe("pgeon plugin", () => {
     const card = cardFor("pgeon");
     assert.equal(card.title, "add");
     assert.equal(card.tag, "verified");
-    assert.ok(card.rows?.includes("pgeon vote bob"));
+    assert.ok(card.rows?.includes("pgeon vote bravo"));
   });
 
-  it("best shows carol and gates bob", () => {
+  it("best shows charlie and gates bravo", () => {
     const card = cardFor("pgeon best");
     assert.equal(card.title, "add");
     assert.equal(card.tag, "verified");
     assert.equal(card.face, "allowed");
-    assert.ok(card.fields?.some((f) => f.label === "best" && f.value.includes("carol")));
-    assert.ok(card.fields?.some((f) => f.label === "bob" && f.value.includes("gated")));
+    assert.ok(card.fields?.some((f) => f.label === "best" && f.value.includes("charlie")));
+    assert.ok(card.fields?.some((f) => f.label === "bravo" && f.value.includes("gated")));
   });
 
-  it("vote bob leaves best on carol and uses sandboxing face", () => {
-    const card = cardFor("pgeon vote bob");
+  it("vote bravo leaves best on charlie and uses sandboxing face", () => {
+    const card = cardFor("pgeon vote bravo");
     assert.equal(card.face, "sandboxing");
     assert.match(card.bottom ?? "", /best unchanged/);
-    assert.equal(cardFor("pgeon best").fields?.find((f) => f.label === "best")?.value.includes("carol"), true);
+    assert.equal(cardFor("pgeon best").fields?.find((f) => f.label === "best")?.value.includes("charlie"), true);
   });
 
   it("ask empty refuses a best", () => {

@@ -46,3 +46,7 @@ Sign-in with an external broker is **env-only**. Set `GROK_AUTH_CLIENT_ID` / `GR
 - Glyphs are the mark. Do not rename the mascot.
 - Mood colors are chrome; the lockup stays monochrome-capable.
 - See root [`STYLEGUIDE.md`](../STYLEGUIDE.md) and [`PORTING.md`](../PORTING.md).
+
+## Bring your own kit
+
+Kit JSON under [`../kit`](../kit) is Lego bricks: scene and mark rules meant to be overridden. Forks and overlays of kit are first-class and encouraged — keep this console shell, swap the numbers for your environment.

@@ -73,7 +73,7 @@ function askCard(arg: string): Card {
 }
 
 function voteCard(authorRaw: string): Card {
-  const author = (authorRaw || "bob").toLowerCase();
+  const author = (authorRaw || "bravo").toLowerCase();
   const answer = findAuthor("add", author);
   if (!answer) {
     return { title: "vote", bottom: `no author ${author}`, face: "error" };
@@ -105,7 +105,7 @@ function run(argv: string[]): Card {
   else if (verb === "reset") {
     resetStore();
     card = { title: "pgeon", tag: "reset", bottom: "seed restored.", face: "cancelled" };
-  } else card = { title: "pgeon", bottom: "pgeon, pgeon vote bob, pgeon ask empty.", face: "error" };
+  } else card = { title: "pgeon", bottom: "pgeon, pgeon vote bravo, pgeon ask empty.", face: "error" };
   return { ...card, bird: poseFromFace(card.face) };
 }
 

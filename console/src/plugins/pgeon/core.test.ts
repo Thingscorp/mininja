@@ -8,21 +8,21 @@ describe("pgeon core", () => {
 
   it("gates the most-voted failed answer out of best", () => {
     const ranked = rankedAnswers("add");
-    assert.equal(ranked[0]?.author, "carol");
+    assert.equal(ranked[0]?.author, "charlie");
     assert.equal(ranked[0]?.passed, true);
-    const bob = ranked.find((a) => a.author === "bob");
-    assert.equal(bob?.votes, 5);
-    assert.equal(bob?.passed, false);
-    assert.equal(bestAnswer("add")?.author, "carol");
+    const bravo = ranked.find((a) => a.author === "bravo");
+    assert.equal(bravo?.votes, 5);
+    assert.equal(bravo?.passed, false);
+    assert.equal(bestAnswer("add")?.author, "charlie");
   });
 
-  it("votes on bob cannot mint best", () => {
-    const bob = findAuthor("add", "bob");
-    assert.ok(bob);
-    voteFor(bob);
-    voteFor(bob);
-    assert.equal(bob.votes, 7);
-    assert.equal(bestAnswer("add")?.author, "carol");
+  it("votes on bravo cannot mint best", () => {
+    const bravo = findAuthor("add", "bravo");
+    assert.ok(bravo);
+    voteFor(bravo);
+    voteFor(bravo);
+    assert.equal(bravo.votes, 7);
+    assert.equal(bestAnswer("add")?.author, "charlie");
   });
 
   it("refuses to manufacture a best when nothing passed", () => {
@@ -35,7 +35,7 @@ describe("pgeon core", () => {
 
   it("authority is verified wins not vote sum", () => {
     const qs = getStore().questions;
-    assert.equal(authorityFor("carol", qs), 1);
-    assert.equal(authorityFor("bob", qs), 0);
+    assert.equal(authorityFor("charlie", qs), 1);
+    assert.equal(authorityFor("bravo", qs), 0);
   });
 });

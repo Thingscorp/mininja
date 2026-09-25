@@ -419,7 +419,7 @@
     "Feature ID": "F33",
     "Feature Name": "Pgeon plugin",
     "User Story": "As an operator I run pgeon and see verified answers where votes cannot mint a best.",
-    "Expected Behaviour": "pgeon is a modular plugin. open lists questions. best returns carol and gates bob. vote bob records votes and leaves best on carol. ask empty returns no best. Faces allowed sandboxing denied.",
+    "Expected Behaviour": "pgeon is a modular plugin. open lists questions. best returns charlie and gates bravo. vote bravo records votes and leaves best on charlie. ask empty returns no best. Faces allowed sandboxing denied.",
     "Edge Cases": "Unknown verb errors. reset restores seed. Store is session-only.",
     "Test Cases": "T71-T76",
     "Current Status": "TESTED",

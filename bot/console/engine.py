@@ -94,9 +94,9 @@ PGEON_SEED = {
         }
     ],
     "answers": [
-        {"id": "a1", "question_id": "add", "author": "alice", "passed": True, "votes": 1},
-        {"id": "a2", "question_id": "add", "author": "carol", "passed": True, "votes": 3},
-        {"id": "a3", "question_id": "add", "author": "bob", "passed": False, "votes": 5},
+        {"id": "a1", "question_id": "add", "author": "alpha", "passed": True, "votes": 1},
+        {"id": "a2", "question_id": "add", "author": "charlie", "passed": True, "votes": 3},
+        {"id": "a3", "question_id": "add", "author": "bravo", "passed": False, "votes": 5},
     ],
 }
 
@@ -810,7 +810,7 @@ def _pgeon(state: dict, argv: list[str]) -> dict:
             )
         return _pgeon_best_card(state, qid_)
     if verb == "vote":
-        author = (rest or "bob").lower()
+        author = (rest or "bravo").lower()
         answer = next((a for a in store["answers"] if a["question_id"] == "add" and a["author"] == author), None)
         if not answer:
             return {"title": "vote", "bottom": f"no author {author}", "face": "error"}
@@ -832,4 +832,4 @@ def _pgeon(state: dict, argv: list[str]) -> dict:
             "bottom": None if answer["passed"] else "best unchanged",
             "face": "completed" if answer["passed"] else "sandbox",
         }
-    return {"title": "pgeon", "bottom": "pgeon, pgeon vote bob, pgeon ask empty.", "face": "error"}
+    return {"title": "pgeon", "bottom": "pgeon, pgeon vote bravo, pgeon ask empty.", "face": "error"}

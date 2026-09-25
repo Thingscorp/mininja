@@ -62,13 +62,13 @@ async function main() {
   await page.getByRole("button", { name: "pgeon", exact: true }).click();
   await page.waitForTimeout(800);
   const pgeonHelp = await page.locator("article").last().innerText();
-  rec("T72", "F33", "pgeon opens the ledger", pgeonHelp.includes("carol") && pgeonHelp.includes("gated"), "carol + gated", pgeonHelp.slice(0, 160));
+  rec("T72", "F33", "pgeon opens the ledger", pgeonHelp.includes("charlie") && pgeonHelp.includes("gated"), "charlie + gated", pgeonHelp.slice(0, 160));
 
-  rec("T73", "F33", "pgeon best gates bob", pgeonHelp.includes("carol") && pgeonHelp.includes("gated"), "carol + gated", pgeonHelp.slice(0, 180));
+  rec("T73", "F33", "pgeon best gates bravo", pgeonHelp.includes("charlie") && pgeonHelp.includes("gated"), "charlie + gated", pgeonHelp.slice(0, 180));
   rec("T74", "F33", "allowed face after best", (await page.locator('[aria-label="mininja allowed"]').count()) >= 1, "mininja allowed", "missing");
   rec("T81", "F35", "pigeon after best", (await page.locator("[aria-label='pgeon best']").count()) >= 1, "pgeon best bird", "missing");
 
-  await page.locator("input[aria-label=command]").fill("pgeon vote bob");
+  await page.locator("input[aria-label=command]").fill("pgeon vote bravo");
   await page.keyboard.press("Enter");
   await page.waitForTimeout(800);
   const pgeonVote = await page.locator("article").last().innerText();

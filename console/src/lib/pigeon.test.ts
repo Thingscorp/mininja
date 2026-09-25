@@ -23,7 +23,7 @@ describe("pgeon pigeon", () => {
   it("pgeon best ships the proud bird", () => {
     resetStore();
     assert.equal(cardFor("pgeon best").bird, "best");
-    assert.equal(cardFor("pgeon vote bob").bird, "flap");
+    assert.equal(cardFor("pgeon vote bravo").bird, "flap");
     assert.equal(cardFor("pgeon ask empty").bird, "sulk");
   });
 });
