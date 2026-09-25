@@ -1,8 +1,8 @@
 # Scenery
 
-Canonical terminal world for the Mininja mark in console / buddy surfaces. Machine source of truth: [`kit/scene.json`](kit/scene.json). Console `src/lib/scene.ts` is a historical source and must stay aligned to kit — it is not live SoT. The mascot has no name.
+Canonical terminal world for the Mininja mark in console / buddy surfaces — the **habitat glass** of the terrarium: stages, props, and weather the unnamed creature moves through. Machine source of truth: [`kit/scene.json`](kit/scene.json). Console `src/lib/scene.ts` is a historical source and must stay aligned to kit — it is not live SoT. The mascot has no name.
 
-This document is the **formal geometry** of the strip. Motion laws live in [TERMINAL-MOTION.md](TERMINAL-MOTION.md).
+This document is the **formal geometry** of the strip (the glass). Motion laws live in [TERMINAL-MOTION.md](TERMINAL-MOTION.md). Outside weather arrives via [RECIPES.md](RECIPES.md).
 
 ![Stage strip](assets/visuals/stage-strip.png)
 

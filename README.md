@@ -6,9 +6,9 @@
 ▀▀▀▀▀
 ```
 
-**The Apple of Terminal Buddies** — obsessive craft, taste, purity of default. An integrated system that feels inevitable. A loveable helper people port everywhere.
+**The Apple of Terminal Buddies** — and a **terrarium for devs**: obsessive craft in a self-contained living habitat on the desk or in the terminal. Creature = the warm **unnamed** mark; habitat = stages, props, weather behind scenery glass; weather from outside via IFTTT-style [`RECIPES.md`](RECIPES.md). Lego remix stays open — fork kit, overlay a scene, restock the tank.
 
-**Three lines of Unicode. That’s the whole brand.** Paste them into a README, print them from a shell, or grow them into faces, a scoot, and a terminal scene — only as far as you want. Lego modularity, fork encouraged, kit = data, Unix-small. The mascot is warm and **unnamed** (no he/him). Spell it **Mininja** (not “minija”).
+**Three lines of Unicode. That’s the whole brand.** Paste them, print them, or grow faces → scoot → scene only as far as you want. Kit = data. Unix-small. Spell it **Mininja** (not “minija”).
 
 Owned by [Thingscorp LLC](https://github.com/Thingscorp). The glyphs *are* the mark.  
 Positioning: [`BRAND.md`](BRAND.md).
