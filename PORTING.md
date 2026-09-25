@@ -21,17 +21,29 @@ Or from a clone:
 ./examples/cli-banner.sh allowed
 ```
 
-README paste: [`examples/readme-badge.md`](examples/readme-badge.md). Stop here unless you need faces.
+README paste: [`examples/readme-badge.md`](examples/readme-badge.md). Kit overlay without forking console: [`examples/remix/`](examples/remix/). Stop here unless you need faces.
 
 
-## Legos in your environment
+## Fork & remix (Legos)
 
-Mininja is built to snap into *your* world. Treat kit JSON as **modifiable rules**, not a glass case.
+Adapters are the **studs**. Kit JSON is the **brick specs**. Forks are welcome.
 
-- **Pieces:** mark / faces, motion, stages, props, emotions, actions — each can ship alone or together.
-- **Override:** fork `kit/` for a full custom SoT, or keep upstream kit and apply a **local scene overlay** (merge selected keys after load).
-- **Forking is encouraged.** Name your fork or overlay in the host README so others know which ruleset they are on.
-- Do not shame divergent speeds, stages, or faces. Do shame silent dual tables that claim to be kit while drifting.
+| Piece | You change | You keep |
+|-------|------------|----------|
+| [`kit/mark.json`](kit/mark.json) | faces, eyes, lines | 5×3 grid; glyphs are the mark |
+| [`kit/scene.json`](kit/scene.json) | speeds, stages, props | adapter contracts (in → out) |
+| [`adapters/*`](adapters/) | rarely | one-job filters |
+
+**How to remix without forking `console/`:**
+
+1. Copy `kit/` *or* keep upstream kit and merge a **local overlay** after load.
+2. Pass the merged object into [`adapters/mark/from-kit.mjs`](adapters/mark/from-kit.mjs) (browsers) or your host motion code (scene numbers).
+3. Leave adapter signatures alone — face → strings → ANSI / `<pre>`.
+4. Name the overlay or fork in the host README so others know which ruleset they are on.
+
+Worked example (override one face, print it): [`examples/remix/`](examples/remix/).
+
+Do not shame divergent speeds, stages, or faces. Do shame silent dual tables that claim to be kit while drifting. The mascot has no name.
 
 Upstream geometry cited below is the Thingscorp default kit — match it when you intend to stay aligned; replace it on purpose when you fork.
 
