@@ -6,6 +6,14 @@ Version history of the Mininja mark and this brand repository.
 
 - Docs: one connected **system graph** (creature · habitat · garden · later recipes) — recipe seams kept open; recipes remain a later plate, not v1 required ([RECIPES.md](RECIPES.md), [GARDEN.md](GARDEN.md), [BRAND.md](BRAND.md), [PORTING.md](PORTING.md))
 
+## 1.6.1 — 2026-09-25
+
+Grid / habitat math lock:
+
+- `scripts/sim-grid-habitat.py` — numeric geometry, motion, Monte Carlo, garden, doc↔kit cross-check (report: `scripts/sim-grid-habitat-report.json`)
+- `kit/scene.json` **1.6.1** — `garden.silhouetteHeightPx` recommended map \(h(g)=12+12g\) (matches GARDEN example h=48 at growth=3)
+- [GARDEN.md](GARDEN.md) silhouette table; re-run: `python3 scripts/sim-grid-habitat.py`
+
 ## 1.6.0 — 2026-09-25
 
 Garden schema (data only):

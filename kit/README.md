@@ -36,6 +36,7 @@ Document which path you took in the host README. Never leave a **silent second c
 
 ```bash
 node kit/check-consumers.mjs
+python3 scripts/sim-grid-habitat.py   # geometry + motion + garden math lock
 ```
 
 (When `console/` is present, that check asserts scene width, anchor, and walk/run speeds against kit. It never invents values.)

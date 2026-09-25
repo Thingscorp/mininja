@@ -1,5 +1,5 @@
 {
-  "version": "1.6.0",
+  "version": "1.6.1",
   "source": "Thingscorp/mininja-console src/lib/scene.ts",
   "geometry": {
     "stageWidthPx": 420,
@@ -803,6 +803,13 @@
         }
       ]
     },
+    "silhouetteHeightPx": {
+      "formula": "h(g) = h0 + g * dh",
+      "h0Px": 12,
+      "dhPx": 12,
+      "unit": "px",
+      "note": "Recommended host silhouette height for repoBranch. Data-only; hosts may fork. h(3)=48 matches GARDEN.md example."
+    },
     "propFields": {
       "kind": "repoBranch",
       "required": [
@@ -817,7 +824,7 @@
         "label"
       ],
       "growth": "integer 0..5 inclusive; omit \u2192 garden.growth.default",
-      "note": "Silhouette only. Hosts map growth\u2192glyph size; kit does not call GitHub."
+      "note": "Silhouette only. Prefer garden.silhouetteHeightPx for growth\u2192height; kit does not call GitHub."
     },
     "bridge": {
       "github": false,

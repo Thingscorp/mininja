@@ -29,13 +29,32 @@ Copied from `kit/scene.json` → `garden.growth` (do not invent parallel tables)
 
 Omit `growth` → use `garden.growth.default` (0).
 
+## Silhouette height (recommended)
+
+Pure monotonic map in [`kit/scene.json`](kit/scene.json) → `garden.silhouetteHeightPx`:
+
+\[
+h(g) = h_0 + g \cdot \Delta h = 12 + 12g \quad (\mathrm{px}),\quad g \in \{0,1,2,3,4,5\}
+\]
+
+| \(g\) | \(h(g)\) |
+|------:|--------:|
+| 0 | 12 |
+| 1 | 24 |
+| 2 | 36 |
+| 3 | 48 |
+| 4 | 60 |
+| 5 | 72 |
+
+Hosts may fork \(h_0,\Delta h\). Authored prop `h` still wins when set; this formula is the default growth→height seam.
+
 ## Example overlay prop (not stock STAGE_SEED)
 
 ```json
 { "kind": "repoBranch", "x": 280, "y": 40, "w": 24, "h": 48, "growth": 3, "label": "mininja" }
 ```
 
-Hosts map `growth` → silhouette height / branch count. Kit never paints the mark fill from growth.
+Hosts map `growth` → silhouette height via `garden.silhouetteHeightPx` (or authored `h`). Kit never paints the mark fill from growth.
 
 ## Brand rules / bridge note
 
