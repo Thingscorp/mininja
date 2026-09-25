@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 360" width="700" height="360" role="img">
+  <title>Mininja clearspace</title>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+<text x="40" y="36" font-family='ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif' font-size="22" font-weight="700" fill="#0f172a" text-anchor="start">Clearspace</text>
+  <text x="40" y="58" font-family='ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif' font-size="13" font-weight="400" fill="#64748b" text-anchor="start">Minimum one block-row height on all sides — nothing enters this zone</text>
+  <rect x="120" y="100" width="168" height="120" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2" rx="2"/>
+  <rect x="144" y="124" width="120" height="72" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="156.0" y="136.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="24" fill="#0f172a">▚</text>
+  <text x="180.0" y="136.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="24" fill="#0f172a">█</text>
+  <text x="204.0" y="136.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="24" fill="#0f172a">█</text>
+  <text x="228.0" y="136.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="24" fill="#0f172a">█</text>
+  <text x="252.0" y="136.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="24" fill="#0f172a">█</text>
+  <text x="156.0" y="160.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="24" fill="#0f172a">█</text>
+  <text x="180.0" y="160.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="24" fill="#0f172a">█</text>
+  <text x="228.0" y="160.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="24" fill="#0f172a">●</text>
+  <text x="252.0" y="160.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="24" fill="#0f172a">●</text>
+  <text x="156.0" y="184.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="24" fill="#0f172a">▀</text>
+  <text x="180.0" y="184.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="24" fill="#0f172a">▀</text>
+  <text x="204.0" y="184.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="24" fill="#0f172a">▀</text>
+  <text x="228.0" y="184.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="24" fill="#0f172a">▀</text>
+  <text x="252.0" y="184.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="24" fill="#0f172a">▀</text>
+  <text x="204.0" y="90" font-family='ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif' font-size="12" font-weight="600" fill="#0ea5e9" text-anchor="middle">≥ 1 block-row</text>
+  <text x="112" y="160.0" font-family='ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif' font-size="12" font-weight="600" fill="#0ea5e9" text-anchor="end">≥ 1</text>
+  <text x="296" y="160.0" font-family='ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif' font-size="12" font-weight="600" fill="#0ea5e9" text-anchor="start">≥ 1</text>
+  <text x="204.0" y="242" font-family='ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif' font-size="12" font-weight="600" fill="#0ea5e9" text-anchor="middle">≥ 1 block-row clearspace</text>
+  <text x="40" y="290" font-family='ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif' font-size="13" font-weight="400" fill="#64748b" text-anchor="start">Blue band = protected clearspace (equal to one row of the lockup).</text>
+</svg>
