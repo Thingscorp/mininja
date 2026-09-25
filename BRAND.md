@@ -27,7 +27,7 @@ Mininja is a **terrarium for developers** — a small living world on the desk y
 
 You remix the terrarium; you do not redraw the creature. Habitat is data. Scene weather is chrome on the strip — not external automation. Metaphors only — not affiliated with Apple Inc.
 
-Recipes / IFTTT-style “weather from the outside world” are a **later plate** — design lives in [RECIPES.md](RECIPES.md), not required for first Mininja.
+Recipes / IFTTT-style “weather from the outside world” are a **later plate** — design lives in [RECIPES.md](RECIPES.md), not required for first Mininja. That plate plugs into the **same** creature + habitat + garden bricks (they talk to each other); demotion ≠ disconnection.
 
 ## Still true
 

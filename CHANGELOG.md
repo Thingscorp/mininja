@@ -2,6 +2,10 @@
 
 Version history of the Mininja mark and this brand repository.
 
+## Unreleased / next
+
+- Docs: one connected **system graph** (creature · habitat · garden · later recipes) — recipe seams kept open; recipes remain a later plate, not v1 required ([RECIPES.md](RECIPES.md), [GARDEN.md](GARDEN.md), [BRAND.md](BRAND.md), [PORTING.md](PORTING.md))
+
 ## 1.6.0 — 2026-09-25
 
 Garden schema (data only):

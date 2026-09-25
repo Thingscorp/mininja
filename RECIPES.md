@@ -26,6 +26,21 @@ v1 does not need this. Ship mark → faces → scoot → scene first.
 
 ---
 
+## One system graph
+
+Creature, habitat, garden, and (later) recipes are **one connected system** — not orphan seams. Demoting recipes from the v1 hero does **not** disconnect them from the bricks.
+
+| Piece | What it is |
+|-------|------------|
+| **Creature** | Mark / faces — [`kit/mark.json`](kit/mark.json) |
+| **Habitat glass** | Stages / props / scene weather chrome — [`kit/scene.json`](kit/scene.json) |
+| **Garden** | `repoBranch` prop + growth **0..5** — [GARDEN.md](GARDEN.md) |
+| **Recipes** (later) | Normalized events → expressions that target those **same** bricks |
+
+They share **one vocabulary**. Changing a face id, stage id, or growth field must stay **recipe-compatible** so a later runner can still target it. v1 ships creature + habitat (+ optional garden props) **without** a recipe runner; the seams stay open.
+
+---
+
 ## 2. Unix / Lego model
 
 Recipes are **data plates**. Everything else is a brick or a stud. Swap event → face mappings without rebuilding the glass.
@@ -36,14 +51,15 @@ Recipes are **data plates**. Everything else is a brick or a stud. Swap event �
 | **Recipes** | Data plates: `when` matchers → `then` expressions. Forkable, remixable, no code required. |
 | **Kit faces** | Creature reactions — bricks from [`kit/mark.json`](kit/mark.json). |
 | **Kit stages / actions / mood** | Habitat + motion — bricks from [`kit/scene.json`](kit/scene.json). |
+| **Garden (`repoBranch` + growth)** | Optional habitat props — same scene kit; see [GARDEN.md](GARDEN.md). |
 | **Adapters** | Render bricks (strings → ANSI / React / host). |
 | **Console / bot** | Optional runners. Never the only place recipes can live. |
 
 Russ’s law applies: pieces snap; rules are data; forking is encouraged. Shame only silent dual tables that drift beside kit.
 
 ```
-  bridge ──► normalized event ──► recipe ──► face / stage (creature · habitat)
-  (sensor)        (data)         (data plate)         (kit bricks → adapter)
+  bridge ──► normalized event ──► recipe ──► face / stage / growth (creature · habitat · garden)
+  (sensor)        (data)         (data plate)              (kit bricks → adapter)
 ```
 
 ---
@@ -80,10 +96,10 @@ Every bridge emits the same small JSON. Fields are optional except `source`, `ty
 ## 4. Recipe shape
 
 ```
-when (matchers) → then (face and/or action and/or stage and/or mood chrome)
+when (matchers) → then (face and/or action and/or stage and/or mood chrome and/or growth)
 ```
 
-**Progressive.** Most recipes are **face-only**. Stage / action / mood are opt-in bricks for hosts that already climb the presence ladder.
+**Progressive.** Most recipes are **face-only**. Stage / action / mood / growth are opt-in bricks for hosts that already climb the presence ladder (garden growth = later target on `repoBranch` props).
 
 ```json
 {
@@ -114,7 +130,29 @@ Richer (still data):
 }
 ```
 
-`then` keys are all optional; at least one of `face` | `action` | `stage` | `mood` must be present. Unknown kit ids are runner warnings — never crash the buddy UI.
+`then` keys are all optional; at least one of `face` | `action` | `stage` | `mood` | `growth` must be present. Unknown kit ids are runner warnings — never crash the buddy UI.
+
+**Garden growth (future expression target).** Progressive: face-only remains the default. Hosts that already place `repoBranch` props may later allow `then` to set growth alongside face / stage / action / mood — **not** scene weather, **not** mark fill.
+
+Two progressive shapes (design only; host-interpreted):
+
+```json
+"then": {
+  "face": "completed",
+  "growth": { "prop": "mininja", "value": 4 }
+}
+```
+
+```json
+"then": { "growth": 3 }
+```
+
+| Shape | Intent |
+|-------|--------|
+| `{ "growth": N }` | Integer **0..5**; host applies to a default / sole `repoBranch`, or its own overlay rule |
+| `{ "growth": { "prop": "…", "value": N } }` | Named / labeled `repoBranch` (match `label` or host id) → set that prop's growth |
+
+Growth targets the garden prop field in [GARDEN.md](GARDEN.md) / `kit/scene.json` → `garden`. It never paints the mark and never becomes weather chrome.
 
 ---
 
@@ -240,7 +278,7 @@ Optional later sync is opt-in and out of scope for v0.
 
 Users remix recipes like Legos: copy a plate, change a face id, add a tag matcher, drop a stage. Publish **recipe packs** later (folders of JSON + a one-line README) — community, not a locked marketplace.
 
-Kit faces / actions / stages remain the shared brick vocabulary so packs stay portable across adapters and hosts.
+Kit faces / actions / stages / garden growth remain the shared brick vocabulary so packs stay portable across adapters and hosts.
 
 ---
 
@@ -274,4 +312,5 @@ Each phase stays Unix-small: one new job, kit unchanged unless a new face/action
 - Presence ladder: [`PORTING.md`](PORTING.md)
 - Faces / moods: [`STYLEGUIDE.md`](STYLEGUIDE.md) · [`kit/mark.json`](kit/mark.json)
 - Stages / motion: [`SCENERY.md`](SCENERY.md) · [`TERMINAL-MOTION.md`](TERMINAL-MOTION.md) · [`kit/scene.json`](kit/scene.json)
+- Garden (`repoBranch` + growth): [`GARDEN.md`](GARDEN.md)
 - Brand / metaphors (Apple · terrarium): [`BRAND.md`](BRAND.md) · [`TRADEMARK.md`](TRADEMARK.md)

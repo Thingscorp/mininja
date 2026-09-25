@@ -1,6 +1,6 @@
 # Garden — repos as growing branches
 
-**Data only.** Kit holds the schema; nothing here calls GitHub (or any host). Hosts may later author growth or map events → `growth` — that bridge is out of scope for this plate.
+**Data only.** Kit holds the schema; nothing here calls GitHub (or any host). Growth is authored overlay data in v1. When the [RECIPES.md](RECIPES.md) plate lands, hosts may map normalized events → `growth` (and optionally `face`) via the same recipe `then` shape — kit still has **no** GitHub bridge.
 
 ## Metaphor
 
@@ -37,11 +37,12 @@ Omit `growth` → use `garden.growth.default` (0).
 
 Hosts map `growth` → silhouette height / branch count. Kit never paints the mark fill from growth.
 
-## Brand rules
+## Brand rules / bridge note
 
 - Mascot **unnamed** (never Casque); no he/him.
 - No silent dual growth tables beside kit.
 - Scene weather remains strip chrome ([SCENERY.md](SCENERY.md)); garden growth is a **prop field**, not weather.
-- Recipes / external automation stay a later plate ([RECIPES.md](RECIPES.md)).
+- Recipes / external automation stay a later plate ([RECIPES.md](RECIPES.md)). When that plate lands, hosts may map events → `growth` (and optionally `face`) with the same recipe `then` shape — **kit still has no GitHub bridge**; live stats remain a host overlay.
+- Garden growth is a future recipe expression target alongside face / stage / action / mood — not weather, not mark fill. Same system graph as creature + habitat; demotion ≠ disconnection.
 
-Machine SoT: [`kit/scene.json`](kit/scene.json) → `garden` + `propKinds`. Scenery geometry: [SCENERY.md](SCENERY.md).
+Machine SoT: [`kit/scene.json`](kit/scene.json) → `garden` + `propKinds`. Scenery geometry: [SCENERY.md](SCENERY.md). One system graph: [RECIPES.md](RECIPES.md).
