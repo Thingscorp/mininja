@@ -59,6 +59,8 @@ The mark in use as a terminal-based ninja pet. The mascot's eyes change with its
 | [CONSTRUCTION.md](CONSTRUCTION.md) | Character-by-character stacked Unicode lockup |
 | [BRAND-RULES.md](BRAND-RULES.md) | Clearspace, sizes, monochrome, backgrounds, don'ts |
 | [TRADEMARK.md](TRADEMARK.md) | Ownership, first use, ™ guidance (no registration filed) |
+| [SCENERY.md](SCENERY.md) | Terminal stage strip, weather, props |
+| [TERMINAL-MOTION.md](TERMINAL-MOTION.md) | How the mark may walk / patrol in console |
 | [CHANGELOG.md](CHANGELOG.md) | Mark version history |
 | [assets/](assets/) | Monochrome SVG/PNG for all 15 states |
 | [assets/visuals/](assets/visuals/) | Visual guides (construction, clearspace, sizes, sheet, don'ts) |
@@ -85,4 +87,9 @@ The mark is a **stacked three-line Unicode lockup** (glyphs are the mark):
 
 ![Monochrome vs mood](assets/visuals/monochrome-vs-mood.png)
 
+## Terminal scenery
+
+![Stage strip](assets/visuals/stage-strip.png)
+
+![Terminal motion](assets/visuals/terminal-motion.png)
 
