@@ -26,17 +26,27 @@ The mark **is** this three-line Unicode lockup on a monospace grid (glyphs are t
 
 Full character-by-character breakdown: [CONSTRUCTION.md](CONSTRUCTION.md). Expression eyes: [STYLEGUIDE.md](STYLEGUIDE.md).
 
+![Mark construction](assets/visuals/construction.png)
+
+![Expression sheet](assets/visuals/expression-sheet.png)
+
 
 ## Clearspace
+
+![Clearspace](assets/visuals/clearspace.png)
 
 Keep a minimum clearspace equal to **one block-row height** on all sides of the lockup. No other marks, text, or imagery may enter this zone.
 
 ## Minimum sizes
 
+![Minimum size](assets/visuals/minimum-size.png)
+
 - **Digital:** 24px minimum height (full three-line lockup).
 - **Terminal:** minimum 3 lines tall (one row per line of the lockup). Never scale non-uniformly — width and height must stay proportional so the five-column grid remains square cells.
 
 ## Monochrome rule
+
+![Monochrome vs mood](assets/visuals/monochrome-vs-mood.png)
 
 The mark itself is **single-color** (monochrome). Use one fill color — typically `currentColor`, black, or a dark slate such as `#0f172a` — so the lockup works on light and dark backgrounds.
 
@@ -47,6 +57,8 @@ The five mood hex values in STYLEGUIDE (`idle`, `accent`, `success`, `warning`, 
 Place the mark on a **solid dark or solid light** background only. Do not place it over busy imagery, gradients that obscure the glyphs, photographs, or patterned surfaces that compete with the block geometry.
 
 ## Don'ts
+
+![Don'ts](assets/visuals/donts.png)
 
 - Don't stretch or skew the lockup.
 - Don't recolor the eyes independently of the mood system (in app UI, eyes and body share the mood color; in brand assets, keep the whole mark monochrome).

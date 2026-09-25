@@ -50,3 +50,39 @@ https://github.com/user-attachments/assets/76965444-03ec-45f8-9dd7-a37f9d35fb0f
 
 The mark in use as a terminal-based ninja pet. The mascot's eyes change with its mood and state — focused, content, eating ("nom nom"), dirty ("needs a wash"), and clean ("squeaky clean") — while the app tracks health, hunger, energy, joy, and hygiene stats with feed, play, train, clean, sleep, and heal commands.
 
+
+## Brand documentation
+
+| Doc | Description |
+|-----|-------------|
+| [STYLEGUIDE.md](STYLEGUIDE.md) | Expression states, moods, construction rules |
+| [CONSTRUCTION.md](CONSTRUCTION.md) | Character-by-character stacked Unicode lockup |
+| [BRAND-RULES.md](BRAND-RULES.md) | Clearspace, sizes, monochrome, backgrounds, don'ts |
+| [TRADEMARK.md](TRADEMARK.md) | Ownership, first use, ™ guidance (no registration filed) |
+| [CHANGELOG.md](CHANGELOG.md) | Mark version history |
+| [assets/](assets/) | Monochrome SVG/PNG for all 15 states |
+| [assets/visuals/](assets/visuals/) | Visual guides (construction, clearspace, sizes, sheet, don'ts) |
+
+## Visual overview
+
+The mark is a **stacked three-line Unicode lockup** (glyphs are the mark):
+
+```
+▚████
+██ ●●
+▀▀▀▀▀
+```
+
+![Mark construction](assets/visuals/construction.png)
+
+![All 15 expression states](assets/visuals/expression-sheet.png)
+
+![Clearspace](assets/visuals/clearspace.png)
+
+![Minimum size](assets/visuals/minimum-size.png)
+
+![Don'ts](assets/visuals/donts.png)
+
+![Monochrome vs mood](assets/visuals/monochrome-vs-mood.png)
+
+

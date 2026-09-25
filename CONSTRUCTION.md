@@ -2,6 +2,8 @@
 
 The Mininja mark **is** a stacked three-line Unicode lockup. The glyphs are the mark — not a redrawn cartoon face. The mascot has no name.
 
+![Mark construction](assets/visuals/construction.png)
+
 ## Canonical stack (idle)
 
 ```
