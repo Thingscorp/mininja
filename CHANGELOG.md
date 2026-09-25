@@ -2,6 +2,24 @@
 
 Version history of the Mininja mark and this brand repository.
 
+## v1.4.0 — 2026-09-25
+
+Portable kit (Occam layout):
+
+- Added [kit/mark.json](kit/mark.json) and [kit/scene.json](kit/scene.json) as machine SoT
+- Added [PORTING.md](PORTING.md) — presence ladder (mark → faces → scoot → scene)
+- Added thin [adapters/](adapters/) (mark strings, ANSI, React sketch) and [examples/](examples/)
+
+## v1.3.1 — 2026-09-25
+
+Formalized scenery / motion math against mininja-console:
+
+- Exact \(W=420\), \(N=7\), \(L=2940\), rest ratio \(\alpha=0.42\), \(c_i=x_i+176.4\)
+- Exact prop tables (x,y,w,h), patrol span 274, speeds 170/280/26, ε=6, camera λ/κ
+- Full emotion (16) and action (22) catalogs; 5-cell lockup facing rules
+- Regenerated stage-strip and terminal-motion diagrams with formulas
+- CONSTRUCTION cell metric (5×3, 1∶1 cells)
+
 ## v1.3.0 — 2026-09-25
 
 Pulled terminal scenery and motion brand rules from [Thingscorp/mininja-console](https://github.com/Thingscorp/mininja-console):

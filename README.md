@@ -62,6 +62,10 @@ The mark in use as a terminal-based ninja pet. The mascot's eyes change with its
 | [SCENERY.md](SCENERY.md) | Terminal stage strip, weather, props |
 | [TERMINAL-MOTION.md](TERMINAL-MOTION.md) | How the mark may walk / patrol in console |
 | [CHANGELOG.md](CHANGELOG.md) | Mark version history |
+| [kit/](kit/) | Machine SoT — mark + scene JSON |
+| [PORTING.md](PORTING.md) | Presence ladder + how to port |
+| [adapters/](adapters/) | Thin mark / ANSI / React sketches |
+| [examples/](examples/) | CLI banner + README badge |
 | [assets/](assets/) | Monochrome SVG/PNG for all 15 states |
 | [assets/visuals/](assets/visuals/) | Visual guides (construction, clearspace, sizes, sheet, don'ts) |
 
@@ -92,4 +96,5 @@ The mark is a **stacked three-line Unicode lockup** (glyphs are the mark):
 ![Stage strip](assets/visuals/stage-strip.png)
 
 ![Terminal motion](assets/visuals/terminal-motion.png)
+
 
