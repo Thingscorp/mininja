@@ -4,9 +4,11 @@ Copy three lines. Graduate when you want more. The mascot has no name and no he/
 
 Craft bar: inevitable defaults, clean contracts, zero footguns — remixable like Legos; optionally a **terrarium for Devs** (creature + habitat glass from kit). Event recipes ([`RECIPES.md`](RECIPES.md)) are a later plate. Ports must not invent parallel expression ids that recipes cannot target later. (Taste standard, not a company claim.)
 
+Porting = implementing the language on a host — see [LANGUAGE.md](LANGUAGE.md).
+
 ### Port = host runtime
 
-A port is a **runtime** for the Mininja language: load kit, render the lexicon, obey fixed grammar (presence ladder + geometry lock), and apply presentation via adapters, overlays, or kit forks. Keep portable addresses so later recipe programs can target them — see [LANGUAGE.md](LANGUAGE.md).
+A port is a **runtime** for the Mininja language: load kit (the document / stdlib), render the lexicon, obey fixed grammar (presence ladder + geometry lock), and apply presentation via adapters, overlays, or kit forks — like loading HTML and applying CSS. Do not invent parallel expression ids; keep portable addresses so later recipe programs can target them.
 
 Machine data: [`kit/mark.json`](kit/mark.json) · [`kit/scene.json`](kit/scene.json).
 

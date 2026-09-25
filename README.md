@@ -6,7 +6,9 @@
 ▀▀▀▀▀
 ```
 
-**The Apple of Terminal Buddies** — and a **terrarium for Devs**: glass box on the desk (console/bot), creature = the Unicode mark, habitat glass = stages / props / scene weather as scenery chrome. Remix like Lego — a **small language** of kit ids with fixed grammar and easy presentation mods ([`LANGUAGE.md`](LANGUAGE.md)).
+**The Apple of Terminal Buddies** — and a **terrarium for Devs**: glass box on the desk (console/bot), creature = the Unicode mark, habitat glass = stages / props / scene weather as scenery chrome. Remix the terrarium like Lego.
+
+Mininja is structured as a **small language for terminal habitat** — fixed rules (grammar / kit SoT) with easy presentation mods (overlays, faces, scenery). See [`LANGUAGE.md`](LANGUAGE.md).
 
 **Three lines of Unicode. That’s the whole brand.** Paste them, print them, or grow faces → scoot → scene only as far as you want. Kit = data. Unix-small. Spell it **Mininja** (not “minija”).
 

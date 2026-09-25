@@ -31,7 +31,7 @@ Recipes / IFTTT-style “weather from the outside world” are a **later plate**
 
 ## Mininja is a language
 
-Mininja **is** a small language for terminal habitat — creature and glass world, spoken in kit ids, evaluated by adapters and hosts. Fixed rules hold the grammar; easy mods remix presentation without rewriting structure. Recipes later are programs on those same ids. Full map: [LANGUAGE.md](LANGUAGE.md).
+Mininja **is** a small language for terminal habitat — creature + glass world, spoken in kit ids, evaluated by adapters and hosts. Like HTML vs CSS: **fixed rules** (presence ladder, kit SoT, grid lock, Unicode mark) stay stable; **easy mods** (faces, speeds, scenery, overlays) remix presentation without rewriting the grammar. Recipes later are programs on the same structural ids. Full map: [LANGUAGE.md](LANGUAGE.md).
 
 ## Still true
 
