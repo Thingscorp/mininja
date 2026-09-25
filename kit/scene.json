@@ -1,5 +1,5 @@
 {
-  "version": "1.5.0",
+  "version": "1.6.0",
   "source": "Thingscorp/mininja-console src/lib/scene.ts",
   "geometry": {
     "stageWidthPx": 420,
@@ -57,7 +57,8 @@
     "antenna",
     "moon",
     "barrier",
-    "cable"
+    "cable",
+    "repoBranch"
   ],
   "stages": [
     {
@@ -760,5 +761,67 @@
     "unknownEmotion": "curious",
     "unknownAction": "wait",
     "unknownStage": "keep-current"
+  },
+  "garden": {
+    "metaphor": "repos-as-growing-branches",
+    "propKind": "repoBranch",
+    "growth": {
+      "min": 0,
+      "max": 5,
+      "type": "integer",
+      "default": 0,
+      "steps": [
+        {
+          "level": 0,
+          "label": "seed",
+          "hint": "just planted / empty repo"
+        },
+        {
+          "level": 1,
+          "label": "sprout",
+          "hint": "first commits"
+        },
+        {
+          "level": 2,
+          "label": "sapling",
+          "hint": "small active tree"
+        },
+        {
+          "level": 3,
+          "label": "young",
+          "hint": "steady growth"
+        },
+        {
+          "level": 4,
+          "label": "branching",
+          "hint": "many branches / forks"
+        },
+        {
+          "level": 5,
+          "label": "canopy",
+          "hint": "mature repo presence"
+        }
+      ]
+    },
+    "propFields": {
+      "kind": "repoBranch",
+      "required": [
+        "kind",
+        "x",
+        "y"
+      ],
+      "optional": [
+        "w",
+        "h",
+        "growth",
+        "label"
+      ],
+      "growth": "integer 0..5 inclusive; omit \u2192 garden.growth.default",
+      "note": "Silhouette only. Hosts map growth\u2192glyph size; kit does not call GitHub."
+    },
+    "bridge": {
+      "github": false,
+      "note": "No GitHub (or other host) bridge in kit. Growth is authored data or a later host overlay."
+    }
   }
 }

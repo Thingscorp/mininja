@@ -68,13 +68,17 @@ c_{i+1} - c_i = W = 420 \text{ px}
 
 Prop kinds (closed set):
 
-`block` · `shelf` · `lamp` · `crate` · `screen` · `antenna` · `moon` · `barrier` · `cable`
+`block` · `shelf` · `lamp` · `crate` · `screen` · `antenna` · `moon` · `barrier` · `cable` · `repoBranch`
 
 Each prop is an axis-aligned rectangle in **stage-local** coordinates \((x, y, w, h)\), with origin at the stage’s top-left. World position:
 
 \[
 X = x_i + x,\quad Y = y
 \]
+
+### `repoBranch` (garden)
+
+Repos-as-growing-branches. Optional field `growth` ∈ \(\{0,1,2,3,4,5\}\). Schema and labels live in [`kit/scene.json`](kit/scene.json) → `garden` and are narrated in [GARDEN.md](GARDEN.md). **Data only** — no GitHub bridge in kit. Stock stage tables below do not place `repoBranch` yet; hosts add via kit fork or scene overlay.
 
 ### Stock props (exact)
 

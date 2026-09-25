@@ -21,6 +21,7 @@ Mininja + environments are **modular Legos**. Pieces — **mark**, **faces**, **
 | Motion | `scene.json` → `motion` | Speeds, step periods, camera |
 | Stages | `scene.json` → `stages` | Strip rooms |
 | Props / weather | `scene.json` | Decor on a stage |
+| Garden (`repoBranch` + growth 0..5) | `scene.json` → `garden` | Repos as growing branches — data only; [GARDEN.md](../GARDEN.md) |
 | Emotions / actions | `scene.json` | Scene vocabulary |
 
 ## How to override (no shame)

@@ -38,11 +38,13 @@ export type ActionDef = {
 };
 
 export type StageProp = {
-  kind: "block" | "shelf" | "lamp" | "crate" | "screen" | "antenna" | "moon" | "barrier" | "cable";
+  kind: "block" | "shelf" | "lamp" | "crate" | "screen" | "antenna" | "moon" | "barrier" | "cable" | "repoBranch";
   x: number;
   y: number;
   w?: number;
   h?: number;
+  /** Garden growth 0..5 for kind repoBranch; omit → kit garden.growth.default. Data only — no GitHub bridge. */
+  growth?: 0 | 1 | 2 | 3 | 4 | 5;
 };
 
 export type StageDef = {

@@ -2,6 +2,15 @@
 
 Version history of the Mininja mark and this brand repository.
 
+## 1.6.0 — 2026-09-25
+
+Garden schema (data only):
+
+- `kit/scene.json` — propKind `repoBranch` + `garden.growth` 0..5 (repos as growing branches)
+- [GARDEN.md](GARDEN.md) + [SCENERY.md](SCENERY.md) prop kit note
+- No GitHub bridge; stock stages unchanged (overlay / fork to place branches)
+- Kit + mark version **1.6.0**
+
 ## 1.5.0 — 2026-09-25
 
 Public monorepo (Unix modules): `kit/` pure data SoT at **1.5.0** (mark.json + scene.json); `adapters/*` tiny filters; `examples/` compose only; optional `console/` and `bot/` each one program.
