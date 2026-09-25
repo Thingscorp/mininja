@@ -1,6 +1,8 @@
 # Recipes — events → Mininja expressions
 
-**Terrarium framing.** Mininja is a **terrarium for Devs**: the **glass box** is the console/bot surface; the **creature** is the Unicode mark (unnamed mascot); the **habitat** is stages, props, and weather from kit. **Recipes** are weather from the outside world — notifications, CI, Slack, calendar — blowing through the glass so the creature reacts. You remix the terrarium like Lego; the craft bar is *the Apple of Terminal Buddies* (metaphor only).
+**Phase later — not required for first Mininja.**
+
+First Mininja is the **terrarium** as creature + habitat glass only: Unicode mark (unnamed mascot) inside stages / props / scene weather as scenery chrome. Recipes — IFTTT-style links, “weather from the outside world” — are a **later plate**. Keep this doc as design intent; do not treat it as a v1 hero surface.
 
 Design only. Schema + intent for IFTTT-style links from notifications and events to Mininja faces, actions, stages, and mood chrome. **No runtime stubs in this doc.** Mascot unnamed. Spell it **Mininja**.
 
@@ -8,38 +10,40 @@ Design only. Schema + intent for IFTTT-style links from notifications and events
 
 ---
 
-## 1. Why
+## 1. Why (later plate)
 
-Mininja wants to be the **Apple of Terminal Buddies** — obsessive craft, taste, purity of default — and a **terrarium for devs**: a small glass world you keep on the desk that reacts when the outside weather changes.
+When this plate ships, Mininja stays the **Apple of Terminal Buddies** — obsessive craft, taste, purity of default — and the terrarium gains an optional outer layer: events from CI, Slack, calendar, OS notify can drive faces without turning the buddy into another dashboard.
 
-| Terrarium | Mininja |
-|-----------|---------|
-| **Weather into the glass** | **Recipes** — events from CI, Slack, calendar, OS notify land as normalized rain |
+| Later plate | Mininja |
+|-------------|---------|
+| **External events** | **Recipes** — normalized events land as matchers → expressions |
 | **Creature reactions** | **Faces** — the output channel people love (error, asking, completed, blink…) |
-| **Habitat** | **Stages** — nightwatch → rooftop strip the creature lives in |
+| **Habitat** | **Stages** — nightwatch → rooftop strip the creature already lives in (see [SCENERY.md](SCENERY.md)) |
 
-People already love the faces. Recipes are how the world pushes weather into the glass without turning the buddy into another dashboard: CI fails → error face; calendar in 5m → asking; Slack DM → evaluating; idle timeout → blink. The creature stays loveable because the reaction is still three lines of Unicode.
+People already love the faces. Recipes are how hosts *may* later push events into the glass: CI fails → error face; calendar in 5m → asking; Slack DM → evaluating; idle timeout → blink. The creature stays loveable because the reaction is still three lines of Unicode.
+
+v1 does not need this. Ship mark → faces → scoot → scene first.
 
 ---
 
-## 2. Unix / Lego model (terrarium as Legos)
+## 2. Unix / Lego model
 
-Recipes are **data plates** (weather scripts). Everything else is a brick or a stud. The terrarium is modular — swap weather, creature mood, or habitat without rebuilding the glass.
+Recipes are **data plates**. Everything else is a brick or a stud. Swap event → face mappings without rebuilding the glass.
 
-| Piece | Terrarium | Role |
-|-------|-----------|------|
-| **Bridges** | Sensors outside the glass | Emit **normalized events** (webhook, OS notification, CI hook, …). One job: absorb a host’s shape → emit the shared event JSON. |
-| **Recipes** | Weather into the glass | Data plates: `when` matchers → `then` expressions. Forkable, remixable, no code required. |
-| **Kit faces** | Creature reactions | Bricks from [`kit/mark.json`](kit/mark.json). |
-| **Kit stages / actions / mood** | Habitat + motion | Bricks from [`kit/scene.json`](kit/scene.json). |
-| **Adapters** | Glass / light | Render bricks (strings → ANSI / React / host). |
-| **Console / bot** | Optional vivarium runners | Apply recipes and drive the buddy. Never the only place recipes can live. |
+| Piece | Role |
+|-------|------|
+| **Bridges** | Emit **normalized events** (webhook, OS notification, CI hook, …). One job: absorb a host’s shape → emit the shared event JSON. |
+| **Recipes** | Data plates: `when` matchers → `then` expressions. Forkable, remixable, no code required. |
+| **Kit faces** | Creature reactions — bricks from [`kit/mark.json`](kit/mark.json). |
+| **Kit stages / actions / mood** | Habitat + motion — bricks from [`kit/scene.json`](kit/scene.json). |
+| **Adapters** | Render bricks (strings → ANSI / React / host). |
+| **Console / bot** | Optional runners. Never the only place recipes can live. |
 
 Russ’s law applies: pieces snap; rules are data; forking is encouraged. Shame only silent dual tables that drift beside kit.
 
 ```
-  bridge ──► normalized event ──► recipe (weather) ──► face / stage (creature · habitat)
-  (sensor)        (data)            (data plate)              (kit bricks → adapter)
+  bridge ──► normalized event ──► recipe ──► face / stage (creature · habitat)
+  (sensor)        (data)         (data plate)         (kit bricks → adapter)
 ```
 
 ---
@@ -234,9 +238,9 @@ Optional later sync is opt-in and out of scope for v0.
 
 ## 9. Forking
 
-Users remix recipes like Legos (and terrarium weather packs): copy a plate, change a face id, add a tag matcher, drop a stage / habitat. Publish **recipe packs** later (folders of JSON + a one-line README) — community, not a locked marketplace.
+Users remix recipes like Legos: copy a plate, change a face id, add a tag matcher, drop a stage. Publish **recipe packs** later (folders of JSON + a one-line README) — community, not a locked marketplace.
 
-Kit faces / actions / stages remain the shared brick vocabulary so packs stay portable across adapters and hosts — same creature grammar, different weather.
+Kit faces / actions / stages remain the shared brick vocabulary so packs stay portable across adapters and hosts.
 
 ---
 
@@ -246,8 +250,9 @@ Kit faces / actions / stages remain the shared brick vocabulary so packs stay po
 - Cloud recipe marketplace or account graph
 - Mobile app
 - Code generation from recipes, visual workflow builders, or multi-step automations beyond one event → one expression
+- Shipping recipes as a first-Mininja hero feature (this plate is deferred)
 
-v0 is **schema + docs** so bridges and runners can grow without inventing competing shapes.
+v0 is **schema + docs** so bridges and runners can grow without inventing competing shapes — when the plate is pulled.
 
 ---
 
@@ -255,7 +260,7 @@ v0 is **schema + docs** so bridges and runners can grow without inventing compet
 
 | Phase | Deliverable |
 |-------|-------------|
-| **A** | Schema + this doc (now) |
+| **A** | Schema + this doc (design only; not first Mininja) |
 | **B** | Webhook bridge — HTTP POST → normalized event |
 | **C** | OS notification bridge — desktop notify → normalized event |
 | **D** | Console recipe runner UI — inspect matches, toggle plates, no UI-thread stalls |

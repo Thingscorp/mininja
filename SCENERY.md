@@ -1,6 +1,6 @@
 # Scenery
 
-Canonical terminal world for the Mininja mark — the **habitat** inside the **terrarium for Devs**. Glass box on the desk = console / bot surface; creature = Unicode mark (unnamed); habitat = stages, props, and weather from kit. Outside weather (notifications, CI, …) blows in via [RECIPES.md](RECIPES.md). Machine source of truth: [`kit/scene.json`](kit/scene.json). Console `src/lib/scene.ts` is a historical source and must stay aligned to kit — it is not live SoT. The mascot has no name.
+Canonical terminal world for the Mininja mark — the **habitat glass** inside the **terrarium for Devs**. Glass box on the desk = console / bot surface; creature = Unicode mark (unnamed); habitat glass = stages, props, and **scene weather** as scenery chrome from kit. Machine source of truth: [`kit/scene.json`](kit/scene.json). Console `src/lib/scene.ts` is a historical source and must stay aligned to kit — it is not live SoT. The mascot has no name.
 
 This document is the **formal geometry** of the strip. Motion laws live in [TERMINAL-MOTION.md](TERMINAL-MOTION.md).
 
@@ -9,11 +9,11 @@ This document is the **formal geometry** of the strip. Motion laws live in [TERM
 
 ## Legos: stages and props snap
 
-**Russ's law (short):** scenery is Lego — stages, props, weather, motion live in [`kit/scene.json`](kit/scene.json), snap via kit + adapters, fork the data to remix, don't rewrite console. Brand is Mininja; mascot unnamed, no he/him.
+**Russ's law (short):** scenery is Lego — stages, props, scene weather, motion live in [`kit/scene.json`](kit/scene.json), snap via kit + adapters, fork the data to remix, don't rewrite console. Brand is Mininja; mascot unnamed, no he/him.
 
-Stages, props, and weather are **rules you may modify**.
+Stages, props, and scene weather are **rules you may modify**.
 
-- Snap in a new stage, drop a prop, change weather — in a **kit fork** or a **local scene overlay** applied after load.
+- Snap in a new stage, drop a prop, change scene weather — in a **kit fork** or a **local scene overlay** applied after load.
 - Forking is encouraged. Publish your overlay or forked `stages` so others can reuse the piece.
 - Upstream constants in the tables below are the Thingscorp default. Align when you mean to; replace on purpose when you fork. Do not keep a drifting parallel `STAGE_WIDTH` in app code while claiming kit.
 
@@ -140,9 +140,9 @@ X = x_i + x,\quad Y = y
 | antenna | 300 | 12 | 4 | 56 |
 | block | 340 | 64 | 48 | 22 |
 
-## Weather
+## Weather (scene chrome)
 
-Weather \(w\) is stage atmosphere only. It never recolors the mark.
+Weather \(w\) is **stage atmosphere only** — scenery chrome on the habitat glass. It never recolors the mark. It is **not** external automation or “weather from the outside world” (that later plate lives in [RECIPES.md](RECIPES.md)).
 
 | id | Stages that use it |
 |----|--------------------|

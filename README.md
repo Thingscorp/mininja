@@ -6,7 +6,7 @@
 ▀▀▀▀▀
 ```
 
-**The Apple of Terminal Buddies** — and a **terrarium for Devs**: glass box on the desk (console/bot), creature = the Unicode mark, habitat from kit; weather from outside arrives as [`RECIPES.md`](RECIPES.md). Remix the terrarium like Lego.
+**The Apple of Terminal Buddies** — and a **terrarium for Devs**: glass box on the desk (console/bot), creature = the Unicode mark, habitat glass = stages / props / scene weather as scenery chrome. Remix the terrarium like Lego.
 
 **Three lines of Unicode. That’s the whole brand.** Paste them, print them, or grow faces → scoot → scene only as far as you want. Kit = data. Unix-small. Spell it **Mininja** (not “minija”).
 
@@ -48,7 +48,7 @@ Invitation, remix Legos, invariants: **[`PORTING.md`](PORTING.md)**.
 
 ## Russ's law (Legos)
 
-Mininja + environments are **modular Legos**. Pieces — **mark**, **faces**, **motion**, **stages**, **props**, **weather** — snap via [`kit/`](kit/) JSON + [`adapters/`](adapters/). Rules are **data** and meant to be modified. Forking is encouraged; remix without rewriting [`console/`](console/). Brand name is **Mininja**; the mascot has **no personal name** and no he/him.
+Mininja + environments are **modular Legos**. Pieces — **mark**, **faces**, **motion**, **stages**, **props**, **scene weather** — snap via [`kit/`](kit/) JSON + [`adapters/`](adapters/). Rules are **data** and meant to be modified. Forking is encouraged; remix without rewriting [`console/`](console/). Brand name is **Mininja**; the mascot has **no personal name** and no he/him.
 
 ### Remix in 60s
 
@@ -74,7 +74,9 @@ Mininja + environments are **modular Legos**. Pieces — **mark**, **faces**, **
 | [`bot/`](bot/) | Optional Mac launcher — calls `../console`, never vendors a second UI. |
 
 Root docs narrate. Numbers live in `kit/` — **fork or overlay when you mean to** (Lego law). Shame only **silent dual constant tables** that drift beside kit in the same tree.  
-Brand law: [`BRAND.md`](BRAND.md) · [`STYLEGUIDE.md`](STYLEGUIDE.md) · [`CONSTRUCTION.md`](CONSTRUCTION.md) · [`BRAND-RULES.md`](BRAND-RULES.md) · [`TRADEMARK.md`](TRADEMARK.md) · [`SCENERY.md`](SCENERY.md) · [`TERMINAL-MOTION.md`](TERMINAL-MOTION.md) · [`RECIPES.md`](RECIPES.md).
+Brand law: [`BRAND.md`](BRAND.md) · [`STYLEGUIDE.md`](STYLEGUIDE.md) · [`CONSTRUCTION.md`](CONSTRUCTION.md) · [`BRAND-RULES.md`](BRAND-RULES.md) · [`TRADEMARK.md`](TRADEMARK.md) · [`SCENERY.md`](SCENERY.md) · [`TERMINAL-MOTION.md`](TERMINAL-MOTION.md).
+
+Later plate (not first Mininja): [`RECIPES.md`](RECIPES.md).
 
 ---
 
@@ -117,4 +119,4 @@ Glimpse in the wild: https://github.com/user-attachments/assets/76965444-03ec-45
 Mark and brand docs: [`TRADEMARK.md`](TRADEMARK.md) (first use, ™ / ® rules).  
 Code under `adapters/`, `examples/`, `console/`, and `bot/` is MIT — [`LICENSE`](LICENSE).
 
-<sup>“The Apple of Terminal Buddies” and “terrarium for devs” are quality metaphors only — not affiliated with Apple Inc. or IFTTT Inc.</sup>
+<sup>“The Apple of Terminal Buddies” and “terrarium for Devs” are quality metaphors only — not affiliated with Apple Inc.</sup>
