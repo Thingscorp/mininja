@@ -1,0 +1,5 @@
+#!/bin/sh
+# Compatibility stub. The program is mininja.
+set -eu
+exec "$(cd "$(dirname "$0")" && pwd)/mininja" "$@"
+

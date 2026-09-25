@@ -1,0 +1,19 @@
+# Official public product docs. Append-only. seed discovers extras from the sitemap.
+https://docs.x.ai/grok-bot/overview
+https://docs.x.ai/grok-bot/get-started
+https://docs.x.ai/grok-bot/bots
+https://docs.x.ai/grok-bot/chat-and-collaboration
+https://docs.x.ai/grok-bot/computer-and-apps
+https://docs.x.ai/grok-bot/files-and-results
+https://docs.x.ai/grok-bot/skills-routines-and-automations
+https://docs.x.ai/grok-bot/settings-and-notifications
+https://docs.x.ai/grok-bot/approvals-security-and-privacy
+https://docs.x.ai/grok-bot/faq
+https://docs.x.ai/grok-bot/mobile
+https://docs.x.ai/grok-bot/use-cases
+https://docs.x.ai/grok-bot/troubleshooting
+https://docs.x.ai/grok-bot/teams-and-enterprises
+https://docs.x.ai/grok-bot/identity-and-access
+https://docs.x.ai/grok-bot/private-networks
+https://docs.x.ai/grok-bot/security
+https://docs.x.ai/grok-bot/security-faq

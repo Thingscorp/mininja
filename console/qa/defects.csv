@@ -1,0 +1,14 @@
+Defect ID,Feature ID,Reproduction steps,Expected result,Actual result,Severity,Root cause hypothesis,Status
+D07,F29,schedule two jobs that need each other,Terminates with finite starts,Cycle starts are not forced to 0; scheduler still terminates,low,Cyclic edge skipped but days still applied on the other node,waived
+D01,F06,Type now or click now,Current state with live version fields,was today list,high,now grouped with today/do,fixed
+D02,F15,Type xyzzy,Error face and Unknown command,afterCommand missed new title,high,stale title match,fixed
+D03,F16,Type on,No short-token match,Matched reader job,medium,title.includes,fixed
+D04,F13,Type reconnect after offline,Wake if network is up,Not accepted,medium,missing alias,fixed
+D05,F12,Go offline after boot,No blink,Blink ignored offline,medium,deps [ready] only,fixed
+D06,F07,Click a today line,Inspect that job,Static text,medium,rows not bound,fixed
+D08,F04,e2e button selectors,Stable selectors,Flaky name regex,medium,accessible name,fixed
+D09,F37,qa F37,Inspect F37,Unknown qa verb,high,features.json stale vs feature-register.csv,fixed
+D10,F31,Type status,Status listing,Unknown command,low,Register described a verb cardFor never had,waived
+D11,F17,Name a loop,Loop inspect,No findLoop in shell,low,Ghost from an earlier cut,waived
+D12,F15,Type xyzzy,Helpful unknown copy,Listed a stale subset of verbs,medium,Hardcoded bottom,fixed
+D13,F37,Click a discover line,Open that feature,Unknown command,medium,Rows were not composeable programs,fixed

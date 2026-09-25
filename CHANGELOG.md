@@ -2,6 +2,16 @@
 
 Version history of the Mininja mark and this brand repository.
 
+## 1.5.0 — 2026-09-25
+
+Public monorepo (Unix modules): `kit/` pure data SoT; `adapters/*` tiny filters; `examples/` compose only; optional `console/` and `bot/` each one program.
+
+- Presence ladder front-and-center in README + PORTING.md (mark → faces → scoot → scene)
+- `console/` — cleaned web terminal buddy (no personal loops, no baked auth secrets, no stale mascot names)
+- `bot/` — cleaned Mac launcher; remote host is env-only; no second React tree
+- MIT `LICENSE` for code under adapters / examples / console / bot
+- Root `.gitignore` for `.env`, `node_modules`, `.mininja`, etc.
+
 ## v1.4.0 — 2026-09-25
 
 Portable kit (Occam layout):

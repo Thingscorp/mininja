@@ -1,0 +1,30 @@
+#!/bin/sh
+# Dispatcher. Default starts the UI. Subcommands are single-job filters.
+set -eu
+cd "$(dirname "$0")"
+ROOT="$PWD"
+export PATH="$HOME/.local/bin:$HOME/.grok/bin:$PATH"
+export PYTHONUNBUFFERED=1
+export PYTHONPATH="$ROOT${PYTHONPATH:+:$PYTHONPATH}"
+
+if [ $# -eq 0 ]; then
+  exec python3 server.py --open
+fi
+
+cmd=$1
+shift
+case "$cmd" in
+  cmd) exec python3 "$ROOT/scripts/cmd.py" "$@" ;;
+  tint) exec python3 "$ROOT/scripts/tint.py" "$@" ;;
+  seed) exec sh "$ROOT/scripts/seed.sh" "$@" ;;
+  check) exec bash "$ROOT/scripts/check.sh" "$@" ;;
+  sidecar) exec python3 "$ROOT/scripts/sidecar.py" "$@" ;;
+  note) exec sh "$ROOT/scripts/note.sh" "$@" ;;
+  serve) exec python3 server.py --open "$@" ;;
+  --*) exec python3 server.py "$cmd" "$@" ;;
+  *)
+    echo "mininja: unknown command: $cmd" >&2
+    echo "usage: mininja [cmd|tint|seed|check|sidecar|note|serve]" >&2
+    exit 2
+    ;;
+esac
