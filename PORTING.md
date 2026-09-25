@@ -4,8 +4,6 @@ Copy three lines. Graduate when you want more. The mascot has no name and no he/
 
 Craft bar: inevitable defaults, clean contracts, zero footguns — remixable like Legos; optionally a **terrarium for Devs** (creature + habitat glass from kit). Event recipes ([`RECIPES.md`](RECIPES.md)) are a later plate. Ports must not invent parallel expression ids that recipes cannot target later. (Taste standard, not a company claim.)
 
-Porting = implementing the language on a host — see [LANGUAGE.md](LANGUAGE.md).
-
 Machine data: [`kit/mark.json`](kit/mark.json) · [`kit/scene.json`](kit/scene.json).
 
 ## The invitation (mark)

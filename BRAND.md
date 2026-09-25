@@ -29,10 +29,6 @@ You remix the terrarium; you do not redraw the creature. Habitat is data. Scene 
 
 Recipes / IFTTT-style “weather from the outside world” are a **later plate** — design lives in [RECIPES.md](RECIPES.md), not required for first Mininja. That plate plugs into the **same** creature + habitat + garden bricks (they talk to each other); demotion ≠ disconnection.
 
-## Mininja is a language
-
-Treat creature + habitat almost as a **coding language** for terminal habitat: glyphs and face ids are the lexicon, stages/props/weather/garden are the nouns, actions/motion are the verbs, and the presence ladder plus locked grid math are the grammar. Kit is the standard library; adapters and hosts are the runtimes. Recipes are a later plate of programs over the same vocabulary. Full map: [LANGUAGE.md](LANGUAGE.md).
-
 ## Still true
 
 - **Lego modularity** — pieces snap; forks and overlays are encouraged
