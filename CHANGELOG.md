@@ -2,6 +2,16 @@
 
 Version history of the Mininja mark and this brand repository.
 
+## v1.3.0 — 2026-09-25
+
+Pulled terminal scenery and motion brand rules from [Thingscorp/mininja-console](https://github.com/Thingscorp/mininja-console):
+
+- Added [SCENERY.md](SCENERY.md) — seven-stage strip (nightwatch → rooftop), weather, prop kit
+- Added [TERMINAL-MOTION.md](TERMINAL-MOTION.md) — scene intent, walk/run/patrol, facing, reduced motion, command→place map
+- Added [assets/visuals/stage-strip](assets/visuals/stage-strip.png) and [terminal-motion](assets/visuals/terminal-motion.png) diagrams
+- Added console scenery banner reference still (`assets/visuals/console-scenery-banner.jpg`)
+- BRAND-RULES and README link the new docs
+
 ## v1.2.0 — 2026-09-25
 
 Brand repository expansion:
