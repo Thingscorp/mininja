@@ -2,6 +2,8 @@
 
 Presentational only. You supply the strings. Works in browsers.
 
+`face` / optional `stage` / `action` are **kit id strings** (recipe-compatible seams). Do not invent a parallel expression enum in the host.
+
 | in | out |
 |----|-----|
 | `lines` (+ face/facing hints) | `<pre>` mark |

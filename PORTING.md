@@ -138,6 +138,11 @@ import { linesFor } from "./adapters/mark/from-kit.mjs";
 4. If you add motion, honor reduced-motion and [`TERMINAL-MOTION.md`](TERMINAL-MOTION.md).
 5. If you stay on upstream Thingscorp kit, scene geometry must match [`kit/scene.json`](kit/scene.json) (`stageWidthPx=420`, `anchorRatio=0.42`, seven stages). If you fork or overlay, document the new numbers as *your* SoT.
 
+
+## Recipe-compatible seams
+
+Face, stage, and action **ids** stay kit SoT (`kit/mark.json`, `kit/scene.json`) so a later [`RECIPES.md`](RECIPES.md) plate can target them. Adapters must not grow parallel expression tables — pass ids through, render from kit. Recipes remain a later plate in the system graph (creature + habitat + garden).
+
 ## Adapter map
 
 | Filter | Path | Layers |

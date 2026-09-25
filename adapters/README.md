@@ -19,3 +19,5 @@ kit/mark.json
 | [react](react) | lines → `<pre>` | any (no kit I/O) |
 
 No `console/` imports. Brand law: [../PORTING.md](../PORTING.md).
+
+Ids (`face`, stage, action) are kit SoT — recipe-compatible seams. No parallel expression tables.
