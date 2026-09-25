@@ -1,9 +1,19 @@
 # adapters/ansi
 
+Colorize mark only. Pipes `adapters/mark` → ANSI.
+
+| in | out |
+|----|-----|
+| face (+ color?) | ANSI string (or plain if `color: false`) |
+| `lines` + tone | colorized string via `colorize` |
+
 ```js
-import { ansiLockup } from "./render.mjs";
-console.log(ansiLockup("executing"));
-console.log(ansiLockup("idle", { color: false }));
+import { ansiLockup, colorize } from "./render.mjs";
+import { linesFor } from "../mark/lockup.mjs";
+
+ansiLockup("executing");
+ansiLockup("idle", { color: false });
+colorize(linesFor("allowed"), "ok");
 ```
 
-Respects monochrome brand when `color: false`. Mood ANSI codes are optional chrome.
+Monochrome when `color: false`. Mood codes are optional chrome. No `console/` imports.

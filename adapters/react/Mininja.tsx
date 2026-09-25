@@ -1,6 +1,6 @@
 /**
- * Sketch: React face component (levels 1–3).
- * Copy into an app and load lines from @thingscorp/mininja/mark or kit/mark.json.
+ * Presentational mark. Levels 1–3.
+ * Pass `lines` from adapters/mark or kit/mark.json.
  * Mascot has no name — aria-label stays "Mininja mark".
  */
 import type { CSSProperties } from "react";
@@ -23,15 +23,18 @@ export type MininjaFace =
   | "loadingLeft";
 
 export type MininjaProps = {
+  /** Host hint only — does not load kit data. */
   face?: MininjaFace;
   facing?: "left" | "right";
+  /** Required: three mark lines from adapters/mark or kit/mark.json. */
   lines: [string, string, string];
   className?: string;
   style?: CSSProperties;
-  /** When true, host must disable walk/patrol animations. */
+  /** Host must disable walk/patrol when true. */
   reducedMotion?: boolean;
 };
 
+/** Renders mark lines. No data loading. No motion. No console/ imports. */
 export function Mininja({
   face = "idle",
   facing = "right",

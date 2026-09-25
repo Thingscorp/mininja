@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
-# Level 1–2: print Mininja in a terminal (requires Node).
+# 60s path: print a face in the terminal (Node).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+FACE="${1:-idle}"
 node --input-type=module -e "
 import { ansiLockup } from '${ROOT}/adapters/ansi/render.mjs';
-const face = process.argv[1] || 'idle';
-console.log(ansiLockup(face));
-console.log('mininja — Thingscorp LLC');
-" "${1:-idle}"
+process.stdout.write(ansiLockup(process.argv[1]) + '\n');
+" "$FACE"

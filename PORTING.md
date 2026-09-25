@@ -18,29 +18,56 @@ Or from a clone:
 
 ```bash
 ./examples/cli-banner.sh
+./examples/cli-banner.sh allowed
 ```
 
-That is enough for a favicon, a README badge, a slide corner. Stop here unless you need faces.
+README paste: [`examples/readme-badge.md`](examples/readme-badge.md). Stop here unless you need faces.
 
-## Presence ladder
+## Presence ladder = progressive filters
 
-| Level | What you ship | Typical surfaces |
-|------:|---------------|------------------|
-| 1 | Idle 3-line lockup, monochrome | Favicon, README badge, print, slide corner |
-| 2 | Faces from `mark.json` / STYLEGUIDE | Status chips, CLI spinners, emoji packs |
-| 3 | Facing + optional scoot / patrol | App headers, lightweight consoles |
-| 4 | Full stage strip + weather + props | Living terminal buddy ([`console/`](console/)) |
+Each level is a thinner-to-thicker filter. Pipe only as far as you need:
+
+```
+kit/mark.json
+      │
+      ▼
+①  paste / examples/          idle lockup (strings)
+      │
+      ▼
+②  adapters/mark              face → strings
+      │
+      ├── adapters/ansi       strings → ANSI tones
+      └── adapters/react      strings → <pre>
+            │
+            ▼
+③  host motion                facing + scoot (you own it)
+      │
+      ▼
+④  console/                   full scene strip (one program)
+```
+
+| Level | Filter | What you ship |
+|------:|--------|---------------|
+| 1 | paste / [`examples/`](examples/) | Idle 3-line lockup |
+| 2 | [`adapters/mark`](adapters/mark) → optional [`ansi`](adapters/ansi) / [`react`](adapters/react) | Faces |
+| 3 | react + host animation | Facing + scoot |
+| 4 | [`console/`](console/) | Stage strip + weather + props |
 
 Do **not** drag level 4 into a favicon. Do **not** replace glyphs with a redrawn mascot — the Unicode stack **is** the mark.
 
-## Level 2 — faces in one import
+## Level 2 — one filter
 
 ```js
 import { lockup } from "./adapters/mark/lockup.mjs";
-console.log(lockup("allowed").join("\n"));
+process.stdout.write(lockup("allowed") + "\n");
 ```
 
-ANSI tones: [`adapters/ansi`](adapters/ansi). React sketch: [`adapters/react`](adapters/react).
+```js
+import { ansiLockup } from "./adapters/ansi/render.mjs";
+process.stdout.write(ansiLockup("executing") + "\n");
+```
+
+Adapters never import `console/`. Examples only compose adapters.
 
 ## Invariants (every port)
 
@@ -61,10 +88,10 @@ ANSI tones: [`adapters/ansi`](adapters/ansi). React sketch: [`adapters/react`](a
 
 ## Adapter map
 
-| Adapter | Path | Levels |
-|---------|------|--------|
-| Mark strings | [`adapters/mark`](adapters/mark) | 1–2 |
-| ANSI / CLI | [`adapters/ansi`](adapters/ansi) | 1–2 |
-| React sketch | [`adapters/react`](adapters/react) | 1–3 |
+| Filter | Path | Levels |
+|--------|------|--------|
+| Strings | [`adapters/mark`](adapters/mark) | 1–2 |
+| Colorize | [`adapters/ansi`](adapters/ansi) | 1–2 |
+| Present | [`adapters/react`](adapters/react) | 1–3 |
 
-When you outgrow sketches, [`console/`](console/) is the reference level-4 surface. [`bot/`](bot/) is an optional Mac launcher that talks to teammates — not a second brand source.
+When you outgrow filters, [`console/`](console/) is the reference level-4 program. [`bot/`](bot/) is an optional Mac launcher — not a second brand source.

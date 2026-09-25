@@ -1,11 +1,21 @@
 # Adapters
 
-Thin reference ports. Not full apps — copy or publish as `@thingscorp/mininja/*`.
+Tiny Unix filters over `kit/`. Compose; do not grow into apps.
 
-| Folder | Levels |
-|--------|--------|
-| [mark](mark) | 1–2 string lockups |
-| [ansi](ansi) | 1–2 terminal colors |
-| [react](react) | 1–3 React sketch |
+```
+kit/mark.json
+      │
+      ▼
+ adapters/mark      → strings
+      │
+      ├── adapters/ansi   → colorize
+      └── adapters/react  → present
+```
 
-Brand law: [../PORTING.md](../PORTING.md) · data: [../kit](../kit).
+| Filter | Role |
+|--------|------|
+| [mark](mark) | face → strings |
+| [ansi](ansi) | strings → ANSI |
+| [react](react) | strings → `<pre>` |
+
+No `console/` imports. Brand law: [../PORTING.md](../PORTING.md).

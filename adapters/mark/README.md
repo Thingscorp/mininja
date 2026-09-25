@@ -1,13 +1,18 @@
 # adapters/mark
 
-Pure string helpers over `kit/mark.json`.
+Strings only. Reads `kit/mark.json`.
+
+| in | out |
+|----|-----|
+| face (+ facing) | 3-line string / `string[3]` |
 
 ```js
 import { lockup, linesFor, listFaces } from "./lockup.mjs";
 
-console.log(lockup("idle"));
-console.log(linesFor("loadingLeft"));
-console.log(listFaces());
+lockup("idle");              // "▚████\n██ ●●\n▀▀▀▀▀"
+linesFor("allowed");         // ["▚████", "██ ><", "▀▀▀▀▀"]
+lockup("idle", "left");      // mirrored body
+listFaces();                 // face ids
 ```
 
-No DOM. No dependencies beyond Node fs for loading the kit (bundle the JSON for browsers).
+No DOM. No ANSI. No React. No `console/` imports.

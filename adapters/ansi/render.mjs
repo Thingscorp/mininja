@@ -1,6 +1,6 @@
 /**
- * ANSI renderer for Mininja faces (levels 1–2).
- * Tone colors are UI chrome only — mark geometry stays from kit/mark.json.
+ * Colorize mark strings. Presence levels 1–2.
+ * Tone is UI chrome only — geometry stays from kit/mark.json via mark adapter.
  */
 import { linesFor } from "../mark/lockup.mjs";
 
@@ -31,10 +31,24 @@ const FACE_TONE = {
   loadingLeft: "accent",
 };
 
+/**
+ * Colorize already-rendered mark lines.
+ * @param {string[]} lines
+ * @param {keyof typeof TONE} [tone]
+ * @returns {string}
+ */
+export function colorize(lines, tone = "idle") {
+  const c = TONE[tone] ?? TONE.idle;
+  return lines.map((l) => `${c}${l}${TONE.reset}`).join("\n");
+}
+
+/**
+ * @param {string} [face]
+ * @param {{ color?: boolean, facing?: "left"|"right" }} [opts]
+ * @returns {string}
+ */
 export function ansiLockup(face = "idle", { color = true, facing = "right" } = {}) {
   const lines = linesFor(face, facing);
   if (!color) return lines.join("\n");
-  const tone = FACE_TONE[face] ?? "idle";
-  const c = TONE[tone] ?? TONE.idle;
-  return lines.map((l) => `${c}${l}${TONE.reset}`).join("\n");
+  return colorize(lines, FACE_TONE[face] ?? "idle");
 }
