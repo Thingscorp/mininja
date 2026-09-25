@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140" width="512" height="512" role="img" aria-label="Mininja error">
+  <!--
+  Mininja mark — stacked Unicode lockup (glyphs ARE the mark), state: error
+  ▚████
+  ██ ××
+  ▀▀▀▀▀
+  Per-cell monospace grid 5×3; square viewBox with ≥1-row clearspace.
+  -->
+  <title>Mininja — error</title>
+  <text x="30.0" y="50.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="20" fill="#0f172a">▚</text>
+  <text x="50.0" y="50.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="20" fill="#0f172a">█</text>
+  <text x="70.0" y="50.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="20" fill="#0f172a">█</text>
+  <text x="90.0" y="50.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="20" fill="#0f172a">█</text>
+  <text x="110.0" y="50.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="20" fill="#0f172a">█</text>
+  <text x="30.0" y="70.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="20" fill="#0f172a">█</text>
+  <text x="50.0" y="70.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="20" fill="#0f172a">█</text>
+  <text x="90.0" y="70.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="20" fill="#0f172a">×</text>
+  <text x="110.0" y="70.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="20" fill="#0f172a">×</text>
+  <text x="30.0" y="90.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="20" fill="#0f172a">▀</text>
+  <text x="50.0" y="90.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="20" fill="#0f172a">▀</text>
+  <text x="70.0" y="90.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="20" fill="#0f172a">▀</text>
+  <text x="90.0" y="90.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="20" fill="#0f172a">▀</text>
+  <text x="110.0" y="90.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="20" fill="#0f172a">▀</text>
+</svg>
