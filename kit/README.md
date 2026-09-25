@@ -1,6 +1,6 @@
 # kit/ — one job: hold the numbers
 
-**Do one thing.** This directory holds the machine rules for glyphs and scene math: [`mark.json`](mark.json) and [`scene.json`](scene.json). Root markdown narrates those rules; it does not invent parallel numbers.
+This directory is the DNA of the mark: glyphs and scene math, nothing else. Root markdown narrates; it does not invent parallel numbers.
 
 | File | Holds |
 |------|--------|
@@ -41,4 +41,4 @@ node kit/check-consumers.mjs
 
 - Mascot has **no name** (not “he”, not Casque, not any personal name).
 - No secrets in this tree.
-- Presence ladder / ports: [../PORTING.md](../PORTING.md).
+- Presence ladder (**mark → faces → scoot → scene**): [../PORTING.md](../PORTING.md).

@@ -1,5 +1,7 @@
 # Mininja Trademark Notice
 
+Spell the brand **Mininja** (never “minija”). The mascot has no name.
+
 ## The mark
 
 ```
@@ -8,13 +10,13 @@
 ▀▀▀▀▀
 ```
 
-A stacked three-line Unicode block lockup. Character-by-character construction: [CONSTRUCTION.md](CONSTRUCTION.md). The mascot has no name.
+A stacked three-line Unicode block lockup. Character-by-character construction: [CONSTRUCTION.md](CONSTRUCTION.md).
 
 ## Ownership
 
 The Mininja mark (the three-line Unicode block lockup and associated brand presentation) is owned by **Thingscorp LLC**.
 
-The Mininja mark is the official mascot of Thingscorp LLC. The mascot has no name.
+The Mininja mark is the official mascot of Thingscorp LLC.
 
 ## First use in commerce
 

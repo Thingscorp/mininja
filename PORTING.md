@@ -4,7 +4,7 @@ Copy three lines. Graduate when you want more. The mascot has no name.
 
 Machine data: [`kit/mark.json`](kit/mark.json) · [`kit/scene.json`](kit/scene.json).
 
-## The invitation (level 1)
+## The invitation (mark)
 
 Paste this anywhere monospace is welcome:
 
@@ -17,8 +17,9 @@ Paste this anywhere monospace is welcome:
 Or from a clone:
 
 ```bash
-./examples/cli-banner.sh
-./examples/cli-banner.sh allowed
+./examples/cli-banner.sh            # idle (works without Node)
+./examples/cli-banner.sh allowed    # faces need Node
+./examples/cli-banner.sh --list
 ```
 
 README paste: [`examples/readme-badge.md`](examples/readme-badge.md). Kit overlay without forking console: [`examples/remix/`](examples/remix/). Stop here unless you need faces.
@@ -47,39 +48,39 @@ Do not shame divergent speeds, stages, or faces. Do shame silent dual tables tha
 
 Upstream geometry cited below is the Thingscorp default kit — match it when you intend to stay aligned; replace it on purpose when you fork.
 
-## Presence ladder = progressive filters
+## Presence ladder: mark → faces → scoot → scene
 
-Each level is a thinner-to-thicker filter. Pipe only as far as you need:
+Each step is a thinner-to-thicker filter. Pipe only as far as you need:
 
 ```
 kit/mark.json
       │
       ▼
-①  paste / examples/          idle lockup (strings)
+①  mark     paste / examples/          idle lockup (strings)
       │
       ▼
-②  adapters/mark              face → strings
+②  faces    adapters/mark              face → strings
       │
-      ├── adapters/ansi       strings → ANSI tones
-      └── adapters/react      strings → <pre>
+      ├── adapters/ansi                 strings → ANSI tones
+      └── adapters/react                strings → <pre>
             │
             ▼
-③  host motion                facing + scoot (you own it)
+③  scoot    host motion                facing + scoot (you own it)
       │
       ▼
-④  console/                   full scene strip (one program)
+④  scene    console/                   full stage strip (one program)
 ```
 
-| Level | Filter | What you ship |
-|------:|--------|---------------|
-| 1 | paste / [`examples/`](examples/) | Idle 3-line lockup |
-| 2 | [`adapters/mark`](adapters/mark) → optional [`ansi`](adapters/ansi) / [`react`](adapters/react) | Faces |
-| 3 | react + host animation | Facing + scoot |
-| 4 | [`console/`](console/) | Stage strip + weather + props |
+| | Layer | Filter | What you ship |
+|-:|-------|--------|---------------|
+| 1 | **mark** | paste / [`examples/`](examples/) | Idle 3-line lockup |
+| 2 | **faces** | [`adapters/mark`](adapters/mark) → optional [`ansi`](adapters/ansi) / [`react`](adapters/react) | Moods / eyes |
+| 3 | **scoot** | react + host animation | Facing + motion |
+| 4 | **scene** | [`console/`](console/) | Stage strip + weather + props |
 
-Do **not** drag level 4 into a favicon. Do **not** replace glyphs with a redrawn mascot — the Unicode stack **is** the mark.
+Do **not** drag scene into a favicon. Do **not** replace glyphs with a redrawn mascot — the Unicode stack **is** the mark.
 
-## Level 2 — one filter
+## Faces — one filter
 
 **Node** (loads kit from disk):
 
@@ -115,17 +116,17 @@ import { linesFor } from "./adapters/mark/from-kit.mjs";
 ## Port checklist
 
 1. Pull lines from `kit/mark.json` (or the mark adapter) — do not hand-type eyes.
-2. Pick a presence level; note it in the host app README.
+2. Pick a presence layer (mark / faces / scoot / scene); note it in the host app README.
 3. Keep alt text **Mininja mark** (never a character name).
 4. If you add motion, honor reduced-motion and [`TERMINAL-MOTION.md`](TERMINAL-MOTION.md).
 5. If you stay on upstream Thingscorp kit, scene geometry must match [`kit/scene.json`](kit/scene.json) (`stageWidthPx=420`, `anchorRatio=0.42`, seven stages). If you fork or overlay, document the new numbers as *your* SoT.
 
 ## Adapter map
 
-| Filter | Path | Levels |
+| Filter | Path | Layers |
 |--------|------|--------|
 | Strings | [`adapters/mark`](adapters/mark) | 1–2 |
 | Colorize | [`adapters/ansi`](adapters/ansi) | 1–2 |
 | Present | [`adapters/react`](adapters/react) | 1–3 |
 
-When you outgrow filters, [`console/`](console/) is the reference level-4 program. [`bot/`](bot/) is an optional Mac launcher — not a second brand source.
+When you outgrow filters, [`console/`](console/) is the reference **scene** program. [`bot/`](bot/) is an optional Mac launcher — not a second brand source.
