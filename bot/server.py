@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """Mininja console plus named teammates.
 
-Programs from Thingscorp/mininja-console (adf769df). Teammates run on the
-laptop WSL computer (or Codex / this Mac).
+Programs return cards. Teammates run on the laptop WSL computer (or Codex / this Mac).
 """
 from __future__ import annotations
 

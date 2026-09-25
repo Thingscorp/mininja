@@ -6,11 +6,12 @@
 ▀▀▀▀▀
 ```
 
-**Three lines of Unicode. That’s the whole brand.** Paste them into a README, print them from a shell, or grow them into faces, a scoot, and a terminal scene — only as far as you want. The mascot is warm, **unnamed**, and not he/him. Spell the brand **Mininja** (not “minija”).
+**The Apple of Terminal Buddies** — obsessive craft, taste, purity of default. An integrated system that feels inevitable. A loveable helper people port everywhere.
 
-The aim is *the Apple of terminal buddies*: craft, taste, integrated simplicity, a loveable default — a quality metaphor, **not** any affiliation with or endorsement by Apple Inc. The bricks stay Lego-open: premium pieces you can still fork, overlay, and remix.
+**Three lines of Unicode. That’s the whole brand.** Paste them into a README, print them from a shell, or grow them into faces, a scoot, and a terminal scene — only as far as you want. Lego modularity, fork encouraged, kit = data, Unix-small. The mascot is warm and **unnamed** (no he/him). Spell it **Mininja** (not “minija”).
 
-Owned by [Thingscorp LLC](https://github.com/Thingscorp). The glyphs *are* the mark.
+Owned by [Thingscorp LLC](https://github.com/Thingscorp). The glyphs *are* the mark.  
+Positioning: [`BRAND.md`](BRAND.md).
 
 ---
 
@@ -73,7 +74,7 @@ Mininja + environments are **modular Legos**. Pieces — **mark**, **faces**, **
 | [`bot/`](bot/) | Optional Mac launcher — calls `../console`, never vendors a second UI. |
 
 Root docs narrate. Numbers live in `kit/` — **fork or overlay when you mean to** (Lego law). Shame only **silent dual constant tables** that drift beside kit in the same tree.  
-Brand law: [`STYLEGUIDE.md`](STYLEGUIDE.md) · [`CONSTRUCTION.md`](CONSTRUCTION.md) · [`BRAND-RULES.md`](BRAND-RULES.md) · [`TRADEMARK.md`](TRADEMARK.md) · [`SCENERY.md`](SCENERY.md) · [`TERMINAL-MOTION.md`](TERMINAL-MOTION.md).
+Brand law: [`BRAND.md`](BRAND.md) · [`STYLEGUIDE.md`](STYLEGUIDE.md) · [`CONSTRUCTION.md`](CONSTRUCTION.md) · [`BRAND-RULES.md`](BRAND-RULES.md) · [`TRADEMARK.md`](TRADEMARK.md) · [`SCENERY.md`](SCENERY.md) · [`TERMINAL-MOTION.md`](TERMINAL-MOTION.md).
 
 ---
 
@@ -115,3 +116,5 @@ Glimpse in the wild: https://github.com/user-attachments/assets/76965444-03ec-45
 
 Mark and brand docs: [`TRADEMARK.md`](TRADEMARK.md) (first use, ™ / ® rules).  
 Code under `adapters/`, `examples/`, `console/`, and `bot/` is MIT — [`LICENSE`](LICENSE).
+
+<sup>“The Apple of Terminal Buddies” is a quality metaphor only — not affiliated with Apple Inc.</sup>

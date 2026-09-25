@@ -9,7 +9,7 @@ This directory is the DNA of the mark: glyphs and scene math, nothing else. Root
 
 ## Brand voice (kit)
 
-Default kit is the loveable, integrated set — craft and taste in small Unicode pieces (*Apple of terminal buddies* as a quality metaphor only; **not** Apple Inc. affiliation or endorsement). Those same pieces are **premium Legos**: remixable. Environments fork or overlay without shame.
+Default kit is the loveable, integrated set — craft, taste, purity of default in small Unicode pieces. Same bricks are **premium Legos**: remixable. Full positioning: [../BRAND.md](../BRAND.md).
 
 ## Russ's law (Legos)
 

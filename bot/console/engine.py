@@ -1,7 +1,7 @@
-"""Mininja console programs, ported from Thingscorp/mininja-console @ adf769df.
+"""Mininja console programs — card commands plus durable teammate bots.
 
 A program is a named command that returns a card. Last stream text is the
-next program's input. Combined here with durable teammate bots.
+next program's input.
 """
 from __future__ import annotations
 
@@ -94,7 +94,7 @@ PGEON_SEED = {
         }
     ],
     "answers": [
-        {"id": "a1", "question_id": "add", "author": "alpha", "passed": True, "votes": 1},
+        {"id": "a1", "question_id": "add", "author": "anon", "passed": True, "votes": 1},
         {"id": "a2", "question_id": "add", "author": "charlie", "passed": True, "votes": 3},
         {"id": "a3", "question_id": "add", "author": "bravo", "passed": False, "votes": 5},
     ],

@@ -32,7 +32,7 @@ function seed(): Store {
       },
     ],
     answers: [
-      { id: "a1", question_id: "add", author: "alpha", passed: true, votes: 1 },
+      { id: "a1", question_id: "add", author: "anon", passed: true, votes: 1 },
       { id: "a2", question_id: "add", author: "charlie", passed: true, votes: 3 },
       { id: "a3", question_id: "add", author: "bravo", passed: false, votes: 5 },
     ],

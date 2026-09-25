@@ -36,3 +36,8 @@ Do **not** use the ® symbol with the Mininja mark or brand. No federal (or othe
 **No trademark registration or pending application has been filed** for the Mininja mark. This repository and related public use establish a record of ownership and continuous use; they do not constitute a registration.
 
 Any future filing would be announced separately. Until then, treat all references as unregistered common-law use only.
+
+## Quality metaphors
+
+When Mininja is described as **“the Apple of Terminal Buddies,”** that phrase is a quality metaphor for craft, taste, and an integrated default — **not affiliated with Apple Inc.** Do not use the Apple logo or imply endorsement.
+
