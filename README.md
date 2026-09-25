@@ -6,7 +6,7 @@
 ▀▀▀▀▀
 ```
 
-**The Apple of Terminal Buddies** — and a **terrarium for devs**: obsessive craft in a self-contained living habitat on the desk or in the terminal. **Recipes = weather into the glass; faces = creature reactions; stages = habitat.** Creature = the warm **unnamed** mark; glass = scenery; outside weather via IFTTT-style [`RECIPES.md`](RECIPES.md). Lego remix stays open — fork kit, overlay a scene, restock the tank.
+**The Apple of Terminal Buddies** — and a **terrarium for Devs**: glass box on the desk (console/bot), creature = the Unicode mark, habitat from kit; weather from outside arrives as [`RECIPES.md`](RECIPES.md). Remix the terrarium like Lego.
 
 **Three lines of Unicode. That’s the whole brand.** Paste them, print them, or grow faces → scoot → scene only as far as you want. Kit = data. Unix-small. Spell it **Mininja** (not “minija”).
 

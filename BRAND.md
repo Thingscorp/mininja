@@ -14,19 +14,19 @@ Mininja aims to be **the Apple of Terminal Buddies** — a quality standard for 
 
 Quality metaphor only — never use the Apple logo. Discreet notice: [TRADEMARK.md](TRADEMARK.md).
 
-## Terrarium for devs
+## Terrarium for Devs
 
-Mininja is also a **terrarium for developers** — a self-contained living habitat that sits on the desk or in the terminal:
+Mininja is a **terrarium for developers** — a small living world on the desk you remix like Lego:
 
-| Piece | Role |
-|-------|------|
-| **Creature** | The mark — warm, **unnamed**, three lines of Unicode |
-| **Creature reactions** | **Faces** — moods the creature shows when weather hits |
-| **Habitat** | **Stages**, props, weather inside the strip ([`kit/scene.json`](kit/scene.json), narrated in [SCENERY.md](SCENERY.md)) |
-| **Glass** | Scenery geometry — the clear walls of the world |
-| **Weather into the glass** | **Recipes** ([RECIPES.md](RECIPES.md)) — IFTTT-style events push climate into the tank (CI, chat, calendar → face / stage / mood) |
+| Piece | What it is |
+|-------|------------|
+| **Glass box on the desk** | Console / bot surface — the window you look through |
+| **Creature** | The Unicode mark (warm, **unnamed** mascot) |
+| **Habitat** | Stages, props, and weather from [`kit/`](kit/) ([SCENERY.md](SCENERY.md)) |
+| **Weather from outside** | [Recipes](RECIPES.md) — notifications, CI, chat, calendar blowing through the glass |
+| **Craft bar** | *The Apple of Terminal Buddies* (quality metaphor only) — how carefully the pieces are cut |
 
-Short map: **recipes = weather · faces = creature reactions · stages = habitat.** Design-only for recipes in v0; creature and habitat already live in kit. Craft (Apple-of-buddies) sets the default climate; Lego remix lets you restock bricks or open a new tank. Metaphors only — not affiliated with Apple Inc. or IFTTT Inc.
+You remix the terrarium; you do not redraw the creature. Habitat is data. Outside weather arrives as recipes. Metaphors only — not affiliated with Apple Inc. or IFTTT Inc.
 
 ## Still true
 

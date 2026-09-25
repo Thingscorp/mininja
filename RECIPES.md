@@ -1,8 +1,10 @@
 # Recipes — events → Mininja expressions
 
+**Terrarium framing.** Mininja is a **terrarium for Devs**: the **glass box** is the console/bot surface; the **creature** is the Unicode mark (unnamed mascot); the **habitat** is stages, props, and weather from kit. **Recipes** are weather from the outside world — notifications, CI, Slack, calendar — blowing through the glass so the creature reacts. You remix the terrarium like Lego; the craft bar is *the Apple of Terminal Buddies* (metaphor only).
+
 Design only. Schema + intent for IFTTT-style links from notifications and events to Mininja faces, actions, stages, and mood chrome. **No runtime stubs in this doc.** Mascot unnamed. Spell it **Mininja**.
 
-> Quality / product metaphors only (“Apple of Terminal Buddies,” “terrarium for devs,” “IFTTT-style”). **Not affiliated with Apple Inc. or IFTTT Inc.**
+> Quality / product metaphors only (“Apple of Terminal Buddies,” “terrarium for Devs,” “IFTTT-style”). **Not affiliated with Apple Inc. or IFTTT Inc.**
 
 ---
 
