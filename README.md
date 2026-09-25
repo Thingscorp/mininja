@@ -6,7 +6,7 @@
 ▀▀▀▀▀
 ```
 
-**Three lines of Unicode. That’s the whole brand.** Paste them into a README, print them from a shell, or grow them into faces, a scoot, and a terminal scene — only as far as you want. The mascot is warm and **unnamed**. Spell it **Mininja** (not “minija”).
+**Three lines of Unicode. That’s the whole brand.** Paste them into a README, print them from a shell, or grow them into faces, a scoot, and a terminal scene — only as far as you want. The mascot is warm, **unnamed**, and not he/him. Spell the brand **Mininja** (not “minija”).
 
 The aim is *the Apple of terminal buddies*: craft, taste, integrated simplicity, a loveable default — a quality metaphor, **not** any affiliation with or endorsement by Apple Inc. The bricks stay Lego-open: premium pieces you can still fork, overlay, and remix.
 
@@ -42,6 +42,22 @@ Machine SoT: [`kit/mark.json`](kit/mark.json) · [`kit/scene.json`](kit/scene.js
 | 4 | **scene** | Full stage strip | [`console/`](console/) (optional) |
 
 Invitation, remix Legos, invariants: **[`PORTING.md`](PORTING.md)**.
+
+---
+
+## Russ's law (Legos)
+
+Mininja + environments are **modular Legos**. Pieces — **mark**, **faces**, **motion**, **stages**, **props**, **weather** — snap via [`kit/`](kit/) JSON + [`adapters/`](adapters/). Rules are **data** and meant to be modified. Forking is encouraged; remix without rewriting [`console/`](console/). Brand name is **Mininja**; the mascot has **no personal name** and no he/him.
+
+### Remix in 60s
+
+```bash
+# fork kit, then either:
+#   kit/scene.json → motion.walkPxPerSec  (170 → 220)
+#   kit/mark.json  → faces.wink = { "eyes": ["¬","●"], "tone": "accent", "motion": null, "mirrored": false }
+./examples/cli-banner.sh wink
+# overlay (no kit fork): examples/remix/
+```
 
 ---
 

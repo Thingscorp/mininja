@@ -1,6 +1,6 @@
 # Porting Mininja
 
-Copy three lines. Graduate when you want more. The mascot has no name.
+Copy three lines. Graduate when you want more. The mascot has no name and no he/him.
 
 Machine data: [`kit/mark.json`](kit/mark.json) · [`kit/scene.json`](kit/scene.json).
 
@@ -25,26 +25,41 @@ Or from a clone:
 README paste: [`examples/readme-badge.md`](examples/readme-badge.md). Kit overlay without forking console: [`examples/remix/`](examples/remix/). Stop here unless you need faces.
 
 
-## Fork & remix (Legos)
+## Russ's law (Legos)
 
-Adapters are the **studs**. Kit JSON is the **brick specs**. Forks are welcome.
+Mininja + environments are **modular Legos**. Adapters are the **studs**; kit JSON is the **brick specs**. Rules are **data** (`kit/`) and meant to be modified. Forking is encouraged. Brand name is **Mininja**; the mascot has **no personal name** and no he/him.
+
+Pieces: **mark**, **faces**, **motion**, **stages**, **props**, **weather**.
 
 | Piece | You change | You keep |
 |-------|------------|----------|
 | [`kit/mark.json`](kit/mark.json) | faces, eyes, lines | 5×3 grid; glyphs are the mark |
-| [`kit/scene.json`](kit/scene.json) | speeds, stages, props | adapter contracts (in → out) |
+| [`kit/scene.json`](kit/scene.json) | speeds, stages, props, weather | adapter contracts (in → out) |
 | [`adapters/*`](adapters/) | rarely | one-job filters |
 
-**How to remix without forking `console/`:**
+**Happy path — remix without rewriting `console/`:**
 
 1. Copy `kit/` *or* keep upstream kit and merge a **local overlay** after load.
 2. Pass the merged object into [`adapters/mark/from-kit.mjs`](adapters/mark/from-kit.mjs) (browsers) or your host motion code (scene numbers).
 3. Leave adapter signatures alone — face → strings → ANSI / `<pre>`.
 4. Name the overlay or fork in the host README so others know which ruleset they are on.
 
-Worked example (override one face, print it): [`examples/remix/`](examples/remix/).
+### Remix in 60s
 
-Do not shame divergent speeds, stages, or faces. Do shame silent dual tables that claim to be kit while drifting. The mascot has no name.
+```bash
+# A) fork kit — change walk speed or add a face
+#    kit/scene.json → "walkPxPerSec": 220          # was 170
+#    kit/mark.json  → faces.wink = { "eyes": ["¬","●"], "tone": "accent", "motion": null, "mirrored": false }
+./examples/cli-banner.sh wink
+
+# B) overlay only (no kit fork) — same adapters:
+cd examples/remix && node ./print-face.mjs allowed
+# scene speeds: merge scene-overlay.json onto kit/scene.json in the host
+```
+
+Worked overlays: [`examples/remix/`](examples/remix/).
+
+Do not shame divergent speeds, stages, or faces. Do shame silent dual tables that claim to be kit while drifting.
 
 Upstream geometry cited below is the Thingscorp default kit — match it when you intend to stay aligned; replace it on purpose when you fork.
 
@@ -111,7 +126,7 @@ import { linesFor } from "./adapters/mark/from-kit.mjs";
 - Clearspace ≥ one row height (H/3).
 - Digital min height 24 px (8 px cells); terminal min 3 rows.
 - `prefers-reduced-motion`: snap only — no walk, run, or patrol.
-- No personal name in HUD, alt text, package titles, or filenames.
+- No personal name (and no he/him) in HUD, alt text, package titles, or filenames.
 
 ## Port checklist
 

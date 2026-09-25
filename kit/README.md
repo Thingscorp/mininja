@@ -11,9 +11,9 @@ This directory is the DNA of the mark: glyphs and scene math, nothing else. Root
 
 Default kit is the loveable, integrated set — craft and taste in small Unicode pieces (*Apple of terminal buddies* as a quality metaphor only; **not** Apple Inc. affiliation or endorsement). Those same pieces are **premium Legos**: remixable. Environments fork or overlay without shame.
 
-## Legos: pieces that snap
+## Russ's law (Legos)
 
-Mininja + an environment is **modular Legos**. The pieces are meant to click together and to be swapped:
+Mininja + environments are **modular Legos**. Pieces — **mark**, **faces**, **motion**, **stages**, **props**, **weather** — snap via this JSON + adapters. Rules are **data** and meant to be modified. Forking is encouraged; do not rewrite `console/` to change a brick. Brand name is **Mininja**; the mascot has **no personal name** and no he/him.
 
 | Piece | Lives in | Snap point |
 |-------|----------|------------|
@@ -22,8 +22,6 @@ Mininja + an environment is **modular Legos**. The pieces are meant to click tog
 | Stages | `scene.json` → `stages` | Strip rooms |
 | Props / weather | `scene.json` | Decor on a stage |
 | Emotions / actions | `scene.json` | Scene vocabulary |
-
-Rules live in this JSON **and are meant to be modified**. Forking is encouraged.
 
 ## How to override (no shame)
 
@@ -41,8 +39,17 @@ node kit/check-consumers.mjs
 
 (When `console/` is present, that check asserts scene width, anchor, and walk/run speeds against kit. It never invents values.)
 
+## Remix in 60s
+
+```bash
+# kit/scene.json → motion.walkPxPerSec  (170 → 220)
+# kit/mark.json  → faces.wink = { "eyes": ["¬","●"], "tone": "accent", "motion": null, "mirrored": false }
+./examples/cli-banner.sh wink
+# or: examples/remix/ (overlay without forking kit)
+```
+
 ## Invariants
 
-- Mascot has **no name** (not “he”, not Casque, not any personal name).
+- Brand name is **Mininja**. Mascot has **no name** and no he/him (never Casque).
 - No secrets in this tree.
 - Presence ladder (**mark → faces → scoot → scene**): [../PORTING.md](../PORTING.md).

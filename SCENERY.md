@@ -9,7 +9,9 @@ This document is the **formal geometry** of the strip. Motion laws live in [TERM
 
 ## Legos: stages and props snap
 
-Scenery pieces are Legos for an environment. Stages, props, and weather in [`kit/scene.json`](kit/scene.json) are **rules you may modify**.
+**Russ's law (short):** scenery is Lego — stages, props, weather, motion live in [`kit/scene.json`](kit/scene.json), snap via kit + adapters, fork the data to remix, don't rewrite console. Brand is Mininja; mascot unnamed, no he/him.
+
+Stages, props, and weather are **rules you may modify**.
 
 - Snap in a new stage, drop a prop, change weather — in a **kit fork** or a **local scene overlay** applied after load.
 - Forking is encouraged. Publish your overlay or forked `stages` so others can reuse the piece.
