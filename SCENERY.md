@@ -6,6 +6,15 @@ This document is the **formal geometry** of the strip. Motion laws live in [TERM
 
 ![Stage strip](assets/visuals/stage-strip.png)
 
+
+## Legos: stages and props snap
+
+Scenery pieces are Legos for an environment. Stages, props, and weather in [`kit/scene.json`](kit/scene.json) are **rules you may modify**.
+
+- Snap in a new stage, drop a prop, change weather — in a **kit fork** or a **local scene overlay** applied after load.
+- Forking is encouraged. Publish your overlay or forked `stages` so others can reuse the piece.
+- Upstream constants in the tables below are the Thingscorp default. Align when you mean to; replace on purpose when you fork. Do not keep a drifting parallel `STAGE_WIDTH` in app code while claiming kit.
+
 ## Constants
 
 | Symbol | Name | Value | Notes |

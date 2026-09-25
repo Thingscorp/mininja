@@ -23,6 +23,18 @@ Or from a clone:
 
 README paste: [`examples/readme-badge.md`](examples/readme-badge.md). Stop here unless you need faces.
 
+
+## Legos in your environment
+
+Mininja is built to snap into *your* world. Treat kit JSON as **modifiable rules**, not a glass case.
+
+- **Pieces:** mark / faces, motion, stages, props, emotions, actions — each can ship alone or together.
+- **Override:** fork `kit/` for a full custom SoT, or keep upstream kit and apply a **local scene overlay** (merge selected keys after load).
+- **Forking is encouraged.** Name your fork or overlay in the host README so others know which ruleset they are on.
+- Do not shame divergent speeds, stages, or faces. Do shame silent dual tables that claim to be kit while drifting.
+
+Upstream geometry cited below is the Thingscorp default kit — match it when you intend to stay aligned; replace it on purpose when you fork.
+
 ## Presence ladder = progressive filters
 
 Each level is a thinner-to-thicker filter. Pipe only as far as you need:
@@ -84,7 +96,7 @@ Adapters never import `console/`. Examples only compose adapters.
 2. Pick a presence level; note it in the host app README.
 3. Keep alt text **Mininja mark** (never a character name).
 4. If you add motion, honor reduced-motion and [`TERMINAL-MOTION.md`](TERMINAL-MOTION.md).
-5. Scene geometry must match [`kit/scene.json`](kit/scene.json) (`stageWidthPx=420`, `anchorRatio=0.42`, seven stages).
+5. If you stay on upstream Thingscorp kit, scene geometry must match [`kit/scene.json`](kit/scene.json) (`stageWidthPx=420`, `anchorRatio=0.42`, seven stages). If you fork or overlay, document the new numbers as *your* SoT.
 
 ## Adapter map
 
