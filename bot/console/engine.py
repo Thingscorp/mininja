@@ -170,7 +170,12 @@ def _load_json(name: str):
     return json.loads((ROOT / name).read_text())
 
 
-RALPH_ITEMS = _load_json("ralph-items.json").get("items") or []
+_ralph_path = ROOT / "ralph-items.json"
+RALPH_ITEMS = (
+    json.loads(_ralph_path.read_text()).get("items") or []
+    if _ralph_path.is_file()
+    else []
+)
 QA_FEATURES = _load_json("qa-features.json")
 QA_DEFECTS = _load_json("qa-defects.json")
 

@@ -10,6 +10,7 @@ dist/
 .env.*
 !.env.example
 .mininja/
+ralph-items.json
 .ralph/
 .claude/
 .grok/
