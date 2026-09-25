@@ -49,6 +49,18 @@ Only the eye slot (columns 4–5) changes by expression state. Do not invent eye
 
 String: `▀▀▀▀▀`
 
+## Cell metric
+
+| Quantity | Value |
+|----------|------:|
+| Columns | 5 |
+| Rows | 3 |
+| Cell aspect | 1∶1 in monospace (width = height per cell) |
+| Line length | exactly 5 Unicode scalar values (one cell each) |
+| Total cells | 15 |
+
+Digital minimum height 24 px ⇒ minimum cell size \(24/3 = 8\) px. Clearspace = one row height = one cell = \(H/3\) where \(H\) is lockup height ([BRAND-RULES.md](BRAND-RULES.md)).
+
 ## Body rules
 
 - Lines 1 and 3 are **static** across all states except `loadingLeft`.

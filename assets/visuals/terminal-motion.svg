@@ -1,20 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="320" viewBox="0 0 900 320">
-<rect width="900" height="320" fill="#08090a"/>
-<text x="24" y="28" fill="#8a8f98" font-family="ui-monospace,monospace" font-size="12">TERMINAL MOTION · allowed movement</text>
-<rect x="40" y="56" width="820" height="70" fill="#191a1b" stroke="#222326"/>
-<text x="56" y="84" fill="#d0d6e0" font-family="ui-monospace,monospace" font-size="12">WALK 170px/s · RUN 280px/s (intensity≥2) · face the gap · arrive ≤6px</text>
-<text x="56" y="106" fill="#8a8f98" font-family="ui-monospace,monospace" font-size="11">patrol when idle + ready + no line · 26px/s inside [stage.x+56 , stage.x+width−90]</text>
-<rect x="40" y="140" width="400" height="140" fill="#191a1b" stroke="#222326"/>
-<text x="56" y="168" fill="#4cc38a" font-family="ui-monospace,monospace" font-size="12">facing right</text>
-<text x="56" y="198" fill="#d0d6e0" font-family="ui-monospace,monospace" font-size="16">▚████</text>
-<text x="56" y="218" fill="#d0d6e0" font-family="ui-monospace,monospace" font-size="16">██ ●●</text>
-<text x="56" y="238" fill="#d0d6e0" font-family="ui-monospace,monospace" font-size="16">▀▀▀▀▀</text>
-<text x="56" y="262" fill="#8a8f98" font-family="ui-monospace,monospace" font-size="11">camera look-ahead ~32% view</text>
-<rect x="460" y="140" width="400" height="140" fill="#191a1b" stroke="#222326"/>
-<text x="476" y="168" fill="#5e6ad2" font-family="ui-monospace,monospace" font-size="12">facing left</text>
-<text x="476" y="198" fill="#d0d6e0" font-family="ui-monospace,monospace" font-size="16">████▞</text>
-<text x="476" y="218" fill="#d0d6e0" font-family="ui-monospace,monospace" font-size="16">●● ██</text>
-<text x="476" y="238" fill="#d0d6e0" font-family="ui-monospace,monospace" font-size="16">▀▀▀▀▀</text>
-<text x="476" y="262" fill="#8a8f98" font-family="ui-monospace,monospace" font-size="11">camera look-ahead ~52% view</text>
-<text x="40" y="308" fill="#8a8f98" font-family="ui-monospace,monospace" font-size="11">prefers-reduced-motion: snap only — no walk, run, or patrol</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="360" viewBox="0 0 960 360">
+<rect width="960" height="360" fill="#08090a"/>
+<text x="24" y="22" fill="#8a8f98" font-family="ui-monospace,Menlo,monospace" font-size="11">TERMINAL MOTION · exact constants</text>
+<rect x="24" y="40" width="912" height="88" fill="#191a1b" stroke="#222326"/>
+<text x="40" y="64" fill="#d0d6e0" font-family="ui-monospace,Menlo,monospace" font-size="12">v_walk=170 px/s · v_run=280 px/s (intensity≥2) · v_patrol=26 px/s</text>
+<text x="40" y="84" fill="#d0d6e0" font-family="ui-monospace,Menlo,monospace" font-size="12">ε_arrive=6 px · patrol [x+56, x+330] span=274 · Δt_max=0.05 s</text>
+<text x="40" y="104" fill="#8a8f98" font-family="ui-monospace,Menlo,monospace" font-size="11">adjacent stage: T_walk=420/170≈2.4706 s · T_run=420/280=1.5 s</text>
+<text x="40" y="120" fill="#8a8f98" font-family="ui-monospace,Menlo,monospace" font-size="11">camera: λ_R=0.32 V · λ_L=0.52 V · κ=5.2 · C ← C+(C*−C)(1−e^(−κΔt))</text>
+<rect x="24" y="144" width="444" height="160" fill="#191a1b" stroke="#222326"/>
+<text x="40" y="168" fill="#4cc38a" font-family="ui-monospace,Menlo,monospace" font-size="12">facing right · 5 cells</text>
+<text x="40" y="198" fill="#d0d6e0" font-family="ui-monospace,Menlo,monospace" font-size="18">▚████</text>
+<text x="40" y="220" fill="#d0d6e0" font-family="ui-monospace,Menlo,monospace" font-size="18">██ ●●</text>
+<text x="40" y="242" fill="#d0d6e0" font-family="ui-monospace,Menlo,monospace" font-size="18">▀▀▀▀▀</text>
+<text x="40" y="268" fill="#8a8f98" font-family="ui-monospace,Menlo,monospace" font-size="11">walk feet: ▀▀ ▀▀ / ▀ ▀▀▀</text>
+<text x="40" y="286" fill="#8a8f98" font-family="ui-monospace,Menlo,monospace" font-size="11">step τ=0.16 s moving · 0.28 s idle</text>
+<rect x="492" y="144" width="444" height="160" fill="#191a1b" stroke="#222326"/>
+<text x="508" y="168" fill="#5e6ad2" font-family="ui-monospace,Menlo,monospace" font-size="12">facing left · 5 cells</text>
+<text x="508" y="198" fill="#d0d6e0" font-family="ui-monospace,Menlo,monospace" font-size="18">████▞</text>
+<text x="508" y="220" fill="#d0d6e0" font-family="ui-monospace,Menlo,monospace" font-size="18">●● ██</text>
+<text x="508" y="242" fill="#d0d6e0" font-family="ui-monospace,Menlo,monospace" font-size="18">▀▀▀▀▀</text>
+<text x="508" y="268" fill="#8a8f98" font-family="ui-monospace,Menlo,monospace" font-size="11">pair swaps; hood mirror ▞</text>
+<text x="508" y="286" fill="#8a8f98" font-family="ui-monospace,Menlo,monospace" font-size="11">reduced-motion: snap a=c* only</text>
+<text x="24" y="340" fill="#8a8f98" font-family="ui-monospace,Menlo,monospace" font-size="11">fallbacks: unknown emotion→curious · unknown action→wait · unknown stage→keep current</text>
 </svg>

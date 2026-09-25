@@ -1,110 +1,266 @@
 # Terminal motion
 
-How the Mininja mark is **allowed to move** in terminal / console surfaces. Sourced from [Thingscorp/mininja-console](https://github.com/Thingscorp/mininja-console) (`src/lib/scene.ts`, `src/components/banner.tsx`). Treat these as brand rules for any buddy UI that walks the mark through scenery.
+Formal locomotion laws for the Mininja mark in terminal / console surfaces. Sourced from [Thingscorp/mininja-console](https://github.com/Thingscorp/mininja-console) (`src/lib/scene.ts`, `src/components/banner.tsx`). The mascot has no name.
 
-The mascot has no name.
+Scenery symbols \(W, N, L, \alpha, x_i, c_i\) are defined in [SCENERY.md](SCENERY.md).
 
 ![Terminal motion](assets/visuals/terminal-motion.png)
 
-## Scene intent
+## Scene state
 
-Drivers (commands, cards, AI) emit a **SceneIntent**:
+A resolved **Scene** is always fully concrete:
 
-```
-{ emotion?, action?, stage?, facing?, line?, intensity?, holdMs? }
-```
+| Field | Type | Default |
+|-------|------|---------|
+| `emotion` | registered id | `idle` |
+| `action` | registered id | `idle` |
+| `stage` | registered id | `dock` |
+| `facing` | `left` \| `right` | `right` |
+| `line` | string | `""` |
+| `intensity` | \(0 \mid 1 \mid 2\) | `1` |
+| `holdMs` | number | `0` |
 
-Resolved scene always has concrete `emotion`, `action`, `stage`, `facing`, `line`, `intensity`, `holdMs`.
+**SceneIntent** may omit fields. Resolution (`applyIntent`):
 
-| Field | Rule |
-|-------|------|
-| Unknown emotion | → `curious` |
-| Unknown action | → `wait` |
-| Unknown stage | keep current (do not jump to a fake place) |
-| Stage change without facing | face **toward** the new stage (right if destination x is greater) |
-| Default scene | idle · idle · dock · facing right |
+| Condition | Result |
+|-----------|--------|
+| Unknown `emotion` | `curious` |
+| Unknown `action` | `wait` |
+| Unknown `stage` | **keep current** (no teleport to a fake id) |
+| Stage changes and `facing` omitted | \(\mathrm{facing} = \mathrm{right}\) if \(x_{\mathrm{next}} \ge x_{\mathrm{cur}}\), else `left` |
+| `line` omitted | keep current |
+| `intensity` omitted | keep current |
+| `holdMs` omitted | `0` |
 
-Registry helpers: `registerEmotion` / `registerAction` / `registerStage`. Catalog is enumerable (`scene` command in console).
+## Facing → lockup (5 × 3 cells)
 
-## Facing and lockup
+Every line is exactly **5 monospace cells** (see [CONSTRUCTION.md](CONSTRUCTION.md)).
 
-- Facing is `left` or `right`.
-- Hood mirrors: right uses `▚████` …; left uses `████▞` … (same rule as STYLEGUIDE.md `loadingLeft`).
-- Eye pair swaps order when facing left.
-- Feet may step while walking (`▀▀ ▀▀` / `▀ ▀▀▀`); crouch shortens the chin row; jump keeps the hood tall.
+Let eyes be the emotion pair \((e_L, e_R)\). Blink forces `(─, ─)`; sleep action forces `(‒, ‒)`.
 
-Body geometry otherwise matches [CONSTRUCTION.md](CONSTRUCTION.md). Eyes still come from emotion (or blink/sleep overrides).
+\[
+\mathrm{pair} =
+\begin{cases}
+e_R e_L & \text{facing left} \\
+e_L e_R & \text{facing right}
+\end{cases}
+\]
 
-## Locomotion (banner)
+| Facing | Hood (stand) | Mid (stand) | Feet (stand) |
+|--------|--------------|-------------|--------------|
+| right | `▚████` | `██ ` + pair | `▀▀▀▀▀` |
+| left | `████▞` | pair + ` ██` | `▀▀▀▀▀` |
 
-| Mode | When | Speed | Notes |
-|------|------|------:|-------|
-| Walk | Traveling to a stage, intensity 0–1 | 170 px/s | Faces direction of travel |
-| Run | Traveling, intensity ≥ 2 | 280 px/s | Same facing rule |
-| Arrive | Within 6 px of stage center | — | Snap to center; restore scene action |
-| Patrol | Ready, action `idle`, empty `line` | 26 px/s | Bounce inside stage: `[x+56, x+width−90]` |
-| Reduced motion | `prefers-reduced-motion: reduce` | — | Instant place + facing; **no** scoot/patrol/walk anim |
+Pose overrides (still 5 cells):
 
-While traveling, the live action shown is forced to `walk` or `run` even if the intent still says something else.
+| Pose | Hood right | Hood left | Feet |
+|------|------------|-----------|------|
+| lean | ` ▚███` | `███▞ ` | unchanged |
+| crouch | stand hood | stand hood | `▄▄▄▄▄` |
+| jump | `▚████` | `████▞` | stand / walk feet |
+
+Walk / run / carry feet alternate on tick parity:
+
+| tick mod 2 | Feet |
+|------------|------|
+| 0 | `▀▀ ▀▀` |
+| 1 | `▀ ▀▀▀` |
+
+## Locomotion constants
+
+| Symbol | Name | Value |
+|--------|------|------:|
+| \(v_w\) | Walk speed | **170** px/s |
+| \(v_r\) | Run speed | **280** px/s |
+| \(v_p\) | Patrol speed | **26** px/s |
+| \(\varepsilon\) | Arrive epsilon | **6** px |
+| \(p_0\) | Patrol left inset | **56** px |
+| \(p_1\) | Patrol right inset | **90** px |
+| \(\lambda_R\) | Camera look-ahead (face right) | **0.32** × view width |
+| \(\lambda_L\) | Camera look-ahead (face left) | **0.52** × view width |
+| \(\kappa\) | Camera follow rate | **5.2** s⁻¹ |
+| \(\tau_w\) | Step period (moving / run) | **0.16** s |
+| \(\tau_i\) | Step period (idle cadence) | **0.28** s |
+| \(\Delta t_{\max}\) | Frame dt clamp | **0.05** s |
+
+### Travel
+
+Let actor abscissa be \(a(t)\), destination \(c^\star = c(\mathrm{stage})\).
+
+\[
+\mathrm{moving} \iff |c^\star - a| > \varepsilon
+\]
+
+While moving:
+
+\[
+v =
+\begin{cases}
+v_r = 280 & \text{if intensity } \ge 2 \\
+v_w = 170 & \text{otherwise}
+\end{cases}
+\]
+
+\[
+a \leftarrow a + \mathrm{sign}(c^\star - a) \cdot \min(|c^\star - a|,\ v \cdot \Delta t)
+\]
+
+Facing is forced to the travel direction. Live `action` is forced to `run` or `walk` for the duration of travel.
+
+Time between adjacent stages (rest → rest), ignoring epsilon:
+
+\[
+T_w = \frac{W}{v_w} = \frac{420}{170} \approx 2.4706\ \mathrm{s}
+\]
+
+\[
+T_r = \frac{420}{280} = 1.5\ \mathrm{s}
+\]
+
+For \(k\) stages of separation: \(T = k \cdot W / v\).
+
+### Arrive
+
+When \(|c^\star - a| \le 6\): snap \(a = c^\star\); restore the scene’s declared action.
+
+### Patrol
+
+Allowed only when **all** hold: ready, `action === idle`, `line === ""`, not reduced-motion.
+
+Patrol interval inside stage \(i\):
+
+\[
+a \in [x_i + 56,\ x_i + W - 90] = [x_i + 56,\ x_i + 330]
+\]
+
+Length of the patrol segment:
+
+\[
+(W - 56 - 90) = 274 \text{ px}
+\]
+
+Speed \(v_p = 26\) px/s; reverse and flip facing at endpoints. One full end-to-end patrol takes \(274 / 26 = 10.538\ldots\) s.
 
 ### Camera
 
-- Look-ahead: ~32% of view width when facing right, ~52% when facing left.
-- Camera eases toward the target (`1 − exp(−dt × 5.2)`).
-- Clamped to `[0, worldWidth − viewWidth]`.
+View width \(V\). Desired camera origin:
 
-### Offline
+\[
+C^\star = \mathrm{clamp}\bigl(a - \lambda V,\ 0,\ L - V\bigr)
+\]
 
-- Offline / sleep → stage `nightwatch`, emotion sleepy, action sleep.
-- Wake / online → stage `dock`, emotion alert, action wave.
+\[
+\lambda =
+\begin{cases}
+0.32 & \text{facing right} \\
+0.52 & \text{facing left}
+\end{cases}
+\]
 
-## Command → place map
+Exponential smooth toward \(C^\star\):
 
-Canonical console mapping (extend in product code; keep meanings stable for brand):
+\[
+C \leftarrow C + \bigl(C^\star - C\bigr)\bigl(1 - e^{-\kappa \Delta t}\bigr),\quad \kappa = 5.2
+\]
+
+### Reduced motion
+
+If `prefers-reduced-motion: reduce`: set \(a = c^\star\), facing from intent, **no** walk/run/patrol animation.
+
+### Offline / wake
+
+| Event | stage | emotion | action |
+|-------|-------|---------|--------|
+| Offline / sleep | `nightwatch` | `sleepy` | `sleep` |
+| Wake / online | `dock` | `alert` | `wave` |
+
+## Emotion catalog (16)
+
+| id | eyes | tone | motion |
+|----|------|------|--------|
+| `idle` | ● ● | idle | — |
+| `curious` | ◉ ● | accent | — |
+| `focused` | ◐ ◑ | accent | pulse |
+| `happy` | > < | ok | bounce |
+| `proud` | ▴ ▴ | ok | bounce |
+| `mischievous` | ¬ ¬ | accent | — |
+| `worried` | ◆ ◆ | warn | sway |
+| `confused` | ? ? | warn | — |
+| `startled` | ◎ ◎ | err | shake |
+| `embarrassed` | ◦ ◦ | muted | — |
+| `frustrated` | × × | err | shake |
+| `determined` | ◣ ◢ | accent | pulse |
+| `relieved` | ◠ ◠ | ok | — |
+| `sleepy` | ‒ ‒ | muted | — |
+| `alert` | ● ● | accent | pulse |
+| `sad` | . . | muted | — |
+
+## Action catalog (22)
+
+| id | motion | pose | fx |
+|----|--------|------|----|
+| `idle` | none | stand | none |
+| `blink` | none | stand | none |
+| `walk` | bob | stand | none |
+| `run` | bob | stand | none |
+| `think` | pulse | stand | think |
+| `scan` | pulse | stand | scan |
+| `type` | pulse | lean | type |
+| `read` | sway | stand | none |
+| `point` | none | lean | none |
+| `wave` | bounce | stand | wave |
+| `jump` | hop | jump | spark |
+| `crouch` | none | crouch | none |
+| `lookBack` | sway | stand | none |
+| `celebrate` | bounce | jump | spark |
+| `shakeHead` | shake | stand | none |
+| `nod` | bob | stand | none |
+| `search` | sway | lean | search |
+| `wait` | sway | stand | none |
+| `sleep` | none | crouch | sleep |
+| `carry` | bob | lean | none |
+| `peek` | none | crouch | search |
+| `climb` | hop | jump | none |
+
+## Command → stage map
 
 | Command family | Stage | Typical action |
 |----------------|-------|----------------|
-| help, clear, wake | dock | wave / idle |
-| now, overview, todo, plan, brief, turn, save | desk | read / point / carry |
-| refine, compound, qa, ralph | workshop | type / scan |
-| look, api, web, postgres, pgeon | archives | scan / search |
-| unknown, freeze/pause, bad feel/do/go | gate | shakeHead / point |
-| completed / default success | rooftop | celebrate |
-| offline, sleep | nightwatch | sleep |
+| help, clear, wake | `dock` | wave / idle |
+| now, overview, todo, plan, brief, turn, save | `desk` | read / point / carry |
+| refine, compound, qa, ralph | `workshop` | type / scan |
+| look, api, web, postgres, pgeon | `archives` | scan / search |
+| unknown, freeze/pause, bad feel/do/go | `gate` | shakeHead / point |
+| completed / default success | `rooftop` | celebrate |
+| offline, sleep | `nightwatch` | sleep |
 
-Operator verbs in console:
+Operator verbs: `go <stage>`, `feel <emotion>`, `do <action>`, `scene`.
 
-- `go <stage>` — walk there (determined / walk)
-- `feel <emotion>` — change face without forcing a new stage
-- `do <action>` — change action in place
-- `scene` — list the suite
+## STYLEGUIDE face bridge (15 → scene)
 
-## Expression bridge
-
-STYLEGUIDE.md’s fifteen face states still map into the scene suite (legacy bridge). Prefer emotion+action+stage for new work; keep the face table for static brand sheets.
-
-| Face (STYLEGUIDE.md) | Scene sketch |
-|-------------------|--------------|
-| idle / blink | idle + idle/blink @ dock |
-| evaluating | focused + think @ desk |
-| loadingRight / loadingLeft | focused + walk, facing matches |
-| allowed | happy + nod @ desk |
-| asking | curious + wait |
-| denied | frustrated + shakeHead @ gate |
-| sandboxing | mischievous + peek @ workshop |
-| executing | determined + type @ workshop |
-| completed | proud + celebrate @ rooftop |
-| warning | worried + point @ gate |
-| error | confused + shakeHead @ gate |
-| cancelled | embarrassed + lookBack @ dock |
-| offline | sleepy + sleep @ nightwatch |
+| Face | emotion | action | stage |
+|------|---------|--------|-------|
+| idle / blink | idle | idle / blink | dock |
+| evaluating | focused | think | desk |
+| loadingRight | focused | walk | (facing right) |
+| loadingLeft | focused | walk | (facing left) |
+| allowed | happy | nod | desk |
+| asking | curious | wait | — |
+| denied | frustrated | shakeHead | gate |
+| sandboxing | mischievous | peek | workshop |
+| executing | determined | type | workshop |
+| completed | proud | celebrate | rooftop |
+| warning | worried | point | gate |
+| error | confused | shakeHead | gate |
+| cancelled | embarrassed | lookBack | dock |
+| offline | sleepy | sleep | nightwatch |
 
 ## Don’ts
 
-- Don’t fly, warp, or pop between distant stages when motion is enabled.
-- Don’t patrol while a line is showing or while evaluating input.
-- Don’t ignore reduced-motion — jump cut is required.
-- Don’t invent stages outside the registered strip for marketing stills without documenting them here.
-- Don’t put a personal name on the walker in HUD, lines, or docs.
+- No flight, warp, or pop across stages when motion is enabled.
+- No patrol while a line is showing or while not idle.
+- Reduced motion ⇒ jump cut only.
+- No stages outside the registered \(N = 7\) strip in brand stills without updating SCENERY.md.
+- No personal name on the walker.
 
-Scenery inventory: [SCENERY.md](SCENERY.md).
+Scenery: [SCENERY.md](SCENERY.md).

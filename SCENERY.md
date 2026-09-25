@@ -1,71 +1,163 @@
 # Scenery
 
-Canonical terminal world for the Mininja mark in console / buddy surfaces. Sourced from the scene suite in [Thingscorp/mininja-console](https://github.com/Thingscorp/mininja-console) (`src/lib/scene.ts`, banner renderer). The mascot has no name.
+Canonical terminal world for the Mininja mark in console / buddy surfaces. Sourced from [Thingscorp/mininja-console](https://github.com/Thingscorp/mininja-console) (`src/lib/scene.ts`, banner renderer). The mascot has no name.
 
-The mark lives in a **side-scrolling strip of stages**. Programs and operators move him with a scene intent (`emotion`, `action`, `stage`, optional `line` / `facing` / `intensity`). Unknown ids fall back (curious / wait / dock) without breaking the renderer.
-
-## Strip geometry
-
-| Constant | Value |
-|----------|------:|
-| Stage width | 420 px |
-| Stage count | 7 |
-| World width | 2940 px (7 × 420) |
-| Default home | `dock` (facing right) |
-
-Stages are laid left → right in this order. The camera follows the actor; the HUD names the stage currently underfoot.
+This document is the **formal geometry** of the strip. Motion laws live in [TERMINAL-MOTION.md](TERMINAL-MOTION.md).
 
 ![Stage strip](assets/visuals/stage-strip.png)
 
-## Stages
+## Constants
 
-| id | Label | Weather | Role |
-|----|-------|---------|------|
-| `nightwatch` | night watch | night | Sleep / offline |
-| `dock` | dock | haze | Home bay — default resting place |
-| `desk` | desk | clear | Status, plan, brief |
-| `workshop` | workshop | sparks | Execute, refine, ongoing agent work |
-| `archives` | archives | scan | Look / inspect / memory |
-| `gate` | gate | haze | Ask, deny, unknown |
-| `rooftop` | rooftop | clear | Completed / proud |
+| Symbol | Name | Value | Notes |
+|--------|------|------:|-------|
+| \(W\) | `STAGE_WIDTH` | **420** px | Width of every stage |
+| \(N\) | Stage count | **7** | Fixed catalog length |
+| \(L\) | `worldWidth()` | **2940** px | \(L = N \cdot W = 7 \times 420\) |
+| \(\alpha\) | Anchor ratio | **0.42** | Actor rest point inside a stage |
+| — | Default stage | `dock` | Index \(i = 1\) |
+| — | Default facing | `right` | |
 
-### Props (silhouette kit)
+## Stage index and origin
 
-Allowed prop kinds (monospace-friendly blocks in the banner):
+Stages are indexed \(i \in \{0,1,\ldots,6\}\) left → right.
+
+\[
+x_i = i \cdot W = i \cdot 420
+\]
+
+\[
+\text{stage } i \text{ occupies } [x_i,\ x_i + W) = [420i,\ 420(i+1))
+\]
+
+### Rest point (stage center)
+
+The actor does **not** rest at the geometric midpoint. The rest abscissa is:
+
+\[
+c_i = x_i + \alpha W = 420i + 0.42 \times 420 = 420i + 176.4
+\]
+
+| \(i\) | id | \(x_i\) | \(c_i\) | weather | hint |
+|------:|----|--------:|--------:|---------|------|
+| 0 | `nightwatch` | 0 | 176.4 | `night` | sleep / offline |
+| 1 | `dock` | 420 | 596.4 | `haze` | home bay |
+| 2 | `desk` | 840 | 1016.4 | `clear` | status, plan, brief |
+| 3 | `workshop` | 1260 | 1436.4 | `sparks` | ralph, execute, refine |
+| 4 | `archives` | 1680 | 1856.4 | `scan` | look, pgeon, memory |
+| 5 | `gate` | 2100 | 2276.4 | `haze` | ask, deny, unknown |
+| 6 | `rooftop` | 2520 | 2696.4 | `clear` | completed / proud |
+
+Adjacent rest points are exactly one stage apart:
+
+\[
+c_{i+1} - c_i = W = 420 \text{ px}
+\]
+
+## Prop kit
+
+Prop kinds (closed set):
 
 `block` · `shelf` · `lamp` · `crate` · `screen` · `antenna` · `moon` · `barrier` · `cable`
 
-| Stage | Stock props (sketch) |
-|-------|----------------------|
-| nightwatch | moon, antenna, low block |
-| dock | stacked crates, cable run, screen |
-| desk | screen, lamp, block, crate |
-| workshop | workbench block, antenna, crate, lamp |
-| archives | four shelves + crate |
-| gate | barrier flanked by two lamps |
-| rooftop | stepped blocks + antenna |
+Each prop is an axis-aligned rectangle in **stage-local** coordinates \((x, y, w, h)\), with origin at the stage’s top-left. World position:
 
-New stages register with `registerStage` — same prop vocabulary, no renderer rewrite.
+\[
+X = x_i + x,\quad Y = y
+\]
+
+### Stock props (exact)
+
+**`nightwatch`**
+
+| kind | \(x\) | \(y\) | \(w\) | \(h\) |
+|------|------:|------:|------:|------:|
+| moon | 310 | 10 | 18 | 18 |
+| antenna | 48 | 28 | 4 | 36 |
+| block | 20 | 72 | 56 | 14 |
+
+**`dock`**
+
+| kind | \(x\) | \(y\) | \(w\) | \(h\) |
+|------|------:|------:|------:|------:|
+| crate | 28 | 62 | 28 | 22 |
+| crate | 52 | 70 | 22 | 14 |
+| cable | 90 | 84 | 120 | 2 |
+| screen | 300 | 36 | 46 | 28 |
+
+**`desk`**
+
+| kind | \(x\) | \(y\) | \(w\) | \(h\) |
+|------|------:|------:|------:|------:|
+| screen | 40 | 30 | 54 | 34 |
+| lamp | 110 | 24 | 10 | 40 |
+| block | 140 | 72 | 36 | 10 |
+| crate | 330 | 66 | 26 | 18 |
+
+**`workshop`**
+
+| kind | \(x\) | \(y\) | \(w\) | \(h\) |
+|------|------:|------:|------:|------:|
+| block | 24 | 68 | 80 | 16 |
+| antenna | 200 | 20 | 3 | 48 |
+| crate | 240 | 60 | 30 | 24 |
+| lamp | 320 | 18 | 12 | 46 |
+
+**`archives`**
+
+| kind | \(x\) | \(y\) | \(w\) | \(h\) |
+|------|------:|------:|------:|------:|
+| shelf | 16 | 16 | 18 | 70 |
+| shelf | 42 | 16 | 18 | 70 |
+| shelf | 68 | 16 | 18 | 70 |
+| shelf | 340 | 16 | 18 | 70 |
+| crate | 200 | 66 | 24 | 18 |
+
+**`gate`**
+
+| kind | \(x\) | \(y\) | \(w\) | \(h\) |
+|------|------:|------:|------:|------:|
+| barrier | 170 | 48 | 80 | 36 |
+| lamp | 150 | 14 | 10 | 50 |
+| lamp | 258 | 14 | 10 | 50 |
+
+**`rooftop`**
+
+| kind | \(x\) | \(y\) | \(w\) | \(h\) |
+|------|------:|------:|------:|------:|
+| block | 20 | 70 | 40 | 16 |
+| block | 70 | 58 | 28 | 28 |
+| antenna | 300 | 12 | 4 | 56 |
+| block | 340 | 64 | 48 | 22 |
 
 ## Weather
 
-Weather is **stage atmosphere**, not a recolor of the mark. The lockup stays monochrome; sky / haze / scan lines / rain sit behind him.
+Weather \(w\) is stage atmosphere only. It never recolors the mark.
 
-| Weather | Use |
-|---------|-----|
-| `clear` | Day / default |
-| `haze` | Soft dock / gate air |
-| `night` | Offline / sleep |
-| `sparks` | Workshop heat |
-| `scan` | Archives read |
-| `rain` | Optional weather overlay (reduced-motion: static) |
+| id | Stages that use it |
+|----|--------------------|
+| `clear` | desk, rooftop |
+| `haze` | dock, gate |
+| `night` | nightwatch |
+| `sparks` | workshop |
+| `scan` | archives |
+| `rain` | none in stock; optional overlay (static under reduced motion) |
 
-## Brand rules for scenery
+## Banner frame (reference)
 
-1. **One continuous strip** — do not teleport the camera without walking the actor (unless `prefers-reduced-motion`).
-2. **Stages mean jobs** — desk = status/plan; workshop = build/run; archives = inspect; gate = deny/unknown; rooftop = done; nightwatch = offline; dock = home.
-3. **Props stay silhouette** — dark blocks on the banner ground; no photographic scenery behind the Unicode lockup.
-4. **Weather never paints the eyes** — mood tones in app UI follow STYLEGUIDE.md; the mark fill stays single-color.
-5. **No named mascot in stage copy** — HUD and lines talk about places and work, not a character name.
+From console `styles.css` (root font-size 16 px):
 
-Movement and facing rules: [TERMINAL-MOTION.md](TERMINAL-MOTION.md).
+| Token | rem | px @ 16 |
+|-------|----:|--------:|
+| `.banner` height | 9.25 | 148 |
+| `.banner` height `@media (max-width: 390px)` | 8 | 128 |
+| `.banner-ground` height | 1.35 | 21.6 |
+
+## Brand invariants
+
+1. \(L = 7 \times 420\) — do not insert stages without updating \(N\), this table, and motion docs.
+2. Rest point is always \(c_i = x_i + 0.42W\), never \(x_i + 0.5W\).
+3. Props stay in the closed kind set; silhouette only.
+4. Weather never paints the eyes; mark fill is monochrome per [BRAND-RULES.md](BRAND-RULES.md).
+5. No personal name in HUD / lines / stage copy.
+
+Motion: [TERMINAL-MOTION.md](TERMINAL-MOTION.md). Glyph grid: [CONSTRUCTION.md](CONSTRUCTION.md).
