@@ -26,6 +26,8 @@ export const PATHS = {
   styleguide: join(root, "STYLEGUIDE.md"),
   porting: join(root, "PORTING.md"),
   changelog: join(root, "CHANGELOG.md"),
+  brandRules: join(root, "BRAND-RULES.md"),
+  kitQaWorkflow: join(root, ".github", "workflows", "kit-qa.yml"),
   fromKit: join(root, "adapters", "mark", "from-kit.mjs"),
   presenceAttrs: join(root, "adapters", "presence", "attrs.mjs"),
   presenceCss: join(root, "adapters", "presence", "presence.css"),
