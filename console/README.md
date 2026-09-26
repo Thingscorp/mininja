@@ -27,6 +27,10 @@ npm run typecheck
 
 Type at the prompt or click a chip. Unknown input gets a clear error face — never a silent no-op.
 
+### Composer split (temporary)
+
+This React console is the **program shell** (cards for `now` / `todo` / …). **Multi-pal `@` composer** (talk to any teammate, `@all` rally, pull-off / retarget) lives in [`../bot`](../bot) for now — one mouth there, Occam absorb later. See [`../bot/README.md`](../bot/README.md) § Composer contract.
+
 ## Layout
 
 ```

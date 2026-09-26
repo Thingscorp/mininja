@@ -6,7 +6,25 @@ This folder is a lean launcher. It does **not** ship a second React console — 
 
 ## Status
 
-The local HTTP UI (`static/` + `server.py`) is intentional launcher scaffolding, not a second React console. Whether it stays a product surface alongside [`../console`](../console) is a **deferred product call** — keep the UI; do not strip it.
+The local HTTP UI (`static/` + `server.py`) is intentional launcher scaffolding, not a second React console. **Multi-pal composer lives here** (one mouth). The React [`../console`](../console) stays the program shell until a later absorb — see Composer contract below.
+
+## Composer contract (one mouth)
+
+Product intent: type to **any pal anytime** without sidebar-first targeting. Sidebar remains a fallback for focus / tint.
+
+| Input | Route |
+|-------|--------|
+| `@Ada do X` | Task to pal Ada (roster match, case-insensitive). No sidebar click required. |
+| `@all …` | **Rally-all** — emergency blast to every idle pal (`POST /api/rally`). Skips pals already working. |
+| `@console now` | Console program engine |
+| bare `now` / `todo` / … | Console programs **when** sidebar target is `console` |
+| bare text with a pal selected | Task to that pal (legacy sidebar behavior) |
+| `stop` / `pull` / `stop @Ada` | **Pull-off** mid-job (`POST /api/bots/:id/stop`) |
+| `retarget @Bob remaining work` | **Retarget** — stop current focus (or selected) and assign to Bob (`POST /api/bots/:from/retarget`) |
+
+Autocomplete: typing `@` opens a Linear-minimal roster dropdown under the composer (`@all`, pals, `@console`).
+
+Guards: `MAX_PARALLEL` (4); silent double-assign still refused (`already working`) unless `retarget: true` or the explicit `retarget` / retarget API. Permission modes `draft` / `auto` / `free` unchanged. Tint stays host-side (`console/tint.py`) — no kit pal-color tables.
 
 ## Quick start
 

@@ -92,7 +92,53 @@ try {
   const del = await fetch(`http://127.0.0.1:${port}/api/bots/${botBody.id}`, { method: "DELETE" });
   assert(del.status === 200, `delete bot ${del.status}`);
 
-  console.log("PASS  SUITE-BOT-API-001 / BOT-LAUNCH-001");
+  // P0: rally-all + retarget surfaces (empty / missing target fail closed)
+  const rallyEmpty = await fetch(`http://127.0.0.1:${port}/api/rally`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text: "" }),
+  });
+  assert(rallyEmpty.status === 400, `rally empty ${rallyEmpty.status}`);
+  const rallyBody = await rallyEmpty.json();
+  assert(rallyBody.ok === false && /empty/i.test(rallyBody.error || ""), "rally empty error");
+
+  const bot2 = await (
+    await fetch(`http://127.0.0.1:${port}/api/bots`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: "Ada", job: "rally", description: "ephemeral" }),
+    })
+  ).json();
+  assert(bot2.id, "bot2 id");
+
+  const rallyNoGrok = await fetch(`http://127.0.0.1:${port}/api/rally`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text: "ping blockers" }),
+  });
+  assert(rallyNoGrok.status === 200, `rally status ${rallyNoGrok.status}`);
+  const rallyOut = await rallyNoGrok.json();
+  assert(rallyOut.ok === true && Array.isArray(rallyOut.started) && Array.isArray(rallyOut.skipped), "rally shape");
+  // Without grok CLI, started may be empty and skipped carries reason — still a valid rally path.
+  assert(rallyOut.started.length + rallyOut.skipped.length >= 1, "rally touched roster");
+
+  const retargetBad = await fetch(`http://127.0.0.1:${port}/api/bots/${bot2.id}/retarget`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ to: "", text: "x" }),
+  });
+  assert(retargetBad.status === 400, `retarget bad ${retargetBad.status}`);
+
+  const stop = await fetch(`http://127.0.0.1:${port}/api/bots/${bot2.id}/stop`, { method: "POST" });
+  assert(stop.status === 200, `stop ${stop.status}`);
+
+  const del2 = await fetch(`http://127.0.0.1:${port}/api/bots/${bot2.id}`, { method: "DELETE" });
+  assert(del2.status === 200, `delete bot2 ${del2.status}`);
+
+  const indexMentions = html;
+  assert(/parseMention|mentionMenu|rally all|@Ada/i.test(indexMentions), "index has @/rally chrome");
+
+  console.log("PASS  SUITE-BOT-API-001 / BOT-LAUNCH-001 (+ rally/retarget)");
 } finally {
   child.kill("SIGTERM");
   await sleep(200);

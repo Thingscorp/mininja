@@ -33,6 +33,16 @@ for (const id of stageIds) {
 
 assert(/grid|aside|main|⌘|Cmd|N\b|new bot|tint/i.test(html), "teammate UI affordances");
 
+// P0: one-mouth composer — @-mention + autocomplete + rally/pull
+assert(/function parseMention/.test(html), "parseMention helper");
+assert(/function mentionQuery|function rosterSuggestions/.test(html), "mention autocomplete helpers");
+assert(/mention-menu|mentionMenu/.test(html), "mention dropdown");
+assert(/@all|kind:\s*"all"|rallyLine|\/api\/rally/.test(html), "@all / rally path");
+assert(/stop · pull|pullOff|retargetLine|retarget/.test(html), "pull-off + retarget affordances");
+assert(/rallyAll|rally all/.test(html), "rally-all UI control");
+assert(/aria-label="composer"|id="task"/.test(html), "composer surface");
+assert(/one mouth|@pal anytime|sidebar is fallback/i.test(html), "one-mouth contract chrome");
+
 console.log(
-  `PASS  SUITE-BOT-UI-001/002 (kit stages=${stageIds.join(",")} hydrated)`,
+  `PASS  SUITE-BOT-UI-001/002 (kit stages=${stageIds.join(",")} hydrated; @/rally/pull)`,
 );

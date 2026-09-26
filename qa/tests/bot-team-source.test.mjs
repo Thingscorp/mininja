@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/** SUITE-BOT-TEAM-001/002 — remote env gate + task/SSE surface in source. */
+/** SUITE-BOT-TEAM-001/002 — remote env gate + task/SSE/rally/retarget surface in source. */
 import { readFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -20,4 +20,14 @@ assert(/\/api\/events|text\/event-stream|SSE|EventSource/i.test(server), "SSE ev
 assert(/\/api\/bots|start_task|stop_bot|stop/i.test(server), "bots/tasks/stop");
 assert(/hello|ping|ingest_event|broadcast/i.test(server) || /events/i.test(server), "event broadcast surface");
 
-console.log("PASS  SUITE-BOT-TEAM-001/002");
+// P0: pull-off / retarget / rally-all
+assert(/def retarget_task/.test(server), "retarget_task");
+assert(/def rally_all/.test(server), "rally_all");
+assert(/retarget:\s*bool\s*=\s*False|retarget=retarget/.test(server), "start_task retarget flag");
+assert(/already working/.test(server), "refuse silent double-assign");
+assert(/MAX_PARALLEL\s*=\s*4/.test(server), "MAX_PARALLEL cap");
+assert(/api.*rally|parts == \["api", "rally"\]/.test(server), "POST /api/rally");
+assert(/parts\[3\] == "retarget"/.test(server), "POST /api/bots/:id/retarget");
+assert(/draft|auto|free/.test(server), "permission modes intact");
+
+console.log("PASS  SUITE-BOT-TEAM-001/002 (+ retarget/rally)");
