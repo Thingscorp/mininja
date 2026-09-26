@@ -20,7 +20,7 @@ Quality metaphor only — never use the Apple logo. Discreet notice: [TRADEMARK.
 
 ## Terrarium for Devs (v1)
 
-Mininja is a **terrarium for developers** — a small living world on the desk you remix like Lego. **v1 hero** is creature + habitat glass only (mark-first presence ladder; do not ship recipes-first):
+Mininja is a **terrarium for developers** — a small living world on the desk you remix like Lego. **v1 ship** is **creature + habitat strip** (Russ, 2026-09-26). Mark-only is the ~60s on-ramp, not a complete v1. Do not ship recipes-first:
 
 | Piece | What it is |
 |-------|------------|

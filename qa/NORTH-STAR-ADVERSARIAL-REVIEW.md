@@ -216,3 +216,8 @@ Mark-first ladder + habitat-glass hero are both stated. Confirm product emphasis
 6. Garden growth = `repoBranch` repos-in-habitat silhouette vocab (GARDEN.md).
 7. No phone required; bot ≠ second UI brand.
 8. Do not invent weed constants until Russ confirms OPEN-001.
+
+
+## Resolution (Russ, 2026-09-26)
+
+**OPEN — mark-only vs habitat for v1:** **DECIDED** — v1 **MUST** ship creature + habitat strip; mark-only is the ~60s on-ramp only. Locked in `NORTH-STAR.md` / `BRAND.md` / `PORTING.md`.

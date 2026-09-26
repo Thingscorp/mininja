@@ -38,13 +38,15 @@ Together they describe **one connected system**. **v1 hero** = creature + habita
 | Recipes | IFTTT applets / Pebble timeline actions | When event → face / action / stage / emotion / growth (+ optional tone chrome) | [`RECIPES.md`](RECIPES.md) — **later plate** |
 | Companion host | Phone *(fiction — Mininja needs no phone)* | Console / bot / any host port. **bot** = Mac launcher over `console/`, not a second UI brand | [`console/`](console/) · [`bot/`](bot/) · [`PORTING.md`](PORTING.md) |
 
-Presence ladder (ship the thinnest layer that fits — **mark-first**, habitat when you need the strip):
+Presence ladder (progressive disclosure — **mark-first on-ramp**, then climb):
 
 ```
 mark → faces → scoot → scene
 ```
 
-That is Pebble’s progressive disclosure in our dialect. Paste the idle lockup in ~60s; grow only when you need it. **MUST NOT** bloat the face or skip to a recipe runner before the terrarium ships.
+That is Pebble’s progressive disclosure in our dialect. Paste the idle lockup in ~60s as the **on-ramp only**.
+
+**v1 product ship bar (Russ, 2026-09-26):** a complete v1 **MUST** include **creature + habitat strip** (stages / props / scene weather from kit). Mark-only is **not** a complete v1 ship — it is how a stranger starts. **MUST NOT** bloat the face or skip to a recipe runner before the terrarium ships.
 
 ### Three meanings of “motion” (do not collapse)
 
@@ -94,21 +96,20 @@ Silent dual tables beside kit are shame; forks and overlays are encouraged. Geom
 4. **kit = data** — Unix-small adapters filter JSON; they do **not** become apps ([`adapters/`](adapters/)).
 5. **Recipes plug in, they don’t rewrite** — IFTTT-style links drive kit **ids** above; they **MUST NOT** invent parallel face / emotion catalogs.
 6. **Companion does the heavy lift** — console / bot / host; the face stays portable. No phone required.
-7. **v1 hero = creature + habitat glass** — **MUST NOT** hero the recipe runner, webhook bridges, or full IFTTT/Zapier surface before the terrarium.
+7. **v1 ship = creature + habitat strip** — mark-only is the 60s on-ramp only. **MUST NOT** call mark-only “v1 done,” or hero the recipe runner / webhook bridges / full IFTTT/Zapier surface before the terrarium.
 8. **Mascot unnamed** — **MUST NOT** use Casque or any personal name; no he/him.
 
 ---
 
 ## v1 hero vs later plate
 
-| Ship first | Hold for later |
-|------------|----------------|
-| Creature (Unicode mark, unnamed) | Recipe runner / webhook bridges |
-| Habitat glass (stages · props · scene weather) | Full IFTTT / Zapier product surface |
-| Presence ladder ports (mark → faces → scoot → scene) | Live GitHub growth overlays as default |
-| Garden vocabulary in kit (`repoBranch` growth 0..5) | Outside-world “weather” as hero |
+| Complete v1 ship | On-ramp only / later plate |
+|------------------|----------------------------|
+| **Creature + habitat strip** together (unnamed mark inside stages · props · scene weather) | Mark-only paste (~60s) — on-ramp, **not** complete v1 |
+| Presence ladder climbed at least through **scene** for the product surface | Recipe runner / webhook bridges |
+| Garden vocabulary in kit (`repoBranch` growth 0..5) kept open | Full IFTTT / Zapier product surface; live GitHub growth overlays as default; outside-world “weather” as hero |
 
-Later plate still belongs on this page’s graph. Demoting recipes from the README hero does not cut the IFTTT parent out of the system — and does **not** make recipes part of the v1 hero.
+Later plate still belongs on this page’s graph. Demoting recipes from the README hero does not cut the IFTTT parent out of the system — and does **not** make recipes part of the v1 hero. Mark-only ports remain welcome as the 60s start; calling them “v1 done” is a FAIL against this north star.
 
 ---
 

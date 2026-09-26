@@ -1,6 +1,6 @@
 # Porting Mininja
 
-Ship the idle lockup in about a minute. Grow faces, scoot, or scene only when you need them.
+Ship the idle lockup in about a minute (**on-ramp**). A complete **v1 product** still needs the **habitat strip** (creature + stages/props/scene weather) — mark-only is not v1 done ([`NORTH-STAR.md`](NORTH-STAR.md)). Grow faces, scoot, then scene as you climb.
 
 **Kit** (`kit/mark.json`, `kit/scene.json`) is the source of truth. **Adapters** are tiny Unix filters over that data — compose them; do not grow them into apps. The brand name is **Mininja**; the mascot has **no personal name** and no he/him. Craft / Lego metaphors describe quality and modularity — not affiliation with Apple Inc.
 
@@ -231,7 +231,7 @@ React exposes `data-face` / `data-stage` / `data-action` / `data-motion` / `data
 
 **Port rule:** leave recipe-compatible seams (string ids). Map host feelings onto kit **actions** / **faces** / **emotions** (`searching`-like → `search`, idle → `idle`). If kit lacks an id you need (`orbit`, layered SVG states, …), document the gap for Kit; do not invent a second face or emotion table.
 
-Recipes remain a later plate in the system graph (creature + habitat + garden). Geometry is optional for mark-only ports; upstream scene ports must match `kit/scene.json` → `geometry`.
+Recipes remain a later plate in the system graph (creature + habitat + garden). Geometry is optional on the mark-only **on-ramp**; a v1 habitat / scene port **MUST** match `kit/scene.json` → `geometry`.
 
 ---
 
