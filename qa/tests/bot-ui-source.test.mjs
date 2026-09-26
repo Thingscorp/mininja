@@ -53,7 +53,7 @@ assert(!/palColors|agentId.*kit|kit\.pals/i.test(html), "no kit pal-color table"
 // P1: per-pal LLM key chrome + provider theme (host only)
 assert(/fCred|paintCredSelect|credential_id|unshare/i.test(html), "LLM key assign/unshare chrome");
 assert(/paintProviderTheme|data-llm-provider|llmBadge/.test(html), "provider theme host cue");
-assert(/#c96442/.test(html), "Claude/Anthropic terracotta token");
+assert(/#d97757/.test(html), "Claude/Anthropic terracotta token");
 assert(!/api_key\s*:/.test(html), "no raw api_key fields in UI source");
 
 console.log(

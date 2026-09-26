@@ -118,7 +118,7 @@ Default habitat chrome reads as “the LLM that’s wired.” `body[data-llm-pro
 
 | Provider | Accent | Habitat cue |
 |----------|--------|-------------|
-| `anthropic` (Claude) | `#c96442` terracotta | `#d4a27f` sand · cream `#f5e6d8` |
+| `anthropic` (Claude) | `#d97757` terracotta | `#d4a27f` sand · cream `#f5e6d8` |
 | `openai` | `#10a37f` | mint habitat |
 | `xai` | `#7c8cff` | indigo (near default) |
 | `other` | `#735ffa` | violet |
