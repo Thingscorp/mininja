@@ -36,6 +36,7 @@ The desk companion lowers the barrier to core development concepts by making the
 | Repos / goals | **Plants** (`repoBranch` growth) |
 | Blocked / review / shipped | Face + stage posture ([`GLANCE.md`](GLANCE.md)) |
 | Steering agents | Host composer (`@` / rally) — Apps lane |
+| LLM credentials | Per-pal key bind (share one or split) — Apps / bot host; editable end-to-end |
 
 It is **not** another IDE, status dashboard, or courseware mound. Warmth + constraint teach “what matters” at the edge of vision. Buyers and hosts may care about that pedagogy; this page does **not** narrate acquisition strategy.
 
@@ -105,7 +106,7 @@ Ports and hosts **MUST** pass these as kit id **strings** (adapters pass through
 
 **MUST NOT** say or invent “mood ids.” Kit has **emotion** ids and **`moodColorsUiOnly` tones** (`idle` \| `accent` \| `ok` \| `warn` \| `err`). RECIPES `then.mood` (when used) is **tone chrome only** — not an id namespace beside face / stage / action / emotion / growth.
 
-**MUST NOT** invent kit constants for pal colors, agent ids, weed propKinds, or harvest KPI kinds — those are host / pack / design layers ([`GLANCE.md`](GLANCE.md) · [`GARDEN.md`](GARDEN.md)).
+**MUST NOT** invent kit constants for pal colors, agent ids, weed propKinds, harvest KPI kinds, or **LLM / API keys** — those are host / pack / design layers ([`GLANCE.md`](GLANCE.md) · [`GARDEN.md`](GARDEN.md) · [`bot/README.md`](bot/README.md)). Secrets stay in host credential store / env — never in `kit/*.json` or recipe JSON.
 
 Silent dual tables beside kit are shame; forks and overlays are encouraged. Geometry (`stageWidthPx`, `stageCount`, …) is optional for mark-only ports; full scene ports that stay on upstream Thingscorp kit **MUST** match `kit/scene.json` → `geometry` (see [`PORTING.md`](PORTING.md)).
 

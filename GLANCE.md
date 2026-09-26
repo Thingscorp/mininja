@@ -33,6 +33,7 @@ Mininja is a **rubber duck on the desk** that also **glances** at the developer�
 - **Multiple pals** may appear; distinguish them by **different colors** so concurrent agents are not confusing.
 - Color / multi-pal is a **modular host layer** (Unix optional plate — remixable). **MUST NOT** bake pal colors or agent ids into kit as a harvest-style table. Treat color like `moodColorsUiOnly` tones or host theme: chrome, not a second face catalog.
 - Default visualization: **one pal on one plant** for a focused job. More pals = more concurrent agents, color-coded.
+- **LLM keys (host):** each pal **MAY** bind its own provider key, or several pals **MAY** share one key. Assign / reassign / unshare must be a first-class editable host flow (bot / console — Apps). **MUST NOT** put keys in kit or recipe JSON.
 
 Recipes later may drive *which* pal is busy *where*; kit still only stores face / stage / action / emotion / growth bricks.
 

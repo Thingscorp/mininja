@@ -72,6 +72,19 @@ export MININJA_REMOTE_GROK=/home/you/.grok/bin/grok
 export MININJA_REMOTE_ROOT=/home/you/mininja-cloud
 ```
 
+## LLM keys (per pal)
+
+Product seam (Russ, 2026-09-26): **each pal can bind an LLM / provider key independently**. Operators **MAY** give every pal its own key, or point several pals at **one shared** key. The whole assign → use → change → unshare flow **MUST** be conductible and editable in the host (this bot / later console absorb) — not a one-shot env only.
+
+| Rule | Intent |
+|------|--------|
+| Per-pal bind | Roster entry may reference a credential id / env slot — not a raw key in git |
+| Share or split | Many pals → one key, or 1:1 — operator choice, revisable anytime |
+| No kit secrets | Keys never live in [`../kit`](../kit) or recipe JSON ([`../RECIPES.md`](../RECIPES.md)) |
+| Apps owns UI | Linear-quality assign/edit chrome; Kit lane only documents the seam |
+
+Implementation detail (storage schema, provider list) is **Apps** — this section locks capability, not a second credential table.
+
 ## State
 
 Runtime state lives in the platform application-support directory:
