@@ -36,8 +36,8 @@ assert(/title.*Mininja|Mininja/.test(rootHead), "title Mininja");
 
 const err = read("console/src/lib/error-component.tsx");
 assert(/Something went wrong|TriangleAlert|error\.message/i.test(err), "error screen copy");
-assert(/zinc|text-|bg-/.test(err), "utility classes present");
-// Note: Hubzz token drift is DEFECT-CON-UI-001 — do not rewrite here
+assert(/bg-bg/.test(err) && /text-fg|text-muted|text-err/.test(err), "Hubzz tokens on error screen");
+assert(!/bg-zinc|text-zinc/.test(err), "no zinc utilities on error screen");
 
 // --- Boot ---
 const mininjaUi = read("console/src/components/mininja.tsx");
@@ -72,11 +72,9 @@ assert(banner.includes(String(kit.motion.walkPxPerSec)) || /170/.test(banner), "
 assert(banner.includes(String(kit.motion.runPxPerSec)) || /280/.test(banner), "run speed");
 assert(/26/.test(banner), "patrol speed");
 assert(/translate3d/.test(banner), "camera translate3d");
-// camera look-ahead: banner uses 0.35; kit has 0.32/0.52 — flag if diverged hard
-const camHardcoded = /viewW\s*\*\s*0\.35/.test(banner);
-if (camHardcoded) {
-  // recorded as observation; test still passes (report defect separately)
-}
+assert(!/viewW\s*\*\s*0\.35/.test(banner), "no legacy 0.35 look-ahead");
+assert(banner.includes(String(kit.motion.cameraLookAheadRight)), "look-ahead right");
+assert(banner.includes(String(kit.motion.cameraLookAheadLeft)), "look-ahead left");
 
 // --- Scene catalog ids ---
 const sceneSrc = read("console/src/lib/scene.ts");
@@ -98,7 +96,9 @@ const qaFeat = join(root, "console/src/plugins/qa/features.json");
 assert(existsSync(qaFeat), "qa features.json");
 const feats = JSON.parse(readFileSync(qaFeat, "utf8"));
 const ids = Array.isArray(feats) ? feats.map((f) => f.id || f["Feature ID"]) : [];
-assert(ids.some((id) => /^F\d+/.test(String(id))), "features.json still Fnn register (drift known)");
+assert(ids.some((id) => String(id).startsWith("KIT-")), "features.json monorepo KIT-*");
+assert(ids.some((id) => String(id).startsWith("CON-")), "features.json monorepo CON-*");
+assert(!ids.every((id) => /^F\d+/.test(String(id))), "Aug Fnn register replaced");
 
 // --- Auth ---
 const authServer = read("console/src/lib/auth/server.ts");

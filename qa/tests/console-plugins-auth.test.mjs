@@ -23,8 +23,12 @@ const qaJson = JSON.parse(read("console/src/plugins/qa/features.json"));
 assert(Array.isArray(qaJson) && qaJson.length > 0, "features.json array");
 const idOf = (f) => f.id || f["Feature ID"];
 assert(qaJson.every((f) => idOf(f)), "feature ids");
-const stillFnn = qaJson.every((f) => /^F\d+/.test(String(idOf(f))));
-assert(stillFnn, "expected Aug Fnn ids (DEFECT-CON-QA-001 surface)");
+const ids = qaJson.map((f) => String(idOf(f)));
+assert(ids.some((id) => id.startsWith("KIT-")), "matrix includes KIT-*");
+assert(ids.some((id) => id.startsWith("CON-")), "matrix includes CON-*");
+assert(ids.some((id) => id.startsWith("BOT-")), "matrix includes BOT-*");
+assert(!ids.every((id) => /^F\d+/.test(id)), "Aug Fnn register replaced");
+assert(qaJson.length >= 100, `features.json size ${qaJson.length}`);
 
 const defectsJson = join(root, "console", "src", "plugins", "qa", "defects.json");
 if (existsSync(defectsJson)) {
@@ -45,10 +49,11 @@ assert(!/sk-[a-zA-Z0-9]{20,}/.test(server), "no sk- secrets");
 assert(/DATABASE_URL|pglite|postgres|better-auth|GROK_AUTH|VITE_AUTH/i.test(server + authFiles.join(",")), "env-configured auth");
 
 const brand = read("console/scripts/brand-check.mjs");
-assert(/x:game/.test(brand), "brand-check still mentions x:game (buddy warn surface)");
+assert(/x:game/.test(brand), "brand-check still mentions x:game (canvas warn surface)");
+assert(/website/.test(brand), "brand-check documents buddy og:type website");
 assert(/600|MAX_CARD/i.test(brand), "card byte budget");
 
 const mig = join(root, "console", "migrations");
 assert(existsSync(mig) && readdirSync(mig).some((f) => /auth|sql/i.test(f)), "auth migration");
 
-console.log("PASS  SUITE-CON-PLUG / AUTH / TOOL-002 (Fnn drift + x:game warn asserted)");
+console.log("PASS  SUITE-CON-PLUG / AUTH / TOOL-002 (monorepo matrix + x:game warn asserted)");

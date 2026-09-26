@@ -6,19 +6,19 @@ describe("qa program", () => {
   it("default is the register sidecar", () => {
     const card = cardFor("qa");
     assert.equal(card.title, "qa");
-    assert.ok(card.rows?.includes("qa F01"));
+    assert.ok(card.rows?.some((r) => r.startsWith("qa KIT-") || r.startsWith("qa CON-") || r.startsWith("qa BOT-")));
   });
 
-  it("discover lists real feature ids", () => {
+  it("discover lists monorepo feature ids", () => {
     const rows = cardFor("qa discover").rows ?? [];
-    assert.ok(rows.some((r) => r === "qa F01"));
-    assert.ok(rows.some((r) => r === "qa F33"));
+    assert.ok(rows.some((r) => r === "qa KIT-MARK-001"));
+    assert.ok(rows.some((r) => r.startsWith("qa CON-")));
   });
 
   it("inspects a feature by id including itself", () => {
-    const card = cardFor("qa F33");
-    assert.equal(card.title, "F33");
-    assert.match(card.bottom ?? "", /verified/);
-    assert.equal(cardFor("qa F37").title, "F37");
+    const card = cardFor("qa KIT-MARK-001");
+    assert.equal(card.title, "KIT-MARK-001");
+    assert.match(card.bottom ?? "", /mascot|kit|brand/i);
+    assert.equal(cardFor("qa CON-PLUG-007").title, "CON-PLUG-007");
   });
 });

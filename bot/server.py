@@ -29,6 +29,7 @@ from console.store import apply as console_apply
 from console.store import public as console_public
 
 STATIC = ROOT / "static"
+KIT_DIR = ROOT.parent / "kit"
 HOST = "127.0.0.1"
 PORT = 8787
 MAX_MESSAGES = 200
@@ -807,6 +808,9 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/console":
             self._json(200, public_console())
             return
+        if path.startswith("/kit/"):
+            self._kit(path)
+            return
         self._static(path)
 
     def do_POST(self) -> None:
@@ -873,6 +877,29 @@ class Handler(BaseHTTPRequestHandler):
         finally:
             if q in SUBS:
                 SUBS.remove(q)
+
+    def _kit(self, path: str) -> None:
+        """Serve kit SoT JSON (scene/mark) — bot UI hydrates stages from kit, no dual table."""
+        rel = path[len("/kit/") :].lstrip("/")
+        if not rel or ".." in rel.split("/"):
+            self._json(403, {"error": "forbidden"})
+            return
+        target = (KIT_DIR / rel).resolve()
+        if KIT_DIR.resolve() not in target.parents and target != KIT_DIR.resolve():
+            self._json(403, {"error": "forbidden"})
+            return
+        if not target.is_file():
+            self.send_error(404)
+            return
+        data = target.read_bytes()
+        ext = target.suffix.lower()
+        ctype = "application/json" if ext == ".json" else "application/octet-stream"
+        self.send_response(200)
+        self.send_header("Content-Type", ctype)
+        self.send_header("Content-Length", str(len(data)))
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        self.wfile.write(data)
 
     def _static(self, path: str) -> None:
         if path == "/":

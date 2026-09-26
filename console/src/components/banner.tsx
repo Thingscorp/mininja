@@ -53,7 +53,7 @@ export function Banner({ scene, blink = false, reduce = false, ready = true }: B
     if (!reduce) return;
     const dest = stageCenter(scene.stage);
     actorRef.current = dest;
-    camRef.current = Math.max(0, dest - viewW * 0.35);
+    camRef.current = Math.max(0, dest - viewW * (scene.facing === "right" ? 0.32 : 0.52));
     if (actorEl.current) actorEl.current.style.left = `${dest}px`;
     if (worldRef.current) worldRef.current.style.transform = `translate3d(${-Math.round(camRef.current)}px,0,0)`;
     setTraveling(false);

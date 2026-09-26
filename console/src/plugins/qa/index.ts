@@ -14,7 +14,7 @@ function feat(row: Feature) {
     expected: row["Expected Behaviour"],
     edges: row["Edge Cases"],
     tests: row["Test Cases"],
-    status: row["Current Status"],
+    status: String(row["Current Status"] || "").toUpperCase(),
     defects: Number(row["Defect Count"] || 0),
     severity: row["Severity"],
     notes: row["Notes"],
@@ -86,7 +86,7 @@ function defectsCard(): Card {
 function inspect(id: string): Card {
   const f = FEATS.find((x) => x.id.toLowerCase() === id.toLowerCase());
   if (!f) {
-    return { title: "qa", bottom: "qa, qa F01, or qa defects.", face: "error" };
+    return { title: "qa", bottom: "qa, qa KIT-MARK-001, or qa defects.", face: "error" };
   }
   return {
     title: f.id,
@@ -106,9 +106,8 @@ function run(argv: string[]): Card {
   const verb = (argv[0] ?? "").toLowerCase();
   if (!verb || verb === "help" || verb === "discover") return sidecar();
   if (verb === "defects") return defectsCard();
-  if (/^f\d+/i.test(verb)) return inspect(verb.toUpperCase());
   if (verb === "tests" || verb === "run" || verb === "next") return sidecar();
-  return inspect(verb);
+  return inspect(argv[0] ?? verb);
 }
 
 export const qa: Program = { name: "qa", run };

@@ -11,6 +11,11 @@ from copy import deepcopy
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
+KIT_ROOT = ROOT.parents[1] / "kit"
+_SCENE_KIT = json.loads((KIT_ROOT / "scene.json").read_text()) if (KIT_ROOT / "scene.json").is_file() else {}
+KIT_EMOTIONS = {e["id"]: e for e in _SCENE_KIT.get("emotions") or []}
+KIT_ACTIONS = {a["id"]: a for a in _SCENE_KIT.get("actions") or []}
+KIT_STAGES = {s["id"]: s for s in sorted(_SCENE_KIT.get("stages") or [], key=lambda s: s.get("x", 0))}
 
 LEDGER = {
     "checkout": "~/mininja",
@@ -153,6 +158,10 @@ COMMANDS = [
     "compound",
     "qa",
     "ralph",
+    "scene",
+    "feel",
+    "do",
+    "go",
     "offline",
     "wake",
     "clear",
@@ -325,7 +334,7 @@ def _feat(row: dict) -> dict:
         "name": row.get("Feature Name"),
         "story": row.get("User Story"),
         "tests": row.get("Test Cases"),
-        "status": row.get("Current Status"),
+        "status": str(row.get("Current Status") or "").upper(),
         "defects": int(row.get("Defect Count") or 0),
         "severity": row.get("Severity"),
     }
@@ -465,6 +474,82 @@ def run(state: dict, raw: str) -> tuple[dict, dict]:
         card = _ralph(argv)
     elif cmd == "pgeon":
         card = _pgeon(state, argv)
+    elif cmd == "scene":
+        card = {
+            "title": "scene",
+            "fields": [
+                {"label": "go", "value": "  ".join(KIT_STAGES.keys())},
+                {"label": "feel", "value": "  ".join(KIT_EMOTIONS.keys())},
+                {"label": "do", "value": "  ".join(KIT_ACTIONS.keys())},
+            ],
+            "rows": ["feel proud", "do scan", "go archives"],
+            "bottom": "the suite",
+            "face": "idle",
+        }
+    elif cmd == "feel":
+        if not arg:
+            card = {
+                "title": "feel",
+                "rows": [f"feel {e}" for e in KIT_EMOTIONS],
+                "bottom": "how should I look?",
+                "face": "asking",
+            }
+        elif arg not in KIT_EMOTIONS:
+            card = {
+                "title": "Unknown emotion",
+                "bottom": "Use scene.",
+                "face": "error",
+            }
+        else:
+            card = {
+                "title": "feel",
+                "tag": arg,
+                "bottom": KIT_EMOTIONS[arg].get("hint") or arg,
+                "face": "completed",
+            }
+    elif cmd == "do":
+        if not arg:
+            card = {
+                "title": "do",
+                "rows": [f"do {a}" for a in KIT_ACTIONS],
+                "bottom": "what should I do?",
+                "face": "asking",
+            }
+        elif arg not in KIT_ACTIONS:
+            card = {
+                "title": "Unknown action",
+                "bottom": "Use scene.",
+                "face": "error",
+            }
+        else:
+            card = {
+                "title": "do",
+                "tag": arg,
+                "bottom": KIT_ACTIONS[arg].get("hint") or arg,
+                "face": "executing",
+            }
+    elif cmd == "go":
+        if not arg:
+            card = {
+                "title": "go",
+                "rows": [f"go {s}" for s in KIT_STAGES],
+                "bottom": "Pick a place in the banner.",
+                "face": "asking",
+            }
+        elif arg not in KIT_STAGES:
+            card = {
+                "title": "Unknown place",
+                "bottom": "Use scene.",
+                "face": "error",
+            }
+        else:
+            stage = KIT_STAGES[arg]
+            card = {
+                "title": "go",
+                "tag": stage.get("label") or arg,
+                "bottom": stage.get("hint") or f"heading to {arg}",
+                "face": "executing",
+            }
     elif cmd == "look" or find_service(cmd) or find_service(arg):
         svc = find_service(arg or cmd) or SERVICES[0]
         card = {
@@ -715,10 +800,10 @@ def _qa(argv: list[str]) -> dict:
             "bottom": "Open items still count." if open_ else "All closed or waived.",
             "face": "warning" if open_ else "completed",
         }
-    fid = verb.upper() if re.match(r"^f\d+", verb, re.I) else verb
+    fid = argv[0] if argv else verb
     f = next((x for x in FEATS if (x["id"] or "").lower() == fid.lower()), None)
     if not f:
-        return {"title": "qa", "bottom": "qa, qa F01, or qa defects.", "face": "error"}
+        return {"title": "qa", "bottom": "qa, qa KIT-MARK-001, or qa defects.", "face": "error"}
     return {
         "title": f["id"],
         "tag": f["status"],

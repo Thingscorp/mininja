@@ -49,12 +49,13 @@
       --color-ok: #4cc38a;
       --color-warn: #e5b849;
       --color-err: #ff5a5a;
-      --color-git-watch: #e3b341;
-      --color-git-roost: #39d0d8;
+      --color-git-nightwatch: #e3b341;
+      --color-git-dock: #39d0d8;
       --color-git-desk: #3fb950;
-      --color-git-forge: #db6d28;
-      --color-git-loop: #d2a8ff;
-      --color-git-board: #58a6ff;
+      --color-git-workshop: #db6d28;
+      --color-git-archives: #d2a8ff;
+      --color-git-gate: #58a6ff;
+      --color-git-rooftop: #f778ba;
       --text-mini: 12px;
       --text-ui: 13px;
       --text-lock: 14px;
@@ -188,12 +189,13 @@
       background: currentColor;
       pointer-events: none;
     }
-    .world-tree[data-ink="watch"] { --tree-ink: var(--color-git-watch); }
-    .world-tree[data-ink="roost"] { --tree-ink: var(--color-git-roost); }
+    .world-tree[data-ink="nightwatch"] { --tree-ink: var(--color-git-nightwatch); }
+    .world-tree[data-ink="dock"] { --tree-ink: var(--color-git-dock); }
     .world-tree[data-ink="desk"] { --tree-ink: var(--color-git-desk); }
-    .world-tree[data-ink="forge"] { --tree-ink: var(--color-git-forge); }
-    .world-tree[data-ink="loop"] { --tree-ink: var(--color-git-loop); }
-    .world-tree[data-ink="board"] { --tree-ink: var(--color-git-board); }
+    .world-tree[data-ink="workshop"] { --tree-ink: var(--color-git-workshop); }
+    .world-tree[data-ink="archives"] { --tree-ink: var(--color-git-archives); }
+    .world-tree[data-ink="gate"] { --tree-ink: var(--color-git-gate); }
+    .world-tree[data-ink="rooftop"] { --tree-ink: var(--color-git-rooftop); }
     .world-mark {
       flex: 0 0 auto;
       overflow: hidden;
@@ -474,7 +476,7 @@
   <div id="app">
     <header id="banner">
       <div class="banner-hud">
-        <span class="banner-place" id="bannerPlace">watch · idle</span>
+        <span class="banner-place" id="bannerPlace">dock · idle</span>
         <span class="banner-who" id="bannerWho">console</span>
       </div>
       <div class="scoot-track" id="track">
@@ -592,15 +594,38 @@
 
     const STEEL = "#8a8f98";
     const ZONE_CELLS = 44;
-    const ZONES = [
-      { id: "watch", cmds: ["now", "look", "help", "api", "wake"] },
-      { id: "roost", cmds: ["pgeon"] },
-      { id: "desk", cmds: ["save", "brief"] },
-      { id: "forge", cmds: ["refine", "turn"] },
-      { id: "loop", cmds: ["compound", "ralph", "qa"] },
-      { id: "board", cmds: ["todo", "plan"] },
-    ];
-    let place = "watch";
+    // Host cmd→stage routing only (console COMMAND_INTENT parity). Stage ids load from kit.
+    const CMD_STAGE = {
+      now: "desk", overview: "desk", todo: "desk", plan: "desk", gantt: "desk",
+      brief: "desk", turn: "desk", save: "desk",
+      look: "archives", api: "archives", web: "archives", postgres: "archives", pgeon: "archives",
+      refine: "workshop", compound: "workshop", qa: "workshop", ralph: "workshop",
+      help: "dock", wake: "dock", online: "dock", reconnect: "dock", clear: "dock", scene: "dock",
+      offline: "nightwatch", sleep: "nightwatch",
+    };
+    let ZONES = [];
+    let place = "dock";
+
+    function zonesFromKit(kit) {
+      const stages = (kit.stages || []).slice().sort((a, b) => (a.x || 0) - (b.x || 0));
+      return stages.map((s) => ({
+        id: s.id,
+        cmds: Object.entries(CMD_STAGE).filter(([, st]) => st === s.id).map(([c]) => c),
+      }));
+    }
+
+    async function hydrateZones() {
+      try {
+        const res = await fetch("/kit/scene.json");
+        if (!res.ok) throw new Error("kit " + res.status);
+        const kit = await res.json();
+        ZONES = zonesFromKit(kit);
+        place = (kit.defaultScene && kit.defaultScene.stage) || (ZONES[0] && ZONES[0].id) || "dock";
+        paintGrove();
+      } catch (err) {
+        console.warn("kit hydrate failed", err);
+      }
+    }
 
     function selectedTint() {
       const bot = currentBot();
@@ -657,7 +682,20 @@
     }
 
     function goPlace(raw) {
-      const head = (raw || "").trim().split(/\s+/)[0]?.toLowerCase().replace(/[^a-z0-9]/g, "") || "";
+      const parts = (raw || "").trim().split(/\s+/);
+      const head = (parts[0] || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+      const arg = (parts[1] || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+      if (head === "go" && arg) {
+        const hit = ZONES.find((z) => z.id === arg);
+        if (hit) { place = hit.id; paintGrove(); }
+        return;
+      }
+      const mapped = CMD_STAGE[head];
+      if (mapped && ZONES.some((z) => z.id === mapped)) {
+        place = mapped;
+        paintGrove();
+        return;
+      }
       const i = ZONES.findIndex((z) => z.cmds.includes(head));
       if (i < 0) return;
       place = ZONES[i].id;
@@ -859,9 +897,9 @@
         box.innerHTML = "<span>enter send · shift+enter newline</span>";
         return;
       }
-      task.placeholder = "now · todo · plan · brief · pgeon";
+      task.placeholder = "now · scene · feel · do · go · pgeon";
       const cmds = (state.commands || []).filter((c) =>
-        ["now","todo","plan","brief","pgeon","refine","turn","save","compound","qa","ralph"].includes(c)
+        ["now","todo","plan","brief","pgeon","refine","turn","save","compound","qa","ralph","scene","feel","do","go"].includes(c)
       );
       box.innerHTML = cmds.map((c) =>
         `<button type="button" data-hint="${esc(c)}">${esc(c)}</button>`
@@ -1042,6 +1080,7 @@
       setTimeout(() => { if (face === "blink") setMascot("idle"); }, 150);
     }, 9000);
 
+    hydrateZones();
     refresh();
   </script>
 </body>

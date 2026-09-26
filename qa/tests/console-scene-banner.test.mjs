@@ -29,11 +29,13 @@ assert(banner.includes(String(kit.motion.patrolPxPerSec)), `patrol ${kit.motion.
 assert(banner.includes(String(kit.motion.arriveEpsilonPx)) || /gap\s*>\s*6|epsilon|6/.test(banner), "arrive epsilon");
 assert(/56/.test(banner) && /90/.test(banner), "patrol insets");
 
-// camera look-ahead drift observation
-const uses035 = /viewW\s*\*\s*0\.35/.test(banner);
+// camera look-ahead must match kit asymmetric ratios (no legacy 0.35)
 const kitRight = kit.motion.cameraLookAheadRight;
-assert(typeof kitRight === "number", "kit cameraLookAheadRight");
-// Pass either way — defect logged if uses035 && kitRight !== 0.35
+const kitLeft = kit.motion.cameraLookAheadLeft;
+assert(typeof kitRight === "number" && typeof kitLeft === "number", "kit look-ahead");
+assert(!/viewW\s*\*\s*0\.35/.test(banner), "no legacy 0.35 look-ahead");
+assert(banner.includes(String(kitRight)), `look-ahead right ${kitRight}`);
+assert(banner.includes(String(kitLeft)), `look-ahead left ${kitLeft}`);
 
 assert(/registerFromKit/.test(scene) && /kit\/scene\.json/.test(scene), "registerFromKit");
 assert(!/\bSTAGE_SEED\b|\bEMOTION_SEED\b|\bACTION_SEED\b/.test(scene), "no dual seeds");
@@ -44,5 +46,5 @@ const align = spawnSync(process.execPath, [join(root, "console", "scripts", "kit
 assert(align.status === 0, `kit-align: ${align.stdout}${align.stderr}`);
 
 console.log(
-  `PASS  SUITE-CON-SCENE-001..004 / BANNER-002 (cam035=${uses035} kitLookAheadRight=${kitRight})`,
+  `PASS  SUITE-CON-SCENE-001..004 / BANNER-002 (lookAhead=${kitRight}/${kitLeft})`,
 );

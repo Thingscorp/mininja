@@ -1,132 +1,62 @@
 [
   {
-    "Defect ID": "D07",
-    "Feature ID": "F29",
-    "Reproduction steps": "schedule two jobs that need each other",
-    "Expected result": "Terminates with finite starts",
-    "Actual result": "Cycle starts are not forced to 0; scheduler still terminates",
+    "Defect ID": "DEFECT-CON-UI-001",
+    "Feature ID": "CON-ROUTE-005",
+    "Reproduction steps": "Throw a route error; view AppErrorComponent",
+    "Expected result": "Hubzz bg/fg tokens",
+    "Actual result": "zinc light/dark utility classes",
     "Severity": "low",
-    "Root cause hypothesis": "Cyclic edge skipped but days still applied on the other node",
-    "Status": "waived"
-  },
-  {
-    "Defect ID": "D01",
-    "Feature ID": "F06",
-    "Reproduction steps": "Type now or click now",
-    "Expected result": "Current state with live version fields",
-    "Actual result": "was today list",
-    "Severity": "high",
-    "Root cause hypothesis": "now grouped with today/do",
+    "Root cause hypothesis": "Scaffold error screen not re-skinned",
     "Status": "fixed"
   },
   {
-    "Defect ID": "D02",
-    "Feature ID": "F15",
-    "Reproduction steps": "Type xyzzy",
-    "Expected result": "Error face and Unknown command",
-    "Actual result": "afterCommand missed new title",
-    "Severity": "high",
-    "Root cause hypothesis": "stale title match",
-    "Status": "fixed"
-  },
-  {
-    "Defect ID": "D03",
-    "Feature ID": "F16",
-    "Reproduction steps": "Type on",
-    "Expected result": "No short-token match",
-    "Actual result": "Matched reader job",
-    "Severity": "medium",
-    "Root cause hypothesis": "title.includes",
-    "Status": "fixed"
-  },
-  {
-    "Defect ID": "D04",
-    "Feature ID": "F13",
-    "Reproduction steps": "Type reconnect after offline",
-    "Expected result": "Wake if network is up",
-    "Actual result": "Not accepted",
-    "Severity": "medium",
-    "Root cause hypothesis": "missing alias",
-    "Status": "fixed"
-  },
-  {
-    "Defect ID": "D05",
-    "Feature ID": "F12",
-    "Reproduction steps": "Go offline after boot",
-    "Expected result": "No blink",
-    "Actual result": "Blink ignored offline",
-    "Severity": "medium",
-    "Root cause hypothesis": "deps [ready] only",
-    "Status": "fixed"
-  },
-  {
-    "Defect ID": "D06",
-    "Feature ID": "F07",
-    "Reproduction steps": "Click a today line",
-    "Expected result": "Inspect that job",
-    "Actual result": "Static text",
-    "Severity": "medium",
-    "Root cause hypothesis": "rows not bound",
-    "Status": "fixed"
-  },
-  {
-    "Defect ID": "D08",
-    "Feature ID": "F04",
-    "Reproduction steps": "e2e button selectors",
-    "Expected result": "Stable selectors",
-    "Actual result": "Flaky name regex",
-    "Severity": "medium",
-    "Root cause hypothesis": "accessible name",
-    "Status": "fixed"
-  },
-  {
-    "Defect ID": "D09",
-    "Feature ID": "F37",
-    "Reproduction steps": "qa F37",
-    "Expected result": "Inspect F37",
-    "Actual result": "Unknown qa verb",
-    "Severity": "high",
-    "Root cause hypothesis": "features.json stale vs feature-register.csv",
-    "Status": "fixed"
-  },
-  {
-    "Defect ID": "D10",
-    "Feature ID": "F31",
-    "Reproduction steps": "Type status",
-    "Expected result": "Status listing",
-    "Actual result": "Unknown command",
+    "Defect ID": "DEFECT-CON-DOC-001",
+    "Feature ID": "CON-ROUTE-004",
+    "Reproduction steps": "Run brand-check heuristics against buddy console",
+    "Expected result": "Buddy-appropriate og:type guidance",
+    "Actual result": "brand-check docs still emphasize x:game for canvas",
     "Severity": "low",
-    "Root cause hypothesis": "Register described a verb cardFor never had",
-    "Status": "waived"
-  },
-  {
-    "Defect ID": "D11",
-    "Feature ID": "F17",
-    "Reproduction steps": "Name a loop",
-    "Expected result": "Loop inspect",
-    "Actual result": "No findLoop in shell",
-    "Severity": "low",
-    "Root cause hypothesis": "Ghost from an earlier cut",
-    "Status": "waived"
-  },
-  {
-    "Defect ID": "D12",
-    "Feature ID": "F15",
-    "Reproduction steps": "Type xyzzy",
-    "Expected result": "Helpful unknown copy",
-    "Actual result": "Listed a stale subset of verbs",
-    "Severity": "medium",
-    "Root cause hypothesis": "Hardcoded bottom",
+    "Root cause hypothesis": "Heuristic aimed at canvas/games",
     "Status": "fixed"
   },
   {
-    "Defect ID": "D13",
-    "Feature ID": "F37",
-    "Reproduction steps": "Click a discover line",
-    "Expected result": "Open that feature",
-    "Actual result": "Unknown command",
+    "Defect ID": "DEFECT-CON-QA-001",
+    "Feature ID": "CON-PLUG-007",
+    "Reproduction steps": "Compare plugins/qa/features.json Feature IDs to qa/monorepo-feature-matrix.csv",
+    "Expected result": "JSON mirrors canonical matrix",
+    "Actual result": "JSON still Aug Fnn register",
     "Severity": "medium",
-    "Root cause hypothesis": "Rows were not composeable programs",
+    "Root cause hypothesis": "Register not regenerated after monorepo matrix",
+    "Status": "fixed"
+  },
+  {
+    "Defect ID": "DEFECT-BOT-ENG-001",
+    "Feature ID": "BOT-ENG-001",
+    "Reproduction steps": "Compare bot/console/engine.py COMMANDS to console cardFor/help + START chips; run mininja cmd scene",
+    "Expected result": "Bot engine accepts scene/feel/do/go (habitat parity with console)",
+    "Actual result": "COMMANDS omits scene/feel/do/go; cmd help rows lack habitat verbs",
+    "Severity": "medium",
+    "Root cause hypothesis": "Bot engine forked before habitat commands landed in console; programs not re-synced",
+    "Status": "fixed"
+  },
+  {
+    "Defect ID": "DEFECT-BOT-UI-002",
+    "Feature ID": "BOT-UI-002",
+    "Reproduction steps": "Parse const ZONES in bot/static/index.html; compare ids to kit/scene.json stages.*.id",
+    "Expected result": "Grove places mirror kit stage ids (or documented host alias map)",
+    "Actual result": "ZONES=watch,roost,desk,forge,loop,board; kit=nightwatch,dock,desk,workshop,archives,gate,rooftop (only desk overlaps)",
+    "Severity": "medium",
+    "Root cause hypothesis": "Bot UI keeps parallel habitat metaphor table instead of kit SoT stage ids",
+    "Status": "fixed"
+  },
+  {
+    "Defect ID": "DEFECT-CON-BANNER-002",
+    "Feature ID": "CON-BANNER-002",
+    "Reproduction steps": "Diff console/src/components/banner.tsx camera look-ahead vs kit/scene.json motion.cameraLookAheadRight/Left",
+    "Expected result": "Camera look-ahead reads kit motion (0.32 right / 0.52 left) or documents host override",
+    "Actual result": "Hardcoded viewW * 0.35; walk/run/patrol speeds DO match kit (170/280/26)",
+    "Severity": "low",
+    "Root cause hypothesis": "Legacy single look-ahead constant predates asymmetric kit camera fields",
     "Status": "fixed"
   }
 ]

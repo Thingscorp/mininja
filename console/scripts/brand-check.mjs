@@ -4,8 +4,11 @@
  * those must ship a custom share card — the default og.grok.me placeholder is
  * not acceptable for them (ship public/og.jpg and wire og:image to the app host).
  *
- * Games must also emit og:type="x:game" in the root head so X can present the
- * unfurl as a game card (see og skill § "og:type for games").
+ * og:type guidance (warn, not fail):
+ *   - Buddy / DOM apps (Mininja console): use og:type="website" in root head.
+ *   - Canvas / games: use og:type="x:game" so X can present a game-card unfurl
+ *     (see og skill § "og:type for games"). This gate only warns on the
+ *     high-confidence canvas signal — buddy apps are not pushed to x:game.
  *
  * Checked on the filesystem (not the served head) because live preview has no
  * VITE_PUBLIC_HOSTNAME and renders no og:image tag at all, so the page alone
@@ -97,16 +100,16 @@ export function computeBrandWarnings({ hasCanvas, workspaceRoot = "/workspace" }
     );
   }
 
-  // Games (canvas heuristic) must declare og:type="x:game" so X can present the
-  // share card as a game. DOM/board games without canvas are covered by agent
-  // docs; this gate only fires on the high-confidence canvas signal.
+  // Canvas / games only: require og:type="x:game". Buddy/DOM apps (no canvas)
+  // should keep og:type="website" — do not warn them toward x:game.
   if (hasCanvas && !rootDeclaresOgTypeGame(rootTsx)) {
     warnings.push(
       'BRAND WARNING: this looks like a game/canvas app but src/routes/__root.tsx is missing '
         + 'og:type="x:game". X uses this meta tag to present the unfurl as a game card — set '
         + `{ property: "og:type", content: "x:game" } in the root head meta (always, not only `
-        + `when a host exists) per ${skillPath}. Do not invent x:type or overload twitter:card `
-        + "as the game signal.",
+        + `when a host exists) per ${skillPath}. Buddy/DOM apps without canvas should use `
+        + `{ property: "og:type", content: "website" } instead — do not invent x:type or `
+        + "overload twitter:card as the game signal.",
     );
   }
 
