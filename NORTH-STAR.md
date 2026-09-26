@@ -24,6 +24,23 @@ Together they describe **one connected system**. **v1 hero** = **pal + habitat g
 
 ---
 
+## Who it’s for
+
+Mininja is for **visual learners** entering (or swimming in) software work — people who grasp systems faster when they can *see* posture than when they only read feeds.
+
+The desk companion lowers the barrier to core development concepts by making them glanceable:
+
+| Concept | What you see |
+|---------|----------------|
+| Agents at work | **Pals** (unnamed) on the strip |
+| Repos / goals | **Plants** (`repoBranch` growth) |
+| Blocked / review / shipped | Face + stage posture ([`GLANCE.md`](GLANCE.md)) |
+| Steering agents | Host composer (`@` / rally) — Apps lane |
+
+It is **not** another IDE, status dashboard, or courseware mound. Warmth + constraint teach “what matters” at the edge of vision. Buyers and hosts may care about that pedagogy; this page does **not** narrate acquisition strategy.
+
+---
+
 ## Map onto Mininja
 
 | Layer | Pebble / pet analogue | Mininja brick | Where it lives |
@@ -162,7 +179,7 @@ Later plate still belongs on this page’s graph. Demoting recipes from the READ
 
 ## How to use this doc
 
-- **Pitch / onboarding** — start here, then [`BRAND.md`](BRAND.md) for quality pillars (“Apple of Terminal Buddies”) vs this page’s product parents.
+- **Pitch / onboarding** — start here (including **Who it’s for**), then [`BRAND.md`](BRAND.md) for quality pillars (“Apple of Terminal Buddies”) vs this page’s product parents.
 - **Glance / rubber-duck** — [`GLANCE.md`](GLANCE.md) for hierarchy, attention layers, anti-dashboard rules, pals.
 - **Porting** — [`PORTING.md`](PORTING.md) for the 60s face and ladder; keep recipe-compatible id seams; see [`adapters/presence`](adapters/presence) for motion chrome.
 - **Scene / habitat / garden** — [`SCENERY.md`](SCENERY.md) · [`GARDEN.md`](GARDEN.md) · [`TERMINAL-MOTION.md`](TERMINAL-MOTION.md).
