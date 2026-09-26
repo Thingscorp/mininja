@@ -116,3 +116,4 @@ Discovery mappings: [`qa/simulations/`](qa/simulations/) (scenario families ↔ 
 - Recipe filtering (later): [`RECIPES.md`](RECIPES.md)
 - Stages that carry the story: [`SCENERY.md`](SCENERY.md)
 - Brand voice: [`BRAND.md`](BRAND.md)
+- Old console/bot carry-over inventory (composer / pals / gaps): [`qa/OLD-CONSOLE-CARRYOVER.md`](qa/OLD-CONSOLE-CARRYOVER.md)
