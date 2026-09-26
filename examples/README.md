@@ -19,19 +19,21 @@ Compose adapters. No business logic. Mascot has no name.
 ./examples/cli-banner.sh --list       # face ids from kit/mark.json
 
 # remix without forking console/
-./examples/remix/print-face.mjs allowed
+./examples/remix/print-face.mjs allowed          # ◆◆ overlay eyes
 ./examples/remix/print-face.mjs wink --facing left
+./examples/remix/print-face.mjs --motion         # scene-overlay speeds vs upstream
 
 # DOM contract (no React install)
 ./examples/react/preview.mjs
 ./examples/react/preview.mjs allowed --stage dock --action wave
 ./examples/react/preview.mjs idle --facing left
 
-# presence (sway / pulse + chip) — see presence/
+# presence — slots + Messaged chip + sidebar roster
 ./examples/presence/preview.mjs
 ./examples/presence/preview.mjs --html > /tmp/mininja-presence.html
+./examples/presence/preview.mjs --list-actions
 ```
 
-**Node vs no-Node:** idle always prints via `cli-banner.sh`. Moods, `--list`, `--facing`, ANSI, remix, and the React preview need Node on PATH. Scripts resolve the repo from their own path — run them from anywhere.
+**Node vs no-Node:** idle always prints via `cli-banner.sh`. Moods, `--list`, `--facing`, ANSI, remix, React preview, and presence preview need Node on PATH. Scripts resolve the repo from their own path — run them from anywhere.
 
-Presence: **mark** here → **faces** via adapters → scoot / scene later ([`PORTING.md`](../PORTING.md)).
+Presence ladder: **mark** here → **faces** via adapters → scoot / scene later ([`PORTING.md`](../PORTING.md)). Kit is SoT; motion seams are kit action ids on `data-motion` / `data-state`.

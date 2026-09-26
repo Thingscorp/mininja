@@ -34,7 +34,7 @@ Or from a clone:
 | [`examples/cli-banner.sh`](examples/cli-banner.sh) | Print a kit face in the terminal |
 | [`examples/remix/`](examples/remix/) | Overlay faces / motion speeds without forking `console/` |
 | [`examples/react/`](examples/react/) | DOM `<pre>` contract (no React install required to preview) |
-| [`examples/presence/`](examples/presence/) | Working slots + Messaged-style chip (`data-motion` / `data-state`) |
+| [`examples/presence/`](examples/presence/) | Slots + Messaged chip + sidebar roster (`data-motion` / `data-state`) |
 
 Stop here unless you need faces in code.
 
@@ -138,19 +138,19 @@ kit/mark.json
 
 Do **not** drag scene into a favicon. Do **not** replace glyphs with a redrawn mascot — the Unicode stack **is** the mark.
 
-### Presence direction (working slots + pills)
+### Presence direction (working slots + pills + roster)
 
 [`adapters/presence`](adapters/presence) is thin chrome — **not** a motion engine and **not** a second face table:
 
 | Piece | Job |
 |-------|-----|
-| `presence.css` | Slot + sway/pulse keyed by `data-motion` / `data-state`; Messaged-style chip pill |
-| `mark-chip.svg` | 16×16 `currentColor` silhouette for pills |
-| `attrs.mjs` | Pure `presenceAttrs` / `chipCopy` helpers |
+| `presence.css` | Slot + sway/pulse keyed by `data-motion` / `data-state`; Messaged chip; sidebar roster row |
+| `mark-chip.svg` | `currentColor` silhouette (16×16 chip · 24×24 row via CSS) |
+| `attrs.mjs` | Pure `presenceAttrs` / `chipCopy` / `rosterCopy` helpers |
 
-Motion vocabulary is kit **action** ids (`kit/scene.json` → `actions[].id`): `idle`, `search`, `think`, `wait`, … CSS currently animates a subset (`idle`/`blink` static; `search`/`wait`/`read` sway; `think`/`scan`/`type` pulse). Labels (`Idle`, `Searching`, `Messaged`, peer) stay **host copy**. `--fg` / `--bg` tint the slot and chip.
+Motion vocabulary is kit **action** ids (`kit/scene.json` → `actions[].id`): `idle`, `search`, `think`, `wait`, … CSS currently animates a subset (`idle`/`blink` static; `search`/`wait`/`read` sway; `think`/`scan`/`type` pulse). Labels (`Idle`, `Searching`, `Messaged`, peer, agent) stay **host copy**. `--fg` / `--bg` tint the slot and chip; roster rows also use `--badge`.
 
-Grok Bot’s working-slot pattern is **inspiration, not a dependency** — do not vendor its path geometry. Runnable proof: [`examples/presence/`](examples/presence/).
+Grok Bot’s working-slot / sidebar pattern is **inspiration, not a dependency** — do not vendor its path geometry. Runnable proof: [`examples/presence/`](examples/presence/) (idle + search slots, Messaged chip, sidebar roster row).
 
 ---
 
@@ -215,7 +215,7 @@ Face, stage, and action **ids** stay kit SoT. Motion / presence states reuse the
 | action | `kit/scene.json` → `actions[].id` | array of action records |
 | motion / presence | same as action (for now) | string id on `data-motion` + `data-state` |
 
-Adapters pass ids through and render from kit. React exposes `data-face` / `data-stage` / `data-action` / `data-motion` / `data-state`. [`adapters/presence`](adapters/presence) keys simple CSS (sway / pulse) and a Messaged-style chip on those attrs + `--fg` / `--bg`.
+Adapters pass ids through and render from kit. React exposes `data-face` / `data-stage` / `data-action` / `data-motion` / `data-state`. [`adapters/presence`](adapters/presence) keys simple CSS (sway / pulse), a Messaged-style chip, and a sidebar roster row on those attrs + `--fg` / `--bg` / `--badge`.
 
 **Port rule:** leave recipe-compatible motion seams (string ids). Map host feelings onto kit actions (`searching`-like → `search`, idle → `idle`). If kit lacks an id you need (`orbit`, layered SVG states, …), document the gap for Kit; do not invent a second face table.
 
@@ -241,6 +241,6 @@ Recipes remain a later plate in the system graph (creature + habitat + garden).
 | Strings | [`adapters/mark`](adapters/mark) | 1–2 | `from-kit.mjs` any · `lockup.mjs` Node |
 | Colorize | [`adapters/ansi`](adapters/ansi) | 1–2 | Node |
 | Present | [`adapters/react`](adapters/react) | 1–3 | any (no kit I/O) |
-| Presence CSS / chip | [`adapters/presence`](adapters/presence) | 2–3 | any (no kit I/O) |
+| Presence CSS / chip / roster | [`adapters/presence`](adapters/presence) | 2–3 | any (no kit I/O) |
 
 Brand law and deeper plates: [`BRAND.md`](BRAND.md) · [`STYLEGUIDE.md`](STYLEGUIDE.md) · [`CONSTRUCTION.md`](CONSTRUCTION.md) · [`RECIPES.md`](RECIPES.md).

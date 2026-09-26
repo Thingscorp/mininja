@@ -12,7 +12,7 @@ kit/mark.json
       │
       ├── adapters/ansi      → colorize          (Node)
       ├── adapters/react     → present           (browser-safe; you pass lines)
-      └── adapters/presence  → CSS / chip attrs  (data-motion / data-state seams)
+      └── adapters/presence  → CSS / chip / roster (data-motion / data-state seams)
 ```
 
 | Filter | Role | Runtime |
@@ -20,7 +20,7 @@ kit/mark.json
 | [mark](mark) | face → strings | `from-kit.mjs` any · `lockup.mjs` Node |
 | [ansi](ansi) | face / lines → ANSI | Node |
 | [react](react) | lines → `<pre>` | any (no kit I/O) |
-| [presence](presence) | CSS + chip + `presenceAttrs` | any (no kit I/O) |
+| [presence](presence) | CSS + chip + roster + `presenceAttrs` | any (no kit I/O) |
 
 **Node vs browser**
 
@@ -28,7 +28,7 @@ kit/mark.json
 |------|-----|
 | CLI / scripts | `adapters/mark/lockup.mjs`, `adapters/ansi/render.mjs` |
 | Bundler / browser | `kit/mark.json` + `adapters/mark/from-kit.mjs` → `adapters/react` and/or `adapters/presence` |
-| Working-slot chrome | `adapters/presence/presence.css` + `attrs.mjs` (pure; either runtime) |
+| Working-slot / chip / roster | `adapters/presence/presence.css` + `attrs.mjs` (pure; either runtime) |
 
 Do not import `lockup.mjs` or `ansi/` in the browser — they touch `node:fs`.
 
