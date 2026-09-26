@@ -3,15 +3,21 @@
  * Overlay kit faces / scene motion without forking console/.
  * Adapters stay the studs; you swap the brick specs (kit).
  *
- *   node ./print-face.mjs allowed
- *   node ./print-face.mjs allowed --ansi
- *   node ./print-face.mjs --list
- *   node ./print-face.mjs --motion
+ *   ./print-face.mjs allowed
+ *   ./print-face.mjs allowed --ansi
+ *   ./print-face.mjs allowed --facing left
+ *   ./print-face.mjs --list
+ *   ./print-face.mjs --motion
  */
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { hasFace, listFaces, lockup } from "../../adapters/mark/from-kit.mjs";
+import {
+  hasFace,
+  listFaces,
+  lockup,
+  mergeMark,
+} from "../../adapters/mark/from-kit.mjs";
 import { ansiLockupFromKit } from "../../adapters/ansi/render.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -21,18 +27,7 @@ function loadJson(path) {
   return JSON.parse(readFileSync(path, "utf8"));
 }
 
-function mergeMark(base, overlay) {
-  return {
-    ...base,
-    ...overlay,
-    faces: { ...base.faces, ...(overlay.faces ?? {}) },
-    moodColorsUiOnly: {
-      ...(base.moodColorsUiOnly ?? {}),
-      ...(overlay.moodColorsUiOnly ?? {}),
-    },
-  };
-}
-
+/** Scene overlay merge — motion / geometry only (mark uses adapters/mark mergeMark). */
 function mergeScene(base, overlay) {
   return {
     ...base,
@@ -43,16 +38,18 @@ function mergeScene(base, overlay) {
 }
 
 function usage() {
-  process.stdout.write(`Usage: node ./print-face.mjs [face] [options]
+  process.stdout.write(`Usage: ./print-face.mjs [face] [options]
 
-  FACE        print remixed mark (default: allowed)
-  --ansi      colorize via adapters/ansi (Node terminal chrome)
-  --list      face ids after overlay merge
-  --motion    print merged scene motion speeds (scene-overlay.json)
-  --help      this text
+  FACE          print remixed mark (default: allowed)
+  --ansi        colorize via adapters/ansi (Node terminal chrome)
+  --facing DIR  left | right (default: right)
+  --list        face ids after overlay merge
+  --motion      print merged scene motion speeds (scene-overlay.json)
+  --help        this text
 
 Overlays: mark-overlay.json · scene-overlay.json
 Upstream kit stays untouched; adapters stay the studs.
+Mark merge uses adapters/mark mergeMark (same helper hosts should call).
 `);
 }
 
@@ -62,6 +59,7 @@ let wantAnsi = false;
 let wantList = false;
 let wantMotion = false;
 let wantHelp = false;
+let facing = "right";
 
 for (let i = 0; i < args.length; i++) {
   const a = args[i];
@@ -69,8 +67,14 @@ for (let i = 0; i < args.length; i++) {
   else if (a === "--list" || a === "-l" || a === "list") wantList = true;
   else if (a === "--ansi") wantAnsi = true;
   else if (a === "--motion") wantMotion = true;
-  else if (a.startsWith("-")) {
-    console.error("unknown option: " + a);
+  else if (a === "--facing") {
+    facing = args[++i] ?? "";
+    if (facing !== "left" && facing !== "right") {
+      console.error("facing must be left or right");
+      process.exit(1);
+    }
+  } else if (a.startsWith("-")) {
+    console.error("unknown option: " + a + " (try --help)");
     process.exit(1);
   } else face = a;
 }
@@ -109,5 +113,7 @@ if (!hasFace(kit, face)) {
   process.exit(1);
 }
 
-const out = wantAnsi ? ansiLockupFromKit(kit, face) : lockup(kit, face);
+const out = wantAnsi
+  ? ansiLockupFromKit(kit, face, { facing })
+  : lockup(kit, face, facing);
 process.stdout.write(out + "\n");

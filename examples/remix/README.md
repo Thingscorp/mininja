@@ -6,11 +6,13 @@
 # upstream face
 ../cli-banner.sh allowed
 
-# remixed allowed eyes (◆◆) via overlay — still uses adapters/mark/from-kit
-node ./print-face.mjs allowed
-node ./print-face.mjs allowed --ansi
-node ./print-face.mjs --list
-node ./print-face.mjs --motion   # scene-overlay speeds vs upstream
+# remixed allowed eyes (◆◆) via overlay — adapters/mark mergeMark + from-kit
+./print-face.mjs allowed
+./print-face.mjs allowed --ansi
+./print-face.mjs allowed --facing left
+./print-face.mjs wink
+./print-face.mjs --list
+./print-face.mjs --motion   # scene-overlay speeds vs upstream
 ```
 
 | File | Role |
@@ -19,7 +21,16 @@ node ./print-face.mjs --motion   # scene-overlay speeds vs upstream
 | [`scene-overlay.json`](scene-overlay.json) | Swap motion speeds only |
 | [`print-face.mjs`](print-face.mjs) | Merge overlay → adapters |
 
-You do **not** copy `console/` to change a face or a walk speed. Merge overlay → pass the object into `adapters/mark/from-kit.mjs` (and your own motion code reading scene). Host merge for scene:
+You do **not** copy `console/` to change a face or a walk speed. Merge overlay → pass the object into `adapters/mark/from-kit.mjs` (and your own motion code reading scene).
+
+```js
+import { mergeMark, linesFor } from "../../adapters/mark/from-kit.mjs";
+
+const kit = mergeMark(baseMark, overlay);
+linesFor(kit, "wink");
+```
+
+Scene speeds (host merge — same shape as this demo):
 
 ```js
 const scene = {
@@ -28,4 +39,4 @@ const scene = {
 };
 ```
 
-Mascot has no name.
+Mascot has no name. Eyes-only overlay faces (no `lines`) are fine — from-kit derives the 5×3 lockup.

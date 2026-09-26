@@ -22,7 +22,7 @@ Usage: ./examples/cli-banner.sh [face] [options]
   --help        this text
 
 Idle always works (printf fallback if Node is missing).
-Other faces need Node on PATH.
+Other faces / facing need Node on PATH.
 H
 }
 
@@ -48,7 +48,11 @@ process.stdout.write(listFaces().join('\n') + '\n');
       shift
       ;;
     --facing)
-      FACING="${2:-}"
+      if [[ $# -lt 2 ]]; then
+        echo "facing requires left or right" >&2
+        exit 1
+      fi
+      FACING="$2"
       if [[ "$FACING" != "left" && "$FACING" != "right" ]]; then
         echo "facing must be left or right" >&2
         exit 1
@@ -67,8 +71,8 @@ process.stdout.write(listFaces().join('\n') + '\n');
 done
 
 if ! command -v node >/dev/null 2>&1; then
-  if [[ "$FACE" != "idle" || "$FACING" != "right" || "$COLOR" -eq 0 ]]; then
-    echo "Node not found; printing idle. Install Node for faces / facing / color control." >&2
+  if [[ "$FACE" != "idle" || "$FACING" != "right" ]]; then
+    echo "Node not found; printing idle. Install Node for faces / facing." >&2
   fi
   idle_printf
   exit 0
