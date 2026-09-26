@@ -8,90 +8,90 @@
   <circle cx="218" cy="112" r="12" fill="#ef4444"/>
   <text x="218" y="117" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">✕</text>
   <text x="54" y="236" font-family='ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif' font-size="12" font-weight="600" fill="#0f172a" text-anchor="start">Don't stretch / skew</text>
-  <g transform="translate(60,115) scale(1.8,0.7)"><text x="6.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">▚</text>
-  <text x="18.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">█</text>
-  <text x="30.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">█</text>
-  <text x="42.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">█</text>
-  <text x="54.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">█</text>
-  <text x="6.0" y="18.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">█</text>
-  <text x="18.0" y="18.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">█</text>
-  <text x="42.0" y="18.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">●</text>
-  <text x="54.0" y="18.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">●</text>
-  <text x="6.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">▀</text>
-  <text x="18.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">▀</text>
-  <text x="30.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">▀</text>
-  <text x="42.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">▀</text>
-  <text x="54.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">▀</text></g>
+  <g transform="translate(60,115) scale(1.8,0.7)"><text x="6.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">▚</text>
+  <text x="18.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">█</text>
+  <text x="30.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">█</text>
+  <text x="42.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">█</text>
+  <text x="54.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">█</text>
+  <text x="6.0" y="18.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">█</text>
+  <text x="18.0" y="18.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">█</text>
+  <text x="42.0" y="18.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">●</text>
+  <text x="54.0" y="18.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">●</text>
+  <text x="6.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">▀</text>
+  <text x="18.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">▀</text>
+  <text x="30.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">▀</text>
+  <text x="42.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">▀</text>
+  <text x="54.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">▀</text></g>
   <rect x="260" y="90" width="200" height="160" fill="#f8fafc" stroke="#cbd5e1" rx="8"/>
   <circle cx="438" cy="112" r="12" fill="#ef4444"/>
   <text x="438" y="117" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">✕</text>
   <text x="274" y="236" font-family='ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif' font-size="12" font-weight="600" fill="#0f172a" text-anchor="start">Don't recolor eyes alone</text>
-  <text x="317.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">▚</text>
-  <text x="331.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">█</text>
-  <text x="345.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">█</text>
-  <text x="359.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">█</text>
-  <text x="373.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">█</text>
-  <text x="317.0" y="141.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">█</text>
-  <text x="331.0" y="141.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">█</text>
-  <text x="317.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">▀</text>
-  <text x="331.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">▀</text>
-  <text x="345.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">▀</text>
-  <text x="359.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">▀</text>
-  <text x="373.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">▀</text>
-<text x="359.0" y="141.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#ef4444">●</text>
-  <text x="373.0" y="141.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#ef4444">●</text>
+  <text x="317.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">▚</text>
+  <text x="331.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">█</text>
+  <text x="345.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">█</text>
+  <text x="359.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">█</text>
+  <text x="373.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">█</text>
+  <text x="317.0" y="141.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">█</text>
+  <text x="331.0" y="141.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">█</text>
+  <text x="317.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">▀</text>
+  <text x="331.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">▀</text>
+  <text x="345.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">▀</text>
+  <text x="359.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">▀</text>
+  <text x="373.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">▀</text>
+<text x="359.0" y="141.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#ef4444">●</text>
+  <text x="373.0" y="141.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#ef4444">●</text>
   <rect x="480" y="90" width="200" height="160" fill="#f8fafc" stroke="#cbd5e1" rx="8"/>
   <circle cx="658" cy="112" r="12" fill="#ef4444"/>
   <text x="658" y="117" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">✕</text>
   <text x="494" y="236" font-family='ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif' font-size="12" font-weight="600" fill="#0f172a" text-anchor="start">Don't rearrange lines</text>
-  <text x="537.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">▀</text>
-  <text x="551.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">▀</text>
-  <text x="565.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">▀</text>
-  <text x="579.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">▀</text>
-  <text x="593.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">▀</text>
-  <text x="537.0" y="141.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">█</text>
-  <text x="551.0" y="141.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">█</text>
-  <text x="579.0" y="141.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">●</text>
-  <text x="593.0" y="141.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">●</text>
-  <text x="537.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">▚</text>
-  <text x="551.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">█</text>
-  <text x="565.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">█</text>
-  <text x="579.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">█</text>
-  <text x="593.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="14" fill="#0f172a">█</text>
+  <text x="537.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">▀</text>
+  <text x="551.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">▀</text>
+  <text x="565.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">▀</text>
+  <text x="579.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">▀</text>
+  <text x="593.0" y="127.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">▀</text>
+  <text x="537.0" y="141.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">█</text>
+  <text x="551.0" y="141.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">█</text>
+  <text x="579.0" y="141.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">●</text>
+  <text x="593.0" y="141.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">●</text>
+  <text x="537.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">▚</text>
+  <text x="551.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">█</text>
+  <text x="565.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">█</text>
+  <text x="579.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">█</text>
+  <text x="593.0" y="155.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="14" fill="#0f172a">█</text>
   <rect x="40" y="280" width="200" height="160" fill="#f8fafc" stroke="#cbd5e1" rx="8"/>
   <circle cx="218" cy="302" r="12" fill="#ef4444"/>
   <text x="218" y="307" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">✕</text>
   <text x="54" y="426" font-family='ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif' font-size="12" font-weight="600" fill="#0f172a" text-anchor="start">Don't put text inside</text>
-  <text x="76.0" y="306.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">▚</text>
-  <text x="88.0" y="306.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">█</text>
-  <text x="100.0" y="306.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">█</text>
-  <text x="112.0" y="306.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">█</text>
-  <text x="124.0" y="306.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">█</text>
-  <text x="76.0" y="318.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">█</text>
-  <text x="88.0" y="318.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">█</text>
-  <text x="112.0" y="318.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">●</text>
-  <text x="124.0" y="318.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">●</text>
-  <text x="76.0" y="330.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">▀</text>
-  <text x="88.0" y="330.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">▀</text>
-  <text x="100.0" y="330.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">▀</text>
-  <text x="112.0" y="330.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">▀</text>
-  <text x="124.0" y="330.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">▀</text><text x="95" y="322" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="10" font-weight="700" fill="#ef4444" text-anchor="start">MINI</text>
+  <text x="76.0" y="306.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">▚</text>
+  <text x="88.0" y="306.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">█</text>
+  <text x="100.0" y="306.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">█</text>
+  <text x="112.0" y="306.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">█</text>
+  <text x="124.0" y="306.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">█</text>
+  <text x="76.0" y="318.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">█</text>
+  <text x="88.0" y="318.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">█</text>
+  <text x="112.0" y="318.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">●</text>
+  <text x="124.0" y="318.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">●</text>
+  <text x="76.0" y="330.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">▀</text>
+  <text x="88.0" y="330.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">▀</text>
+  <text x="100.0" y="330.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">▀</text>
+  <text x="112.0" y="330.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">▀</text>
+  <text x="124.0" y="330.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">▀</text><text x="95" y="322" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="10" font-weight="700" fill="#ef4444" text-anchor="start">MINI</text>
   <rect x="260" y="280" width="200" height="160" fill="#f8fafc" stroke="#cbd5e1" rx="8"/>
   <circle cx="438" cy="302" r="12" fill="#ef4444"/>
   <text x="438" y="307" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">✕</text>
   <text x="274" y="426" font-family='ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif' font-size="12" font-weight="600" fill="#0f172a" text-anchor="start">Don't rotate</text>
-  <g transform="translate(360,360) rotate(25) translate(-40,-30)"><text x="6.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">▚</text>
-  <text x="18.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">█</text>
-  <text x="30.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">█</text>
-  <text x="42.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">█</text>
-  <text x="54.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">█</text>
-  <text x="6.0" y="18.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">█</text>
-  <text x="18.0" y="18.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">█</text>
-  <text x="42.0" y="18.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">●</text>
-  <text x="54.0" y="18.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">●</text>
-  <text x="6.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">▀</text>
-  <text x="18.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">▀</text>
-  <text x="30.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">▀</text>
-  <text x="42.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">▀</text>
-  <text x="54.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"Cascadia Code", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace' font-size="12" fill="#0f172a">▀</text></g>
+  <g transform="translate(360,360) rotate(25) translate(-40,-30)"><text x="6.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">▚</text>
+  <text x="18.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">█</text>
+  <text x="30.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">█</text>
+  <text x="42.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">█</text>
+  <text x="54.0" y="6.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">█</text>
+  <text x="6.0" y="18.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">█</text>
+  <text x="18.0" y="18.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">█</text>
+  <text x="42.0" y="18.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">●</text>
+  <text x="54.0" y="18.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">●</text>
+  <text x="6.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">▀</text>
+  <text x="18.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">▀</text>
+  <text x="30.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">▀</text>
+  <text x="42.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">▀</text>
+  <text x="54.0" y="30.0" text-anchor="middle" dominant-baseline="central" font-family='"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace' font-size="12" fill="#0f172a">▀</text></g>
 </svg>

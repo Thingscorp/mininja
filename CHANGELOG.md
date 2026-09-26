@@ -1,5 +1,6 @@
 ## Unreleased / next
 
+- Kit+Apps: pin **IBM Plex Mono** (400/500/600) as mark typeface SoT — `kit/mark.json` **1.6.3** `typeface`, console self-hosts same TTFs as bot, assets SVG/PNG re-baked, Cascadia dropped ([CONSTRUCTION.md](CONSTRUCTION.md), `scripts/export-mark-assets.mjs`)
 - Apps: Linear token polish — theme-color/favicon `#08090a`/`#5e6ad2`, bot↔console hairline + type scale, kit-hydrate bot FRAMES (`sandboxing`, warning ▲△), focus-visible chrome
 - Apps: per-pal LLM credential slots (assign/share/change/unshare) — host-only `credentials.json`; never kit secrets. Host chrome stays stock (no provider brand tints; custom colors deferred to users) ([bot/README.md](bot/README.md))
 - Apps: **KILL** LLM-provider brand-color / theme concept — drop `body[data-llm-provider]` habitat tinting + Claude preview; credentials flow kept

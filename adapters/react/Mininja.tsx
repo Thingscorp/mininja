@@ -60,7 +60,7 @@ export type MininjaProps = {
 const markStyle: CSSProperties = {
   margin: 0,
   lineHeight: 1,
-  fontFamily: "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+  fontFamily: '"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace',
   fontWeight: 500,
   color: "currentColor",
   whiteSpace: "pre",

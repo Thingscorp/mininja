@@ -23,7 +23,7 @@ Motion ids are **kit action strings** (`kit/scene.json` → `actions[].id`): `id
   <span class="mininja-slot__status">Idle</span>
   <pre class="mininja-mark" data-motion="idle" data-state="idle"
        role="img" aria-label="Mininja mark"
-       style="margin:0;font:500 12px/1 ui-monospace,monospace;white-space:pre">▚████
+       style="margin:0;font:500 12px/1 'IBM Plex Mono',ui-monospace,monospace;white-space:pre">▚████
 ██ ●●
 ▀▀▀▀▀</pre>
 </div>
@@ -32,7 +32,7 @@ Motion ids are **kit action strings** (`kit/scene.json` → `actions[].id`): `id
   <span class="mininja-slot__status">Searching</span>
   <pre class="mininja-mark" data-motion="search" data-state="search"
        role="img" aria-label="Mininja mark"
-       style="margin:0;font:500 12px/1 ui-monospace,monospace;white-space:pre">▚████
+       style="margin:0;font:500 12px/1 'IBM Plex Mono',ui-monospace,monospace;white-space:pre">▚████
 ██ ◐◑
 ▀▀▀▀▀</pre>
 </div>

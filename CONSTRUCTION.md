@@ -85,6 +85,10 @@ Digital minimum height 24 px ⇒ minimum cell size \(24/3 = 8\) px. Clearspace =
 
 See [STYLEGUIDE.md](STYLEGUIDE.md). Idle reference: ●●. States use the same three-line stack with only the eye glyphs (and the mirrored body for `loadingLeft`) substituted.
 
+## Typeface
+
+**IBM Plex Mono** (weights 400 / 500 / 600) is required for the 5×3 lockup. Cells stay square on a monospace grid. Production mark rendering must load this face — do not rely on system `ui-monospace` alone. Uncontrolled surfaces (README, OG, email, print) use the pre-rendered SVG/PNG assets baked with this face ([kit/mark.json](kit/mark.json) → `typeface`).
+
 ## Related
 
 - [kit/mark.json](kit/mark.json) — machine SoT for grid, codepoints, faces, clearspace, min size

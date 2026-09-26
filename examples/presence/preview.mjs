@@ -130,7 +130,7 @@ function markPre(face, motion, stage, action) {
     className: "mininja-mark",
   });
   const body = lines.map(esc).join("\n");
-  return `<pre ${attrsToString(attrs)} style="margin:0;line-height:1;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:500;font-size:12px;color:var(--fg);white-space:pre">${body}</pre>`;
+  return `<pre ${attrsToString(attrs)} style="margin:0;line-height:1;font-family:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;font-weight:500;font-size:12px;color:var(--fg);white-space:pre">${body}</pre>`;
 }
 
 function slot(status, face, motion, stage, action, tint) {

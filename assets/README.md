@@ -29,3 +29,13 @@ Each state has `.svg` (monospace grid) and `.png` (512×512, transparent).
 ## Visual guides
 
 See [visuals/](visuals/) for construction, clearspace, minimum size, expression sheet, don’ts, and monochrome-vs-mood diagrams.
+
+## Typeface
+
+Lockup assets are baked with **IBM Plex Mono** ([`kit/mark.json`](../kit/mark.json) → `typeface`). Regenerate:
+
+```bash
+node scripts/export-mark-assets.mjs --png
+```
+
+Expression SVGs and paired PNGs (512×512) plus existing `visuals/*.png` are rewritten from the kit face table / patched stacks. Prefer this script over hand-editing font-family.

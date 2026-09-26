@@ -162,7 +162,7 @@ const attrs = [
   motionId
     ? `data-motion="${esc(motionId)}" data-state="${esc(motionId)}"`
     : null,
-  `style="margin:0;line-height:1;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:500;color:currentColor;white-space:pre"`,
+  `style="margin:0;line-height:1;font-family:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;font-weight:500;color:currentColor;white-space:pre"`,
 ]
   .filter(Boolean)
   .join(" ");

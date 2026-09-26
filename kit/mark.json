@@ -1,5 +1,5 @@
 {
-  "version": "1.6.2",
+  "version": "1.6.3",
   "name": "Mininja mark",
   "owner": "Thingscorp LLC",
   "mascotNamed": false,
@@ -21,17 +21,17 @@
   },
   "canonicalIdle": {
     "lines": [
-      "\u259a\u2588\u2588\u2588\u2588",
-      "\u2588\u2588 \u25cf\u25cf",
-      "\u2580\u2580\u2580\u2580\u2580"
+      "▚████",
+      "██ ●●",
+      "▀▀▀▀▀"
     ],
-    "note": "Glyphs ARE the mark. Five columns \u00d7 three rows."
+    "note": "Glyphs ARE the mark. Five columns × three rows."
   },
   "mirroredIdle": {
     "lines": [
-      "\u2588\u2588\u2588\u2588\u259e",
-      "\u25cf\u25cf \u2588\u2588",
-      "\u2580\u2580\u2580\u2580\u2580"
+      "████▞",
+      "●● ██",
+      "▀▀▀▀▀"
     ],
     "usedBy": [
       "loadingLeft",
@@ -47,6 +47,16 @@
     "terminalRows": 3,
     "minCellPx": 8
   },
+  "typeface": {
+    "family": "IBM Plex Mono",
+    "weights": [
+      400,
+      500,
+      600
+    ],
+    "cssStack": "\"IBM Plex Mono\", ui-monospace, \"SF Mono\", Menlo, monospace",
+    "rule": "Lockup must load IBM Plex Mono; do not rely on system monospace for production mark rendering. Uncontrolled surfaces (README/OG/email/print) use pre-rendered SVG/PNG from this face."
+  },
   "monochrome": true,
   "moodColorsUiOnly": {
     "idle": "#334155",
@@ -58,44 +68,44 @@
   "faces": {
     "idle": {
       "eyes": [
-        "\u25cf",
-        "\u25cf"
+        "●",
+        "●"
       ],
       "tone": "idle",
       "motion": null,
       "mirrored": false,
       "lines": [
-        "\u259a\u2588\u2588\u2588\u2588",
-        "\u2588\u2588 \u25cf\u25cf",
-        "\u2580\u2580\u2580\u2580\u2580"
+        "▚████",
+        "██ ●●",
+        "▀▀▀▀▀"
       ]
     },
     "blink": {
       "eyes": [
-        "\u2500",
-        "\u2500"
+        "─",
+        "─"
       ],
       "tone": "idle",
       "motion": null,
       "mirrored": false,
       "lines": [
-        "\u259a\u2588\u2588\u2588\u2588",
-        "\u2588\u2588 \u2500\u2500",
-        "\u2580\u2580\u2580\u2580\u2580"
+        "▚████",
+        "██ ──",
+        "▀▀▀▀▀"
       ]
     },
     "evaluating": {
       "eyes": [
-        "\u25d0",
-        "\u25d1"
+        "◐",
+        "◑"
       ],
       "tone": "accent",
       "motion": "pulse",
       "mirrored": false,
       "lines": [
-        "\u259a\u2588\u2588\u2588\u2588",
-        "\u2588\u2588 \u25d0\u25d1",
-        "\u2580\u2580\u2580\u2580\u2580"
+        "▚████",
+        "██ ◐◑",
+        "▀▀▀▀▀"
       ]
     },
     "allowed": {
@@ -107,9 +117,9 @@
       "motion": "bounce",
       "mirrored": false,
       "lines": [
-        "\u259a\u2588\u2588\u2588\u2588",
-        "\u2588\u2588 ><",
-        "\u2580\u2580\u2580\u2580\u2580"
+        "▚████",
+        "██ ><",
+        "▀▀▀▀▀"
       ]
     },
     "asking": {
@@ -121,149 +131,149 @@
       "motion": null,
       "mirrored": false,
       "lines": [
-        "\u259a\u2588\u2588\u2588\u2588",
-        "\u2588\u2588 ??",
-        "\u2580\u2580\u2580\u2580\u2580"
+        "▚████",
+        "██ ??",
+        "▀▀▀▀▀"
       ]
     },
     "denied": {
       "eyes": [
-        "\u2503",
-        "\u2503"
+        "┃",
+        "┃"
       ],
       "tone": "err",
       "motion": "shake",
       "mirrored": false,
       "lines": [
-        "\u259a\u2588\u2588\u2588\u2588",
-        "\u2588\u2588 \u2503\u2503",
-        "\u2580\u2580\u2580\u2580\u2580"
+        "▚████",
+        "██ ┃┃",
+        "▀▀▀▀▀"
       ]
     },
     "sandboxing": {
       "eyes": [
-        "\u25c7",
-        "\u25c7"
+        "◇",
+        "◇"
       ],
       "tone": "idle",
       "motion": null,
       "mirrored": false,
       "lines": [
-        "\u259a\u2588\u2588\u2588\u2588",
-        "\u2588\u2588 \u25c7\u25c7",
-        "\u2580\u2580\u2580\u2580\u2580"
+        "▚████",
+        "██ ◇◇",
+        "▀▀▀▀▀"
       ]
     },
     "executing": {
       "eyes": [
-        "\u25e3",
-        "\u25e2"
+        "◣",
+        "◢"
       ],
       "tone": "accent",
       "motion": "pulse",
       "mirrored": false,
       "lines": [
-        "\u259a\u2588\u2588\u2588\u2588",
-        "\u2588\u2588 \u25e3\u25e2",
-        "\u2580\u2580\u2580\u2580\u2580"
+        "▚████",
+        "██ ◣◢",
+        "▀▀▀▀▀"
       ]
     },
     "completed": {
       "eyes": [
-        "\u25b4",
-        "\u25b4"
+        "▴",
+        "▴"
       ],
       "tone": "ok",
       "motion": "bounce",
       "mirrored": false,
       "lines": [
-        "\u259a\u2588\u2588\u2588\u2588",
-        "\u2588\u2588 \u25b4\u25b4",
-        "\u2580\u2580\u2580\u2580\u2580"
+        "▚████",
+        "██ ▴▴",
+        "▀▀▀▀▀"
       ]
     },
     "warning": {
       "eyes": [
-        "\u25b2",
-        "\u25b3"
+        "▲",
+        "△"
       ],
       "tone": "warn",
       "motion": "bounce",
       "mirrored": false,
       "lines": [
-        "\u259a\u2588\u2588\u2588\u2588",
-        "\u2588\u2588 \u25b2\u25b3",
-        "\u2580\u2580\u2580\u2580\u2580"
+        "▚████",
+        "██ ▲△",
+        "▀▀▀▀▀"
       ]
     },
     "error": {
       "eyes": [
-        "\u00d7",
-        "\u00d7"
+        "×",
+        "×"
       ],
       "tone": "err",
       "motion": "shake",
       "mirrored": false,
       "lines": [
-        "\u259a\u2588\u2588\u2588\u2588",
-        "\u2588\u2588 \u00d7\u00d7",
-        "\u2580\u2580\u2580\u2580\u2580"
+        "▚████",
+        "██ ××",
+        "▀▀▀▀▀"
       ]
     },
     "cancelled": {
       "eyes": [
-        "\u25e6",
-        "\u25e6"
+        "◦",
+        "◦"
       ],
       "tone": "idle",
       "motion": null,
       "mirrored": false,
       "lines": [
-        "\u259a\u2588\u2588\u2588\u2588",
-        "\u2588\u2588 \u25e6\u25e6",
-        "\u2580\u2580\u2580\u2580\u2580"
+        "▚████",
+        "██ ◦◦",
+        "▀▀▀▀▀"
       ]
     },
     "offline": {
       "eyes": [
-        "\u2012",
-        "\u2012"
+        "‒",
+        "‒"
       ],
       "tone": "idle",
       "motion": null,
       "mirrored": false,
       "lines": [
-        "\u259a\u2588\u2588\u2588\u2588",
-        "\u2588\u2588 \u2012\u2012",
-        "\u2580\u2580\u2580\u2580\u2580"
+        "▚████",
+        "██ ‒‒",
+        "▀▀▀▀▀"
       ]
     },
     "loadingRight": {
       "eyes": [
-        "\u25cf",
-        "\u25cf"
+        "●",
+        "●"
       ],
       "tone": "accent",
       "motion": "pulse",
       "mirrored": false,
       "lines": [
-        "\u259a\u2588\u2588\u2588\u2588",
-        "\u2588\u2588 \u25cf\u25cf",
-        "\u2580\u2580\u2580\u2580\u2580"
+        "▚████",
+        "██ ●●",
+        "▀▀▀▀▀"
       ]
     },
     "loadingLeft": {
       "eyes": [
-        "\u25cf",
-        "\u25cf"
+        "●",
+        "●"
       ],
       "tone": "accent",
       "motion": "pulse",
       "mirrored": true,
       "lines": [
-        "\u2588\u2588\u2588\u2588\u259e",
-        "\u25cf\u25cf \u2588\u2588",
-        "\u2580\u2580\u2580\u2580\u2580"
+        "████▞",
+        "●● ██",
+        "▀▀▀▀▀"
       ]
     }
   },
