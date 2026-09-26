@@ -169,12 +169,12 @@ try {
   const preview = await fetch(`${base}/themes/claude-preview.html`);
   assert(preview.status === 200, "claude preview");
   const previewHtml = await preview.text();
-  assert(/#d97757|data-llm-provider="anthropic"|Claude theme/i.test(previewHtml), "claude tokens in preview");
+  assert(/#de7356|data-llm-provider="anthropic"|Claude theme/i.test(previewHtml), "claude tokens in preview");
 
   // UI source: theme + credential chrome
   const index = readFileSync(join(root, "bot", "static", "index.html"), "utf8");
   assert(/data-llm-provider|paintProviderTheme|fCred|credential_id/.test(index), "UI credential+theme");
-  assert(/#d97757/.test(index), "anthropic terracotta in host CSS");
+  assert(/#de7356/.test(index), "anthropic terracotta in host CSS");
   assert(!/sk-[a-zA-Z0-9]{10,}/.test(index), "no sk- secrets in UI");
 
   // credentials file must not be in git tree paths
