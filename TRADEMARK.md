@@ -1,5 +1,7 @@
 # Mininja Trademark Notice
 
+Spell the brand **Mininja** (never “minija”). The mascot has no name.
+
 ## The mark
 
 ```
@@ -8,13 +10,13 @@
 ▀▀▀▀▀
 ```
 
-A stacked three-line Unicode block lockup. Character-by-character construction: [CONSTRUCTION.md](CONSTRUCTION.md). The mascot has no name.
+A stacked three-line Unicode block lockup. Character-by-character construction: [CONSTRUCTION.md](CONSTRUCTION.md).
 
 ## Ownership
 
 The Mininja mark (the three-line Unicode block lockup and associated brand presentation) is owned by **Thingscorp LLC**.
 
-The Mininja mark is the official mascot of Thingscorp LLC. The mascot has no name.
+The Mininja mark is the official mascot of Thingscorp LLC.
 
 ## First use in commerce
 
@@ -34,3 +36,8 @@ Do **not** use the ® symbol with the Mininja mark or brand. No federal (or othe
 **No trademark registration or pending application has been filed** for the Mininja mark. This repository and related public use establish a record of ownership and continuous use; they do not constitute a registration.
 
 Any future filing would be announced separately. Until then, treat all references as unregistered common-law use only.
+
+## Quality metaphors
+
+When Mininja is described as **“the Apple of Terminal Buddies,”** that phrase is a quality metaphor for craft, taste, and an integrated default — **not affiliated with Apple Inc.** Do not use the Apple logo or imply endorsement.
+

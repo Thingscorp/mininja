@@ -1,0 +1,22 @@
+node_modules/
+.grok/
+artifacts/
+screenshots/
+attachments/
+dist/
+.output/
+.vercel/
+.nitro/
+.tanstack/
+*.local
+.env
+.env.*
+!.env.example
+.node_modules.lock
+.DS_Store
+/tmp/
+*.log
+
+# Personal agent loop state (never commit)
+.ralph/
+ralph-items.json

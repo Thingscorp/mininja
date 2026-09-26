@@ -50,7 +50,7 @@ Keep a minimum clearspace equal to **one block-row height** on all sides of the 
 
 The mark itself is **single-color** (monochrome). Use one fill color — typically `currentColor`, black, or a dark slate such as `#0f172a` — so the lockup works on light and dark backgrounds.
 
-The five mood hex values in STYLEGUIDE (`idle`, `accent`, `success`, `warning`, `danger`) apply **only in app UI contexts** where the mascot is rendered as a live state indicator. They do not recolor brand assets, documentation lockups, or static exports unless those assets are explicitly part of an in-app expression UI.
+The five mood hex values in [`kit/mark.json`](kit/mark.json) → `moodColorsUiOnly` (`idle`, `accent`, `ok`, `warn`, `err`) — narrated in STYLEGUIDE — apply **only in app UI contexts** where the mascot is rendered as a live state indicator. They do not recolor brand assets, documentation lockups, or static exports unless those assets are explicitly part of an in-app expression UI.
 
 ## Backgrounds
 

@@ -1,0 +1,8 @@
+{
+  "comment": "Local remix — slower patrol, same stage ids. Do not fork console/ to change speeds.",
+  "motion": {
+    "walkPxPerSec": 120,
+    "runPxPerSec": 220,
+    "patrolPxPerSec": 18
+  }
+}

@@ -1,6 +1,6 @@
-# README badge (level 1)
+# README badge (~60s)
 
-Paste the idle lockup as a monospace block — no image required:
+Paste the idle lockup — monospace, no image, no install:
 
 ````markdown
 ```
@@ -10,4 +10,11 @@ Paste the idle lockup as a monospace block — no image required:
 ```
 ````
 
-Or link a generated PNG from `assets/mininja-idle.png` with alt text **Mininja mark** (never a character name).
+That’s the Mininja mark. Alt text if you link a PNG: **Mininja mark** (never a character name).
+
+Want moods from a clone instead?
+
+```bash
+./examples/cli-banner.sh allowed
+./examples/cli-banner.sh allowed --facing left
+```

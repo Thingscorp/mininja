@@ -1,0 +1,17 @@
+# Smallest kit SoT gate — no app install matrix.
+name: kit-qa
+on:
+  push:
+  pull_request:
+jobs:
+  kit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: check-consumers
+        run: node kit/check-consumers.mjs
+      - name: kit qa run-tests
+        run: node kit/qa/run-tests.mjs

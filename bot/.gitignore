@@ -1,0 +1,14 @@
+data/
+*.pyc
+__pycache__/
+.DS_Store
+dist/
+*.icns
+icon.iconset/
+.env
+*.env
+auth.json
+
+ralph-items.json
+seed/official/
+.mininja/

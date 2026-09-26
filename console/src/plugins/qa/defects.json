@@ -1,0 +1,132 @@
+[
+  {
+    "Defect ID": "D07",
+    "Feature ID": "F29",
+    "Reproduction steps": "schedule two jobs that need each other",
+    "Expected result": "Terminates with finite starts",
+    "Actual result": "Cycle starts are not forced to 0; scheduler still terminates",
+    "Severity": "low",
+    "Root cause hypothesis": "Cyclic edge skipped but days still applied on the other node",
+    "Status": "waived"
+  },
+  {
+    "Defect ID": "D01",
+    "Feature ID": "F06",
+    "Reproduction steps": "Type now or click now",
+    "Expected result": "Current state with live version fields",
+    "Actual result": "was today list",
+    "Severity": "high",
+    "Root cause hypothesis": "now grouped with today/do",
+    "Status": "fixed"
+  },
+  {
+    "Defect ID": "D02",
+    "Feature ID": "F15",
+    "Reproduction steps": "Type xyzzy",
+    "Expected result": "Error face and Unknown command",
+    "Actual result": "afterCommand missed new title",
+    "Severity": "high",
+    "Root cause hypothesis": "stale title match",
+    "Status": "fixed"
+  },
+  {
+    "Defect ID": "D03",
+    "Feature ID": "F16",
+    "Reproduction steps": "Type on",
+    "Expected result": "No short-token match",
+    "Actual result": "Matched reader job",
+    "Severity": "medium",
+    "Root cause hypothesis": "title.includes",
+    "Status": "fixed"
+  },
+  {
+    "Defect ID": "D04",
+    "Feature ID": "F13",
+    "Reproduction steps": "Type reconnect after offline",
+    "Expected result": "Wake if network is up",
+    "Actual result": "Not accepted",
+    "Severity": "medium",
+    "Root cause hypothesis": "missing alias",
+    "Status": "fixed"
+  },
+  {
+    "Defect ID": "D05",
+    "Feature ID": "F12",
+    "Reproduction steps": "Go offline after boot",
+    "Expected result": "No blink",
+    "Actual result": "Blink ignored offline",
+    "Severity": "medium",
+    "Root cause hypothesis": "deps [ready] only",
+    "Status": "fixed"
+  },
+  {
+    "Defect ID": "D06",
+    "Feature ID": "F07",
+    "Reproduction steps": "Click a today line",
+    "Expected result": "Inspect that job",
+    "Actual result": "Static text",
+    "Severity": "medium",
+    "Root cause hypothesis": "rows not bound",
+    "Status": "fixed"
+  },
+  {
+    "Defect ID": "D08",
+    "Feature ID": "F04",
+    "Reproduction steps": "e2e button selectors",
+    "Expected result": "Stable selectors",
+    "Actual result": "Flaky name regex",
+    "Severity": "medium",
+    "Root cause hypothesis": "accessible name",
+    "Status": "fixed"
+  },
+  {
+    "Defect ID": "D09",
+    "Feature ID": "F37",
+    "Reproduction steps": "qa F37",
+    "Expected result": "Inspect F37",
+    "Actual result": "Unknown qa verb",
+    "Severity": "high",
+    "Root cause hypothesis": "features.json stale vs feature-register.csv",
+    "Status": "fixed"
+  },
+  {
+    "Defect ID": "D10",
+    "Feature ID": "F31",
+    "Reproduction steps": "Type status",
+    "Expected result": "Status listing",
+    "Actual result": "Unknown command",
+    "Severity": "low",
+    "Root cause hypothesis": "Register described a verb cardFor never had",
+    "Status": "waived"
+  },
+  {
+    "Defect ID": "D11",
+    "Feature ID": "F17",
+    "Reproduction steps": "Name a loop",
+    "Expected result": "Loop inspect",
+    "Actual result": "No findLoop in shell",
+    "Severity": "low",
+    "Root cause hypothesis": "Ghost from an earlier cut",
+    "Status": "waived"
+  },
+  {
+    "Defect ID": "D12",
+    "Feature ID": "F15",
+    "Reproduction steps": "Type xyzzy",
+    "Expected result": "Helpful unknown copy",
+    "Actual result": "Listed a stale subset of verbs",
+    "Severity": "medium",
+    "Root cause hypothesis": "Hardcoded bottom",
+    "Status": "fixed"
+  },
+  {
+    "Defect ID": "D13",
+    "Feature ID": "F37",
+    "Reproduction steps": "Click a discover line",
+    "Expected result": "Open that feature",
+    "Actual result": "Unknown command",
+    "Severity": "medium",
+    "Root cause hypothesis": "Rows were not composeable programs",
+    "Status": "fixed"
+  }
+]

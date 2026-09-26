@@ -1,5 +1,5 @@
 {
-  "version": "1.4.0",
+  "version": "1.6.1",
   "source": "Thingscorp/mininja-console src/lib/scene.ts",
   "geometry": {
     "stageWidthPx": 420,
@@ -57,7 +57,8 @@
     "antenna",
     "moon",
     "barrier",
-    "cable"
+    "cable",
+    "repoBranch"
   ],
   "stages": [
     {
@@ -720,7 +721,7 @@
       "action": "shakeHead",
       "stage": "gate"
     },
-    "sandbox": {
+    "sandboxing": {
       "emotion": "mischievous",
       "action": "peek",
       "stage": "workshop"
@@ -760,5 +761,74 @@
     "unknownEmotion": "curious",
     "unknownAction": "wait",
     "unknownStage": "keep-current"
+  },
+  "garden": {
+    "metaphor": "repos-as-growing-branches",
+    "propKind": "repoBranch",
+    "growth": {
+      "min": 0,
+      "max": 5,
+      "type": "integer",
+      "default": 0,
+      "steps": [
+        {
+          "level": 0,
+          "label": "seed",
+          "hint": "just planted / empty repo"
+        },
+        {
+          "level": 1,
+          "label": "sprout",
+          "hint": "first commits"
+        },
+        {
+          "level": 2,
+          "label": "sapling",
+          "hint": "small active tree"
+        },
+        {
+          "level": 3,
+          "label": "young",
+          "hint": "steady growth"
+        },
+        {
+          "level": 4,
+          "label": "branching",
+          "hint": "many branches / forks"
+        },
+        {
+          "level": 5,
+          "label": "canopy",
+          "hint": "mature repo presence"
+        }
+      ]
+    },
+    "silhouetteHeightPx": {
+      "formula": "h(g) = h0 + g * dh",
+      "h0Px": 12,
+      "dhPx": 12,
+      "unit": "px",
+      "note": "Recommended host silhouette height for repoBranch. Data-only; hosts may fork. h(3)=48 matches GARDEN.md example."
+    },
+    "propFields": {
+      "kind": "repoBranch",
+      "required": [
+        "kind",
+        "x",
+        "y"
+      ],
+      "optional": [
+        "w",
+        "h",
+        "growth",
+        "label"
+      ],
+      "growth": "integer 0..5 inclusive; omit \u2192 garden.growth.default",
+      "note": "Silhouette only. Prefer garden.silhouetteHeightPx for growth\u2192height; kit does not call GitHub."
+    },
+    "bridge": {
+      "github": false,
+      "note": "No GitHub (or other host) bridge in kit. Growth is authored data or a later host overlay."
+    }
   }
 }

@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mininja</title>
+  <meta name="theme-color" content="#0E0F12" />
+  <meta name="apple-mobile-web-app-title" content="Mininja" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/icon-180.png" />
+  <style>
+    @font-face {
+      font-family: "IBM Plex Mono";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("/fonts/ibm-plex-mono-400.ttf") format("truetype");
+    }
+    @font-face {
+      font-family: "IBM Plex Mono";
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url("/fonts/ibm-plex-mono-500.ttf") format("truetype");
+    }
+    @font-face {
+      font-family: "IBM Plex Mono";
+      font-style: normal;
+      font-weight: 600;
+      font-display: swap;
+      src: url("/fonts/ibm-plex-mono-600.ttf") format("truetype");
+    }
+    :root {
+      --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+      --color-bg: #08090a;
+      --color-panel: #191a1b;
+      --color-hover: #18191a;
+      --color-hi: #f7f8f8;
+      --color-fg: #d0d6e0;
+      --color-muted: #8a8f98;
+      --color-line: #222326;
+      --color-hairline: rgb(255 255 255 / 0.05);
+      --color-ring: rgb(94 106 210 / 0.45);
+      --color-steel: #8a8f98;
+      --color-steel-hot: #d0d6e0;
+      --color-accent: #5e6ad2;
+      --color-violet: #735ffa;
+      --color-ok: #4cc38a;
+      --color-warn: #e5b849;
+      --color-err: #ff5a5a;
+      --color-git-watch: #e3b341;
+      --color-git-roost: #39d0d8;
+      --color-git-desk: #3fb950;
+      --color-git-forge: #db6d28;
+      --color-git-loop: #d2a8ff;
+      --color-git-board: #58a6ff;
+      --text-mini: 12px;
+      --text-ui: 13px;
+      --text-lock: 14px;
+      --radius-sm: 6px;
+      --radius-md: 8px;
+    }
+    * { box-sizing: border-box; }
+    html {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      background: var(--color-bg);
+      color: var(--color-fg);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    button:not(:disabled), [role="button"]:not(:disabled) { cursor: pointer; }
+    button, input, textarea, select {
+      font: inherit;
+      color: inherit;
+    }
+    #app {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      grid-template-rows: auto minmax(0, 1fr);
+      height: 100dvh;
+      overflow: hidden;
+    }
+    #banner {
+      grid-column: 1 / -1;
+      position: relative;
+      border-bottom: 1px solid var(--color-hairline);
+    }
+    .banner-hud {
+      pointer-events: none;
+      position: absolute;
+      top: 0.4rem;
+      right: 1rem;
+      left: 1rem;
+      z-index: 10;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .banner-place {
+      min-width: 0;
+      overflow: hidden;
+      font-size: var(--text-mini);
+      color: var(--color-muted);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .banner-who {
+      font-size: var(--text-mini);
+      font-weight: 600;
+      color: var(--color-steel);
+    }
+    .scoot-track {
+      --grove-cell: 14px;
+      --grove-line: 13px;
+      --grove-rows: 7;
+      --grove-label: 16px;
+      --grove-pad: 10px;
+      --grove-stem: calc(22.5ch - 0.5px);
+      position: relative;
+      height: calc(var(--grove-cell) * var(--grove-rows) + 1px + var(--grove-label) + var(--grove-pad));
+      overflow: hidden;
+      font-size: var(--grove-cell);
+    }
+    .scoot-walker {
+      position: absolute;
+      right: auto;
+      bottom: var(--grove-label);
+      left: 0;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-end;
+      gap: 0.35rem;
+    }
+    .world-tape {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      pointer-events: none;
+      font-family: var(--font-mono);
+      font-size: var(--grove-cell);
+      font-variant-ligatures: none;
+      line-height: var(--grove-line);
+      letter-spacing: 0;
+      white-space: pre;
+    }
+    .world-grove { display: flex; align-items: stretch; border-bottom: 1px solid var(--color-hairline); }
+    .world-labels { display: flex; height: var(--grove-label); }
+    .world-tree {
+      --tree-ink: var(--color-muted);
+      display: block;
+      flex: 0 0 auto;
+      margin: 0;
+      padding: 0;
+      font: inherit;
+      font-weight: 500;
+      font-variant-ligatures: none;
+      line-height: var(--grove-line);
+      letter-spacing: 0;
+      white-space: pre;
+      color: color-mix(in srgb, var(--tree-ink) 22%, var(--color-bg));
+    }
+    .world-tree.is-here, .world-tree.is-live { color: var(--tree-ink); }
+    .world-tree.is-planted {
+      color: color-mix(in srgb, var(--tree-ink) 48%, var(--color-bg));
+      position: relative;
+    }
+    .world-tree.is-here { color: var(--tree-ink); }
+    .world-tree.is-planted::before {
+      content: "";
+      position: absolute;
+      top: 0; bottom: 0;
+      left: var(--grove-stem);
+      width: 1px;
+      background: currentColor;
+      pointer-events: none;
+    }
+    .world-tree[data-ink="watch"] { --tree-ink: var(--color-git-watch); }
+    .world-tree[data-ink="roost"] { --tree-ink: var(--color-git-roost); }
+    .world-tree[data-ink="desk"] { --tree-ink: var(--color-git-desk); }
+    .world-tree[data-ink="forge"] { --tree-ink: var(--color-git-forge); }
+    .world-tree[data-ink="loop"] { --tree-ink: var(--color-git-loop); }
+    .world-tree[data-ink="board"] { --tree-ink: var(--color-git-board); }
+    .world-mark {
+      flex: 0 0 auto;
+      overflow: hidden;
+      font-size: 12px;
+      line-height: var(--grove-label);
+      color: var(--color-muted);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .world-mark.is-here { color: var(--color-hi); }
+    aside { grid-row: 2; }
+    main { grid-row: 2; }
+    aside {
+      border-right: 1px solid var(--color-hairline);
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+      background: var(--color-bg);
+    }
+    .brand {
+      padding: 18px 16px 10px;
+      border-bottom: 1px solid var(--color-hairline);
+    }
+    .brand-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+    }
+    .brand-id { min-width: 0; }
+    .roster-toggle { display: none; margin-left: auto; }
+    .lockup {
+      display: block;
+      margin: 0 0 -0.5em;
+      line-height: 1;
+      font-family: "IBM Plex Mono", Menlo, "SF Mono", ui-monospace, monospace;
+      font-size: var(--text-lock);
+      font-weight: 500;
+      color: var(--color-steel);
+      white-space: pre;
+      font-variant-ligatures: none;
+      letter-spacing: 0;
+    }
+    .lockup.ok { color: var(--color-ok); }
+    .lockup.warn { color: var(--color-warn); }
+    .lockup.err { color: var(--color-err); }
+    .lockup.accent { color: var(--color-steel-hot); }
+    .lockup.muted { color: var(--color-muted); }
+    .brand h1 {
+      margin: 0;
+      font-size: var(--text-ui);
+      font-weight: 600;
+      color: var(--color-hi);
+      letter-spacing: 0.08em;
+    }
+    .brand p {
+      margin: 2px 0 0;
+      font-size: var(--text-mini);
+      color: var(--color-steel);
+    }
+    .new-btn {
+      margin: 12px 16px;
+      border: 1px solid var(--color-line);
+      background: transparent;
+      color: var(--color-hi);
+      padding: 8px 10px;
+      text-align: left;
+    }
+    .new-btn:hover { background: var(--color-fg); color: var(--color-bg); }
+    .bots {
+      flex: 1;
+      overflow: auto;
+      padding: 4px 8px 12px;
+    }
+    .bot {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2px 8px;
+      width: 100%;
+      text-align: left;
+      border: 0;
+      background: transparent;
+      padding: 8px;
+      color: var(--color-muted);
+    }
+    .bot:hover { background: var(--color-hover); color: var(--color-fg); }
+    .bot.active { background: var(--color-panel); }
+    .bot.active .name { font-weight: 600; }
+    .bot .name { font-weight: 500; }
+    .bot .job { font-size: var(--text-mini); grid-column: 1; color: var(--color-muted); }
+    .pill {
+      font-size: 10px;
+      letter-spacing: 0.04em;
+      text-transform: lowercase;
+      color: var(--color-accent);
+      align-self: start;
+    }
+    .pill.err { color: var(--color-err); }
+    .pill.ok { color: var(--color-ok); }
+    footer.meta {
+      border-top: 1px solid var(--color-hairline);
+      padding: 10px 16px 14px;
+      font-size: var(--text-mini);
+      color: var(--color-muted);
+    }
+    footer.meta a { color: var(--color-steel-hot); text-decoration: none; }
+    .powered { display: inline-flex; align-items: center; gap: 6px; }
+    main {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .head {
+      border-bottom: 1px solid var(--color-hairline);
+      padding: 14px 20px 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+    }
+    .head-id {
+      min-width: 0;
+    }
+    #headName { display: block; }
+    .head h2 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-steel);
+    }
+    .head .job {
+      color: var(--color-muted);
+      font-size: var(--text-mini);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 52ch;
+    }
+    .head-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .ghost {
+      border: 1px solid var(--color-line);
+      background: transparent;
+      padding: 6px 10px;
+      font-size: var(--text-mini);
+      color: var(--color-fg);
+    }
+    .ghost:hover { background: var(--color-hover); }
+    .ghost.danger:hover { color: var(--color-err); border-color: var(--color-err); }
+    .log {
+      flex: 1;
+      min-width: 0;
+      min-height: 0;
+      overflow: auto;
+      padding: 16px 20px 8px;
+    }
+    .line-cmd { color: var(--color-muted); margin: 0 0 6px; }
+    .line-cmd.fresh { color: var(--color-hi); }
+    .line-cmd .gt { color: var(--color-steel); margin-right: 6px; }
+    .card { margin: 0 0 18px; }
+    .card.dim { opacity: 0.45; }
+    .card-title { color: var(--color-hi); }
+    .card-tag { margin-left: 8px; color: var(--color-muted); font-size: var(--text-mini); }
+    .card-body { white-space: pre-wrap; text-wrap: pretty; }
+    .fields { display: grid; grid-template-columns: 3.5rem 1fr; gap: 2px 8px; }
+    .fields .lab { color: var(--color-muted); }
+    .gantt { list-style: none; margin: 0; padding: 0; }
+    .gantt li { display: grid; grid-template-columns: 3.5rem 2rem 1fr; gap: 8px; }
+    .pick { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 0; color: inherit; }
+    .pick:hover { color: var(--color-hi); }
+    .pigeon {
+      margin: 0;
+      width: 4.5ch;
+      font-size: var(--text-ui);
+      line-height: 1.05;
+      color: var(--color-steel);
+      white-space: pre;
+    }
+    .pigeon.ok { color: var(--color-ok); }
+    .pigeon.err { color: var(--color-err); }
+    .pigeon.warn { color: var(--color-warn); }
+    .pigeon.muted { color: var(--color-muted); }
+    .refine-flag { font-size: var(--text-mini); color: var(--color-warn); }
+    .tools { margin: 6px 0; font-size: var(--text-mini); color: var(--color-steel); }
+    .empty {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 36rem;
+      padding: 24px 8px;
+    }
+    .empty h2 {
+      margin: 0 0 8px;
+      color: var(--color-hi);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .empty p { margin: 0 0 8px; color: var(--color-muted); }
+    .composer {
+      border-top: 1px solid var(--color-hairline);
+      padding: 10px 20px 16px;
+    }
+    .composer form {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+    }
+    .composer .gt { color: var(--color-steel); padding-bottom: 8px; }
+    textarea {
+      flex: 1;
+      min-height: 40px;
+      max-height: 160px;
+      resize: none;
+      background: transparent;
+      border: 0;
+      outline: none;
+      color: var(--color-hi);
+      padding: 8px 0;
+    }
+    textarea::placeholder { color: var(--color-muted); }
+    .hints {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 12px;
+      margin-top: 4px;
+      font-size: var(--text-mini);
+      color: var(--color-muted);
+    }
+    .hints button {
+      border: 0;
+      background: none;
+      padding: 0;
+      color: var(--color-muted);
+    }
+    .hints button:hover { color: var(--color-hi); }
+    dialog {
+      border: 1px solid var(--color-line);
+      background: var(--color-panel);
+      color: var(--color-fg);
+      padding: 20px;
+      width: min(440px, calc(100vw - 32px));
+    }
+    dialog::backdrop { background: rgb(0 0 0 / 0.6); }
+    dialog h3 { margin: 0 0 12px; color: var(--color-hi); font-size: 14px; }
+    label { display: block; font-size: var(--text-mini); color: var(--color-muted); margin: 10px 0 4px; }
+    input[type="text"], input[type="number"], select, dialog textarea {
+      width: 100%;
+      border: 1px solid var(--color-line);
+      background: var(--color-bg);
+      padding: 8px 10px;
+      color: var(--color-hi);
+    }
+    dialog menu { display: flex; gap: 8px; justify-content: flex-end; margin: 16px 0 0; padding: 0; }
+    .blink { animation: blink 1.05s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .mascot-bounce { animation: mascot-bounce 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+    @keyframes mascot-bounce { 50% { transform: translateY(-4px); } }
+    .mascot-shake { animation: mascot-shake 0.4s ease-in-out; }
+    @keyframes mascot-shake {
+      25% { transform: translateX(-3px); }
+      75% { transform: translateX(3px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .blink, .mascot-bounce, .mascot-shake { animation: none; }
+    }
+    @media (max-width: 720px) {
+      #app { grid-template-columns: 1fr; }
+      .roster-toggle { display: inline-block; }
+      .bots, .new-btn, footer.meta { display: none; }
+      aside.open .bots, aside.open .new-btn, aside.open footer.meta { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <header id="banner">
+      <div class="banner-hud">
+        <span class="banner-place" id="bannerPlace">watch · idle</span>
+        <span class="banner-who" id="bannerWho">console</span>
+      </div>
+      <div class="scoot-track" id="track">
+        <div class="world-tape" id="tape"></div>
+        <div class="scoot-walker" id="walker">
+          <pre id="pigeon" class="pigeon" hidden></pre>
+          <pre id="mascot" class="lockup" aria-label="mininja idle">▚████
+██ ●●
+▀▀▀▀▀</pre>
+        </div>
+      </div>
+    </header>
+    <aside>
+      <div class="brand">
+        <div class="brand-row">
+          <div class="brand-id">
+            <h1 id="brandName">MININJA</h1>
+            <p id="brandWhoSide">console</p>
+          </div>
+          <span id="refineFlag" class="refine-flag" hidden>refine</span>
+          <button class="ghost roster-toggle" id="rosterToggle" type="button">roster</button>
+        </div>
+      </div>
+      <button class="new-btn" id="newBot">new bot</button>
+      <div class="bots" id="bots"></div>
+      <footer class="meta" id="meta"></footer>
+    </aside>
+    <main>
+      <div class="head" id="head" hidden>
+        <div class="head-id">
+          <h2 id="headName"></h2>
+          <div class="job" id="headJob"></div>
+        </div>
+        <div class="head-actions">
+          <button class="ghost" id="editBot">edit</button>
+          <button class="ghost" id="stopBot">stop</button>
+          <button class="ghost danger" id="deleteBot">delete</button>
+        </div>
+      </div>
+      <div class="log" id="log"></div>
+      <div class="composer" id="composer">
+        <form id="taskForm">
+          <span class="gt">❯</span>
+          <textarea id="task" rows="1" placeholder="now · todo · plan · or a task for a teammate" autocomplete="off" spellcheck="false"></textarea>
+        </form>
+        <div class="hints" id="hints"></div>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="dlg">
+    <h3 id="dlgTitle">Create new agent</h3>
+    <form id="botForm">
+      <label for="fName">Name</label>
+      <input id="fName" type="text" required placeholder="Ada" />
+      <label for="fJob">Job</label>
+      <input id="fJob" type="text" required placeholder="Product performance" />
+      <label for="fDesc">How it should work</label>
+      <textarea id="fDesc" rows="4" placeholder="Investigate with evidence first. Never change production. Stop for approval before sending anything external."></textarea>
+      <label for="fComputer">Computer</label>
+      <select id="fComputer">
+        <option value="remote">remote (SSH)</option>
+        <option value="codex">this Mac — Codex</option>
+        <option value="local">this Mac</option>
+      </select>
+      <label for="fCwd">Working directory</label>
+      <input id="fCwd" type="text" />
+      <label for="fMode">Approval</label>
+      <select id="fMode">
+        <option value="auto">auto — routine work proceeds, risky calls fail closed</option>
+        <option value="draft">draft — read / search / web only</option>
+        <option value="free">free — always-approve (deny rm -rf)</option>
+      </select>
+      <label for="fModel">Model (blank = default)</label>
+      <input id="fModel" type="text" placeholder="" />
+      <label for="fRoutine">Routine minutes (0 = off)</label>
+      <input id="fRoutine" type="number" min="0" step="1" value="0" />
+      <label for="fRoutinePrompt">Routine prompt</label>
+      <textarea id="fRoutinePrompt" rows="2" placeholder="weekday check-in"></textarea>
+      <menu>
+        <button class="ghost" type="button" id="dlgCancel">cancel</button>
+        <button class="new-btn" style="margin:0" type="submit">save</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <script>
+    const FRAMES = {
+      idle: { lines: ["▚████", "██ ●●", "▀▀▀▀▀"], tone: "idle", label: "idle" },
+      blink: { lines: ["▚████", "██ ──", "▀▀▀▀▀"], tone: "idle", label: "idle" },
+      evaluating: { lines: ["▚████", "██ ◐◑", "▀▀▀▀▀"], tone: "accent", label: "evaluating" },
+      executing: { lines: ["▚████", "██ ◣◢", "▀▀▀▀▀"], tone: "accent", label: "executing" },
+      completed: { lines: ["▚████", "██ ▴▴", "▀▀▀▀▀"], tone: "ok", label: "completed", motion: "bounce" },
+      allowed: { lines: ["▚████", "██ ><", "▀▀▀▀▀"], tone: "ok", label: "allowed", motion: "bounce" },
+      asking: { lines: ["▚████", "██ ??", "▀▀▀▀▀"], tone: "warn", label: "ask" },
+      denied: { lines: ["▚████", "██ ┃┃", "▀▀▀▀▀"], tone: "err", label: "denied", motion: "shake" },
+      sandbox: { lines: ["▚████", "██ ◇◇", "▀▀▀▀▀"], tone: "muted", label: "sandbox" },
+      warning: { lines: ["▚████", "██ ◆◆", "▀▀▀▀▀"], tone: "warn", label: "warning", motion: "bounce" },
+      cancelled: { lines: ["▚████", "██ ◦◦", "▀▀▀▀▀"], tone: "muted", label: "cancelled" },
+      error: { lines: ["▚████", "██ ××", "▀▀▀▀▀"], tone: "err", label: "error", motion: "shake" },
+      offline: { lines: ["▚████", "██ ‒‒", "▀▀▀▀▀"], tone: "muted", label: "offline" },
+    };
+
+    const $ = (id) => document.getElementById(id);
+    let state = { bots: [], messages: {}, health: {} };
+    let selected = "console";
+    let editing = null;
+    let face = "idle";
+
+    function esc(s) {
+      return String(s ?? "").replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[c]));
+    }
+
+    const STEEL = "#8a8f98";
+    const ZONE_CELLS = 44;
+    const ZONES = [
+      { id: "watch", cmds: ["now", "look", "help", "api", "wake"] },
+      { id: "roost", cmds: ["pgeon"] },
+      { id: "desk", cmds: ["save", "brief"] },
+      { id: "forge", cmds: ["refine", "turn"] },
+      { id: "loop", cmds: ["compound", "ralph", "qa"] },
+      { id: "board", cmds: ["todo", "plan"] },
+    ];
+    let place = "watch";
+
+    function selectedTint() {
+      const bot = currentBot();
+      return (bot && bot.tint) || STEEL;
+    }
+
+    function paintTree(here) {
+      const cells = ZONE_CELLS;
+      const mid = Math.floor(cells / 2);
+      const g = Array.from({ length: 7 }, () => Array(cells).fill(" "));
+      g[6][mid] = "│";
+      g[5][mid] = "│";
+      g[4][mid] = here ? "●" : "○";
+      g[3][mid] = here ? "*" : "·";
+      if (here) {
+        g[2][mid] = "│";
+        g[1][mid - 1] = "·";
+        g[1][mid] = "●";
+        g[1][mid + 1] = "·";
+      }
+      return g.map((r) => r.join("")).join("\n");
+    }
+
+    function paintGrove() {
+      const tape = $("tape");
+      if (!tape) return;
+      tape.style.width = ZONES.length * ZONE_CELLS + "ch";
+      tape.innerHTML =
+        `<div class="world-grove">` +
+        ZONES.map((z) => {
+          const here = z.id === place;
+          return `<pre class="world-tree is-planted${here ? " is-here" : ""}" data-ink="${z.id}" style="width:${ZONE_CELLS}ch">${paintTree(here)}</pre>`;
+        }).join("") +
+        `</div><div class="world-labels">` +
+        ZONES.map((z) => `<div class="world-mark${z.id === place ? " is-here" : ""}" style="width:${ZONE_CELLS}ch">${z.id}</div>`).join("") +
+        `</div>`;
+      const i = Math.max(0, ZONES.findIndex((z) => z.id === place));
+      const walker = $("walker");
+      const track = $("track");
+      if (walker && track) {
+        const ch = parseFloat(getComputedStyle(track).fontSize) || 14;
+        const zoneW = ZONE_CELLS * ch;
+        const x = i * zoneW + 8 * ch;
+        walker.style.transform = `translate3d(${x}px,0,0)`;
+        const view = track.clientWidth;
+        const cam = Math.max(0, x - view * 0.28);
+        tape.style.transform = `translate3d(${-cam}px,0,0)`;
+      }
+      const hud = $("bannerPlace");
+      if (hud) {
+        const mood = (FRAMES[face] || FRAMES.idle).label;
+        hud.textContent = place + " · " + mood;
+      }
+    }
+
+    function goPlace(raw) {
+      const head = (raw || "").trim().split(/\s+/)[0]?.toLowerCase().replace(/[^a-z0-9]/g, "") || "";
+      const i = ZONES.findIndex((z) => z.cmds.includes(head));
+      if (i < 0) return;
+      place = ZONES[i].id;
+      paintGrove();
+    }
+
+    function paintIdentity() {
+      const bot = currentBot();
+      const tint = selectedTint();
+      const name = bot ? bot.name : "console";
+      const mascot = $("mascot");
+      if (mascot) {
+        mascot.style.color = tint;
+        mascot.setAttribute("aria-label", name + " mininja " + (face || "idle"));
+      }
+      for (const id of ["bannerWho", "brandWhoSide", "headName"]) {
+        const el = $(id);
+        if (!el) continue;
+        el.textContent = name;
+        el.style.color = tint;
+      }
+      paintGrove();
+    }
+
+    function setMascot(stateName) {
+      face = stateName;
+      const frame = FRAMES[stateName] || FRAMES.idle;
+      const el = $("mascot");
+      if (!el) return;
+      const motion = frame.motion ? " mascot-" + frame.motion : "";
+      el.textContent = frame.lines.join("\n");
+      el.className = "lockup" + motion;
+      paintIdentity();
+    }
+
+    function currentBot() {
+      if (selected === "console") return null;
+      return state.bots.find((b) => b.id === selected) || null;
+    }
+
+    function isShell(text) {
+      if (selected !== "console") return false;
+      const head = (text || "").trim().split(/\s+/)[0]?.toLowerCase().replace(/^\//, "") || "";
+      const cmds = state.commands || [];
+      return cmds.includes(head);
+    }
+
+    const PIGEON = {
+      perch: ["(•)>", "/)"],
+      flap: ["<(•)>", " /)"],
+      best: ["<(•)>", " /)"],
+      sulk: ["(-).", "/)"],
+      peck: ["(•)v", "/)"],
+      startle: ["(o)>", "/)"],
+    };
+
+    function setPigeon(pose) {
+      const el = $("pigeon");
+      if (!el) return;
+      if (!pose) { el.hidden = true; return; }
+      const lines = PIGEON[pose] || PIGEON.perch;
+      el.hidden = false;
+      el.textContent = lines.join("\n");
+      el.className = "pigeon " + (pose === "best" ? "ok" : pose === "startle" ? "err" : pose === "peck" ? "warn" : pose === "sulk" ? "muted" : "");
+      el.setAttribute("aria-label", "pgeon " + pose);
+    }
+
+    function renderBots() {
+      const root = $("bots");
+      const consTint = selected === "console" ? STEEL : "";
+      const cons = `<button class="bot${selected === "console" ? " active" : ""}" data-id="console">
+          <span class="name"${consTint ? ` style="color:${STEEL}"` : ""}>console</span><span></span>
+          <span class="job">programs</span>
+        </button>`;
+      const bots = state.bots.map((b) => {
+        const pill = b.working ? "working" : (b.status === "error" ? "error" : "");
+        const pillClass = b.working ? "pill" : (b.status === "error" ? "pill err" : "pill ok");
+        const nameColor = b.id === selected && b.tint ? ` style="color:${esc(b.tint)}"` : "";
+        return `<button class="bot${b.id === selected ? " active" : ""}" data-id="${esc(b.id)}">
+          <span class="name"${nameColor}>${esc(b.name)}</span>
+          ${pill ? `<span class="${pillClass}">${pill}</span>` : "<span></span>"}
+          <span class="job">${esc(b.job)}</span>
+        </button>`;
+      }).join("");
+      root.innerHTML = cons + bots;
+      root.querySelectorAll(".bot").forEach((btn) => {
+        btn.onclick = () => {
+          selected = btn.dataset.id;
+          document.querySelector("aside").classList.remove("open");
+          render();
+        };
+      });
+    }
+
+    function renderMeta() {
+      const h = state.health || {};
+      const cloud = h.cloud || {};
+      const line = cloud.ok
+        ? `${esc(cloud.email || "thingscorp")} · ${esc(cloud.machine || "laptop")}`
+        : `laptop · ${esc(cloud.error || "down")}`;
+      $("meta").innerHTML = line;
+      const refine = state.console && state.console.refine;
+      $("refineFlag").hidden = !refine;
+    }
+
+    function renderCard(card, dim) {
+      if (!card) return "";
+      const fields = (card.fields || []).map((f) =>
+        `<div class="lab">${esc(f.label)}</div><div>${esc(f.value)}</div>`
+      ).join("");
+      const gantt = (card.gantt || []).map((r) =>
+        `<li><button class="pick" data-run="${esc(r.id)}"><span class="${r.ready ? "ok" : ""}">${r.ready ? "ready" : "wait"}</span><span>${esc(String(r.days))}d</span><span>${esc(r.title)}${r.ready ? "" : " ← " + esc((r.waitingOn || [])[0] || "")}</span></button></li>`
+      ).join("");
+      const rows = (card.rows || []).map((r) =>
+        `<button class="pick" data-run="${esc(r)}">${esc(r)}</button>`
+      ).join("");
+      return `<article class="card${dim ? " dim" : ""}">
+        <div><span class="card-title">${esc(card.title)}</span>${card.tag ? `<span class="card-tag">${esc(card.tag)}</span>` : ""}</div>
+        ${fields ? `<div class="fields">${fields}</div>` : ""}
+        ${gantt ? `<ul class="gantt">${gantt}</ul>` : ""}
+        ${rows}
+        ${card.bottom ? `<p class="card-body">${esc(card.bottom)}</p>` : ""}
+        ${card.ask ? `<p class="card-body">${esc(card.ask.q)}</p>` : ""}
+      </article>`;
+    }
+
+    function renderLog() {
+      const bot = currentBot();
+      const log = $("log");
+      $("composer").hidden = false;
+      $("head").hidden = false;
+      if (!bot) {
+        $("headJob").textContent = "now · todo · plan · brief · pgeon · ralph";
+        $("editBot").hidden = true;
+        $("stopBot").hidden = true;
+        $("deleteBot").hidden = true;
+        const entries = (state.console && state.console.log) || [];
+        if (!entries.length) {
+          log.innerHTML = `<div class="empty">
+            <h2>meet a teammate, or type a program</h2>
+            <p>now, todo, plan, brief, pgeon, refine, turn, save, compound, qa, ralph.</p>
+            <p>New teammate is a named job on the laptop. Programs stay on this console.</p>
+          </div>`;
+          return;
+        }
+        log.innerHTML = entries.map((e, i) => {
+          const last = i >= entries.length - 2;
+          if (e.kind === "cmd") {
+            return `<div class="line-cmd${last ? " fresh" : ""}"><span class="gt">❯</span>${esc(e.text)}</div>`;
+          }
+          return renderCard(e.card, !last);
+        }).join("");
+        log.querySelectorAll("[data-run]").forEach((btn) => {
+          btn.onclick = () => runLine(btn.dataset.run);
+        });
+        log.scrollTop = log.scrollHeight;
+        const lastCard = [...entries].reverse().find((e) => e.kind === "card");
+        if (lastCard && lastCard.card) {
+          if (lastCard.card.face) setMascot(lastCard.card.face);
+          setPigeon(lastCard.card.bird);
+        }
+        return;
+      }
+      $("editBot").hidden = false;
+      $("stopBot").hidden = false;
+      $("deleteBot").hidden = false;
+      const machine = bot.computer === "codex" ? "codex" : bot.computer === "local" ? "this mac" : "laptop";
+      $("headJob").textContent = machine + " · " + bot.mode;
+      const msgs = state.messages[bot.id] || [];
+      if (!msgs.length) {
+        log.innerHTML = `<div class="empty">
+          <p>${esc(bot.description || "No standing instructions yet.")}</p>
+          <p>A task names the outcome, the sources, what to avoid, and when to stop.</p>
+        </div>`;
+        return;
+      }
+      log.innerHTML = msgs.map((m, i) => {
+        const last = i >= msgs.length - 2;
+        if (m.role === "user") {
+          return `<div class="line-cmd${last ? " fresh" : ""}"><span class="gt">❯</span>${esc(m.text)}</div>`;
+        }
+        const tools = (m.tools || []).map((t) => `${esc(t.title)} ${esc(t.status || "")}`).join(" · ");
+        const tag = m.streaming ? "working" : (m.status === "error" ? "error" : "");
+        return `<article class="card${last ? "" : " dim"}">
+          ${tag ? `<div><span class="card-tag">${tag}</span></div>` : ""}
+          ${tools ? `<div class="tools">${tools}</div>` : ""}
+          <div class="card-body">${esc(m.text)}</div>
+        </article>`;
+      }).join("");
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function renderHints() {
+      const box = $("hints");
+      const task = $("task");
+      if (selected !== "console") {
+        const bot = currentBot();
+        task.placeholder = bot ? "a task for " + bot.name : "a task";
+        box.innerHTML = "<span>enter send · shift+enter newline</span>";
+        return;
+      }
+      task.placeholder = "now · todo · plan · brief · pgeon";
+      const cmds = (state.commands || []).filter((c) =>
+        ["now","todo","plan","brief","pgeon","refine","turn","save","compound","qa","ralph"].includes(c)
+      );
+      box.innerHTML = cmds.map((c) =>
+        `<button type="button" data-hint="${esc(c)}">${esc(c)}</button>`
+      ).join("") + '<span>enter send · shift+enter newline · ⌘N teammate</span>';
+      box.querySelectorAll("[data-hint]").forEach((btn) => {
+        btn.onclick = () => runLine(btn.dataset.hint);
+      });
+    }
+
+    function syncFace() {
+      const bot = currentBot();
+      const cons = state.console || {};
+      if (cons.offline) return setMascot("offline");
+      if (bot && bot.working) return setMascot("executing");
+      if (bot && bot.status === "error") return setMascot("error");
+      if (document.activeElement === $("task") && $("task").value) return setMascot("asking");
+      if (bot) return setMascot("idle");
+      setMascot(face || "idle");
+    }
+
+    function render() {
+      renderBots();
+      renderMeta();
+      renderLog();
+      renderHints();
+      syncFace();
+      paintIdentity();
+    }
+
+    async function refresh() {
+      const res = await fetch("/api/state");
+      state = await res.json();
+      if (selected !== "console" && selected && !state.bots.some((b) => b.id === selected)) {
+        selected = "console";
+      }
+      render();
+    }
+
+    async function runLine(text) {
+      const line = (text || "").trim();
+      if (!line) return;
+      if (selected === "console" || isShell(line)) {
+        selected = "console";
+        goPlace(line);
+        setMascot("evaluating");
+        await fetch("/api/cmd", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: line }),
+        });
+        await refresh();
+        return;
+      }
+      if (!selected || selected === "console") return;
+      setMascot("evaluating");
+      const res = await fetch("/api/bots/" + selected + "/tasks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: line }),
+      });
+      let out = {};
+      try { out = await res.json(); } catch (err) { out = {}; }
+      await refresh();
+      if (out && out.ok === false) setMascot("error");
+    }
+
+    function openDlg(bot) {
+      editing = bot ? bot.id : null;
+      $("dlgTitle").textContent = bot ? "Edit " + bot.name : "Create new agent";
+      $("fName").value = bot?.name || "";
+      $("fJob").value = bot?.job || "";
+      $("fDesc").value = bot?.description || "";
+      $("fComputer").value = bot?.computer || "local";
+      $("fCwd").value = bot?.cwd || (bot ? "" : "");
+      $("fMode").value = bot?.mode || "auto";
+      $("fModel").value = bot?.model || "";
+      $("fRoutine").value = bot?.routine?.interval_minutes || 0;
+      $("fRoutinePrompt").value = bot?.routine?.prompt || "";
+      $("dlg").showModal();
+      $("fName").focus();
+    }
+
+    $("rosterToggle").onclick = () => document.querySelector("aside").classList.toggle("open");
+    $("newBot").onclick = () => openDlg(null);
+    $("editBot").onclick = () => { const b = currentBot(); if (b) openDlg(b); };
+    $("dlgCancel").onclick = () => $("dlg").close();
+    $("deleteBot").onclick = async () => {
+      const b = currentBot();
+      if (!b) return;
+      if (!confirm("Delete " + b.name + "?")) return;
+      await fetch("/api/bots/" + b.id, { method: "DELETE" });
+      selected = "console";
+      await refresh();
+    };
+    $("stopBot").onclick = async () => {
+      const b = currentBot();
+      if (!b) return;
+      await fetch("/api/bots/" + b.id + "/stop", { method: "POST" });
+    };
+
+    $("botForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const minutes = Number($("fRoutine").value || 0);
+      const body = {
+        name: $("fName").value.trim(),
+        job: $("fJob").value.trim(),
+        description: $("fDesc").value,
+        cwd: $("fCwd").value.trim(),
+        computer: $("fComputer").value,
+        mode: $("fMode").value,
+        model: $("fModel").value.trim(),
+        routine: minutes > 0 ? {
+          enabled: true,
+          interval_minutes: minutes,
+          prompt: $("fRoutinePrompt").value.trim(),
+        } : null,
+      };
+      if (editing) {
+        await fetch("/api/bots/" + editing, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+      } else {
+        const res = await fetch("/api/bots", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        const bot = await res.json();
+        selected = bot.id;
+      }
+      $("dlg").close();
+      await refresh();
+    };
+
+    $("taskForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const text = $("task").value.trim();
+      if (!text) return;
+      $("task").value = "";
+      await runLine(text);
+    };
+
+    $("task").addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        $("taskForm").requestSubmit();
+      }
+    });
+    $("task").addEventListener("input", syncFace);
+
+    document.addEventListener("keydown", (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "n") {
+        e.preventDefault();
+        openDlg(null);
+      }
+    });
+
+    const es = new EventSource("/api/events");
+    es.onmessage = async (ev) => {
+      const data = JSON.parse(ev.data);
+      if (data.type === "hello") return;
+      const prev = currentBot();
+      await refresh();
+      const bot = currentBot();
+      if (data.type === "status" && data.status === "idle" && prev && prev.working) {
+        setMascot("completed");
+        setTimeout(() => { if (face === "completed") setMascot("idle"); }, 900);
+      }
+      if (bot && bot.working) setMascot("executing");
+    };
+
+    setInterval(() => {
+      if (face !== "idle") return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      setMascot("blink");
+      setTimeout(() => { if (face === "blink") setMascot("idle"); }, 150);
+    }, 9000);
+
+    refresh();
+  </script>
+</body>
+</html>

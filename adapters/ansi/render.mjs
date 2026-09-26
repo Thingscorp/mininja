@@ -1,40 +1,93 @@
 /**
- * ANSI renderer for Mininja faces (levels 1–2).
- * Tone colors are UI chrome only — mark geometry stays from kit/mark.json.
+ * Colorize mark strings. Presence levels 1–2.
+ * Face → tone id comes from kit.faces[].tone (keys in moodColorsUiOnly).
+ * ANSI codes are terminal chrome for those ids — not a second face map.
  */
-import { linesFor } from "../mark/lockup.mjs";
+import { linesFor as linesForKit } from "../mark/from-kit.mjs";
+import { kit as defaultKit } from "../mark/lockup.mjs";
 
-const TONE = {
+/**
+ * Terminal chrome for kit.moodColorsUiOnly keys (hex stays UI-only).
+ * Keys track the upstream mood ids; unknown tones fall back to idle chrome.
+ * Forks that add mood keys get idle chrome unless the host colorizes itself.
+ */
+const ANSI_FOR_TONE = Object.freeze({
   idle: "\x1b[90m",
   accent: "\x1b[94m",
   ok: "\x1b[92m",
   warn: "\x1b[93m",
   err: "\x1b[91m",
-  reset: "\x1b[0m",
-};
+});
 
-const FACE_TONE = {
-  idle: "idle",
-  blink: "idle",
-  evaluating: "accent",
-  allowed: "ok",
-  asking: "warn",
-  denied: "err",
-  sandboxing: "idle",
-  executing: "accent",
-  completed: "ok",
-  warning: "warn",
-  error: "err",
-  cancelled: "idle",
-  offline: "idle",
-  loadingRight: "accent",
-  loadingLeft: "accent",
-};
+const RESET = "\x1b[0m";
 
-export function ansiLockup(face = "idle", { color = true, facing = "right" } = {}) {
-  const lines = linesFor(face, facing);
+/**
+ * @param {"left"|"right"|string} [facing]
+ * @returns {"left"|"right"}
+ */
+function facingOf(facing) {
+  return facing === "left" ? "left" : "right";
+}
+
+/**
+ * @param {object} kit
+ * @returns {string[]} moodColorsUiOnly keys (kit order)
+ */
+export function listTones(kit) {
+  return Object.keys(kit?.moodColorsUiOnly ?? {});
+}
+
+/**
+ * @param {object} kit
+ * @param {string} tone
+ * @returns {boolean} true when tone is a moodColorsUiOnly key
+ */
+export function hasTone(kit, tone) {
+  const moods = kit?.moodColorsUiOnly;
+  return moods != null && Object.hasOwn(moods, tone);
+}
+
+/**
+ * @param {object} kit
+ * @param {string} [face]
+ * @returns {string} tone id from moodColorsUiOnly
+ */
+export function toneForFace(kit, face = "idle") {
+  const id = kit?.faces?.[face]?.tone ?? kit?.faces?.idle?.tone ?? "idle";
+  return hasTone(kit, id) ? id : "idle";
+}
+
+/**
+ * Colorize already-rendered mark lines.
+ * Unknown tone ids fall back to idle chrome (not a face map).
+ * @param {string[]} lines
+ * @param {string} [tone] moodColorsUiOnly key
+ * @returns {string}
+ */
+export function colorize(lines, tone = "idle") {
+  const c = ANSI_FOR_TONE[tone] ?? ANSI_FOR_TONE.idle;
+  return lines.map((l) => `${c}${l}${RESET}`).join("\n");
+}
+
+/**
+ * @param {object} kit
+ * @param {string} [face]
+ * @param {{ color?: boolean, facing?: "left"|"right" }} [opts]
+ * @returns {string}
+ */
+export function ansiLockupFromKit(kit, face = "idle", { color = true, facing = "right" } = {}) {
+  const dir = facingOf(facing);
+  const lines = linesForKit(kit, face, dir);
   if (!color) return lines.join("\n");
-  const tone = FACE_TONE[face] ?? "idle";
-  const c = TONE[tone] ?? TONE.idle;
-  return lines.map((l) => `${c}${l}${TONE.reset}`).join("\n");
+  return colorize(lines, toneForFace(kit, face));
+}
+
+/**
+ * Node convenience over default kit/mark.json.
+ * @param {string} [face]
+ * @param {{ color?: boolean, facing?: "left"|"right" }} [opts]
+ * @returns {string}
+ */
+export function ansiLockup(face = "idle", opts = {}) {
+  return ansiLockupFromKit(defaultKit, face, opts);
 }
