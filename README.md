@@ -110,7 +110,6 @@ cd bot && ./mininja
 
 Details: [`console/README.md`](console/README.md) · [`bot/README.md`](bot/README.md).
 
-Glimpse in the wild: https://github.com/user-attachments/assets/76965444-03ec-45f8-9dd7-a37f9d35fb0f
 
 ---
 
