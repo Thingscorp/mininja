@@ -9,6 +9,7 @@ import { kit as defaultKit } from "../mark/lockup.mjs";
 /**
  * Terminal chrome for kit.moodColorsUiOnly keys (hex stays UI-only).
  * Keys track the upstream mood ids; unknown tones fall back to idle chrome.
+ * Forks that add mood keys get idle chrome unless the host colorizes itself.
  */
 const ANSI_FOR_TONE = Object.freeze({
   idle: "\x1b[90m",
@@ -19,6 +20,22 @@ const ANSI_FOR_TONE = Object.freeze({
 });
 
 const RESET = "\x1b[0m";
+
+/**
+ * @param {"left"|"right"|string} [facing]
+ * @returns {"left"|"right"}
+ */
+function facingOf(facing) {
+  return facing === "left" ? "left" : "right";
+}
+
+/**
+ * @param {object} kit
+ * @returns {string[]} moodColorsUiOnly keys (kit order)
+ */
+export function listTones(kit) {
+  return Object.keys(kit?.moodColorsUiOnly ?? {});
+}
 
 /**
  * @param {object} kit
@@ -42,6 +59,7 @@ export function toneForFace(kit, face = "idle") {
 
 /**
  * Colorize already-rendered mark lines.
+ * Unknown tone ids fall back to idle chrome (not a face map).
  * @param {string[]} lines
  * @param {string} [tone] moodColorsUiOnly key
  * @returns {string}
@@ -58,7 +76,7 @@ export function colorize(lines, tone = "idle") {
  * @returns {string}
  */
 export function ansiLockupFromKit(kit, face = "idle", { color = true, facing = "right" } = {}) {
-  const dir = facing === "left" ? "left" : "right";
+  const dir = facingOf(facing);
   const lines = linesForKit(kit, face, dir);
   if (!color) return lines.join("\n");
   return colorize(lines, toneForFace(kit, face));
