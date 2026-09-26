@@ -57,13 +57,7 @@ It is **not** another IDE, status dashboard, or courseware mound. Warmth + const
 | Recipes | IFTTT applets / Pebble timeline actions | When event → face / action / stage / emotion / growth (+ optional tone chrome) | [`RECIPES.md`](RECIPES.md) — **later plate** |
 | Companion host | Phone *(fiction — Mininja needs no phone)* | Console / bot / any host port. **bot** = Mac launcher over `console/`, not a second UI brand | [`console/`](console/) · [`bot/`](bot/) · [`PORTING.md`](PORTING.md) |
 
-Presence ladder (progressive disclosure — **mark-first on-ramp**, then climb):
-
-```
-mark → faces → scoot → scene
-```
-
-That is Pebble’s progressive disclosure in our dialect. Paste the idle lockup in ~60s as the **on-ramp only**.
+Presence ladder (**mark → faces → scoot → scene**): progressive disclosure — mark-first **on-ramp**, then climb. Canonical: [`PORTING.md`](PORTING.md). Paste the idle lockup in ~60s as the on-ramp only.
 
 **v1 product ship bar (Russ, 2026-09-26):** a complete v1 **MUST** include **pal + habitat strip** (stages / props / scene weather from kit). Same bar as “creature + habitat strip” — the pal *is* the creature presence. Mark-only is **not** a complete v1 ship — it is how a stranger starts. **MUST NOT** bloat the face or skip to a recipe runner before the terrarium ships.
 
@@ -79,42 +73,9 @@ That is Pebble’s progressive disclosure in our dialect. Paste the idle lockup 
 
 ## Glance / rubber-duck / visual notifications
 
-Deep dive: [`GLANCE.md`](GLANCE.md). Summarized here so the north star stays the system map.
+Canonical: [`GLANCE.md`](GLANCE.md) — hierarchy (ranks 1–6), attention layers (pal · habitat · garden), pal vocabulary, anti-dashboard rules.
 
-### Job
-
-Not “show more GitHub.” A **rubber duck on the desk** that also glances at the developer’s world so they don’t keep opening tabs. Text shouts; Mininja changes **posture** (face, stage, plant silhouette) for peripheral awareness. Bridging to make development a bit more pleasant — reminiscent of the rubber-duck-on-the-desk practice. **Pleasantness IS the product** when nothing’s wrong.
-
-### Pal (product noun)
-
-| | |
-|--|--|
-| **Pal** | The agent creature in the glass — presence doing work (human-driven buddy / coding agent / automation). **Unnamed** personally (never Casque; no he/him). |
-| **Mark** | The pal’s face lockup (`kit/mark.json`). |
-| **Multi-pal** | Optional host modular layer: several pals, **color-distinguished**; one pal ↔ one plant for a focused job. **MUST NOT** invent kit pal-color / agent-id harvest tables. |
-
-### Glance hierarchy (interrupt cost)
-
-| Rank | Need | Posture gist |
-|-----:|------|--------------|
-| 1 | **Blocked now** | `error` / `denied` @ `gate` — sticky until clear |
-| 2 | **Someone needs me** | `asking` — soft sticky; often `desk`, not gate |
-| 3 | **Something landed** | `completed` / `allowed` @ `rooftop` — brief celebrate, **wins expire** |
-| 4 | **Busy on my behalf** | `sandboxing` / `executing` / `evaluating` @ `workshop` / `desk` — presence, not alarm |
-| 5 | **Ambient repo / goal health** | Plants growth 0..5; weeds = quiet desaturate; multi-repo = plants + thin cables |
-| 6 | **Quiet / offline** | `idle` / `blink` / `offline` + `dock` / `nightwatch` — default most of the day |
-
-Everything else filtered by recipe packs the user chose. Bridges emit lots; recipes filter; kit few bricks. Sticky priority: **blocked > asking > busy**. Full anti-dashboard rules: [`GLANCE.md`](GLANCE.md).
-
-### Three attention layers
-
-| Layer | Question | Brick |
-|-------|----------|-------|
-| **Pal** | Do I need to look up? | face + action |
-| **Habitat** | Where in the story? | stage + weather |
-| **Garden** | How healthy are plants / goals? | `repoBranch` growth |
-
-Cross-links: [`GARDEN.md`](GARDEN.md) (ambient) · [`RECIPES.md`](RECIPES.md) (filtering) · [`qa/simulations/`](qa/simulations/) (scenario ↔ rank) · [`SCENERY.md`](SCENERY.md) (stages that carry the story).
+One-line map: posture over feeds; sticky **blocked > asking > busy**; wins expire; plants peripheral; quiet warm idle is the default. Cross-links: [`GARDEN.md`](GARDEN.md) · [`RECIPES.md`](RECIPES.md) · [`qa/simulations/`](qa/simulations/) · [`SCENERY.md`](SCENERY.md).
 
 ---
 
@@ -150,6 +111,19 @@ Silent dual tables beside kit are shame; forks and overlays are encouraged. Geom
 
 ---
 
+## Occam + Unix (standing bar)
+
+Do one thing well. Text/data as interface. Composable filters. Silence is golden. Rule of economy. **No entity without necessity** — one vocabulary; demotion ≠ disconnection, but don’t duplicate.
+
+Checklist (pass before adding a page, table, or constant):
+
+- [ ] Does this already live in `kit/*.json` or one canonical doc? Prefer a **pointer**.
+- [ ] New id / hex / speed / stage? **Read kit** — never invent.
+- [ ] Pasting a hierarchy a third time? Thin to a link.
+- [ ] Apps UI / Ports craft? **File there** — kit stays data.
+
+Audit trail: [`qa/OCCAM-UNIX-AUDIT.md`](qa/OCCAM-UNIX-AUDIT.md). Style checklist twin: [`STYLEGUIDE.md`](STYLEGUIDE.md).
+
 ## Design rules this north star implies
 
 1. **Glyphs are the mark** — **MUST NOT** ship a redrawn substitute as SoT ([`CONSTRUCTION.md`](CONSTRUCTION.md)).
@@ -161,6 +135,7 @@ Silent dual tables beside kit are shame; forks and overlays are encouraged. Geom
 7. **v1 ship = pal + habitat strip** — mark-only is the 60s on-ramp only. **MUST NOT** call mark-only “v1 done,” or hero the recipe runner / webhook bridges / full IFTTT/Zapier surface before the terrarium.
 8. **Mascot / pal unnamed** — **MUST NOT** use Casque or any personal name; no he/him.
 9. **Glance over feeds** — posture for peripheral awareness; one sticky interrupt; wins expire; plants peripheral ([`GLANCE.md`](GLANCE.md)).
+10. **Occam + Unix** — smallest sufficient SoT; pointers over paste; dual tables = shame ([`qa/OCCAM-UNIX-AUDIT.md`](qa/OCCAM-UNIX-AUDIT.md)).
 
 ---
 

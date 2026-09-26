@@ -24,15 +24,15 @@ The mascot has no name.
 ## 2. Construction rules
 
 - The body (lines 1 and 3) is static across all states.
-- Only the eyes on line 2 change, plus the mood color in rendered contexts.
+- Only the eyes on line 2 change, plus the tone color in rendered contexts.
 - The sole exception is the `loadingLeft` state, which mirrors the body.
 - Eye glyphs must come from the expression table below. Do not invent new eyes.
 
-## 3. Moods
+## 3. Tones (`moodColorsUiOnly`)
 
-Rendered contexts color the mascot by mood:
+Rendered contexts color the mascot by **tone** (UI chrome — not a face/emotion id namespace):
 
-| Mood | Hex | Meaning |
+| Tone | Hex | Meaning |
 |------|-----|---------|
 | idle | `#334155` | neutral / at rest |
 | accent | `#6366f1` | working / thinking |
@@ -40,11 +40,11 @@ Rendered contexts color the mascot by mood:
 | warn | `#eab308` | needs attention |
 | err | `#ef4444` | blocked / failed |
 
-These five keys and hex values are [`kit/mark.json`](kit/mark.json) → `moodColorsUiOnly` (Thingscorp default kit). A kit fork or local overlay may replace them; do not keep a second mood table in brand docs. Terminal contexts use the same tone names (plus optional host-only `muted`) instead of hex.
+These five keys and hex values are [`kit/mark.json`](kit/mark.json) → `moodColorsUiOnly` (Thingscorp default kit). A kit fork or local overlay may replace them; do not keep a second tone table in brand docs. Terminal contexts use the same tone names (plus optional host-only `muted`) instead of hex.
 
 ## 4. Expression table
 
-| State | Eyes | Mood | Meaning | Motion |
+| State | Eyes | Tone | Meaning | Motion |
 |-------|------|------|---------|--------|
 | idle | ●● | idle | ready | — |
 | blink | ── | idle | blink face (glyphs/tone in kit) | — |
@@ -76,6 +76,20 @@ The `loadingLeft` frame mirrors the body:
 - `blink` glyphs and tone live in [`kit/mark.json`](kit/mark.json). Auto-blink every **6–14s** while idle is **host guidance only** (not a kit constant) — choose your timer, or skip auto-blink; never fire `blink` manually as a response face.
 - Match the state to what the system is actually doing (e.g. `evaluating` while checking rules, `asking` when blocked on approval, `error` on failure).
 - Do not use the mark's expressions to convey anything outside this table.
+
+## Occam + Unix (standing bar)
+
+Same bar as [`NORTH-STAR.md`](NORTH-STAR.md): one job per piece; kit JSON is the interface; compose adapters; silence over sprawl; no entity without necessity.
+
+| Check | Pass when |
+|-------|-----------|
+| Dual table | Numbers live in `kit/` only; docs **narrate** or **point**, they don’t fork |
+| Vocabulary | face · stage · action · emotion · growth · tone — not invented “mood ids” |
+| Paste | Hierarchy / catalog appears once canonically; elsewhere = short pointer |
+| Scope | Digipet / dashboard / acquisition / pal-color kit tables stay out |
+| Lane | Console/bot UI = Apps; adapter craft = Ports; this guide = brand narration of kit |
+
+Full audit: [`qa/OCCAM-UNIX-AUDIT.md`](qa/OCCAM-UNIX-AUDIT.md).
 
 ## Sources
 

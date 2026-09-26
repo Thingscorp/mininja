@@ -62,24 +62,9 @@ Hosts map `growth` → silhouette height via `garden.silhouetteHeightPx` (or aut
 
 ## Ambient glance (plants vs pal interrupts)
 
-Garden is **rank 5** in the glance hierarchy — ambient repo / goal health. It answers “how healthy are my plants / goals?” without stealing the sticky interrupt slot.
+Garden is **rank 5** in [`GLANCE.md`](GLANCE.md) — ambient repo / goal health; plants never steal the sticky interrupt. Pal ↔ plant visualization, multi-pal color chrome, and anti-dashboard rules live there — **MUST NOT** add kit pal-color / agent-id / “which plant” constants here.
 
-| Concern | Who owns the glance |
-|---------|---------------------|
-| Blocked / needs me / landed / busy | **Pal** posture — face + action + stage ([`GLANCE.md`](GLANCE.md) ranks 1–4) |
-| Quiet / offline | Pal floor — `idle` / `blink` / `offline` @ `dock` / `nightwatch` (rank 6) |
-| Repo / goal health over time | **Plants** — growth 0..5 silhouettes (rank 5) |
-
-**Anti-dashboard:** plants never become a KPI panel beside the terrarium. No badge chrome for “stale.” Prefer quiet desaturate / opacity host chrome on a still-`repoBranch` prop. Faces stay focal; text stays optional.
-
-### Pal ↔ plant interaction (design)
-
-- A **pal represents an agent** (human-driven buddy / coding agent / automation).
-- Pals **interact with plants individually**, and that interaction is **visualized**: e.g. maintenance on a repo → **one pal** interacting with **that** labeled `repoBranch`.
-- Default: **one pal on one plant** for a focused job. Multiple pals = concurrent agents, distinguished by **host color chrome** (modular layer — remixable; **not** a kit pal-color / agent-id table).
-- Mark = the pal’s face lockup. Garden = plants. Recipes later may say which pal is busy where; kit still only stores face / stage / action / emotion / growth.
-
-**MUST NOT** add kit constants for pal colors, agent ids, or “which plant the pal is touching.” Host overlays / scene placement own that visualization.
+**Anti-dashboard (garden-local):** no badge chrome for “stale.” Prefer quiet desaturate / opacity host chrome on a still-`repoBranch` prop. Faces stay focal; text stays optional.
 
 ## Multi-repo plants + connections (design)
 
