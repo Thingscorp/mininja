@@ -5,7 +5,7 @@
 | Date | 2026-09-25 (ET) |
 | Branch | `feat/monorepo-public` |
 | Tip at Phase 2 start | `23d4465` (`git pull --ff-only` — already up to date) |
-| Tip after this commit | _(see git log — this commit)_ |
+| Tip after this commit | `279a356` |
 | Kit versions | mark **1.6.0** · scene **1.6.1** |
 | Kit JSON mutated? | **No** |
 | Console UI rewritten? | **No** (report-only; Apps/Linear owns craft) |
