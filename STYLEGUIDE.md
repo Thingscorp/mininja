@@ -55,7 +55,7 @@ These five keys and hex values are [`kit/mark.json`](kit/mark.json) → `moodCol
 | sandboxing | ◇◇ | idle | contained | — |
 | executing | ◣◢ | accent | focused | pulse |
 | completed | ▴▴ | ok | done | bounce |
-| warning | ◆◆ | warn | caution | bounce |
+| warning | ▲△ | warn | caution | bounce |
 | error | ×× | err | failed | shake |
 | cancelled | ◦◦ | idle | interrupted | — |
 | offline | ‒‒ | idle | sleeping | — |
@@ -74,6 +74,7 @@ The `loadingLeft` frame mirrors the body:
 
 - Use `idle` as the default resting state.
 - `blink` glyphs and tone live in [`kit/mark.json`](kit/mark.json). Auto-blink every **6–14s** while idle is **host guidance only** (not a kit constant) — choose your timer, or skip auto-blink; never fire `blink` manually as a response face.
+- `warning` glyphs live in [`kit/mark.json`](kit/mark.json) as **▲△** (solid left, outline right). While the face is `warning`, hosts **MAY** alternate eyes **▲▲ ↔ △△** on a timer — **host guidance only** (not a kit motion / not a new face id).
 - Match the state to what the system is actually doing (e.g. `evaluating` while checking rules, `asking` when blocked on approval, `error` on failure).
 - Do not use the mark's expressions to convey anything outside this table.
 

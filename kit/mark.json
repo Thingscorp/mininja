@@ -1,5 +1,5 @@
 {
-  "version": "1.6.0",
+  "version": "1.6.2",
   "name": "Mininja mark",
   "owner": "Thingscorp LLC",
   "mascotNamed": false,
@@ -184,15 +184,15 @@
     },
     "warning": {
       "eyes": [
-        "\u25c6",
-        "\u25c6"
+        "\u25b2",
+        "\u25b3"
       ],
       "tone": "warn",
       "motion": "bounce",
       "mirrored": false,
       "lines": [
         "\u259a\u2588\u2588\u2588\u2588",
-        "\u2588\u2588 \u25c6\u25c6",
+        "\u2588\u2588 \u25b2\u25b3",
         "\u2580\u2580\u2580\u2580\u2580"
       ]
     },

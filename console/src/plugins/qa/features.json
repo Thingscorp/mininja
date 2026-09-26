@@ -328,7 +328,7 @@
     "Feature ID": "KIT-VER-001",
     "Feature Name": "Kit JSON versioning",
     "User Story": "As a consumer I need version fields to know which schema I loaded.",
-    "Expected Behaviour": "mark.json version 1.6.0; scene.json version 1.6.1 (garden.silhouetteHeightPx). CHANGELOG narrates bumps.",
+    "Expected Behaviour": "mark.json version 1.6.2; scene.json version 1.6.1 (garden.silhouetteHeightPx). CHANGELOG narrates bumps.",
     "Edge Cases": "Bumping mark without faces/schema change; silent dual version in hosts.",
     "Test Cases": "TC-KIT-VER-001a; TC-KIT-VER-001b; TC-KIT-VER-001c",
     "Current Status": "TESTED",

@@ -132,7 +132,7 @@ test("TC-KIT-VAL-002b", "KIT-VAL-002", "boundary", () => {
 
 // --- KIT-VER-001 versioning ---
 test("TC-KIT-VER-001a", "KIT-VER-001", "happy", () => {
-  eq(loadMark().version, "1.6.0");
+  eq(loadMark().version, "1.6.2");
   eq(loadScene().version, "1.6.1");
 });
 test("TC-KIT-VER-001b", "KIT-VER-001", "boundary", () => {
