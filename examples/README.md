@@ -1,6 +1,6 @@
 # examples/ — first face in ~60s
 
-Compose adapters. No business logic.
+Compose adapters. No business logic. Mascot has no name.
 
 | Path | Does |
 |------|------|
@@ -12,6 +12,7 @@ Compose adapters. No business logic.
 ./examples/cli-banner.sh              # idle (printf fallback if no Node)
 ./examples/cli-banner.sh allowed      # face + ANSI tone (Node)
 ./examples/cli-banner.sh allowed -p   # same face, plain (no ANSI)
+./examples/cli-banner.sh allowed --facing left
 ./examples/cli-banner.sh --list       # face ids from kit/mark.json
 ```
 

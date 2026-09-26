@@ -2,6 +2,8 @@
 
 Tiny Unix filters over `kit/`. One job each. Compose; do not grow into apps.
 
+Stranger path (~60s): [`../examples/`](../examples/). Paste or print a face first; graduate here when you need code.
+
 ```
 kit/mark.json
       │
@@ -29,4 +31,4 @@ Do not import `lockup.mjs` or `ansi/` in the browser — they touch `node:fs`.
 
 No `console/` imports. Brand law: [../PORTING.md](../PORTING.md).
 
-Ids (`face`, stage, action) are kit SoT — recipe-compatible seams. No parallel expression tables.
+Ids (`face`, stage, action) are kit SoT — recipe-compatible seams. No parallel expression tables. Mascot has no name.
