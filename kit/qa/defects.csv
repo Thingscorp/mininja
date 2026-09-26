@@ -1,0 +1,2 @@
+Defect ID,Feature ID,Reproduction,Expected,Actual,Severity,Root Cause Hypothesis,Status
+DEFECT-DOC-001,KIT-SCENE-009,"Read TERMINAL-MOTION.md STYLEGUIDE face bridge row for idle/blink","Kit legacyFaceBridge omits stage (keep-current); doc should show — / keep-current","Previously listed stage=dock; fixed 2026-09-25 in dd4def8 to —",low,"Doc narrator inventing dock stage for progressive face-first omit","Fixed"
