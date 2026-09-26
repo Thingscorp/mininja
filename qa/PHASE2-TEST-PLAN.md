@@ -109,3 +109,10 @@ UI defects → **Apps/Linear**. Do not patch JSX in this QA loop.
 - New adapter public exports
 - Kit JSON edits
 - Merging PR #1
+
+
+---
+
+## Phase 3 follow-through
+
+See [`PHASE3-EXECUTION.md`](PHASE3-EXECUTION.md) — expanded `qa/monorepo-test-cases.csv`, 21 `qa/tests` suites green, defects in `qa/defects.csv`.

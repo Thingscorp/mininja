@@ -24,3 +24,6 @@ screenshots/
 attachments/
 seed/official/
 scripts/sim-grid-habitat-report.json
+
+# QA ephemeral bot data
+qa/.tmp-bot-data/
