@@ -68,11 +68,11 @@ Standing rule text: [`NORTH-STAR.md`](../NORTH-STAR.md) (Occam + Unix section) �
 
 | ID | Finding | Owner |
 |----|---------|-------|
-| **OX-APP-001** | `console/src/lib/scene.ts` hardcodes `STAGE_WIDTH = 420` and `0.42` with runtime assert vs kit | **Apps** — acceptable bootstrap if assert + `check-consumers` stay green; ideal future = derive from kit import only. |
-| **OX-APP-002** | `console/src/components/banner.tsx` inlines walk/run `280` / `170` | **Apps** — gated by check-consumers; same ideal = read `kit.motion`. |
+| **OX-APP-001** | `STAGE_WIDTH` / `ANCHOR_RATIO` | **Apps — remediated** — derived from `kit.geometry` (no forked literals). |
+| **OX-APP-002** | Banner walk/run speeds | **Apps — remediated** — `WALK/RUN_PX_PER_SEC` from `kit.motion`. |
 | **OX-APP-003** | TypeScript closed unions in `scene.ts` (`Weather`, `PropKind`, `Tone`, motion/pose/fx) mirror kit enums | **Apps** — drift risk if kit adds a kind; keep kit-align / consumers green. |
 | **OX-APP-004** | `MascotState` union lists 15 face ids in `mascot.ts` | **Apps** — type mirror of mark faces; runtime goes through bridge. |
-| **OX-APP-005** | Console/bot UI (composer, grove, multi-pal chrome, sticky arbitration) | **Apps** — kit stays data; design intent in GLANCE / OLD-CONSOLE-CARRYOVER. |
+| **OX-APP-005** | Multi-pal habitat chrome + sticky rank | **Apps — partial** — host tint chips / sticky in bot banner+grove + console Banner props; pal↔`repoBranch` plant binding still follow-up. |
 | **OX-PORT-001** | Adapter surface already Unix-small; do not grow into apps | **Ports** — compose filters only. |
 
 ---
@@ -114,8 +114,8 @@ node qa/tests/run-tests.mjs # monorepo docs + sims as wired
 
 ## Still open (not Kit)
 
-1. Apps: derive STAGE_WIDTH / banner speeds from kit (OX-APP-001/002).  
-2. Apps: sticky interrupt arbitration + multi-pal color chrome (design in GLANCE; UI in console/bot).  
+1. Apps: pal↔`repoBranch` plant binding visualization (one-pal↔one-plant); multi-pal tint chrome shipped.  
+2. Apps: OX-APP-003/004 — keep unions kit-align green; no drive-by churn.  
 3. Ports: keep adapters one-job; no second expression catalogs.  
 4. Optional later: RECIPES thin-pass if parallel example catalogs appear.
 

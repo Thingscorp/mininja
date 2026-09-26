@@ -22,9 +22,16 @@ for (const verb of ["scene", "feel", "do", "go"]) {
 assert(/Unknown emotion|Unknown action|Unknown place/i.test(lib), "unknown habitat copy");
 assert(/listStages|emotions|actions|stages|feel\/|do\/|go\//i.test(lib) || /scene\./.test(lib), "catalog wiring");
 
-// motion alignment
-assert(banner.includes(String(kit.motion.walkPxPerSec)), `walk ${kit.motion.walkPxPerSec}`);
-assert(banner.includes(String(kit.motion.runPxPerSec)), `run ${kit.motion.runPxPerSec}`);
+// motion alignment — walk/run via kit-derived exports (OX-APP-002)
+assert(banner.includes("WALK_PX_PER_SEC") && banner.includes("RUN_PX_PER_SEC"), "banner uses kit motion exports");
+assert(
+  /export const WALK_PX_PER_SEC\s*=\s*kit\.motion\.walkPxPerSec/.test(scene),
+  `scene exports walk ${kit.motion.walkPxPerSec}`,
+);
+assert(
+  /export const RUN_PX_PER_SEC\s*=\s*kit\.motion\.runPxPerSec/.test(scene),
+  `scene exports run ${kit.motion.runPxPerSec}`,
+);
 assert(banner.includes(String(kit.motion.patrolPxPerSec)), `patrol ${kit.motion.patrolPxPerSec}`);
 assert(banner.includes(String(kit.motion.arriveEpsilonPx)) || /gap\s*>\s*6|epsilon|6/.test(banner), "arrive epsilon");
 assert(/56/.test(banner) && /90/.test(banner), "patrol insets");

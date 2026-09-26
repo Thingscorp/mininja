@@ -1,24 +1,51 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Mascot } from "@/components/mascot";
 import {
   getAction,
   getStage,
   listStages,
+  RUN_PX_PER_SEC,
   stageCenter,
+  WALK_PX_PER_SEC,
   worldWidth,
   type Scene,
   type StageDef,
   type StageProp,
 } from "@/lib/scene";
 
+/** Host pal chrome — tint hex from Apps tint algo; never from kit. */
+export type PalChrome = {
+  id: string;
+  name: string;
+  tint: string;
+  busy?: boolean;
+  blocked?: boolean;
+};
+
+export type StickyRank = "blocked" | "asking" | "busy";
+
 type BannerProps = {
   scene: Scene;
   blink?: boolean;
   reduce?: boolean;
   ready?: boolean;
+  /** Selected / focal pal tint for habitat chrome. */
+  tint?: string;
+  /** Concurrent pals — color-coded chips in habitat glass. */
+  pals?: PalChrome[];
+  /** Glance sticky interrupt (blocked > asking > busy); host-owned. */
+  sticky?: StickyRank | null;
 };
 
-export function Banner({ scene, blink = false, reduce = false, ready = true }: BannerProps) {
+export function Banner({
+  scene,
+  blink = false,
+  reduce = false,
+  ready = true,
+  tint,
+  pals = [],
+  sticky = null,
+}: BannerProps) {
   const viewRef = useRef<HTMLDivElement>(null);
   const worldRef = useRef<HTMLDivElement>(null);
   const actorEl = useRef<HTMLDivElement>(null);
@@ -85,7 +112,7 @@ export function Banner({ scene, blink = false, reduce = false, ready = true }: B
           faceRef.current = dir;
           setFacing(dir);
         }
-        const speed = s.intensity >= 2 ? 280 : 170;
+        const speed = s.intensity >= 2 ? RUN_PX_PER_SEC : WALK_PX_PER_SEC;
         actorRef.current += Math.sign(gap) * Math.min(Math.abs(gap), speed * dt);
       } else {
         const action = getAction(s.action);
@@ -149,11 +176,36 @@ export function Banner({ scene, blink = false, reduce = false, ready = true }: B
   };
   const shown = getStage(place);
   const weather = shown.weather;
+  const chromeStyle = tint ? ({ ["--pal-tint"]: tint } as CSSProperties) : undefined;
 
   return (
-    <header ref={viewRef} className={`banner weather-${weather}`}>
+    <header
+      ref={viewRef}
+      className={`banner weather-${weather}${tint ? " has-pal-tint" : ""}`}
+      style={chromeStyle}
+      data-sticky={sticky || undefined}
+    >
       <div className="banner-hud">
         <span className="text-mini text-muted">{shown.label}</span>
+        {sticky ? (
+          <span className={`banner-sticky sticky-${sticky}`} data-rank={sticky}>
+            {sticky}
+          </span>
+        ) : null}
+        {pals.length > 0 ? (
+          <span className="banner-pals" aria-label="pals in habitat">
+            {pals.map((p) => (
+              <span
+                key={p.id}
+                className={`pal-chip${p.busy ? " is-busy" : ""}${p.blocked ? " is-blocked" : ""}`}
+                style={{ ["--pal-tint"]: p.tint } as CSSProperties}
+                title={p.name}
+              >
+                {(p.name || "?").trim().slice(0, 1).toUpperCase() || "?"}
+              </span>
+            ))}
+          </span>
+        ) : null}
         <span className="text-mini text-steel">
           {scene.emotion}
           <span className="text-muted"> · </span>

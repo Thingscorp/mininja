@@ -32,30 +32,49 @@ if (existsSync(consoleDir) && g && m) {
   const sceneTs = readFileSync(join(consoleDir, "src", "lib", "scene.ts"), "utf8");
   const bannerTs = readFileSync(join(consoleDir, "src", "components", "banner.tsx"), "utf8");
 
+  // OX-APP-001: STAGE_WIDTH / ANCHOR_RATIO derived from kit.geometry (not forked literals).
+  const derivesWidth = /export const STAGE_WIDTH\s*=\s*kit\.geometry\.stageWidthPx/.test(
+    sceneTs,
+  );
   const widthMatch = sceneTs.match(/export const STAGE_WIDTH\s*=\s*(\d+)/);
   const width = widthMatch ? Number(widthMatch[1]) : null;
-  if (width !== g.stageWidthPx) {
+  if (!derivesWidth && width !== g.stageWidthPx) {
     errors.push(
-      `console STAGE_WIDTH=${width} != kit geometry.stageWidthPx=${g.stageWidthPx}`,
+      `console STAGE_WIDTH must derive kit.geometry.stageWidthPx ` +
+        `(got literal ${width}, kit ${g.stageWidthPx})`,
     );
   }
 
-  const anchorOk =
+  const derivesAnchor = /export const ANCHOR_RATIO\s*=\s*kit\.geometry\.anchorRatio/.test(
+    sceneTs,
+  );
+  const anchorLitOk =
     sceneTs.includes(`* ${g.anchorRatio}`) || sceneTs.includes(`*${g.anchorRatio}`);
-  if (!anchorOk) {
+  if (!derivesAnchor && !anchorLitOk) {
     errors.push(`console scene.ts missing kit anchorRatio ${g.anchorRatio}`);
   }
+  if (!sceneTs.includes("ANCHOR_RATIO") && !anchorLitOk) {
+    errors.push("console scene.ts must use ANCHOR_RATIO or kit anchor literal");
+  }
 
-  // Speeds: banner inlines walk/run from intensity — must match kit motion.
+  // OX-APP-002: walk/run from kit.motion via scene exports (or legacy intensity literals).
   const walk = m.walkPxPerSec;
   const run = m.runPxPerSec;
+  const derivesWalk = /export const WALK_PX_PER_SEC\s*=\s*kit\.motion\.walkPxPerSec/.test(
+    sceneTs,
+  );
+  const derivesRun = /export const RUN_PX_PER_SEC\s*=\s*kit\.motion\.runPxPerSec/.test(
+    sceneTs,
+  );
+  const bannerUsesDerived =
+    bannerTs.includes("WALK_PX_PER_SEC") && bannerTs.includes("RUN_PX_PER_SEC");
   const speedLit = new RegExp(
     String.raw`intensity\s*>=\s*2\s*\?\s*${run}\s*:\s*${walk}`,
   );
-  if (!speedLit.test(bannerTs)) {
+  if (!(derivesWalk && derivesRun && bannerUsesDerived) && !speedLit.test(bannerTs)) {
     errors.push(
-      `console banner.tsx walk/run must match kit motion ` +
-        `(expected intensity >= 2 ? ${run} : ${walk})`,
+      `console banner walk/run must read kit.motion ` +
+        `(WALK/RUN_PX_PER_SEC exports or intensity >= 2 ? ${run} : ${walk})`,
     );
   }
 

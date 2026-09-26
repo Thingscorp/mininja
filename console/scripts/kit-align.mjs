@@ -13,9 +13,21 @@ const kit = JSON.parse(readFileSync(join(root, "kit", "scene.json"), "utf8"));
 const sceneSrc = readFileSync(join(here, "..", "src", "lib", "scene.ts"), "utf8");
 
 const g = kit.geometry;
+const derivesWidth = /export const STAGE_WIDTH\s*=\s*kit\.geometry\.stageWidthPx/.test(
+  sceneSrc,
+);
 const widthMatch = sceneSrc.match(/export const STAGE_WIDTH\s*=\s*(\d+)/);
 const width = widthMatch ? Number(widthMatch[1]) : null;
-const anchorOk = sceneSrc.includes(`* ${g.anchorRatio}`) || sceneSrc.includes(`*${g.anchorRatio}`);
+const derivesAnchor = /export const ANCHOR_RATIO\s*=\s*kit\.geometry\.anchorRatio/.test(
+  sceneSrc,
+);
+const anchorOk =
+  derivesAnchor ||
+  sceneSrc.includes(`* ${g.anchorRatio}`) ||
+  sceneSrc.includes(`*${g.anchorRatio}`);
+const derivesMotion =
+  /export const WALK_PX_PER_SEC\s*=\s*kit\.motion\.walkPxPerSec/.test(sceneSrc) &&
+  /export const RUN_PX_PER_SEC\s*=\s*kit\.motion\.runPxPerSec/.test(sceneSrc);
 const loadsKit =
   sceneSrc.includes("kit/scene.json") && sceneSrc.includes("registerFromKit");
 const dualTable =
@@ -24,11 +36,16 @@ const dualTable =
   /\bACTION_SEED\b/.test(sceneSrc);
 
 const errors = [];
-if (width !== g.stageWidthPx) {
-  errors.push(`STAGE_WIDTH=${width} but kit geometry.stageWidthPx=${g.stageWidthPx}`);
+if (!derivesWidth && width !== g.stageWidthPx) {
+  errors.push(
+    `STAGE_WIDTH must derive kit.geometry.stageWidthPx (got ${width}, kit ${g.stageWidthPx})`,
+  );
 }
 if (!anchorOk) {
   errors.push(`scene.ts missing anchorRatio ${g.anchorRatio} (kit SoT)`);
+}
+if (!derivesMotion) {
+  errors.push("scene.ts must export WALK/RUN_PX_PER_SEC from kit.motion");
 }
 if ((kit.stages?.length ?? 0) !== g.stageCount) {
   errors.push(`kit stages length ${kit.stages?.length} != stageCount ${g.stageCount}`);

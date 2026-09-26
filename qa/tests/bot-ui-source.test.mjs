@@ -43,6 +43,13 @@ assert(/rallyAll|rally all/.test(html), "rally-all UI control");
 assert(/aria-label="composer"|id="task"/.test(html), "composer surface");
 assert(/one mouth|@pal anytime|sidebar is fallback/i.test(html), "one-mouth contract chrome");
 
+// P1: multi-pal habitat glass (host tint chrome — not kit pal-color table)
+assert(/function paintPalHabitat|bannerPals|pal-chip/.test(html), "multi-pal habitat chips");
+assert(/function stickyInterrupt|bannerSticky/.test(html), "sticky interrupt chrome");
+assert(/palPresence|pal-dot/.test(html), "concurrent pal presence dots");
+assert(/--pal-tint/.test(html), "host --pal-tint habitat chrome");
+assert(!/palColors|agentId.*kit|kit\.pals/i.test(html), "no kit pal-color table");
+
 console.log(
   `PASS  SUITE-BOT-UI-001/002 (kit stages=${stageIds.join(",")} hydrated; @/rally/pull)`,
 );

@@ -119,6 +119,64 @@
       font-weight: 600;
       color: var(--color-steel);
     }
+    #banner { --pal-tint: var(--color-steel); }
+    #banner .lockup { color: var(--pal-tint); }
+    .banner-sticky {
+      font-size: var(--text-mini);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-transform: lowercase;
+      color: var(--color-steel-hot);
+    }
+    .banner-sticky[data-rank="blocked"] { color: var(--color-err, #f85149); }
+    .banner-sticky[data-rank="asking"] { color: var(--color-warn, #d29922); }
+    .banner-sticky[data-rank="busy"] { color: var(--color-steel-hot); }
+    .banner-pals {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+      justify-content: flex-end;
+      min-width: 0;
+      overflow: hidden;
+    }
+    .pal-chip {
+      --pal-tint: var(--color-steel);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.1rem;
+      height: 1.1rem;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--color-bg);
+      background: var(--pal-tint);
+      opacity: 0.55;
+      flex: 0 0 auto;
+    }
+    .pal-chip.is-busy { opacity: 1; }
+    .pal-chip.is-sel {
+      opacity: 1;
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--pal-tint) 70%, transparent);
+    }
+    .pal-chip.is-blocked { box-shadow: 0 0 0 1px var(--color-err, #f85149); }
+    .pal-presence {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      min-height: 6px;
+      padding-left: 2px;
+    }
+    .pal-dot {
+      --pal-tint: var(--color-steel);
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--pal-tint);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--pal-tint) 40%, transparent);
+    }
     .scoot-track {
       --grove-cell: 14px;
       --grove-line: 13px;
@@ -527,11 +585,14 @@
     <header id="banner">
       <div class="banner-hud">
         <span class="banner-place" id="bannerPlace">dock · idle</span>
+        <span class="banner-sticky" id="bannerSticky" hidden></span>
+        <span class="banner-pals" id="bannerPals" aria-label="pals in habitat"></span>
         <span class="banner-who" id="bannerWho">console</span>
       </div>
       <div class="scoot-track" id="track">
         <div class="world-tape" id="tape"></div>
         <div class="scoot-walker" id="walker">
+          <div class="pal-presence" id="palPresence" aria-hidden="true"></div>
           <pre id="pigeon" class="pigeon" hidden></pre>
           <pre id="mascot" class="lockup" aria-label="mininja idle">▚████
 ██ ●●
@@ -687,6 +748,55 @@
       return (bot && bot.tint) || STEEL;
     }
 
+    /** Glance sticky interrupt — blocked > asking > busy (host chrome; no recipe runner). */
+    function stickyInterrupt() {
+      const bots = state.bots || [];
+      if (bots.some((b) => b.status === "error")) return { rank: "blocked", label: "blocked" };
+      if (face === "asking") return { rank: "asking", label: "asking" };
+      if (bots.some((b) => b.working)) return { rank: "busy", label: "busy" };
+      return null;
+    }
+
+    /** Multi-pal habitat glass: tint chips + concurrent busy dots (host tint, not kit). */
+    function paintPalHabitat() {
+      const bots = state.bots || [];
+      const palsEl = $("bannerPals");
+      if (palsEl) {
+        palsEl.innerHTML = bots.map((b) => {
+          const cls = ["pal-chip"];
+          if (b.working) cls.push("is-busy");
+          if (b.id === selected) cls.push("is-sel");
+          if (b.status === "error") cls.push("is-blocked");
+          const t = b.tint || STEEL;
+          const initial = ((b.name || "?").trim().slice(0, 1) || "?").toUpperCase();
+          const tip = esc(b.name) + (b.working ? " · working" : b.status === "error" ? " · blocked" : "");
+          return `<span class="${cls.join(" ")}" style="--pal-tint:${esc(t)}" title="${tip}">${esc(initial)}</span>`;
+        }).join("");
+      }
+      const sticky = stickyInterrupt();
+      const st = $("bannerSticky");
+      if (st) {
+        if (sticky) {
+          st.hidden = false;
+          st.dataset.rank = sticky.rank;
+          st.textContent = sticky.label;
+        } else {
+          st.hidden = true;
+          st.textContent = "";
+          delete st.dataset.rank;
+        }
+      }
+      const presence = $("palPresence");
+      if (presence) {
+        const others = bots.filter((b) => b.working && b.id !== selected);
+        presence.innerHTML = others.map((b) =>
+          `<span class="pal-dot" style="--pal-tint:${esc(b.tint || STEEL)}" title="${esc(b.name)}"></span>`
+        ).join("");
+      }
+      const banner = $("banner");
+      if (banner) banner.style.setProperty("--pal-tint", selectedTint());
+    }
+
     function paintTree(here) {
       const cells = ZONE_CELLS;
       const mid = Math.floor(cells / 2);
@@ -772,6 +882,7 @@
         el.textContent = name;
         el.style.color = tint;
       }
+      paintPalHabitat();
       paintGrove();
     }
 
@@ -910,7 +1021,7 @@
       const bots = state.bots.map((b) => {
         const pill = b.working ? "working" : (b.status === "error" ? "error" : "");
         const pillClass = b.working ? "pill" : (b.status === "error" ? "pill err" : "pill ok");
-        const nameColor = b.id === selected && b.tint ? ` style="color:${esc(b.tint)}"` : "";
+        const nameColor = b.tint ? ` style="color:${esc(b.tint)}"` : "";
         return `<button class="bot${b.id === selected ? " active" : ""}" data-id="${esc(b.id)}">
           <span class="name"${nameColor}>${esc(b.name)}</span>
           ${pill ? `<span class="${pillClass}">${pill}</span>` : "<span></span>"}

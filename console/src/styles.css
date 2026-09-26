@@ -118,10 +118,50 @@
   position: absolute;
   top: 0.45rem;
   left: 0.9rem;
+  right: 0.9rem;
   z-index: 4;
   display: flex;
+  align-items: center;
   gap: 0.75rem;
   pointer-events: none;
+}
+.banner.has-pal-tint .banner-actor pre,
+.banner.has-pal-tint .banner-line {
+  color: var(--pal-tint, var(--color-steel));
+}
+.banner-sticky {
+  font-size: var(--text-mini);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+}
+.banner-sticky.sticky-blocked { color: var(--color-err); }
+.banner-sticky.sticky-asking { color: var(--color-warn); }
+.banner-sticky.sticky-busy { color: var(--color-steel-hot, #d0d6e0); }
+.banner-pals {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+.pal-chip {
+  --pal-tint: var(--color-steel);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  color: #0e0f12;
+  background: var(--pal-tint);
+  opacity: 0.7;
+}
+.pal-chip.is-busy { opacity: 1; }
+.pal-chip.is-blocked {
+  box-shadow: 0 0 0 1px var(--color-err);
 }
 .banner-sky {
   position: absolute;

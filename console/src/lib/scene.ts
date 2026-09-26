@@ -77,8 +77,14 @@ export type Scene = {
   holdMs: number;
 };
 
-/** Must match kit.geometry.stageWidthPx (assert + kit/check-consumers). */
-export const STAGE_WIDTH = 420;
+/** Derived from kit.geometry — SoT; no forked literal (OX-APP-001). */
+export const STAGE_WIDTH = kit.geometry.stageWidthPx;
+/** Rest-point ratio inside a stage; kit.geometry.anchorRatio. */
+export const ANCHOR_RATIO = kit.geometry.anchorRatio;
+
+/** Locomotion from kit.motion — SoT; banner reads these (OX-APP-002). */
+export const WALK_PX_PER_SEC = kit.motion.walkPxPerSec;
+export const RUN_PX_PER_SEC = kit.motion.runPxPerSec;
 
 const emotions = new Map<string, EmotionDef>();
 const actions = new Map<string, ActionDef>();
@@ -143,13 +149,14 @@ export function catalog(): { emotions: string[]; actions: string[]; stages: stri
   };
 }
 
-if (kit.geometry.stageWidthPx !== STAGE_WIDTH) {
-  throw new Error(
-    `kit geometry.stageWidthPx=${kit.geometry.stageWidthPx} != console STAGE_WIDTH=${STAGE_WIDTH}`,
-  );
+if (typeof STAGE_WIDTH !== "number" || !(STAGE_WIDTH > 0)) {
+  throw new Error(`kit geometry.stageWidthPx missing/invalid: ${kit.geometry.stageWidthPx}`);
 }
-if (kit.geometry.anchorRatio !== 0.42) {
-  throw new Error(`kit geometry.anchorRatio=${kit.geometry.anchorRatio} != console anchor 0.42`);
+if (typeof ANCHOR_RATIO !== "number" || !(ANCHOR_RATIO > 0) || !(ANCHOR_RATIO < 1)) {
+  throw new Error(`kit geometry.anchorRatio missing/invalid: ${kit.geometry.anchorRatio}`);
+}
+if (typeof WALK_PX_PER_SEC !== "number" || typeof RUN_PX_PER_SEC !== "number") {
+  throw new Error("kit motion walkPxPerSec/runPxPerSec missing");
 }
 
 /** Load kit catalogs into the register maps. Props/weather ride on StageDef — no separate registerProp/Weather. */
@@ -237,7 +244,7 @@ export function sceneFromIntent(intent: SceneIntent, current: Scene = DEFAULT_SC
 
 export function stageCenter(id: string): number {
   const s = getStage(id);
-  return s.x + s.width * 0.42;
+  return s.x + s.width * ANCHOR_RATIO;
 }
 
 export function worldWidth(): number {

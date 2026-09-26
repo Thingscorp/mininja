@@ -21,8 +21,19 @@ assert(!/\bEMOTION_SEED\b/.test(sceneSrc), "no EMOTION_SEED");
 assert(!/\bACTION_SEED\b/.test(sceneSrc), "no ACTION_SEED");
 assert(!/Casque/i.test(sceneSrc), "no Casque in scene.ts");
 
-const widthMatch = sceneSrc.match(/export const STAGE_WIDTH\s*=\s*(\d+)/);
-assert(widthMatch && Number(widthMatch[1]) === kit.geometry.stageWidthPx, "STAGE_WIDTH === kit");
+assert(
+  /export const STAGE_WIDTH\s*=\s*kit\.geometry\.stageWidthPx/.test(sceneSrc),
+  "STAGE_WIDTH derives kit.geometry.stageWidthPx",
+);
+assert(
+  /export const ANCHOR_RATIO\s*=\s*kit\.geometry\.anchorRatio/.test(sceneSrc),
+  "ANCHOR_RATIO derives kit.geometry.anchorRatio",
+);
+assert(
+  /export const WALK_PX_PER_SEC\s*=\s*kit\.motion\.walkPxPerSec/.test(sceneSrc) &&
+    /export const RUN_PX_PER_SEC\s*=\s*kit\.motion\.runPxPerSec/.test(sceneSrc),
+  "WALK/RUN_PX_PER_SEC derive kit.motion",
+);
 
 for (const verb of ["scene", "feel", "do", "go"]) {
   assert(mininjaSrc.includes(`cmd === "${verb}"`), `cardFor implements ${verb}`);

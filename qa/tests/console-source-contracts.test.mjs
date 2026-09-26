@@ -68,8 +68,18 @@ assert(/"scene"/.test(lib) && /"feel"/.test(lib) && /"do"/.test(lib) && /"go"/.t
 
 // --- Banner motion vs kit ---
 const banner = read("console/src/components/banner.tsx");
-assert(banner.includes(String(kit.motion.walkPxPerSec)) || /170/.test(banner), "walk speed");
-assert(banner.includes(String(kit.motion.runPxPerSec)) || /280/.test(banner), "run speed");
+assert(
+  (banner.includes("WALK_PX_PER_SEC") && banner.includes("RUN_PX_PER_SEC")) ||
+    banner.includes(String(kit.motion.walkPxPerSec)) ||
+    /170/.test(banner),
+  "walk speed via kit motion",
+);
+assert(
+  banner.includes("RUN_PX_PER_SEC") ||
+    banner.includes(String(kit.motion.runPxPerSec)) ||
+    /280/.test(banner),
+  "run speed via kit motion",
+);
 assert(/26/.test(banner), "patrol speed");
 assert(/translate3d/.test(banner), "camera translate3d");
 assert(!/viewW\s*\*\s*0\.35/.test(banner), "no legacy 0.35 look-ahead");
