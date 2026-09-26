@@ -29,8 +29,8 @@ Companion: [`qa/OLD-CONSOLE-CARRYOVER.md`](../OLD-CONSOLE-CARRYOVER.md) · [`HAB
 | **Linear theme tokens** | `--color-bg/panel/hi/fg/muted/accent/ok/warn/err/steel…` · `styles.css` `@theme` | **host-only OK** | Linear-ish Apps chrome. Distinct from `mark.moodColorsUiOnly` (kit tone hex for mark/docs). Do not merge tables. |
 | **Tone → CSS class** | `TONE` / `MOTION` maps in `mascot.tsx` | **host-only OK** (names) · **kit field** (tone/motion ids) | Maps kit tone/motion **ids** to host utility classes. |
 | **Pal tint algo** | `tint(name)`, `STEEL` · `lib/tint.ts` ↔ `bot/console/tint.py` | **host-only OK** | MUST NOT enter kit. Banner `--pal-tint` CSS host. |
-| **Pal chips / sticky rank** | `PalChrome`, `StickyRank` · `banner.tsx` + `.banner-pals` / `.banner-sticky` CSS | **host-only OK** | Props exist; **Mininja never passes** `tint`/`pals`/`sticky`. Bot static **does** paint chips + sticky. Console lag vs bot. |
-| **Composer (programs)** | `input`, `lines`, `run()`, `START` chips · `mininja.tsx`; `cardFor` · `lib/mininja.ts` | **host-only OK** | Single unnamed buddy; `aria-label="command"`; no `@` parser; no roster. Programs-only. |
+| **Pal chips / sticky rank** | `PalChrome`, `StickyRank` · `banner.tsx` + `.banner-pals` / `.banner-sticky` CSS | **host-only OK** | Mininja passes `tint`/`pals`/`sticky` from bot roster when up. |
+| **Composer (one mouth)** | `input`, `lines`, `run()`, `START` chips · `mininja.tsx`; `cardFor` · `lib/mininja.ts`; `lib/mention.ts` + `lib/bot-api.ts` | **host-only OK** | Shared bot grammar: `@` / stop / retarget / rally + programs. Roster from bot `/api/state`. |
 | **Command → SceneIntent map** | `COMMAND_INTENT` · `lib/scene.ts` | **host-only OK** (routing) · **dual/risk** if ids invent | Maps program verbs → kit emotion/action/stage ids. Keep ids ⊂ kit catalogs. |
 | **Boot / blink / offline / reduce-motion** | `boot`, `blink`, `offline`, `reduce` · `mininja.tsx` | **host-only OK** | Window chrome / a11y. Offline forces kit ids `sleepy`/`sleep`/`nightwatch`. |
 | **Message log + Out cards** | `Line` cmd/out · `mininja.tsx`; `Card` · `lib/mininja.ts` | **host-only OK** | Gantt / pickable rows host. |
@@ -39,8 +39,8 @@ Companion: [`qa/OLD-CONSOLE-CARRYOVER.md`](../OLD-CONSOLE-CARRYOVER.md) · [`HAB
 | **Auth / gates / login** | `lib/auth/*`, `gates.tsx`, `/login` | **host-only OK** | Product optional Better Auth; not kit. |
 | **Window / layout / focus rings** | `h-dvh` shell, max-w-2xl column, Linear `:focus-visible` · `mininja.tsx` + `styles.css` | **host-only OK** | Explicit Linear chrome comment in CSS. |
 | **Preview host bridge / P2P** | `preview-host-bridge*`, `lib/multiplayer/p2p.ts` | **host-only OK** (low pri) | Not glance hero; P2P “roster” ≠ pal roster. |
-| **@-mention / roster / targeting** | — in `console/` | **missing (Apps)** | Bot has `parseMention`, mention menu, sidebar select. Console: none. |
-| **Pull-off / retarget / rally-all** | — in `console/` | **missing (Apps)** | Bot: `pullOff`, `retargetLine`, `rallyAll`, server `retarget`/`retarget=True`. Console: none. |
+| **@-mention / roster / targeting** | `lib/mention.ts` + menu in `mininja.tsx` | **shipped (Apps)** | Parity with bot `parseMention`; roster from bot-api. |
+| **Pull-off / retarget / rally-all** | `routeComposer` + `bot-api.ts` | **shipped (Apps)** | Calls bot `stop` / `retarget` / `rally`; needs-bot card when down. |
 | **Permission modes (draft/auto/free)** | — in `console/` | **host-only OK** (bot surface) | Teammate CLI posture lives on bot; console has no pal permission UI. |
 
 ---
@@ -86,10 +86,10 @@ Carryover dated 2026-09-26; **bot has moved ahead** of that GAP table. Console h
 
 | Pri | Carryover claim | Actual monorepo (this map) | Console drift |
 |-----|-----------------|----------------------------|---------------|
-| **P0** | `@`-mention not implemented anywhere | **Bot shipped:** `parseMention`, mention menu, `@Name` / `@all` / `@console`, autocomplete · `bot/static/index.html` | **Console still none** — programs composer only |
-| **P0** | Pull-off / retarget / rally-all missing (only stop + refuse) | **Bot shipped:** `pullOff`, `retarget` API + `retarget @Name`, `rallyAll` / `@all`, `start_task(..., retarget=)` · `bot/server.py` | **Console still none** |
-| **P0** | Unify composer — React programs vs bot teammate | **Still split** — bot unified mouth (`#task` + mention); console `aria-label="command"` programs-only | **Primary remaining P0 for console/** |
-| **P1** | Multi-pal color — “shipped host chrome” on Banner props + tint.ts | Tint algo + Banner props + CSS **present**; bot paints chips/sticky/presence | **Console Banner props unwired** from `Mininja` — API without data = half-shipped |
+| **P0** | `@`-mention | **Bot + Console shipped** (shared grammar) | — |
+| **P0** | Pull-off / retarget / rally-all | **Bot + Console shipped** (console → bot-api) | Needs bot process |
+| **P0** | Unify composer | **Absorbed** — one grammar; bot = launcher/API | Do not add a third mouth |
+| **P1** | Multi-pal color Banner wire | Console wires when bot roster up | Asking sticky face-rank still light |
 | **P1** | Pal ↔ `repoBranch` plant binding | Kit garden SoT yes; **neither host** renders growth silhouettes / one-pal-on-plant | **Console:** type accepts `repoBranch`+growth; **no CSS class, Prop ignores growth, no overlay UI** |
 
 Other carryover “ALREADY” items that **hold** for console: kit-hydrate habitat (`registerFromKit`), scrubbed mascot/`sandboxing`, program plugins, auth stack, no STAGE_SEED.

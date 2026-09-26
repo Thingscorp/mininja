@@ -134,6 +134,14 @@ export default defineConfig(({ command }) => ({
     strictPort: true,
     // console consumes ../kit (monorepo SoT) — allow Vite to read outside console/
     fs: { allow: [".."] },
+    // Teammate APIs — bot Mac launcher (./bot/mininja → :8787)
+    proxy: {
+      "/bot-api": {
+        target: "http://127.0.0.1:8787",
+        changeOrigin: true,
+        rewrite: (path: string) => path.replace(/^\/bot-api/, ""),
+      },
+    },
   },
   resolve: { tsconfigPaths: true },
   plugins: [

@@ -22,8 +22,8 @@
 | Geometry + motion speeds | SoT (`geometry.*`, `motion.*`) | — | Import / match kit numbers | Grove uses kit stages | — |
 | Typeface (IBM Plex Mono) | SoT `mark.typeface` | React/presence assume stack | CSS must match | Static fonts must match | Load fonts |
 | Pal tint / roster labels | **Forbidden** | Presence `--fg` / chip hooks only | `tint.ts` + Banner props (unwired) | **Shipped** live chips/dots | **Yes — required** |
-| @-mention / stop / retarget / rally | — | — | **Missing** | **Shipped** | **Yes** |
-| Unify composer (one mouth) | — | — | Programs-only | One mouth shipped | **Yes** (product absorb) |
+| @-mention / stop / retarget / rally | — | — | **Shipped** (`lib/mention.ts` + bot-api) | **Shipped** | **Yes** |
+| Unify composer (one mouth) | — | — | **Shares bot grammar** | One mouth + Mac launcher | **Yes** |
 | Permission modes / routines / credentials | — | — | — | **Shipped** | **Yes** |
 | Linear tokens / layout / auth UI | — | — | Own | Own (CSS vars) | **Yes** |
 | Habitat camera / walk cycle / grove paint | Numbers in kit | — | Banner renderer | Grove renderer | Renderers OK |
@@ -90,10 +90,10 @@ Prefer [`04-bot-host.md`](04-bot-host.md) over stale rows in [`OLD-CONSOLE-CARRY
 
 | Item | Status (bot / console) | Seam | Next action |
 |------|------------------------|------|-------------|
-| Composer **@-mention** (+ `@all`) | Bot **shipped** · Console **missing** | **host** | Port `parseMention` + roster menu into React composer. Carry-over “not implemented” = **STALE** for bot. |
-| **Pull-off / retarget / rally-all** | Bot **shipped** · Console **missing** | **host** | Absorb bot APIs (`stop` / `retarget` / `rally`) when console gains pals. Carry-over “only stop” = **STALE** for bot. |
-| **Unify composer** (one mouth) | Bot one mouth · Console programs-only · **product still split** | **host** | Absorb bot routing into React **or** keep bot as multi-pal home. Do not add a third mouth. |
-| **Multi-pal color** in habitat | Bot **live** chips/sticky · Console Banner props + `tint.ts` **unwired** | **host** | Wire `tint`/`pals`/`sticky` from Mininja; MUST NOT kit pal table. |
+| Composer **@-mention** (+ `@all`) | Bot **shipped** · Console **shipped** (`mention.ts`) | **host** | Shared grammar; bot HTTP SoT. |
+| **Pull-off / retarget / rally-all** | Bot **shipped** · Console **shipped** (via bot-api) | **host** | Needs bot server; clear stub when down. |
+| **Unify composer** (one mouth) | **Shared grammar** · bot Mac launcher + API | **host** | Do not add a third mouth. |
+| **Multi-pal color** in habitat | Bot **live** · Console Banner wired when bot roster up | **host** | MUST NOT kit pal table. |
 | **Pal ↔ repoBranch** growth viz | Kit schema ready · **neither host** renders growth silhouettes / pal-on-plant | kit schema · **host** viz | Host CSS + `h(g)` from `garden.silhouetteHeightPx`; overlay binding metadata — no new kit ids. |
 | **Permission modes** draft\|auto\|free | Bot **shipped** · Console N/A | **host** | Keep fail-closed; expose when console gains teammate spawn. |
 | **Roster + tint** | Bot **shipped** · Console lag | **host** | Console: pass live roster into Banner. |

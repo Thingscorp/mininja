@@ -66,10 +66,10 @@ Serve roots: `STATIC = bot/static`, `KIT_DIR = repo/kit` via `GET /kit/*`.
 | Capability | Bot | React console (`console/`) |
 |------------|-----|----------------------------|
 | Multi-pal roster + CRUD | Yes — sidebar + dialog | No — single unnamed buddy |
-| One-mouth `@` / `@all` composer | Yes — parser + autocomplete | No — programs-only prompt |
-| Stop / pull-off | Yes — API + button + composer verbs | N/A (no teammate runs) |
-| Retarget (explicit) | Yes — API + `retarget @Name` | No |
-| Rally-all | Yes — API + button + `@all` | No |
+| One-mouth `@` / `@all` composer | Yes — parser + autocomplete | **Yes** — `lib/mention.ts` + menu (calls bot APIs) |
+| Stop / pull-off | Yes — API + button + composer verbs | **Yes** — via bot-api |
+| Retarget (explicit) | Yes — API + `retarget @Name` | **Yes** — via bot-api |
+| Rally-all | Yes — API + button + `@all` | **Yes** — via bot-api |
 | Permission modes draft/auto/free | Yes | No (no CLI teammate spawn) |
 | Routines (interval assign) | Yes — scheduler thread | No |
 | Per-pal credential bind | Yes | No |
@@ -78,7 +78,7 @@ Serve roots: `STATIC = bot/static`, `KIT_DIR = repo/kit` via `GET /kit/*`.
 | Host tint on habitat chips / presence dots | Yes (live from roster) | Banner **props** exist (`tint`/`pals`/`sticky`) but no live multi-pal roster wiring |
 | Program shell (`now`/`todo`/…) | Python twin in `bot/console/` | Canonical React + plugins |
 
-**Bottom line:** multi-pal ops live in **bot**. React console remains the richer **program** shell until an absorb. Do not pretend console already has teammate targeting.
+**Bottom line:** multi-pal **HTTP** lives in **bot**; React console **shares the composer grammar** and calls bot when up. Programs stay richest in React. Do not add a third mouth.
 
 ---
 
@@ -109,7 +109,7 @@ Carry-over P0 list vs **current** `bot/`:
 | **Pull-off / stop** | **Shipped** — `stop_bot`, `#stopBot`, composer `stop`/`pull [@Name]` | Expose as first-class op when console gains pals |
 | **Retarget** | **Shipped** — `retarget_task` + composer `retarget @Name …` + `tasks?retarget` | Never silent mid-flight reassign; refuse `already working` unless explicit |
 | **Rally-all** | **Shipped** — `rally_all` + `#rallyAll` + `@all` | Skip busy pals; respect `MAX_PARALLEL` |
-| **Unify composer mouths** | **Shipped inside bot** (one mouth). **Still split product-wide:** React = programs-only; bot = programs + pals | Product call: absorb bot routing into React (or keep bot as multi-pal home). Do **not** add a third mouth |
+| **Unify composer mouths** | **Shipped** — shared grammar in React + bot static; bot = API/launcher SoT | Do **not** add a third mouth |
 
 **Still open (product, not bot-local):** React console has no `@` / roster / stop / rally. Unifying mouths = Apps absorb work, not a kit change.
 

@@ -164,4 +164,21 @@ const mascot = read("console/src/components/mascot.tsx");
 assert(/idle|blink|facing|lines/i.test(mascot), "mascot lockup");
 assert(!/Casque/i.test(mascot), "no Casque in mascot");
 
+
+// --- Composer absorb (OX-APP-D01) ---
+assert(existsSync(join(root, "console/src/lib/mention.ts")), "mention.ts pure module");
+assert(existsSync(join(root, "console/src/lib/bot-api.ts")), "bot-api client");
+const mentionSrc = read("console/src/lib/mention.ts");
+assert(/export function parseMention/.test(mentionSrc), "parseMention");
+assert(/export function routeComposer/.test(mentionSrc), "routeComposer");
+assert(/export function rosterSuggestions/.test(mentionSrc), "rosterSuggestions");
+const botApiSrc = read("console/src/lib/bot-api.ts");
+assert(/rallyAll|\/api\/rally/.test(botApiSrc), "rally client");
+assert(/retargetTask|\/retarget/.test(botApiSrc), "retarget client");
+assert(/needsBotCard|Needs bot/i.test(botApiSrc), "needs-bot path");
+assert(/from "@\/lib\/mention"|routeComposer/.test(mininjaUi), "mininja uses mention");
+assert(/from "@\/lib\/bot-api"|startTask|rallyAll/.test(mininjaUi), "mininja uses bot-api");
+assert(/aria-label="mention roster"|mention roster/.test(mininjaUi), "mention menu");
+assert(/tint=\{bannerTint\}|pals=\{bannerPals\}|sticky=\{bannerSticky\}/.test(mininjaUi), "Banner tint/pals/sticky wired");
+
 console.log("PASS  SUITE-CON-SOURCE-CONTRACTS (routes/boot/cmds/plugins/auth/theme)");

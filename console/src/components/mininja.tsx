@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { cardFor, type Card } from "@/lib/mininja";
 import { findBlocker } from "@/lib/blockers";
-import { Banner } from "@/components/banner";
+import { Banner, type PalChrome } from "@/components/banner";
 import { Pigeon } from "@/components/pigeon";
 import { Gantt } from "@/components/gantt";
 import {
@@ -14,6 +14,26 @@ import {
 } from "@/lib/scene";
 import type { PigeonPose } from "@/lib/pigeon";
 import { isOn as refineOn } from "@/plugins/refine";
+import {
+  applyMentionText,
+  mentionQuery,
+  rosterSuggestions,
+  routeComposer,
+  stickyFromRoster,
+  type MentionSuggestion,
+  type RosterPal,
+} from "@/lib/mention";
+import {
+  fetchBotState,
+  needsBotCard,
+  rallyAll,
+  retargetTask,
+  startTask,
+  stopBot,
+  type BotApiResult,
+} from "@/lib/bot-api";
+/** Host steel — parity with lib/tint STEEL (avoid node:crypto in browser). */
+const STEEL = "#8a8f98";
 
 type Line =
   | { kind: "cmd"; id: number; text: string }
@@ -30,6 +50,16 @@ const START: [string, string][] = [
   ["go", "walk the banner"],
 ];
 
+function toChrome(bots: RosterPal[]): PalChrome[] {
+  return bots.map((b) => ({
+    id: b.id,
+    name: b.name,
+    tint: b.tint || STEEL,
+    busy: Boolean(b.working),
+    blocked: b.status === "error",
+  }));
+}
+
 export function Mininja() {
   const inputRef = useRef<HTMLInputElement>(null);
   const logRef = useRef<HTMLDivElement>(null);
@@ -42,6 +72,11 @@ export function Mininja() {
   const [offline, setOffline] = useState(false);
   const [reduce, setReduce] = useState(true);
   const [lines, setLines] = useState<Line[]>([]);
+  /** Sidebar fallback — "console" | bot id (bot SoT grammar). */
+  const [selected, setSelected] = useState<string>("console");
+  const [roster, setRoster] = useState<RosterPal[]>([]);
+  const [mentionItems, setMentionItems] = useState<MentionSuggestion[]>([]);
+  const [mentionIndex, setMentionIndex] = useState(0);
 
   const ready = boot >= 6;
   const live: Scene = offline
@@ -54,6 +89,20 @@ export function Mininja() {
   const lastCard = lastOut?.kind === "out" ? lastOut.card : undefined;
   const bird: PigeonPose | undefined = lastCard?.bird;
 
+  const selectedPal = roster.find((b) => b.id === selected);
+  const bannerTint = selectedPal ? selectedPal.tint || STEEL : undefined;
+  const bannerPals = toChrome(roster);
+  const bannerSticky = stickyFromRoster(roster);
+
+  const refreshRoster = useCallback(async () => {
+    const state = await fetchBotState();
+    if (!state) return;
+    setRoster(state.bots || []);
+    if (selected !== "console" && !(state.bots || []).some((b) => b.id === selected)) {
+      setSelected("console");
+    }
+  }, [selected]);
+
   useEffect(() => {
     const sync = () => setOffline(typeof navigator !== "undefined" && navigator.onLine === false);
     sync();
@@ -65,6 +114,12 @@ export function Mininja() {
       window.removeEventListener("online", sync);
     };
   }, []);
+
+  useEffect(() => {
+    void refreshRoster();
+    const t = window.setInterval(() => void refreshRoster(), 8000);
+    return () => window.clearInterval(t);
+  }, [refreshRoster]);
 
   useEffect(() => {
     const prefers = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -114,50 +169,15 @@ export function Mininja() {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
   }, [lines, scene]);
 
-  function run(raw: string) {
-    if (!ready) return;
-    const text = raw.trim();
-    if (!text) return;
-    if (text.toLowerCase() === "offline" || text.toLowerCase() === "sleep") {
-      setOffline(true);
-      setScene((s) => applyIntent(s, { emotion: "sleepy", action: "sleep", stage: "nightwatch", line: "type wake to return" }));
-      setLines((prev) => [
-        ...prev,
-        { kind: "cmd", id: n.current++, text },
-        {
-          kind: "out",
-          id: n.current++,
-          card: {
-            title: "Offline",
-            tag: "sleeping",
-            bottom: "Type wake to return.",
-          },
-        },
-      ]);
-      return;
-    }
-    if (text.toLowerCase() === "wake" || text.toLowerCase() === "online" || text.toLowerCase() === "reconnect") {
-      setOffline(typeof navigator !== "undefined" && navigator.onLine === false);
-      setScene((s) => applyIntent(s, { emotion: "alert", action: "wave", stage: "dock", line: "watching again" }));
-      setLines((prev) => [
-        ...prev,
-        { kind: "cmd", id: n.current++, text },
-        { kind: "out", id: n.current++, card: { title: "Online", bottom: "Watching again." } },
-      ]);
-      return;
-    }
-    if (offline) {
-      setLines((prev) => [
-        ...prev,
-        { kind: "cmd", id: n.current++, text },
-        {
-          kind: "out",
-          id: n.current++,
-          card: { title: "Offline", bottom: "Type wake to try again." },
-        },
-      ]);
-      return;
-    }
+  function pushCmdOut(text: string, card: Card) {
+    setLines((prev) => [
+      ...prev,
+      { kind: "cmd", id: n.current++, text },
+      { kind: "out", id: n.current++, card },
+    ]);
+  }
+
+  function runProgram(text: string) {
     const card = cardFor(text);
     if (card.title === "__clear__") {
       setLines([]);
@@ -177,6 +197,181 @@ export function Mininja() {
     }, 650);
   }
 
+  async function settleBot(opLabel: string, text: string, result: BotApiResult, okCard: Card) {
+    if (result.needsBot) {
+      pushCmdOut(text, needsBotCard(opLabel, result.error));
+      setScene((s) => applyIntent(s, { emotion: "worried", action: "wait", line: "bot offline" }));
+      return;
+    }
+    if (!result.ok) {
+      pushCmdOut(text, {
+        title: opLabel,
+        tag: "error",
+        bottom: String(result.error || "failed"),
+      });
+      setScene((s) => applyIntent(s, { emotion: "worried", action: "wait", line: "" }));
+      return;
+    }
+    pushCmdOut(text, okCard);
+    setScene((s) => applyIntent(s, { emotion: "focused", action: "type", line: "" }));
+    await refreshRoster();
+  }
+
+  async function run(raw: string) {
+    if (!ready) return;
+    const text = raw.trim();
+    if (!text) return;
+    setMentionItems([]);
+
+    if (text.toLowerCase() === "offline" || text.toLowerCase() === "sleep") {
+      setOffline(true);
+      setScene((s) => applyIntent(s, { emotion: "sleepy", action: "sleep", stage: "nightwatch", line: "type wake to return" }));
+      pushCmdOut(text, { title: "Offline", tag: "sleeping", bottom: "Type wake to return." });
+      return;
+    }
+    if (text.toLowerCase() === "wake" || text.toLowerCase() === "online" || text.toLowerCase() === "reconnect") {
+      setOffline(typeof navigator !== "undefined" && navigator.onLine === false);
+      setScene((s) => applyIntent(s, { emotion: "alert", action: "wave", stage: "dock", line: "watching again" }));
+      pushCmdOut(text, { title: "Online", bottom: "Watching again." });
+      return;
+    }
+    if (offline) {
+      pushCmdOut(text, { title: "Offline", bottom: "Type wake to try again." });
+      return;
+    }
+
+    const route = routeComposer(text, { bots: roster, selected });
+
+    if (route.op === "noop") return;
+
+    if (route.op === "program" || route.op === "console") {
+      const body = route.op === "console" ? route.body : route.text;
+      if (route.op === "console") setSelected("console");
+      runProgram(body);
+      return;
+    }
+
+    if (route.op === "select-pal") {
+      setSelected(route.bot.id);
+      pushCmdOut(text, {
+        title: route.bot.name,
+        tag: "focus",
+        bottom: `Selected ${route.bot.name}. Type a task, or @mention anytime.`,
+      });
+      return;
+    }
+
+    if (route.op === "unknown-mention") {
+      pushCmdOut(text, {
+        title: "Unknown pal",
+        tag: "error",
+        bottom: `No roster match for @${route.token}. Start bot for live pals, or @console / programs.`,
+      });
+      setScene((s) => applyIntent(s, { emotion: "confused", action: "wait", line: "" }));
+      return;
+    }
+
+    if (route.op === "retarget-error") {
+      pushCmdOut(text, { title: "Retarget", tag: "error", bottom: "No matching pal." });
+      setScene((s) => applyIntent(s, { emotion: "confused", action: "wait", line: "" }));
+      return;
+    }
+
+    setScene((s) => applyIntent(s, evaluatingIntent()));
+
+    if (route.op === "pull") {
+      if (!route.bot) {
+        pushCmdOut(text, {
+          title: "Pull-off",
+          tag: "idle",
+          bottom: "No pal selected. Use stop @Name or select a pal first.",
+        });
+        return;
+      }
+      const result = await stopBot(route.bot.id);
+      await settleBot("Pull-off", text, result, {
+        title: "Pulled off",
+        tag: route.bot.name,
+        bottom: `${route.bot.name} stopped.`,
+      });
+      return;
+    }
+
+    if (route.op === "rally") {
+      const result = await rallyAll(route.body);
+      await settleBot("Rally", text, result, {
+        title: "Rally",
+        tag: "all",
+        bottom: `Blasted idle pals: ${route.body}`,
+      });
+      return;
+    }
+
+    if (route.op === "retarget") {
+      const to = route.to!;
+      const from = selectedPal;
+      let result: BotApiResult;
+      if (from) {
+        result = await retargetTask(from.id, to.id, route.body);
+      } else {
+        result = await startTask(to.id, route.body, { retarget: true });
+      }
+      setSelected(to.id);
+      await settleBot("Retarget", text, result, {
+        title: "Retarget",
+        tag: to.name,
+        bottom: `Assigned to ${to.name}: ${route.body}`,
+      });
+      return;
+    }
+
+    if (route.op === "task") {
+      setSelected(route.bot.id);
+      const result = await startTask(route.bot.id, route.body);
+      await settleBot("Task", text, result, {
+        title: route.bot.name,
+        tag: "task",
+        bottom: route.body,
+      });
+      return;
+    }
+
+    if (route.op === "sidebar-task") {
+      const bot = roster.find((b) => b.id === route.botId);
+      const result = await startTask(route.botId, route.text);
+      await settleBot("Task", text, result, {
+        title: bot?.name || route.botId,
+        tag: "task",
+        bottom: route.text,
+      });
+      return;
+    }
+  }
+
+  function refreshMentionMenu(value: string) {
+    const q = mentionQuery(value);
+    if (!q) {
+      setMentionItems([]);
+      setMentionIndex(0);
+      return;
+    }
+    const items = rosterSuggestions(q.prefix, roster);
+    setMentionItems(items);
+    setMentionIndex(0);
+  }
+
+  function pickMention(name: string) {
+    const next = applyMentionText(input, name);
+    if (next == null) return;
+    setInput(next);
+    setMentionItems([]);
+    inputRef.current?.focus();
+  }
+
+  const placeholder = selectedPal
+    ? `@${selectedPal.name} · @all · or a task for ${selectedPal.name}`
+    : "@Ada · @all · now · todo · plan · pgeon";
+
   return (
     <div className="flex h-dvh flex-col bg-bg text-fg" onClick={() => inputRef.current?.focus()}>
       {boot >= 1 ? (
@@ -185,7 +380,15 @@ export function Mininja() {
             {refineOn() ? <span className="pointer-events-auto text-mini text-warn">refine</span> : null}
             {bird ? <Pigeon pose={bird} /> : null}
           </div>
-          <Banner scene={live} blink={blink} reduce={reduce} ready={ready} />
+          <Banner
+            scene={live}
+            blink={blink}
+            reduce={reduce}
+            ready={ready}
+            tint={bannerTint}
+            pals={bannerPals}
+            sticky={bannerSticky}
+          />
         </div>
       ) : (
         <div className="h-32" />
@@ -202,7 +405,7 @@ export function Mininja() {
                 </div>
               ) : (
                 <div key={line.id} className={last ? "" : "opacity-45"}>
-                  <Out card={line.card} onPick={(id) => run(id)} />
+                  <Out card={line.card} onPick={(id) => void run(id)} />
                 </div>
               );
             })}
@@ -212,12 +415,42 @@ export function Mininja() {
         )}
 
         {ready ? (
-          <div className="rise shrink-0 space-y-1 pt-2">
+          <div className="rise relative shrink-0 space-y-1 pt-2">
+            {mentionItems.length > 0 ? (
+              <div
+                className="absolute bottom-full left-0 right-0 mb-1 max-h-40 overflow-y-auto rounded border border-line bg-panel text-mini shadow-sm"
+                role="listbox"
+                aria-label="mention roster"
+              >
+                {mentionItems.map((it, i) => (
+                  <button
+                    key={it.id}
+                    type="button"
+                    role="option"
+                    aria-selected={i === mentionIndex}
+                    className={`flex w-full items-baseline gap-2 px-2 py-1 text-left hover:bg-hi/10 ${
+                      i === mentionIndex ? "bg-hi/10 text-hi" : "text-fg"
+                    }`}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      pickMention(it.name);
+                    }}
+                  >
+                    <span style={it.tint ? { color: it.tint } : undefined}>@{it.name}</span>
+                    <span className="truncate text-muted">{it.job}</span>
+                  </button>
+                ))}
+              </div>
+            ) : null}
             <form
               className="flex items-center gap-2"
               onSubmit={(e) => {
                 e.preventDefault();
-                run(input);
+                if (mentionItems.length > 0 && mentionItems[mentionIndex]) {
+                  pickMention(mentionItems[mentionIndex]!.name);
+                  return;
+                }
+                void run(input);
                 setInput("");
               }}
             >
@@ -225,12 +458,27 @@ export function Mininja() {
               <input
                 ref={inputRef}
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                  refreshMentionMenu(e.target.value);
+                }}
+                onKeyDown={(e) => {
+                  if (!mentionItems.length) return;
+                  if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    setMentionIndex((i) => Math.min(i + 1, mentionItems.length - 1));
+                  } else if (e.key === "ArrowUp") {
+                    e.preventDefault();
+                    setMentionIndex((i) => Math.max(i - 1, 0));
+                  } else if (e.key === "Escape") {
+                    setMentionItems([]);
+                  }
+                }}
                 className="min-w-0 flex-1 bg-transparent text-hi outline-none placeholder:text-muted"
                 autoComplete="off"
                 spellCheck={false}
                 aria-label="command"
-                placeholder="now · go archives · feel proud"
+                placeholder={placeholder}
               />
             </form>
             <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-mini text-muted">
@@ -241,12 +489,13 @@ export function Mininja() {
                   className="hover:text-hi"
                   onClick={(e) => {
                     e.stopPropagation();
-                    run(cmd);
+                    void run(cmd);
                   }}
                 >
                   {cmd}
                 </button>
               ))}
+              <span className="text-steel">@ · stop · retarget · @all</span>
             </div>
           </div>
         ) : (

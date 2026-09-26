@@ -3,6 +3,7 @@
 **Date:** 2026-09-26 (ET)  
 **Branch:** `feat/monorepo-public`  
 **Mandate:** same bar as kit twin ([`OCCAM-UNIX-AUDIT.md`](OCCAM-UNIX-AUDIT.md)); applied to `console/` + `bot/`.  
+**Tip:** OX-APP-D01 composer absorb shipped (console shares bot grammar).  
 **Bar:** Unix (one job; text/data interface; compose; silence; economy) × Occam (no entity without necessity; one vocabulary; demotion ≠ disconnection ≠ duplicate).  
 **Cartridge:** `kit/mark.json` + `kit/scene.json` = SoT; hosts = player; adapters = filters. Dual tables = shame. Linear.app quality / Occam UI.
 
@@ -17,7 +18,7 @@ Standing maps: [`seams/00-HOST-SEAMS.md`](seams/00-HOST-SEAMS.md) · [`03-consol
 | Bucket | Count (this pass) | Notes |
 |--------|------------------:|-------|
 | **MUST FIX** (Apps, this tip) | 4 remediated | FRAMES lean; stale `@`/rally docs; Hubzz chrome lies; this audit |
-| **DEFER** | 4 open | Composer absorb; Banner tint wire; pal↔plant viz; camera import style |
+| **DEFER** | 3 open (+ D02 partial) | Banner asking-sticky polish; pal↔plant viz; camera import style |
 | **WAIVE** | several | Host routing maps; intentional Linear vs moodColors; type mirrors |
 | **ALREADY LEAN** | several | registerFromKit; engine kit hydrate; zones hydrate; provider theme killed |
 | **Ports / Kit (file only)** | — | Adapters stay filters; no Apps UI there |
@@ -39,8 +40,8 @@ Standing maps: [`seams/00-HOST-SEAMS.md`](seams/00-HOST-SEAMS.md) · [`03-consol
 
 | ID | Item | Why defer | Concrete next cut |
 |----|------|-----------|-------------------|
-| **OX-APP-D01** | **Unify composer** — port bot one-mouth `@` / stop / retarget / rally into React console | Product absorb; non-trivial UI + API surface | See **Next-loop cut** below |
-| **OX-APP-D02** | Console `Banner` `tint` / `pals` / `sticky` **unwired** from `Mininja` | Half-shipped API; needs roster source console does not have yet | Wire when roster exists; props already in `banner.tsx` L27–47; call site `mininja.tsx` L188 passes none |
+| **OX-APP-D01** | **Unify composer** — port bot one-mouth `@` / stop / retarget / rally into React console | **DONE** this tip — `lib/mention.ts` + `lib/bot-api.ts` + `mininja.tsx` one mouth; bot remains Mac launcher SoT | — |
+| **OX-APP-D02** | Console `Banner` `tint` / `pals` / `sticky` from live roster | **Partial** — wired when bot `/api/state` reachable; empty when bot down | Asking sticky (face-rank) still bot-only; no local roster CRUD |
 | **OX-APP-D03** | Pal ↔ `repoBranch` growth silhouette viz | Kit schema ready; neither host paints `garden.silhouetteHeightPx` / pal-on-plant | Host CSS + overlay binding; no new kit ids ([`GARDEN.md`](../GARDEN.md)) |
 | **OX-APP-D04** | Banner camera/patrol **literals** (`viewW*0.32/0.52`, `26` px/s) vs importing `kit.motion` exports | Values match today (`check-consumers`); import style drift risk | Prefer export imports when touching banner next |
 
@@ -55,7 +56,7 @@ Standing maps: [`seams/00-HOST-SEAMS.md`](seams/00-HOST-SEAMS.md) · [`03-consol
 | **OX-APP-W03** | Console `MascotState` / `Weather` / `PropKind` / `Tone` closed unions | Type mirrors of kit enums (kit OX-APP-003/004). Runtime via bridge / registerFromKit. Churn only if kit-align breaks. |
 | **OX-APP-W04** | Console `mascot.ts` `FRAMES` built via `composeLockup` / `legacyFaceBridge` | Not a glyph dual table — already lean (kit OX-A04). |
 | **OX-APP-W05** | Habitat `composeLockup` (scene-driven eyes/pose) vs adapter `from-kit` for static chips | Seams adapter rule: habitat compose OK; static faces → from-kit. |
-| **OX-APP-W06** | Bot `#composer` + console programs mouth (product split) | Two mouths until absorb — **do not** add a third. Documented in READMEs. |
+| **OX-APP-W06** | Bot static + React console grammars | **Absorbed** — shared `mention` grammar; bot UI may keep static copy until console is primary. **Do not** add a third. |
 | **OX-APP-W07** | Stage tree ink CSS (`--color-git-*`) | Host paint over kit stage ids; not a stage catalog. |
 | **OX-APP-W08** | Typeface hardcoded IBM Plex in host CSS | Matches `mark.typeface` by convention; hydrate optional later. |
 
@@ -83,7 +84,7 @@ Standing maps: [`seams/00-HOST-SEAMS.md`](seams/00-HOST-SEAMS.md) · [`03-consol
 | Silent dual stage/emotion/action seeds | **Clean** (console + bot) |
 | Host redraw lockup glyphs inventing ids | **Remediated** bot FRAMES; console composeLockup OK |
 | Dead dual-path FRAMES seed vs kit overwrite | **Remediated** hydrate-only |
-| Third composer mouth | **Absent** — two mouths documented; absorb deferred |
+| Third composer mouth | **Absent** — React + bot share grammar (D01 done) |
 | Doc lies vs seams (`@`/rally) | **Remediated** carry-over |
 | Provider-theme / Hubzz leftovers | Theme **already lean**; Hubzz **doc lies fixed** |
 | Paste sprawl / unused CSS tokens | Linear tokens in use; no dead Hubzz CSS found in hosts |
@@ -92,9 +93,11 @@ Standing maps: [`seams/00-HOST-SEAMS.md`](seams/00-HOST-SEAMS.md) · [`03-consol
 
 ---
 
-## Next-loop cut — composer absorb (bot → console)
+## Composer absorb (bot → console) — **DONE** (OX-APP-D01)
 
-**Goal:** one mouth in React that can `@pal` / `@all` / `@console` / programs; stop / pull / retarget / rally; sidebar select = fallback. **Do not** vendor React under `bot/`.
+**Goal met:** one mouth in React that can `@pal` / `@all` / `@console` / programs; stop / pull / retarget / rally; sidebar select = fallback. **Do not** vendor React under `bot/`.
+
+**Shipped:** `console/src/lib/mention.ts` (pure), `console/src/lib/bot-api.ts` (client + needs-bot path), `mininja.tsx` router + `@` menu, Vite `/bot-api` proxy, bot CORS. Banner `tint`/`pals`/`sticky` wired from bot roster when up.
 
 | Concern | Bot SoT (copy from) | Console land (today → target) |
 |---------|---------------------|-------------------------------|
@@ -126,10 +129,10 @@ node qa/tests/run-tests.mjs
 
 ## Still open (Apps)
 
-1. **OX-APP-D01** composer absorb (P0 product).  
-2. **OX-APP-D02** Banner multi-pal wire.  
-3. **OX-APP-D03** pal↔plant growth viz.  
-4. **OX-APP-D04** banner camera import hygiene.  
+1. **OX-APP-D02** Banner asking-sticky / roster CRUD (partial wire done when bot up).  
+2. **OX-APP-D03** pal↔plant growth viz.  
+3. **OX-APP-D04** banner camera import hygiene.  
+4. Permission modes draft|auto|free in console spawn UI (**DEFER** — bot SoT).  
 5. Keep type unions kit-align green (no drive-by churn).
 
-**Exit feel:** acting cool without trying — hosts play the cartridge; no silent dual tables; docs match seams; next cut is one mouth, not more chrome.
+**Exit feel:** acting cool without trying — hosts play the cartridge; one mouth shared; no silent dual tables; docs match seams.

@@ -27,16 +27,27 @@ npm run typecheck
 
 Type at the prompt or click a chip. Unknown input gets a clear error face — never a silent no-op.
 
-### Composer split (temporary)
+### Composer contract (one mouth)
 
-This React console is the **program shell** (cards for `now` / `todo` / …). **Multi-pal `@` composer** (talk to any teammate, `@all` rally, pull-off / retarget) lives in [`../bot`](../bot) for now — one mouth there, Occam absorb later. See [`../bot/README.md`](../bot/README.md) § Composer contract.
+Same grammar as [`../bot/README.md`](../bot/README.md) § Composer contract — **one mouth** for pals + programs. Pure parse/route lives in `src/lib/mention.ts` (Unix: one job, no DOM). Teammate ops call the Mac launcher (`bot/server.py`) via `src/lib/bot-api.ts` (Vite proxies `/bot-api` → `:8787` in dev; set `VITE_BOT_URL` otherwise).
+
+| Input | Route |
+|-------|--------|
+| `@Ada do X` | Task to pal Ada (roster from bot `/api/state`) |
+| `@all …` | Rally-all (`POST /api/rally`) |
+| `@console now` / bare `now` | Program engine (`cardFor`) |
+| `stop` / `pull` / `stop @Ada` | Pull-off |
+| `retarget @Bob …` | Explicit retarget |
+| bare text with a pal focused | Task to that pal |
+
+When bot is down, pal ops show a clear **Needs bot server** card; programs still work offline. Autocomplete: type `@` for Linear-minimal roster (`@all`, pals, `@console`). Sidebar focus is fallback (`@Ada` with no body selects). Permission modes `draft`/`auto`/`free` stay on bot until console gains spawn UI (**DEFER**).
 
 ## Layout
 
 ```
 console/
   src/components/   # mark, banner, shell
-  src/lib/          # faces, scene, programs
+  src/lib/          # faces, scene, programs, mention, bot-api
   src/plugins/      # one-job program plugins
   kit alignment     # ../kit/scene.json is SoT for geometry
 ```

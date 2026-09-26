@@ -37,8 +37,8 @@ Product vocabulary: **pals** = agent creatures ([`GLANCE.md`](../GLANCE.md)). Ha
 │  ┌─ Banner (scene strip) ─┐  ┌─ optional Pigeon / refine flag ─┐ │
 │  └────────────────────────┘  └─────────────────────────────────┘ │
 │  message log (cmd ❯ / out cards)                                 │
-│  ❯ command composer  ← programs only (now todo plan …)           │
-│  NO multi-pal · NO @-mention · NO teammate roster                │
+│  ❯ command composer  ← one mouth (@pal / @all / programs)       │
+│  teammate HTTP → bot :8787 (needs bot server when pals)          │
 └─────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────┐
@@ -55,7 +55,7 @@ Shared program brain (ported twice): cardFor / engine plugins
   compound · qa · ralph · scene/feel/do/go · offline/wake/clear
 ```
 
-**Critical finding (updated 2026-09-26 ET):** Russ’s “text composer to `@` any agent anytime” is **shipped on monorepo bot** (`parseMention`, autocomplete, `@all` rally, `@console` programs — see [`seams/04-bot-host.md`](seams/04-bot-host.md)). React `console/` remains programs-only (single unnamed buddy). Old-suite history below still describes pre-monorepo bot (sidebar-select only). Prefer seams 03/04 over GAP rows marked **STALE**.
+**Critical finding (updated 2026-09-26 ET):** Russ’s “text composer to `@` any agent anytime” is **shipped on monorepo bot** (`parseMention`, autocomplete, `@all` rally, `@console` programs — see [`seams/04-bot-host.md`](seams/04-bot-host.md)). React `console/` now shares one-mouth grammar (`lib/mention.ts`); teammate HTTP still needs bot server. Old-suite history below still describes pre-monorepo bot (sidebar-select only). Prefer seams 03/04 over GAP rows marked **STALE**.
 
 ---
 
@@ -184,9 +184,9 @@ Already in monorepo root (keep as SoT narration — invent **no** kit constants)
 
 | Pri | Gap | Evidence | Apps vs Kit |
 |-----|-----|----------|-------------|
-| **P0** | **Composer `@`-mention** — type `@Ada` (or `@all`) anytime; autocomplete roster | **Bot shipped** (`parseMention`, menu). **Console missing.** Old “not in bot” = **STALE**. | **Apps** — absorb into React. Kit: none. |
+| **P0** | **Composer `@`-mention** — type `@Ada` (or `@all`) anytime; autocomplete roster | **Bot shipped**. **Console shipped** (`lib/mention.ts` + menu). | — |
 | **P0** | **Pull-off / retarget / rally-all** as first-class ops | **Bot shipped** (`stop`/`pull`, `retarget`, `rally_all`). **Console missing.** Old “only stop / no rally” = **STALE**. | **Apps** — absorb when console gains pals. Kit: none. |
-| **P0** | **Unify composer surfaces** — React console is programs-only; bot has one-mouth teammate+programs | Split across `console/` vs `bot/static` — bot unified locally; **product still split** | **Apps** product absorb (see [`OCCAM-UNIX-APPS.md`](OCCAM-UNIX-APPS.md)). Kit: none. |
+| **P0** | **Unify composer surfaces** | **Absorbed** — shared grammar; bot remains Mac launcher + API SoT | See [`OCCAM-UNIX-APPS.md`](OCCAM-UNIX-APPS.md) D01. |
 | **P1** | **Multi-pal color in habitat glass** — concurrent pals, color-distinguished | **Shipped (host chrome):** bot banner pal-chips + sticky rank + presence dots; console `Banner` tint/pals/sticky props; `console/src/lib/tint.ts` ↔ `bot/console/tint.py`. **MUST NOT** kit pal-color table. | **Apps** |
 | **P1** | **Pal ↔ `repoBranch` plant binding** in UI | Design in GLANCE/GARDEN; kit has growth bricks; hosts don’t yet show multi-pal on plants | **Apps** visualization (**follow-up**). **Kit** already owns `repoBranch` / growth ids — do not invent new. |
 | **P2** | Bot `FRAMES` dual (historical) | Idle on-ramp + kit hydrate; `sandbox` alias only | **Apps — lean cut this loop** ([`OCCAM-UNIX-APPS.md`](OCCAM-UNIX-APPS.md)). |

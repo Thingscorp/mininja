@@ -6,7 +6,7 @@ This folder is a lean launcher. It does **not** ship a second React console — 
 
 ## Status
 
-The local HTTP UI (`static/` + `server.py`) is intentional launcher scaffolding, not a second React console. **Multi-pal composer lives here** (one mouth). The React [`../console`](../console) stays the program shell until a later absorb — see Composer contract below.
+The local HTTP UI (`static/` + `server.py`) is intentional launcher scaffolding, not a second React console. **Composer grammar SoT for the Mac launcher** (one mouth). The React [`../console`](../console) now **shares the same grammar** (`lib/mention.ts` + bot-api client) so product has one mouth for pals + programs — see Composer contract below. Do not invent a third divergent grammar.
 
 ## Composer contract (one mouth)
 
@@ -25,6 +25,8 @@ Product intent: type to **any pal anytime** without sidebar-first targeting. Sid
 Autocomplete: typing `@` opens a Linear-minimal roster dropdown under the composer (`@all`, pals, `@console`).
 
 Guards: `MAX_PARALLEL` (4); silent double-assign still refused (`already working`) unless `retarget: true` or the explicit `retarget` / retarget API. Permission modes `draft` / `auto` / `free` unchanged. Tint stays host-side (`console/tint.py`) — no kit pal-color tables.
+
+React console shares this grammar (`console/src/lib/mention.ts`); teammate HTTP still terminates here. CORS enabled for console origins; Vite may proxy `/bot-api`.
 
 ## Quick start
 
