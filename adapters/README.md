@@ -34,4 +34,6 @@ Do not import `lockup.mjs` or `ansi/` in the browser — they touch `node:fs`.
 
 **Recipe seams.** Ids (`face`, `stage`, `action`, `motion`) are kit SoT. Motion / presence reuse **action** id strings on `data-motion` + `data-state` — no parallel expression tables. React and `presenceAttrs` both emit that pair when you pass `motion` (or fall back to `action`).
 
+**Mark facing / overlays.** Desired `facing` always wins over `faces.*.mirrored` storage. Prefer `mergeMark` for overlays (deep-merges faces; eyes-only patches re-derive lines). Details: [`mark/README.md`](mark/README.md).
+
 No `console/` imports. Brand law: [../PORTING.md](../PORTING.md). Mascot has no name.

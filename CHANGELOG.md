@@ -1,5 +1,6 @@
 ## Unreleased / next
 
+- Ports craft: mark/ansi **facing wins** + deep `mergeMark` (anatomical eyes `[e_L,e_R]`; eyes-only patches re-derive lines) — [`adapters/mark`](adapters/mark), [`adapters/ansi`](adapters/ansi)
 - Ports craft: simple presence seam — `motion` / `data-motion`+`data-state` on React mark; [`adapters/presence`](adapters/presence) CSS (sway/pulse) + 16×16 chip; [`examples/presence`](examples/presence) idle+search+Messaged pill+sidebar roster row; PORTING recipe-compatible motion note (Grok Bot inspiration, not dep)
 - Ports craft: stranger path hardened (`cli-banner --plain/--facing`, remix `--ansi/--motion/--list`, eyes-only face derive in `from-kit`); PORTING Node-vs-browser guide; drop broken wink copy-paste ([PORTING.md](PORTING.md), [adapters/](adapters/), [examples/](examples/))
 - Docs: one connected **system graph** (creature · habitat · garden · later recipes) — recipe seams kept open; recipes remain a later plate, not v1 required ([RECIPES.md](RECIPES.md), [GARDEN.md](GARDEN.md), [BRAND.md](BRAND.md), [PORTING.md](PORTING.md))

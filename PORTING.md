@@ -101,6 +101,10 @@ lockup(mark, "idle");                    // three lines joined by \n
 
 `from-kit` takes `(kit, face, facing?)`. `lockup.mjs` is the same API with kit already loaded — `(face, facing?)`. Both return **strings** (or `string[3]` for `linesFor`). Unknown face ids fall back to `idle`; use `hasFace` at the host edge when you want a hard error. `mergeMark` is the supported overlay helper — prefer it over hand-rolled face spreads.
 
+**Facing wins.** Desired `facing` (`"left"` | `"right"`) is output orientation; `faces.*.mirrored` is only how stored glyphs / eyes-derive bases are oriented — adapters mirror or un-mirror as needed (`loadingLeft` + `facing: "right"` → right-facing body). Eyes are anatomical `[e_L, e_R]` (same as console `composeLockup`); a mirrored mid swaps the pair.
+
+**`mergeMark` deep-merges** face records (shallow-merges `moodColorsUiOnly`). Eyes-only overlays omit `lines` so derive runs from `canonicalIdle` / `mirroredIdle`; patching `eyes` without `lines` drops inherited lines for the same reason.
+
 React is presentational only: you pass `lines`; `face` / `stage` / `action` / `motion` are kit id **strings** for hints and recipe seams (`data-face`, `data-stage`, `data-action`, `data-motion`, `data-state`). Prefer kit **action** ids for `motion` (e.g. `idle`, `search`) — do not invent a parallel expression union. When `motion` is omitted, React falls back to `action` for both `data-motion` and `data-state`.
 
 ---
