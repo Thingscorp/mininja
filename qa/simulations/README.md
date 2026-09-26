@@ -1,6 +1,6 @@
 # Habitat / emote simulations (mock)
 
-Mock scenarios that stress **visualization** of garden plants + creature emotes for common development events. Design discovery only — no adapter APIs, no console UI rewrites, no kit JSON invented here.
+Mock scenarios that stress **visualization** of garden plants + **pal** emotes for common development events — discovery for the [glance hierarchy](../../GLANCE.md) (what a peek should tell a busy developer). Design discovery only — no adapter APIs, no console UI rewrites, no kit JSON invented here.
 
 ## How to run
 
@@ -24,9 +24,10 @@ Wired into monorepo QA via [`qa/tests/simulations-habitat.test.mjs`](../tests/si
 | Seams | `face` · `stage` · `action` · `emotion` · `growth` |
 | Chrome | `tone` (from `mark.moodColorsUiOnly`) — **no mood ids** in sims |
 | Garden | `repoBranch` plants in habitat; growth integer **0..5** |
-| Creature | Unnamed mark (never Casque); no digipet hunger framing |
+| Pal / creature | Unnamed mark (never Casque); no digipet hunger framing; pal = agent presence |
 | v1 ship | Creature + habitat strip; mark-only = ~60s on-ramp |
 | Recipes | Later plate — sims use recipe-compatible `then` shapes |
+| Glance | Scenario families map to interrupt-cost ranks in [`GLANCE.md`](../../GLANCE.md) |
 
 ## Connection patterns (design-only)
 
@@ -82,8 +83,25 @@ One JSON object per line in [`scenarios.jsonl`](scenarios.jsonl) (or files under
 
 `then.growthUpdates`: optional `[{ label, growth }]` — design overlay mirroring later-plate `then.growth { prop, value }` without mutating kit.
 
+
+## Glance hierarchy ↔ scenario families
+
+Ranks from [`GLANCE.md`](../../GLANCE.md). Families are folders of taste in [`REPORT.md`](REPORT.md) — not a runner.
+
+| Rank | Need | Example families / ids |
+|-----:|------|------------------------|
+| 1 | Blocked now | `ci` (`ci-fail`), `merge-rebase`, `secrets-offline-cancel` (`secrets-leaked`), `dependency` (`dep-supply-chain-scare`), `agent-loops` (`agent-denied-gate`) |
+| 2 | Someone needs me | `pr` (`pr-open`, `pr-review-requested`, `pr-changes-requested`) |
+| 3 | Something landed | `pr` (`pr-merged`, `pr-approved`), `push-release` (`release-tag`), `ci` (`ci-pass`, `ci-pass-mono-matrix`), `agent-loops` (`agent-completed-rooftop`) |
+| 4 | Busy on my behalf | `agent-loops` (`agent-sandboxing`, `agent-executing`, `agent-evaluating`), long CI / `push-main` |
+| 5 | Ambient repo / goal health | `monorepo`, `polyrepo`, `seed`, `weeds`, growthUpdates-only overlays |
+| 6 | Quiet / offline | `secrets-offline-cancel` (`offline-network`), `misc` (`empty-zero-plants`), `stages` (`stage-nightwatch-sleep`) |
+
+Sticky design intent: blocked > asking > busy; wins expire; plants peripheral. Sims validate kit ids only — they do not implement sticky arbitration.
+
 ## Related
 
+- Glance / rubber-duck: [`GLANCE.md`](../../GLANCE.md)
 - Garden schema: [`GARDEN.md`](../../GARDEN.md)
 - Recipe `then` shapes (later): [`RECIPES.md`](../../RECIPES.md)
 - Scenery strip: [`SCENERY.md`](../../SCENERY.md)

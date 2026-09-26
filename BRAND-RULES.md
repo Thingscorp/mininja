@@ -66,6 +66,12 @@ Place the mark on a **solid dark or solid light** background only. Do not place 
 - Don't put text inside the lockup.
 - Don't rotate the mark.
 
+## Glanceable presence (voice)
+
+When the mark is a living **pal** on the desk, brand voice prefers **posture over prose**: face / stage / plant silhouette carry the glance; optional text is chrome. Default warm quiet. Do not market Mininja as a notification inbox or KPI dashboard. See [GLANCE.md](GLANCE.md) · [BRAND.md](BRAND.md).
+
+The pal remains **unnamed** (never Casque; no he/him). Multi-pal color, if used, is host chrome — not a second mark catalog in kit.
+
 ## Terminal scenery and motion
 
 When the mark appears as a living buddy in a terminal or console banner, follow [SCENERY.md](SCENERY.md) (stages, weather, props) and [TERMINAL-MOTION.md](TERMINAL-MOTION.md) (walk, patrol, facing, reduced motion). Those rules are part of the brand, not product-only details.

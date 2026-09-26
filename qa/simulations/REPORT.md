@@ -10,7 +10,20 @@ Scenarios: 50.
 - Seams: face · stage · action · emotion · growth. `tone` = chrome only.
 - Garden = `repoBranch` plants. Weeds = design vocabulary only (no weed propKinds).
 - Links = design-only; prefer kit `cable` prop for visual links.
-- v1 ship = creature + habitat strip; recipes later plate, then-shape compatible.
+- v1 ship = **pal + habitat strip** (creature + habitat); recipes later plate, then-shape compatible.
+- **Pal** = unnamed agent presence in the glass (never Casque). Plants = ambient; pal posture = focal interrupt ([`GLANCE.md`](../../GLANCE.md)).
+- Glance ranks: 1 blocked · 2 needs me · 3 landed (wins expire) · 4 busy · 5 ambient plants · 6 quiet/offline. Family tables below are taste seeds for those ranks — see [`README.md`](README.md).
+
+## Glance rank map (families → interrupt cost)
+
+| Rank | Families (primary) |
+|-----:|--------------------|
+| 1 Blocked | `ci` (fail/flaky), `merge-rebase`, `secrets-offline-cancel` (secrets), `dependency` (supply-chain), `agent-loops` (denied-gate) |
+| 2 Needs me | `pr` (open / review-requested / changes-requested) |
+| 3 Landed | `pr` (merged / approved), `push-release`, `ci` (pass), `agent-loops` (completed-rooftop) |
+| 4 Busy | `agent-loops` (sandbox / execute / evaluate), `push-release` (`push-main`) |
+| 5 Ambient | `monorepo`, `polyrepo`, `seed`, `weeds`, `cross-org` (topology) |
+| 6 Quiet | `offline-network`, `empty-zero-plants`, `stages` (nightwatch), cancelled → dock |
 
 ## Recommended mappings by family
 

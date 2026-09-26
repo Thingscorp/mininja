@@ -7,6 +7,21 @@ This document is the **formal geometry** of the strip. Motion laws live in [TERM
 ![Stage strip](assets/visuals/stage-strip.png)
 
 
+
+## Glance story (stages as habitat chapters)
+
+Stages and scene weather support the **glance** story without duplicating the hierarchy in [`GLANCE.md`](GLANCE.md). Rough chapter map (kit ids — re-read `kit/scene.json`):
+
+| Stage | Glance gist |
+|-------|-------------|
+| `gate` | Blocked / deny / ask-at-threshold — sticky interrupt territory |
+| `rooftop` | Something landed — brief celebrate; wins expire |
+| `workshop` / `desk` | Busy on my behalf / focused work — presence, not alarm |
+| `dock` / `nightwatch` | Quiet / offline floor — default pleasantness |
+| `archives` | Lookup / memory / scan chrome |
+
+The **pal** (unnamed mark) carries focal face + action; plants on the strip stay peripheral ([`GARDEN.md`](GARDEN.md)). Do not invent stage ids here.
+
 ## Legos: stages and props snap
 
 **Russ's law (short):** scenery is Lego — stages, props, scene weather, motion live in [`kit/scene.json`](kit/scene.json), snap via kit + adapters, fork the data to remix, don't rewrite console. Brand is Mininja; mascot unnamed, no he/him.

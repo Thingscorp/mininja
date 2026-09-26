@@ -6,12 +6,14 @@
 ▀▀▀▀▀
 ```
 
-**The Apple of Terminal Buddies** — and a **terrarium for Devs**: glass box on the desk (console/bot), creature = the Unicode mark, habitat glass = stages / props / scene weather as scenery chrome. Remix the terrarium like Lego.
+**The Apple of Terminal Buddies** — and a **terrarium for Devs**: glass box on the desk (console/bot), **pal** = the Unicode mark (unnamed agent presence), habitat glass = stages / props / scene weather as scenery chrome. Remix the terrarium like Lego.
 
 **Three lines of Unicode. That’s the whole brand.** Paste them, print them, or grow faces → scoot → scene only as far as you want. Kit = data. Unix-small. Spell it **Mininja** (not “minija”).
 
 Owned by [Thingscorp LLC](https://github.com/Thingscorp). The glyphs *are* the mark.  
-Positioning: [`BRAND.md`](BRAND.md) · north star: [`NORTH-STAR.md`](NORTH-STAR.md) (Giga Pets × Pebble × IFTTT).
+Positioning: [`BRAND.md`](BRAND.md) · north star: [`NORTH-STAR.md`](NORTH-STAR.md) (Giga Pets × Pebble × IFTTT) · glance / rubber-duck: [`GLANCE.md`](GLANCE.md).
+
+A peek should tell a busy developer what matters — posture, not another dashboard. **v1 ship** = pal + habitat strip; recipes later filter what the duck notices.
 
 ---
 
@@ -74,7 +76,7 @@ node ./print-face.mjs --motion                       # scene speeds vs upstream
 | [`bot/`](bot/) | Optional Mac launcher — calls `../console`, never vendors a second UI. |
 
 Root docs narrate. Numbers live in `kit/` — **fork or overlay when you mean to** (Lego law). Shame only **silent dual constant tables** that drift beside kit in the same tree.  
-Brand law: [`BRAND.md`](BRAND.md) · [`STYLEGUIDE.md`](STYLEGUIDE.md) · [`CONSTRUCTION.md`](CONSTRUCTION.md) · [`BRAND-RULES.md`](BRAND-RULES.md) · [`TRADEMARK.md`](TRADEMARK.md) · [`SCENERY.md`](SCENERY.md) · [`GARDEN.md`](GARDEN.md) · [`TERMINAL-MOTION.md`](TERMINAL-MOTION.md).
+Brand law: [`BRAND.md`](BRAND.md) · [`STYLEGUIDE.md`](STYLEGUIDE.md) · [`CONSTRUCTION.md`](CONSTRUCTION.md) · [`BRAND-RULES.md`](BRAND-RULES.md) · [`TRADEMARK.md`](TRADEMARK.md) · [`SCENERY.md`](SCENERY.md) · [`GARDEN.md`](GARDEN.md) · [`TERMINAL-MOTION.md`](TERMINAL-MOTION.md) · [`GLANCE.md`](GLANCE.md).
 
 Later plate (not first Mininja): [`RECIPES.md`](RECIPES.md).
 

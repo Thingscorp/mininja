@@ -2,7 +2,7 @@
 
 Formal locomotion laws for the Mininja mark in terminal / console surfaces. Machine source of truth: [`kit/scene.json`](kit/scene.json). Console `src/lib/scene.ts` / `banner.tsx` are a historical source and must stay aligned to kit — they are not live SoT. The mascot has no name.
 
-Scenery symbols \(W, N, L, \alpha, x_i, c_i\) are defined in [SCENERY.md](SCENERY.md).
+Scenery symbols \(W, N, L, \alpha, x_i, c_i\) are defined in [SCENERY.md](SCENERY.md). Glance posture (which face/action/stage a busy developer should notice): [GLANCE.md](GLANCE.md).
 
 ![Terminal motion](assets/visuals/terminal-motion.png)
 
