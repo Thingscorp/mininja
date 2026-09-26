@@ -38,8 +38,8 @@ Machine SoT: [`kit/mark.json`](kit/mark.json) · [`kit/scene.json`](kit/scene.js
 | | Layer | What you ship | Start here |
 |-:|-------|---------------|------------|
 | 1 | **mark** | Idle 3-line lockup | [`examples/`](examples/), [`kit/mark.json`](kit/mark.json) |
-| 2 | **faces** | Moods / eyes | [`adapters/mark`](adapters/mark), [`adapters/ansi`](adapters/ansi), [`assets/`](assets/) |
-| 3 | **scoot** | Facing + motion | [`adapters/react`](adapters/react), [`PORTING.md`](PORTING.md) |
+| 2 | **faces** | Moods / eyes / working-slot chrome | [`adapters/mark`](adapters/mark), [`adapters/ansi`](adapters/ansi), [`adapters/presence`](adapters/presence), [`assets/`](assets/) |
+| 3 | **scoot** | Facing + motion | [`adapters/react`](adapters/react), [`adapters/presence`](adapters/presence), [`PORTING.md`](PORTING.md) |
 | 4 | **scene** | Full stage strip | [`console/`](console/) (optional) |
 
 Invitation, remix Legos, invariants: **[`PORTING.md`](PORTING.md)**.
@@ -67,7 +67,7 @@ node ./print-face.mjs --motion                       # scene speeds vs upstream
 | Path | One job |
 |------|---------|
 | [`kit/`](kit/) | Glyphs + numbers (SoT). Nothing else. |
-| [`adapters/`](adapters/) | Tiny filters: strings · ANSI · React. |
+| [`adapters/`](adapters/) | Tiny filters: strings · ANSI · React · presence. |
 | [`examples/`](examples/) | Compose adapters. No business logic. |
 | [`assets/`](assets/) | Monochrome SVG/PNG per face. |
 | [`console/`](console/) | Optional terminal buddy (aligns to kit). |
