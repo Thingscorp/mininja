@@ -145,3 +145,27 @@ Result: **21 passed, 0 failed**.
 - Kit JSON edits
 - Merging PR #1
 - Claiming Phase 6 complete
+
+---
+
+## Apps follow-up (Phase 3 defects closed)
+
+| Field | Value |
+|-------|-------|
+| Date | 2026-09-25 (ET) |
+| Tip | `c02d80a` on `feat/monorepo-public` |
+| PR #1 merged? | **No** |
+
+All six open rows in `qa/defects.csv` marked **fixed**:
+
+| Defect | Fix |
+|--------|-----|
+| DEFECT-BOT-ENG-001 | Bot `COMMANDS` + handlers for `scene`/`feel`/`do`/`go`; catalogs from `kit/scene.json` |
+| DEFECT-BOT-UI-002 | Grove `ZONES` hydrated from `/kit/scene.json` (server route); deleted watch/roost/forge dual table |
+| DEFECT-CON-QA-001 | `plugins/qa/features.json` (+ bot copy) regenerated from `qa/monorepo-feature-matrix.csv` |
+| DEFECT-CON-BANNER-002 | Reduce-path look-ahead uses kit `0.32` / `0.52` (matches live loop) |
+| DEFECT-CON-UI-001 | `AppErrorComponent` → Hubzz `bg-bg` / `text-fg` / `text-muted` / `text-err` |
+| DEFECT-CON-DOC-001 | `brand-check.mjs` docs: buddy `website` vs canvas `x:game` (warn, not fail) |
+
+Checks: `kit/check-consumers` OK · `kit-align` OK · `qa/tests` 21/21 · `kit/qa` 129/129 · brand-check unit 14/14.
+
