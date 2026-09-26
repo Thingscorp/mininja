@@ -1,0 +1,274 @@
+/**
+ * Simple presence CSS for the Mininja mark.
+ * Keys on data-motion / data-state (kit action ids: idle, search, think, …).
+ * Labels are host copy — not baked in. Grok Bot mark is inspiration, not a dependency.
+ * --fg / --bg tint the mark and slot chrome.
+ */
+
+.mininja-slot {
+  --fg: currentColor;
+  --bg: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.8125rem;
+  line-height: 1.2;
+}
+
+.mininja-slot__status {
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+.mininja-slot__mark,
+.mininja-mark[data-motion],
+.mininja-mark[data-state],
+.mininja-row__mark[data-motion],
+.mininja-row__mark[data-state] {
+  color: var(--fg);
+  display: inline-block;
+  transform-origin: 50% 70%;
+}
+
+/* idle / none — static */
+.mininja-mark[data-motion="idle"],
+.mininja-mark[data-state="idle"],
+.mininja-mark[data-motion="blink"],
+.mininja-mark[data-state="blink"] {
+  animation: none;
+}
+
+/* search / wait — gentle sway (busy / searching-like) */
+.mininja-mark[data-motion="search"],
+.mininja-mark[data-state="search"],
+.mininja-mark[data-motion="wait"],
+.mininja-mark[data-state="wait"],
+.mininja-mark[data-motion="read"],
+.mininja-mark[data-state="read"],
+.mininja-row__mark[data-motion="search"],
+.mininja-row__mark[data-state="search"],
+.mininja-row__mark[data-motion="wait"],
+.mininja-row__mark[data-state="wait"] {
+  animation: mininja-sway 1.1s ease-in-out infinite;
+}
+
+/* think / scan / type / alert-ish pulse */
+.mininja-mark[data-motion="think"],
+.mininja-mark[data-state="think"],
+.mininja-mark[data-motion="scan"],
+.mininja-mark[data-state="scan"],
+.mininja-mark[data-motion="type"],
+.mininja-mark[data-state="type"],
+.mininja-row__mark[data-motion="think"],
+.mininja-row__mark[data-state="think"],
+.mininja-row__mark[data-motion="scan"],
+.mininja-row__mark[data-state="scan"] {
+  animation: mininja-pulse 1s ease-in-out infinite;
+}
+
+@keyframes mininja-sway {
+  0%,
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  50% {
+    transform: translateX(2px) rotate(2deg);
+  }
+}
+
+@keyframes mininja-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.72;
+    transform: scale(0.96);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mininja-mark[data-motion],
+  .mininja-mark[data-state],
+  .mininja-mark[data-reduced-motion="true"] {
+    animation: none !important;
+  }
+}
+
+.mininja-mark[data-reduced-motion="true"] {
+  animation: none !important;
+}
+
+/* Chip / pill — static small mark + host label (Messaged-style) */
+.mininja-chip {
+  --fg: #ff6700;
+  --bg: color-mix(in srgb, var(--fg) 12%, transparent);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  max-width: 16rem;
+  padding: 0.2rem 0.55rem 0.2rem 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--fg) 35%, transparent);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 560;
+  line-height: 1;
+  cursor: default;
+  vertical-align: middle;
+}
+
+button.mininja-chip {
+  cursor: pointer;
+}
+
+.mininja-chip__mark {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  color: var(--fg);
+}
+
+.mininja-chip__mark svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+.mininja-chip__label {
+  white-space: nowrap;
+}
+
+.mininja-chip__peer {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 8rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+/* Sidebar / roster row — mark@24 + status badge + truncated name
+   Inspiration: agent sidebar rows (data-state + --fg). First-party mark only. */
+.mininja-row {
+  --fg: #e11d48;
+  --badge: #22c55e;
+  --row-h: 36px;
+  --mark: 24px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  height: var(--row-h);
+  min-height: var(--row-h);
+  padding: 0 0.4rem 0 0.35rem;
+  border-radius: 0.5rem;
+  color: inherit;
+  text-decoration: none;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 520;
+  line-height: 1.2;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.mininja-row:hover,
+.mininja-row:focus-visible {
+  background: color-mix(in srgb, currentColor 6%, transparent);
+  outline: none;
+}
+
+.mininja-row__avatar {
+  position: relative;
+  flex: 0 0 auto;
+  width: var(--mark);
+  height: var(--mark);
+}
+
+.mininja-row__mark {
+  display: block;
+  width: var(--mark);
+  height: var(--mark);
+  color: var(--fg);
+}
+
+.mininja-row__mark svg {
+  display: block;
+  width: var(--mark);
+  height: var(--mark);
+}
+
+.mininja-row__badge {
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 0.5rem; /* size-2 */
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--badge);
+  box-shadow: 0 0 0 1.5px #fff;
+  transform: scale(1.05);
+  pointer-events: none;
+}
+
+.mininja-row__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  mask-image: linear-gradient(90deg, #000 75%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, #000 75%, transparent);
+}
+
+.mininja-row:hover .mininja-row__name,
+.mininja-row:focus-within .mininja-row__name {
+  mask-image: linear-gradient(90deg, #000 55%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, #000 55%, transparent);
+  padding-right: 0.25rem;
+}
+
+.mininja-row__more {
+  flex: 0 0 auto;
+  opacity: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.35rem;
+  font-size: 0.95rem;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mininja-row:hover .mininja-row__more,
+.mininja-row:focus-within .mininja-row__more,
+.mininja-row__more:focus-visible {
+  opacity: 1;
+}
+
+.mininja-row__more:hover,
+.mininja-row__more:focus-visible {
+  background: color-mix(in srgb, currentColor 10%, transparent);
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mininja-row__mark[data-motion],
+  .mininja-row__mark[data-state] {
+    animation: none !important;
+  }
+}

@@ -1,7 +1,7 @@
 /**
  * Presentational mark. Presence levels 1–3.
  * Pass `lines` from adapters/mark/from-kit (or Node lockup.mjs).
- * Face / stage / action ids are kit SoT (recipe-compatible seams) — no parallel tables.
+ * Face / stage / action / motion ids are kit SoT (recipe-compatible seams) — no parallel tables.
  * Mascot has no name — aria-label stays "Mininja mark".
  */
 import { forwardRef, type CSSProperties } from "react";
@@ -32,6 +32,13 @@ export type MininjaProps = {
    * Host / recipe seam only. Omitted from the DOM when unset.
    */
   action?: string;
+  /**
+   * Optional motion / presence id — prefer a kit action id (`idle`, `search`, …).
+   * Surfaces as `data-motion` (and `data-state` for CSS that mirrors working-slot
+   * presence patterns). String seam only — not a hardcoded expression union.
+   * Omitted from the DOM when unset.
+   */
+  motion?: string;
   /**
    * Facing hint for host motion / CSS. Does not mirror glyphs —
    * mirror with `linesFor(kit, face, "left")` then pass those lines.
@@ -65,7 +72,7 @@ function facingOf(facing: Facing | undefined): Facing {
 
 /**
  * Renders mark lines into a monospace `<pre>`.
- * No data loading. No motion. No `console/` imports.
+ * No data loading. No motion engine. No `console/` imports.
  */
 export const Mininja = forwardRef<HTMLPreElement, MininjaProps>(
   function Mininja(
@@ -73,6 +80,7 @@ export const Mininja = forwardRef<HTMLPreElement, MininjaProps>(
       face = "idle",
       stage,
       action,
+      motion,
       facing = "right",
       lines,
       className,
@@ -81,6 +89,13 @@ export const Mininja = forwardRef<HTMLPreElement, MininjaProps>(
     },
     ref,
   ) {
+    const motionId =
+      motion != null && motion !== ""
+        ? motion
+        : action != null && action !== ""
+          ? action
+          : undefined;
+
     return (
       <pre
         ref={ref}
@@ -92,6 +107,9 @@ export const Mininja = forwardRef<HTMLPreElement, MininjaProps>(
         data-reduced-motion={reducedMotion ? "true" : "false"}
         {...(stage != null && stage !== "" ? { "data-stage": stage } : null)}
         {...(action != null && action !== "" ? { "data-action": action } : null)}
+        {...(motionId != null
+          ? { "data-motion": motionId, "data-state": motionId }
+          : null)}
         style={{ ...markStyle, ...style }}
       >
         {lines.join("\n")}
