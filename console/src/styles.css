@@ -504,3 +504,10 @@
     max-width: 11rem;
   }
 }
+
+/* Linear focus rings — keyboard chrome */
+:where(button, [role="button"], a, input, textarea, select):focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+

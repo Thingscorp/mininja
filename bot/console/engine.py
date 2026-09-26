@@ -136,7 +136,8 @@ COMPOUND_SEED = {
 
 FROM_FACE = {
     "allowed": "best",
-    "sandbox": "flap",
+    "sandboxing": "flap",
+    "sandbox": "flap",  # legacy alias → kit sandboxing
     "denied": "sulk",
     "error": "startle",
     "cancelled": "sulk",
@@ -915,6 +916,6 @@ def _pgeon(state: dict, argv: list[str]) -> dict:
                 {"label": "wins", "value": str(wins)},
             ],
             "bottom": None if answer["passed"] else "best unchanged",
-            "face": "completed" if answer["passed"] else "sandbox",
+            "face": "completed" if answer["passed"] else "sandboxing",
         }
     return {"title": "pgeon", "bottom": "pgeon, pgeon vote bravo, pgeon ask empty.", "face": "error"}

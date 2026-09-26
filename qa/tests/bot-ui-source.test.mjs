@@ -50,6 +50,19 @@ assert(/palPresence|pal-dot/.test(html), "concurrent pal presence dots");
 assert(/--pal-tint/.test(html), "host --pal-tint habitat chrome");
 assert(!/palColors|agentId.*kit|kit\.pals/i.test(html), "no kit pal-color table");
 
+
+// Linear token parity (Apps chrome — shared with console/src/styles.css)
+assert(/theme-color[^>]*#08090a/.test(html), "theme-color Linear bg");
+assert(/--color-bg:\s*#08090a/.test(html), "bg token");
+assert(/--color-accent:\s*#5e6ad2/.test(html), "accent token");
+assert(/--color-hairline:\s*rgb\(255 255 255 \/ 0\.08\)/.test(html), "hairline matches console");
+assert(/--text-mini:\s*12px/.test(html) && /--text-lock:\s*20px/.test(html), "type scale tokens");
+assert(!/--color-violet|#735ffa|#735FFA|#0E0F12/.test(html), "no stale Hubzz violet/bg");
+assert(/hydrateMark|framesFromKit|\/kit\/mark\.json/.test(html), "hydrates faces from kit mark");
+assert(/sandboxing/.test(html), "kit face key sandboxing");
+assert(!/warning:.*◆◆/.test(html), "warning eyes not legacy ◆◆");
+assert(/focus-visible/.test(html), "focus-visible chrome");
+
 // P1: per-pal LLM key chrome (host only; no provider brand tints)
 assert(/fCred|paintCredSelect|credential_id|unshare/i.test(html), "LLM key assign/unshare chrome");
 assert(!/paintProviderTheme|data-llm-provider|llmBadge|--llm-accent|#de7356/.test(html), "no provider brand theme");

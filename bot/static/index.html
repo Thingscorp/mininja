@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mininja</title>
-  <meta name="theme-color" content="#0E0F12" />
+  <meta name="theme-color" content="#08090a" />
   <meta name="apple-mobile-web-app-title" content="Mininja" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="apple-touch-icon" href="/icon-180.png" />
@@ -40,15 +40,19 @@
       --color-fg: #d0d6e0;
       --color-muted: #8a8f98;
       --color-line: #222326;
-      --color-hairline: rgb(255 255 255 / 0.05);
+      --color-hairline: rgb(255 255 255 / 0.08);
       --color-ring: rgb(94 106 210 / 0.45);
       --color-steel: #8a8f98;
       --color-steel-hot: #d0d6e0;
       --color-accent: #5e6ad2;
-      --color-violet: #735ffa;
       --color-ok: #4cc38a;
       --color-warn: #e5b849;
       --color-err: #ff5a5a;
+      --text-mini: 12px;
+      --text-ui: 13px;
+      --text-lock: 20px;
+      --radius-sm: 6px;
+      --radius-md: 8px;
       --color-git-nightwatch: #e3b341;
       --color-git-dock: #39d0d8;
       --color-git-desk: #3fb950;
@@ -521,6 +525,17 @@
       padding: 8px 0;
     }
     textarea::placeholder { color: var(--color-muted); }
+    textarea:focus-visible {
+      box-shadow: 0 1px 0 0 var(--color-ring);
+    }
+    .bot:focus-visible,
+    .new-btn:focus-visible,
+    .composer-ops button:focus-visible,
+    .hints button:focus-visible,
+    .mention-menu button:focus-visible {
+      outline: 2px solid var(--color-ring);
+      outline-offset: 2px;
+    }
     .hints {
       display: flex;
       flex-wrap: wrap;
@@ -592,6 +607,8 @@
     dialog menu { display: flex; gap: 8px; justify-content: flex-end; margin: 16px 0 0; padding: 0; }
     .blink { animation: blink 1.05s step-end infinite; }
     @keyframes blink { 50% { opacity: 0; } }
+    .mascot-pulse { animation: mascot-pulse 1.1s ease-in-out infinite; }
+    @keyframes mascot-pulse { 50% { opacity: 0.72; } }
     .mascot-bounce { animation: mascot-bounce 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
     @keyframes mascot-bounce { 50% { transform: translateY(-4px); } }
     .mascot-shake { animation: mascot-shake 0.4s ease-in-out; }
@@ -600,7 +617,7 @@
       75% { transform: translateX(3px); }
     }
     @media (prefers-reduced-motion: reduce) {
-      .blink, .mascot-bounce, .mascot-shake { animation: none; }
+      .blink, .mascot-pulse, .mascot-bounce, .mascot-shake { animation: none; }
     }
     @media (max-width: 720px) {
       #app { grid-template-columns: 1fr; }
@@ -736,21 +753,57 @@
   </dialog>
 
   <script>
-    const FRAMES = {
+    // Fallback seed mirrors kit/mark.json faces (hydrateMark overwrites from SoT).
+    let FRAMES = {
       idle: { lines: ["▚████", "██ ●●", "▀▀▀▀▀"], tone: "idle", label: "idle" },
       blink: { lines: ["▚████", "██ ──", "▀▀▀▀▀"], tone: "idle", label: "idle" },
       evaluating: { lines: ["▚████", "██ ◐◑", "▀▀▀▀▀"], tone: "accent", label: "evaluating" },
+      loadingRight: { lines: ["▚████", "██ ●●", "▀▀▀▀▀"], tone: "accent", label: "loading", motion: "pulse" },
+      loadingLeft: { lines: ["▚████", "██ ●●", "▀▀▀▀▀"], tone: "accent", label: "loading", motion: "pulse" },
       executing: { lines: ["▚████", "██ ◣◢", "▀▀▀▀▀"], tone: "accent", label: "executing" },
       completed: { lines: ["▚████", "██ ▴▴", "▀▀▀▀▀"], tone: "ok", label: "completed", motion: "bounce" },
       allowed: { lines: ["▚████", "██ ><", "▀▀▀▀▀"], tone: "ok", label: "allowed", motion: "bounce" },
       asking: { lines: ["▚████", "██ ??", "▀▀▀▀▀"], tone: "warn", label: "ask" },
       denied: { lines: ["▚████", "██ ┃┃", "▀▀▀▀▀"], tone: "err", label: "denied", motion: "shake" },
-      sandbox: { lines: ["▚████", "██ ◇◇", "▀▀▀▀▀"], tone: "muted", label: "sandbox" },
-      warning: { lines: ["▚████", "██ ◆◆", "▀▀▀▀▀"], tone: "warn", label: "warning", motion: "bounce" },
+      sandboxing: { lines: ["▚████", "██ ◇◇", "▀▀▀▀▀"], tone: "idle", label: "sandboxing" },
+      // legacyFaceBridge: engine may still emit "sandbox"
+      sandbox: { lines: ["▚████", "██ ◇◇", "▀▀▀▀▀"], tone: "idle", label: "sandboxing" },
+      warning: { lines: ["▚████", "██ ▲△", "▀▀▀▀▀"], tone: "warn", label: "warning", motion: "bounce" },
       cancelled: { lines: ["▚████", "██ ◦◦", "▀▀▀▀▀"], tone: "muted", label: "cancelled" },
       error: { lines: ["▚████", "██ ××", "▀▀▀▀▀"], tone: "err", label: "error", motion: "shake" },
       offline: { lines: ["▚████", "██ ‒‒", "▀▀▀▀▀"], tone: "muted", label: "offline" },
     };
+
+    function framesFromKit(mark) {
+      const faces = (mark && mark.faces) || {};
+      const out = {};
+      for (const [id, face] of Object.entries(faces)) {
+        const lines = Array.isArray(face.lines) && face.lines.length === 3
+          ? face.lines
+          : (FRAMES[id] && FRAMES[id].lines);
+        if (!lines) continue;
+        const tone = face.tone === "idle" ? "idle" : (face.tone || "idle");
+        const motion = face.motion || undefined;
+        out[id] = { lines, tone, label: id, ...(motion ? { motion } : {}) };
+      }
+      // Host legacy alias — kit key is sandboxing
+      if (out.sandboxing && !out.sandbox) {
+        out.sandbox = { ...out.sandboxing, label: "sandboxing" };
+      }
+      return Object.keys(out).length ? { ...FRAMES, ...out } : FRAMES;
+    }
+
+    async function hydrateMark() {
+      try {
+        const res = await fetch("/kit/mark.json");
+        if (!res.ok) throw new Error("mark " + res.status);
+        const mark = await res.json();
+        FRAMES = framesFromKit(mark);
+        setMascot(face || "idle");
+      } catch (err) {
+        console.warn("mark hydrate failed", err);
+      }
+    }
 
     const $ = (id) => document.getElementById(id);
     let state = { bots: [], messages: {}, health: {}, credentials: [] };
@@ -1001,12 +1054,14 @@
 
     function setMascot(stateName) {
       face = stateName;
-      const frame = FRAMES[stateName] || FRAMES.idle;
+      const key = stateName === "sandbox" ? "sandboxing" : stateName;
+      const frame = FRAMES[key] || FRAMES[stateName] || FRAMES.idle;
       const el = $("mascot");
       if (!el) return;
+      const tone = frame.tone && frame.tone !== "idle" ? " " + frame.tone : "";
       const motion = frame.motion ? " mascot-" + frame.motion : "";
       el.textContent = frame.lines.join("\n");
-      el.className = "lockup" + motion;
+      el.className = "lockup" + tone + motion;
       paintIdentity();
     }
 
@@ -1664,6 +1719,7 @@
     }, 9000);
 
     hydrateZones();
+    hydrateMark();
     refresh();
   </script>
 </body>

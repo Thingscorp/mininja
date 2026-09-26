@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6" shape-rendering="crispEdges">
-  <rect width="10" height="6" fill="#0E0F12"/>
-  <polygon points="0,0 2,0 0,2" fill="#735FFA"/>
-  <rect x="2" y="0" width="8" height="2" fill="#735FFA"/>
-  <rect x="0" y="2" width="4" height="2" fill="#735FFA"/>
-  <circle cx="5" cy="3" r="0.7" fill="#0E0F12"/>
-  <circle cx="7" cy="3" r="0.7" fill="#0E0F12"/>
-  <rect x="0" y="4" width="10" height="1" fill="#735FFA"/>
+  <rect width="10" height="6" fill="#08090a"/>
+  <polygon points="0,0 2,0 0,2" fill="#5e6ad2"/>
+  <rect x="2" y="0" width="8" height="2" fill="#5e6ad2"/>
+  <rect x="0" y="2" width="4" height="2" fill="#5e6ad2"/>
+  <circle cx="5" cy="3" r="0.7" fill="#08090a"/>
+  <circle cx="7" cy="3" r="0.7" fill="#08090a"/>
+  <rect x="0" y="4" width="10" height="1" fill="#5e6ad2"/>
 </svg>

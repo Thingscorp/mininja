@@ -30,7 +30,7 @@ assert(existsSync(join(root, "console/src/routes/api/auth/$.ts")), "auth api cat
 assert(/createFileRoute\(["']\/api\/auth\/\$["']\)/.test(read("console/src/routes/api/auth/$.ts")), "auth $");
 
 const rootHead = read("console/src/routes/__root.tsx");
-assert(/theme-color/.test(rootHead) && /#0E0F12/.test(rootHead), "theme-color");
+assert(/theme-color/.test(rootHead) && /#08090a/.test(rootHead), "theme-color");
 assert(/og:type/.test(rootHead) && /website/.test(rootHead), "og:type website (buddy)");
 assert(/title.*Mininja|Mininja/.test(rootHead), "title Mininja");
 
@@ -137,7 +137,7 @@ if (!styles) {
   // vite may use @import in root — soft check via __root / Tailwind theme
   styles = rootHead + mininjaUi;
 }
-assert(/#0E0F12|IBM Plex|bg-|mono/i.test(styles + rootHead), "theme tokens referenced");
+assert(/#08090a|IBM Plex|bg-|mono/i.test(styles + rootHead), "theme tokens referenced");
 
 // --- P2P library ---
 const p2pPath = join(root, "console/src/lib/multiplayer/p2p.ts");
