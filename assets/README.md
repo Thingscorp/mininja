@@ -17,7 +17,7 @@ Fill: `#0f172a` (single-color). Mood hex values in STYLEGUIDE apply only in app 
 | sandboxing | `mininja-sandboxing` | ◇◇ |
 | executing | `mininja-executing` | ◣◢ |
 | completed | `mininja-completed` | ▴▴ |
-| warning | `mininja-warning` | ◆◆ |
+| warning | `mininja-warning` | ▲△ |
 | error | `mininja-error` | ×× |
 | cancelled | `mininja-cancelled` | ◦◦ |
 | offline | `mininja-offline` | ‒‒ |
