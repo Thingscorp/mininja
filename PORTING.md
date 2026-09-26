@@ -4,9 +4,9 @@ Ship the idle lockup in about a minute. Grow faces, scoot, or scene only when yo
 
 **Kit** (`kit/mark.json`, `kit/scene.json`) is the source of truth. **Adapters** are tiny Unix filters over that data — compose them; do not grow them into apps. The brand name is **Mininja**; the mascot has **no personal name** and no he/him. Craft / Lego metaphors describe quality and modularity — not affiliation with Apple Inc.
 
-North star: Giga Pets × Pebble × IFTTT — [`NORTH-STAR.md`](NORTH-STAR.md). Presence ladder = progressive watchface; recipes stay later plate but kit **ids** stay targetable.
+North star: Giga Pets × Pebble × IFTTT — [`NORTH-STAR.md`](NORTH-STAR.md) (product parents). “Apple of Terminal Buddies” is a **quality metaphor** only ([`BRAND.md`](BRAND.md)). Presence ladder = progressive watchface; recipes stay later plate but kit **ids** stay targetable. No phone required — companion host = console / bot / any port.
 
-Event recipes ([`RECIPES.md`](RECIPES.md)) are a later plate. Ports must keep face, stage, and action **ids** as kit strings so recipes can target them later — no parallel expression tables in adapters or hosts.
+Event recipes ([`RECIPES.md`](RECIPES.md)) are a later plate. Ports **MUST** keep face, stage, action, emotion, and growth as kit strings (tone/mood = chrome only) so recipes can target them later — no parallel expression tables in adapters or hosts.
 
 ---
 
@@ -212,20 +212,26 @@ Do not shame divergent speeds, stages, or faces. Do shame **silent dual tables**
 
 ## Recipe-compatible seams
 
-Face, stage, and action **ids** stay kit SoT. Motion / presence states reuse the **same** action id strings so a later RECIPES plate can target them — no parallel expression tables in adapters or hosts.
+Adapters **MUST** pass kit id **strings** through and render from kit — they do not invent catalogs. Recipe-compatible seams (aligned with [`NORTH-STAR.md`](NORTH-STAR.md) / Apps):
 
 | Id kind | Lives in | Shape |
 |---------|----------|-------|
 | face | `kit/mark.json` → `faces` | object keys (`idle`, `allowed`, …) |
 | stage | `kit/scene.json` → `stages[].id` | array of stage records |
 | action | `kit/scene.json` → `actions[].id` | array of action records |
-| motion / presence | same as action (for now) | string id on `data-motion` + `data-state` |
+| emotion | `kit/scene.json` → `emotions[].id` | array of emotion records |
+| growth | `kit/scene.json` → `garden.growth` | integer **0..5** on `repoBranch` props |
+| motion / presence chrome | **same as action** (for now) | string id on `data-motion` + `data-state` |
 
-Adapters pass ids through and render from kit. React exposes `data-face` / `data-stage` / `data-action` / `data-motion` / `data-state`. [`adapters/presence`](adapters/presence) keys simple CSS (sway / pulse), a Messaged-style chip, and a sidebar roster row on those attrs + `--fg` / `--bg` / `--badge`.
+**MUST NOT** invent “mood ids.” `moodColorsUiOnly` tones and RECIPES `then.mood` are **tone chrome only**. Faces ≠ emotions — join via `legacyFaceBridge`; do not equate them.
 
-**Port rule:** leave recipe-compatible motion seams (string ids). Map host feelings onto kit actions (`searching`-like → `search`, idle → `idle`). If kit lacks an id you need (`orbit`, layered SVG states, …), document the gap for Kit; do not invent a second face table.
+Three meanings of “motion” (do not collapse): facing/lockup = [`adapters/mark`](adapters/mark) (facing wins); presence chrome = [`adapters/presence`](adapters/presence) / React `data-motion`; locomotion speeds = `kit/scene.json` → `motion`. See [`NORTH-STAR.md`](NORTH-STAR.md).
 
-Recipes remain a later plate in the system graph (creature + habitat + garden).
+React exposes `data-face` / `data-stage` / `data-action` / `data-motion` / `data-state`. [`adapters/presence`](adapters/presence) keys simple CSS (sway / pulse), a Messaged-style chip, and a sidebar roster row on those attrs + `--fg` / `--bg` / `--badge`.
+
+**Port rule:** leave recipe-compatible seams (string ids). Map host feelings onto kit **actions** / **faces** / **emotions** (`searching`-like → `search`, idle → `idle`). If kit lacks an id you need (`orbit`, layered SVG states, …), document the gap for Kit; do not invent a second face or emotion table.
+
+Recipes remain a later plate in the system graph (creature + habitat + garden). Geometry is optional for mark-only ports; upstream scene ports must match `kit/scene.json` → `geometry`.
 
 ---
 
