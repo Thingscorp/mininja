@@ -47,7 +47,7 @@ kit/mark.json  ──►  adapters/mark   ──►  strings
                          │
                          ├── adapters/ansi      ──►  ANSI string   (Node)
                          ├── adapters/react     ──►  <pre>         (you pass lines)
-                         └── adapters/presence  ──►  CSS / chip    (data-motion seams)
+                         └── adapters/presence  ──►  CSS / chip / roster (data-motion seams)
 ```
 
 | Piece | You change | You keep |
