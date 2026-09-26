@@ -240,7 +240,7 @@ Operator verbs: `go <stage>`, `feel <emotion>`, `do <action>`, `scene`.
 
 | Face | emotion | action | stage |
 |------|---------|--------|-------|
-| idle / blink | idle | idle / blink | dock |
+| idle / blink | idle | idle / blink | — |
 | evaluating | focused | think | desk |
 | loadingRight | focused | walk | (facing right) |
 | loadingLeft | focused | walk | (facing left) |
@@ -254,6 +254,8 @@ Operator verbs: `go <stage>`, `feel <emotion>`, `do <action>`, `scene`.
 | error | confused | shakeHead | gate |
 | cancelled | embarrassed | lookBack | dock |
 | offline | sleepy | sleep | nightwatch |
+
+Omitted `stage` in this table means **keep-current** — matches `kit/scene.json` `legacyFaceBridge` (idle, blink, asking, and loading* omit `stage`; loading* set `facing` only). Do not invent `dock` for idle/blink.
 
 ## Don’ts
 
