@@ -82,3 +82,7 @@ The `loadingLeft` frame mirrors the body:
 Machine source of truth: [`kit/mark.json`](kit/mark.json) (faces, tones, glyphs) and [`kit/scene.json`](kit/scene.json) (scene vocabulary). This guide narrates those numbers; it does not invent a second table.
 
 Historical note: early ports lived in Thingscorp/Mininja `apps/web/lib/mascot.ts` and Thingscorp/mininja-console `src/lib/mascot.ts`. Those hosts must stay aligned to kit — they are not live SoT.
+
+## Scene emotions beyond the compact face map
+
+[`kit/scene.json`](kit/scene.json) catalogs **16** emotions. The compact **15**-face [`legacyFaceBridge`](kit/scene.json) reaches twelve of them. Four — `alert`, `relieved`, `sad`, `startled` — are habitat / SceneIntent expansion, not orphans and not a missing bridge row. They stay recipe-compatible if a later plate targets `then.emotion` (today’s [`RECIPES.md`](RECIPES.md) examples emphasize `face`). Do not invent new emotion ids here or in hosts.

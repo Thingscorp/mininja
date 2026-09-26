@@ -98,8 +98,8 @@ Rationale:
 
 ## Phase 4 recommendations (smallest fixes)
 
-1. **Optional STYLEGUIDE/PORTING note** — label unbridged emotions (`alert`, `relieved`, `sad`, `startled`) as habitat/SceneIntent expansion (docs only).
-2. **CI wire-up** — add `node kit/check-consumers.mjs && node kit/qa/run-tests.mjs` to the smallest existing CI job (no new workflow proliferation).
+1. **STYLEGUIDE note** — ~~optional~~ **done** (2026-09-25): unbridged emotions (`alert`, `relieved`, `sad`, `startled`) labeled habitat/SceneIntent expansion. See STYLEGUIDE + `PHASE4-NOTES.md`.
+2. **CI wire-up** — **done** (2026-09-25): minimal `.github/workflows/kit-qa.yml` (no prior workflows existed). Runs `check-consumers` + `kit/qa/run-tests.mjs`.
 3. **Adapter golden snapshots** — optional 15-face + unknown→idle string fixtures under `adapters/mark/` tests (not kit JSON).
 4. **Hold** recipe runner / GitHub growth bridge until recipes plate schedules.
 5. **Do not** add `stage: dock` to kit `legacyFaceBridge.idle|blink` — doc now matches omit/keep-current.

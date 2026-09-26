@@ -234,7 +234,7 @@ Recipes remain a later plate in the system graph (creature + habitat + garden).
 3. Keep alt text **Mininja mark** (never a character name).
 4. If you add motion / presence, use kit action id strings on `data-motion` (see [`adapters/presence`](adapters/presence)); honor reduced-motion and [`TERMINAL-MOTION.md`](TERMINAL-MOTION.md).
 5. If you stay on upstream Thingscorp kit, scene geometry must match [`kit/scene.json`](kit/scene.json) → `geometry` (`stageWidthPx=420`, `anchorRatio=0.42`, `stageCount=7`). If you fork or overlay, document the new numbers as *your* SoT.
-6. Verify consumers still match kit when `console/` is present: `node kit/check-consumers.mjs`.
+6. Verify consumers still match kit when `console/` is present: `node kit/check-consumers.mjs` (CI also runs `node kit/qa/run-tests.mjs`).
 
 ---
 
