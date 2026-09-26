@@ -56,11 +56,83 @@
       --color-git-archives: #d2a8ff;
       --color-git-gate: #58a6ff;
       --color-git-rooftop: #f778ba;
+      /* LLM provider host themes (chrome only — not kit) */
+      --llm-accent: var(--color-accent);
+      --llm-accent-soft: color-mix(in srgb, var(--llm-accent) 28%, transparent);
+      --llm-ring: var(--color-ring);
+      --llm-habitat: var(--color-steel);
       --text-mini: 12px;
       --text-ui: 13px;
       --text-lock: 14px;
       --radius-sm: 6px;
       --radius-md: 8px;
+    }
+    /* Neutral Mininja default when unbound */
+    body[data-llm-provider=""] , body:not([data-llm-provider]) {
+      --llm-accent: var(--color-accent);
+      --llm-habitat: var(--color-steel);
+      --llm-ring: var(--color-ring);
+    }
+    /* Anthropic / Claude — warm terracotta + cream on dark habitat */
+    body[data-llm-provider="anthropic"] {
+      --llm-accent: #c96442;
+      --llm-accent-soft: color-mix(in srgb, #c96442 32%, transparent);
+      --llm-ring: rgb(201 100 66 / 0.45);
+      --llm-habitat: #d4a27f;
+      --color-accent: #c96442;
+      --color-ring: rgb(201 100 66 / 0.45);
+      --color-steel-hot: #f5e6d8;
+    }
+    /* OpenAI — cool green */
+    body[data-llm-provider="openai"] {
+      --llm-accent: #10a37f;
+      --llm-accent-soft: color-mix(in srgb, #10a37f 28%, transparent);
+      --llm-ring: rgb(16 163 127 / 0.45);
+      --llm-habitat: #6ee7b7;
+      --color-accent: #10a37f;
+      --color-ring: rgb(16 163 127 / 0.45);
+    }
+    /* xAI — steel indigo (close to default Mininja) */
+    body[data-llm-provider="xai"] {
+      --llm-accent: #7c8cff;
+      --llm-accent-soft: color-mix(in srgb, #7c8cff 28%, transparent);
+      --llm-ring: rgb(124 140 255 / 0.45);
+      --llm-habitat: #a5b4fc;
+      --color-accent: #7c8cff;
+      --color-ring: rgb(124 140 255 / 0.45);
+    }
+    /* Generic bound / other */
+    body[data-llm-provider="other"] {
+      --llm-accent: #735ffa;
+      --llm-accent-soft: color-mix(in srgb, #735ffa 28%, transparent);
+      --llm-ring: rgb(115 95 250 / 0.45);
+      --llm-habitat: #c4b5fd;
+      --color-accent: #735ffa;
+      --color-ring: rgb(115 95 250 / 0.45);
+    }
+    /* Habitat glass picks up active LLM */
+    #banner {
+      box-shadow: inset 0 -1px 0 var(--llm-accent-soft);
+    }
+    .new-btn {
+      background: var(--llm-accent) !important;
+    }
+    .cred-chip:not(.is-none):not(.is-missing) {
+      border-color: color-mix(in srgb, var(--llm-accent) 55%, var(--color-line));
+      color: var(--llm-habitat);
+    }
+    .llm-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: var(--text-mini);
+      color: var(--llm-habitat);
+      letter-spacing: 0.02em;
+    }
+    .llm-badge .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--llm-accent);
+      box-shadow: 0 0 0 2px var(--llm-accent-soft);
     }
     * { box-sizing: border-box; }
     html {
@@ -542,6 +614,42 @@
       color: var(--color-muted);
     }
     .hints button:hover { color: var(--color-hi); }
+    .cred-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: var(--text-mini);
+      color: var(--color-muted);
+      border: 1px solid var(--color-line);
+      border-radius: 999px;
+      padding: 1px 8px;
+      max-width: 140px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .cred-chip.is-missing { color: var(--color-err, #f85149); border-color: color-mix(in srgb, var(--color-err, #f85149) 50%, transparent); }
+    .cred-chip.is-none { opacity: 0.55; border-style: dashed; }
+    .cred-row { display: flex; gap: 8px; align-items: center; }
+    .cred-row select { flex: 1; }
+    .cred-row button { flex: 0 0 auto; }
+    .cred-new {
+      display: none;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--color-line);
+    }
+    .cred-new.open { display: block; }
+    .cred-hint { font-size: var(--text-mini); color: var(--color-muted); margin-top: 4px; }
+    .cred-share { font-size: var(--text-mini); color: var(--color-muted); margin-top: 4px; }
+    input[type="password"] {
+      width: 100%;
+      border: 1px solid var(--color-line);
+      background: var(--color-bg);
+      padding: 8px 10px;
+      color: var(--color-hi);
+      font: inherit;
+    }
     dialog {
       border: 1px solid var(--color-line);
       background: var(--color-panel);
@@ -587,6 +695,7 @@
         <span class="banner-place" id="bannerPlace">dock · idle</span>
         <span class="banner-sticky" id="bannerSticky" hidden></span>
         <span class="banner-pals" id="bannerPals" aria-label="pals in habitat"></span>
+        <span class="llm-badge" id="llmBadge" hidden aria-label="active LLM provider"></span>
         <span class="banner-who" id="bannerWho">console</span>
       </div>
       <div class="scoot-track" id="track">
@@ -668,6 +777,32 @@
       </select>
       <label for="fModel">Model (blank = default)</label>
       <input id="fModel" type="text" placeholder="" />
+      <label for="fCred">LLM key slot</label>
+      <div class="cred-row">
+        <select id="fCred" aria-label="LLM key slot">
+          <option value="">— none —</option>
+        </select>
+        <button class="ghost" type="button" id="fCredNew" title="Create env slot">new</button>
+        <button class="ghost" type="button" id="fCredUnshare" title="Clear binding">unshare</button>
+      </div>
+      <div class="cred-hint" id="fCredHint">Prefer an env slot (e.g. XAI_API_KEY). Raw keys stay in host data, never git.</div>
+      <div class="cred-share" id="fCredShare" hidden></div>
+      <div class="cred-new" id="fCredNewPanel">
+        <label for="fCredLabel">Slot label</label>
+        <input id="fCredLabel" type="text" placeholder="shared-xai" autocomplete="off" />
+        <label for="fCredProvider">Provider</label>
+        <select id="fCredProvider">
+          <option value="xai">xAI</option>
+          <option value="openai">OpenAI</option>
+          <option value="anthropic">Anthropic</option>
+          <option value="other">other</option>
+        </select>
+        <label for="fCredEnv">Env var (preferred)</label>
+        <input id="fCredEnv" type="text" placeholder="XAI_API_KEY" autocomplete="off" spellcheck="false" />
+        <label for="fCredSecret">Or paste key (host-only, masked)</label>
+        <input id="fCredSecret" type="password" placeholder="••••••••" autocomplete="new-password" />
+        <div class="cred-hint">Paste stores locally under credentials.json; leave blank to reference env only.</div>
+      </div>
       <label for="fRoutine">Routine minutes (0 = off)</label>
       <input id="fRoutine" type="number" min="0" step="1" value="0" />
       <label for="fRoutinePrompt">Routine prompt</label>
@@ -697,7 +832,7 @@
     };
 
     const $ = (id) => document.getElementById(id);
-    let state = { bots: [], messages: {}, health: {} };
+    let state = { bots: [], messages: {}, health: {}, credentials: [] };
     let selected = "console";
     let editing = null;
     let face = "idle";
@@ -709,6 +844,8 @@
     }
 
     const STEEL = "#8a8f98";
+    const PROVIDER_ENV = { xai: "XAI_API_KEY", openai: "OPENAI_API_KEY", anthropic: "ANTHROPIC_API_KEY", other: "MININJA_LLM_API_KEY" };
+
     const ZONE_CELLS = 44;
     // Host cmd→stage routing only (console COMMAND_INTENT parity). Stage ids load from kit.
     const CMD_STAGE = {
@@ -747,6 +884,87 @@
       const bot = currentBot();
       return (bot && bot.tint) || STEEL;
     }
+
+    function credSlots() {
+      return state.credentials || [];
+    }
+
+    function paintCredSelect(selectedId) {
+      const sel = $("fCred");
+      if (!sel) return;
+      const slots = credSlots();
+      const cur = selectedId || "";
+      let html = `<option value="">— none —</option>`;
+      for (const s of slots) {
+        const share = s.share_count ? ` · ${s.share_count} pals` : "";
+        const kind = s.kind === "local" ? "local" : ("$" + (s.env || ""));
+        html += `<option value="${esc(s.id)}">${esc(s.label)} (${esc(kind)}${share})</option>`;
+      }
+      html += `<option value="__new__">+ new slot…</option>`;
+      sel.innerHTML = html;
+      if (cur && slots.some((s) => s.id === cur)) sel.value = cur;
+      else sel.value = "";
+      paintCredShare(sel.value);
+      $("fCredNewPanel").classList.remove("open");
+    }
+
+    function paintCredShare(slotId) {
+      const el = $("fCredShare");
+      if (!el) return;
+      if (!slotId || slotId === "__new__") {
+        el.hidden = true;
+        el.textContent = "";
+        return;
+      }
+      const slot = credSlots().find((s) => s.id === slotId);
+      if (!slot) { el.hidden = true; return; }
+      const pals = (slot.bound_pal_ids || [])
+        .map((id) => (state.bots || []).find((b) => b.id === id))
+        .filter(Boolean)
+        .map((b) => b.name);
+      if (pals.length <= 1) {
+        el.hidden = false;
+        el.textContent = slot.kind === "env"
+          ? `uses $${slot.env || "ENV"} · not shared`
+          : "local secret · not shared";
+        return;
+      }
+      el.hidden = false;
+      el.textContent = `shared by ${pals.join(", ")}`;
+    }
+
+    function credChipHtml(bot) {
+      const c = bot && bot.credential;
+      if (!c) return `<span class="cred-chip is-none" title="no LLM key">key —</span>`;
+      if (c.missing) return `<span class="cred-chip is-missing" title="slot missing">key ?</span>`;
+      return `<span class="cred-chip" title="${esc(c.label)}${c.env ? " → $" + esc(c.env) : ""}">${esc(c.label)}</span>`;
+    }
+
+    /** Active LLM provider for host chrome — selected pal, else first bound, else unbound. */
+    function activeLlmProvider() {
+      const bot = currentBot();
+      if (bot && bot.credential && !bot.credential.missing && bot.credential.provider) {
+        return bot.credential.provider;
+      }
+      const bound = (state.bots || []).find((b) => b.credential && !b.credential.missing && b.credential.provider);
+      return (bound && bound.credential.provider) || "";
+    }
+
+    function paintProviderTheme() {
+      const provider = activeLlmProvider();
+      document.body.dataset.llmProvider = provider;
+      const badge = $("llmBadge");
+      if (!badge) return;
+      if (!provider) {
+        badge.hidden = true;
+        badge.innerHTML = "";
+        return;
+      }
+      const labels = { anthropic: "Claude", openai: "OpenAI", xai: "xAI", other: "LLM" };
+      badge.hidden = false;
+      badge.innerHTML = `<span class="dot" aria-hidden="true"></span>${esc(labels[provider] || provider)}`;
+    }
+
 
     /** Glance sticky interrupt — blocked > asking > busy (host chrome; no recipe runner). */
     function stickyInterrupt() {
@@ -883,6 +1101,7 @@
         el.style.color = tint;
       }
       paintPalHabitat();
+      paintProviderTheme();
       paintGrove();
     }
 
@@ -1024,7 +1243,7 @@
         const nameColor = b.tint ? ` style="color:${esc(b.tint)}"` : "";
         return `<button class="bot${b.id === selected ? " active" : ""}" data-id="${esc(b.id)}">
           <span class="name"${nameColor}>${esc(b.name)}</span>
-          ${pill ? `<span class="${pillClass}">${pill}</span>` : "<span></span>"}
+          ${pill ? `<span class="${pillClass}">${pill}</span>` : credChipHtml(b)}
           <span class="job">${esc(b.job)}</span>
         </button>`;
       }).join("");
@@ -1113,7 +1332,10 @@
       $("deleteBot").hidden = false;
       if ($("rallyAll")) $("rallyAll").hidden = !(state.bots && state.bots.length);
       const machine = bot.computer === "codex" ? "codex" : bot.computer === "local" ? "this mac" : "laptop";
-      $("headJob").textContent = machine + " · " + bot.mode;
+      const credLabel = bot.credential && !bot.credential.missing
+        ? bot.credential.label
+        : (bot.credential && bot.credential.missing ? "key?" : "no key");
+      $("headJob").textContent = machine + " · " + bot.mode + " · " + credLabel;
       const msgs = state.messages[bot.id] || [];
       if (!msgs.length) {
         log.innerHTML = `<div class="empty">
@@ -1336,6 +1558,11 @@
       $("fModel").value = bot?.model || "";
       $("fRoutine").value = bot?.routine?.interval_minutes || 0;
       $("fRoutinePrompt").value = bot?.routine?.prompt || "";
+      $("fCredLabel").value = "";
+      $("fCredEnv").value = "";
+      $("fCredSecret").value = "";
+      $("fCredProvider").value = "xai";
+      paintCredSelect(bot?.credential?.id || bot?.credential_id || "");
       $("dlg").showModal();
       $("fName").focus();
     }
@@ -1363,9 +1590,70 @@
       await rallyLine(text);
     };
 
+    async function ensureCredSlotFromForm() {
+      let credId = $("fCred").value;
+      if (credId === "__new__" || $("fCredNewPanel").classList.contains("open")) {
+        const label = $("fCredLabel").value.trim();
+        const provider = $("fCredProvider").value;
+        const env = $("fCredEnv").value.trim() || PROVIDER_ENV[provider] || "";
+        const secret = $("fCredSecret").value;
+        if (!label) throw new Error("slot label required");
+        const payload = { label, provider, env, kind: secret ? "local" : "env" };
+        if (secret) payload.secret = secret;
+        const res = await fetch("/api/credentials", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const slot = await res.json();
+        if (!res.ok) throw new Error(slot.error || "could not create slot");
+        credId = slot.id;
+        $("fCredSecret").value = "";
+      }
+      if (!credId || credId === "__new__") return null;
+      return credId;
+    }
+
+    $("fCred").onchange = () => {
+      if ($("fCred").value === "__new__") {
+        $("fCredNewPanel").classList.add("open");
+        $("fCredLabel").focus();
+        paintCredShare("");
+      } else {
+        $("fCredNewPanel").classList.remove("open");
+        paintCredShare($("fCred").value);
+      }
+    };
+    $("fCredNew").onclick = () => {
+      $("fCred").value = "__new__";
+      $("fCredNewPanel").classList.add("open");
+      $("fCredLabel").focus();
+      paintCredShare("");
+    };
+    $("fCredUnshare").onclick = () => {
+      $("fCred").value = "";
+      $("fCredNewPanel").classList.remove("open");
+      paintCredShare("");
+    };
+    $("fCredProvider").onchange = () => {
+      const p = $("fCredProvider").value;
+      if (!$("fCredEnv").value.trim()) $("fCredEnv").value = PROVIDER_ENV[p] || "";
+      if (!$("fCredLabel").value.trim()) {
+        const labels = { anthropic: "claude", openai: "openai", xai: "xai", other: "llm" };
+        $("fCredLabel").value = labels[p] || "llm";
+      }
+    };
+
     $("botForm").onsubmit = async (e) => {
       e.preventDefault();
       const minutes = Number($("fRoutine").value || 0);
+      let credential_id = null;
+      try {
+        credential_id = await ensureCredSlotFromForm();
+      } catch (err) {
+        alert(err.message || String(err));
+        return;
+      }
       const body = {
         name: $("fName").value.trim(),
         job: $("fJob").value.trim(),
@@ -1374,6 +1662,7 @@
         computer: $("fComputer").value,
         mode: $("fMode").value,
         model: $("fModel").value.trim(),
+        credential_id,
         routine: minutes > 0 ? {
           enabled: true,
           interval_minutes: minutes,

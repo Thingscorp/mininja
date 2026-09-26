@@ -7,6 +7,7 @@ _override = os.environ.get("MININJA_DATA", "").strip()
 DATA_DIR = Path(_override).expanduser() if _override else Path.home() / "Library" / "Application Support" / "MininjaBot"
 STATE_PATH = DATA_DIR / "state.json"
 CONSOLE_PATH = DATA_DIR / "console.json"
+CREDENTIALS_PATH = DATA_DIR / "credentials.json"
 LOCK_PATH = DATA_DIR / "console.lock"
 LEDGER_DIR = ROOT / ".mininja"
 SEED_DIR = ROOT / "seed" / "official"

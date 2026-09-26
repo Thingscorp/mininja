@@ -34,7 +34,7 @@ cleanup() { rm -rf "$DATA"; }
 trap cleanup EXIT
 
 # --- compile ---
-if python3 -m py_compile server.py cloud.py console/engine.py console/paths.py console/store.py console/tint.py \
+if python3 -m py_compile server.py cloud.py console/engine.py console/paths.py console/store.py console/tint.py console/credentials.py \
     scripts/cmd.py scripts/cmd-smoke.py scripts/store-lock.py scripts/seed.py scripts/seed-diff.py scripts/sidecar.py scripts/tint.py; then
   ok "py_compile"
 else
@@ -302,6 +302,15 @@ if [ ! -f .mininja/GOAL.md ]; then
 else
   ok "goal-lock"
 fi
+
+
+# --- credentials (per-pal LLM slots) ---
+if python3 scripts/credentials-smoke.py; then
+  ok "credentials-smoke"
+else
+  bad "credentials-smoke"
+fi
+
 
 if [ "$FAIL" -ne 0 ]; then
   echo "GATES FAILED" >&2

@@ -50,6 +50,12 @@ assert(/palPresence|pal-dot/.test(html), "concurrent pal presence dots");
 assert(/--pal-tint/.test(html), "host --pal-tint habitat chrome");
 assert(!/palColors|agentId.*kit|kit\.pals/i.test(html), "no kit pal-color table");
 
+// P1: per-pal LLM key chrome + provider theme (host only)
+assert(/fCred|paintCredSelect|credential_id|unshare/i.test(html), "LLM key assign/unshare chrome");
+assert(/paintProviderTheme|data-llm-provider|llmBadge/.test(html), "provider theme host cue");
+assert(/#c96442/.test(html), "Claude/Anthropic terracotta token");
+assert(!/api_key\s*:/.test(html), "no raw api_key fields in UI source");
+
 console.log(
   `PASS  SUITE-BOT-UI-001/002 (kit stages=${stageIds.join(",")} hydrated; @/rally/pull)`,
 );

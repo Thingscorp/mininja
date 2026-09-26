@@ -27,6 +27,7 @@ from console.paths import DATA_DIR, ROOT, STATE_PATH
 from console.tint import tint as name_tint
 from console.store import apply as console_apply
 from console.store import public as console_public
+from console import credentials as creds
 
 STATIC = ROOT / "static"
 KIT_DIR = ROOT.parent / "kit"
@@ -101,21 +102,37 @@ def public_state() -> dict:
         running = set(RUNS.keys())
         bots = []
         for bot in state["bots"]:
-            row = dict(bot)
+            row = creds.scrub_public_bot(bot)
             row["working"] = bot["id"] in running
             if bot["id"] in running:
                 row["status"] = "working"
             row["tint"] = name_tint(row.get("name") or "")
+            # Credential chrome: slot label only, never secret
+            cid = (bot.get("credential_id") or "").strip()
+            if cid:
+                slot = creds.get_slot(cid, state["bots"])
+                row["credential"] = {
+                    "id": cid,
+                    "label": (slot or {}).get("label") or cid[:8],
+                    "kind": (slot or {}).get("kind"),
+                    "env": (slot or {}).get("env"),
+                    "provider": (slot or {}).get("provider") or "other",
+                    "missing": slot is None,
+                }
+            else:
+                row["credential"] = None
             bots.append(row)
         grok = find_grok()
         payload = {
             "bots": bots,
             "messages": state["messages"],
+            "credentials": creds.list_slots(state["bots"]),
             "health": {
                 "grok": grok,
                 "version": grok_version(grok),
                 "arch": os.uname().machine,
                 "data": str(STATE_PATH),
+                "credentials": creds.path_for_docs(),
             },
         }
     payload["health"]["cloud"] = cloud.probe()
@@ -162,6 +179,11 @@ def new_bot(payload: dict) -> dict:
     mode = payload.get("mode") or "auto"
     if mode not in ("draft", "auto", "free"):
         mode = "auto"
+    credential_id = payload.get("credential_id")
+    if credential_id is not None:
+        credential_id = str(credential_id).strip() or None
+        if credential_id and not creds.get_slot(credential_id):
+            credential_id = None
     bot = {
         "id": str(uuid.uuid4()),
         "name": name,
@@ -171,6 +193,7 @@ def new_bot(payload: dict) -> dict:
         "computer": computer,
         "model": model,
         "mode": mode,
+        "credential_id": credential_id,
         "session_id": str(uuid.uuid4()),
         "session_ready": False,
         "pinned": False,
@@ -199,6 +222,7 @@ def patch_bot(bot_id: str, payload: dict) -> dict | None:
         "mode",
         "pinned",
         "routine",
+        "credential_id",
     }
     with LOCK:
         state = load_state()
@@ -206,10 +230,21 @@ def patch_bot(bot_id: str, payload: dict) -> dict | None:
         if not bot:
             return None
         for key, value in payload.items():
-            if key in allowed:
-                if key == "mode" and value not in ("draft", "auto", "free"):
-                    continue
-                bot[key] = value
+            if key not in allowed:
+                continue
+            if key == "mode" and value not in ("draft", "auto", "free"):
+                continue
+            if key == "credential_id":
+                # null / "" = unshare; otherwise must reference an existing slot
+                if value is None or value == "":
+                    bot["credential_id"] = None
+                else:
+                    cid = str(value).strip()
+                    if not creds.get_slot(cid):
+                        continue
+                    bot["credential_id"] = cid
+                continue
+            bot[key] = value
         save_state(state)
     emit({"type": "state"})
     return bot
@@ -445,20 +480,32 @@ def start_task(bot_id: str, prompt: str, *, retarget: bool = False) -> tuple[boo
             return False, "ChatGPT Codex CLI not found"
         grok = CODEX_BIN
         target = _run_codex_task
+        # Codex uses ChatGPT app auth — credential bind optional
+        resolved = creds.resolve_for_pal(bot_copy) if bot_copy.get("credential_id") else None
     elif uses_cloud(bot_copy):
         grok = cloud.REMOTE_GROK
         target = _run_cloud_task
+        resolved = creds.resolve_for_pal(bot_copy) if bot_copy.get("credential_id") else None
     else:
         grok = find_grok()
         target = _run_task
+        resolved = creds.resolve_for_pal(bot_copy)
+        if not resolved["ok"]:
+            return False, resolved["error"] or "LLM credential unresolved"
     if not grok:
         return False, "grok CLI not found"
+    if resolved and resolved.get("ok"):
+        bot_copy["_credential_using"] = resolved["using"]
+        bot_copy["_credential_inject"] = resolved["inject"]
     append_message(bot_id, "user", prompt)
-    append_message(bot_id, "assistant", "", {"streaming": True, "status": "streaming", "tools": []})
+    note = ""
+    if resolved and resolved.get("using"):
+        note = f" · {resolved['using']}"
+    append_message(bot_id, "assistant", "", {"streaming": True, "status": "streaming", "tools": [], "using": (resolved or {}).get("using")})
     set_bot_status(bot_id, "working")
     thread = threading.Thread(target=target, args=(bot_copy, prompt, grok), daemon=True)
     thread.start()
-    return True, "ok"
+    return True, "ok" + note
 
 
 def retarget_task(from_id: str, to_id: str, prompt: str) -> tuple[bool, str]:
@@ -728,6 +775,13 @@ def _run_task(bot: dict, prompt: str, grok: str) -> None:
     cmd = build_cmd(bot, prompt, grok)
     env = os.environ.copy()
     env["GROK_DISABLE_AUTOUPDATER"] = "1"
+    # Per-pal credential inject (slot → env); never logged
+    for k, v in (bot.get("_credential_inject") or {}).items():
+        if v:
+            env[k] = v
+    using = bot.get("_credential_using")
+    if using:
+        env["MININJA_CREDENTIAL_USING"] = using
     grok_dir = str(Path(grok).parent)
     env["PATH"] = grok_dir + os.pathsep + env.get("PATH", "")
     text_buf = ""
@@ -877,6 +931,29 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/console":
             self._json(200, public_console())
             return
+        if path == "/api/credentials":
+            with LOCK:
+                bots = load_state().get("bots") or []
+            self._json(200, {"slots": creds.list_slots(bots), "path": creds.path_for_docs()})
+            return
+        parts = [p for p in path.split("/") if p]
+        if len(parts) == 4 and parts[:2] == ["api", "bots"] and parts[3] == "credential":
+            with LOCK:
+                bot = next((b for b in load_state().get("bots") or [] if b["id"] == parts[2]), None)
+            if not bot:
+                self._json(404, {"error": "not found"})
+                return
+            self._json(200, creds.public_resolve(bot))
+            return
+        if len(parts) == 3 and parts[:2] == ["api", "credentials"]:
+            with LOCK:
+                bots = load_state().get("bots") or []
+            slot = creds.get_slot(parts[2], bots)
+            if not slot:
+                self._json(404, {"error": "not found"})
+                return
+            self._json(200, slot)
+            return
         if path.startswith("/kit/"):
             self._kit(path)
             return
@@ -914,6 +991,22 @@ class Handler(BaseHTTPRequestHandler):
             code = 200 if result.get("ok") else 400
             self._json(code, result)
             return
+        if parts == ["api", "credentials"]:
+            slot, err = creds.create_slot(payload)
+            if err:
+                self._json(400, {"ok": False, "error": err})
+                return
+            emit({"type": "state"})
+            self._json(201, slot)
+            return
+        if len(parts) == 4 and parts[:2] == ["api", "bots"] and parts[3] == "credential":
+            # POST body: {credential_id: id|null} — assign / change / unshare
+            bot = patch_bot(parts[2], {"credential_id": payload.get("credential_id")})
+            if not bot:
+                self._json(404, {"error": "not found"})
+                return
+            self._json(200, {"ok": True, "bot_id": bot["id"], "credential_id": bot.get("credential_id"), "resolve": creds.public_resolve(bot)})
+            return
         self._json(404, {"error": "not found"})
 
     def do_PATCH(self) -> None:
@@ -925,6 +1018,17 @@ class Handler(BaseHTTPRequestHandler):
                 return
             self._json(200, bot)
             return
+        if len(parts) == 3 and parts[:2] == ["api", "credentials"]:
+            slot, err = creds.patch_slot(parts[2], self._read_json())
+            if err == "not found":
+                self._json(404, {"error": "not found"})
+                return
+            if err:
+                self._json(400, {"ok": False, "error": err})
+                return
+            emit({"type": "state"})
+            self._json(200, slot)
+            return
         self._json(404, {"error": "not found"})
 
     def do_DELETE(self) -> None:
@@ -932,6 +1036,22 @@ class Handler(BaseHTTPRequestHandler):
         if len(parts) == 3 and parts[:2] == ["api", "bots"]:
             ok = delete_bot(parts[2])
             self._json(200 if ok else 404, {"ok": ok})
+            return
+        if len(parts) == 3 and parts[:2] == ["api", "credentials"]:
+            slot_id = parts[2]
+            ok = creds.delete_slot(slot_id)
+            if not ok:
+                self._json(404, {"ok": False, "error": "not found"})
+                return
+            # Unshare: clear bindings on any pal pointing at this slot
+            with LOCK:
+                state = load_state()
+                for bot in state.get("bots") or []:
+                    if bot.get("credential_id") == slot_id:
+                        bot["credential_id"] = None
+                save_state(state)
+            emit({"type": "state"})
+            self._json(200, {"ok": True})
             return
         self._json(404, {"error": "not found"})
 

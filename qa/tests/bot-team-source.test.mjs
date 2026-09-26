@@ -29,5 +29,10 @@ assert(/MAX_PARALLEL\s*=\s*4/.test(server), "MAX_PARALLEL cap");
 assert(/api.*rally|parts == \["api", "rally"\]/.test(server), "POST /api/rally");
 assert(/parts\[3\] == "retarget"/.test(server), "POST /api/bots/:id/retarget");
 assert(/draft|auto|free/.test(server), "permission modes intact");
+assert(/from console import credentials|console\.credentials|credential_id/.test(server), "credential bind surface");
+assert(/api.*credentials|parts == \["api", "credentials"\]/.test(server), "POST/GET /api/credentials");
+assert(/resolve_for_pal|_credential_inject/.test(server), "runtime credential resolve");
+assert(/no LLM credential bound|credential/.test(server), "fail-closed unbound copy");
+
 
 console.log("PASS  SUITE-BOT-TEAM-001/002 (+ retarget/rally)");
