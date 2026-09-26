@@ -56,7 +56,35 @@ Hosts may fork \(h_0,\Delta h\). Authored prop `h` still wins when set; this for
 
 Hosts map `growth` → silhouette height via `garden.silhouetteHeightPx` (or authored `h`). Kit never paints the mark fill from growth.
 
+## Multi-repo plants + connections (design)
+
+**Design only — no kit JSON.** Multiple `repoBranch` plants can share one habitat strip. How they *connect* is a host/design overlay for now; prefer the existing kit propKind **`cable`** when you need a visible link between plants.
+
+| Pattern | Plants | Link kind (sim fixtures) | Notes |
+|---------|--------|--------------------------|-------|
+| Monorepo canopy | One `root` + package `leaf` plants | `workspace` | One git root; leaves sit under canopy |
+| Polyrepo peers | Several `root` plants | `cable` / `workspace` | No single canopy — hub cables optional |
+| Dependency | `dependency` role plant | `dependency` | Lockfile / package edge |
+| Cross-org API | Two roots (provider/consumer) | `remote` | Labels may include `org/repo` |
+| PR branch | `leaf` → `root` | `cable` | Tear down or wilt leaf on merge |
+
+Discovery fixtures + edge cases: [`qa/simulations/`](qa/simulations/) (`scenarios.jsonl`, `run-simulations.mjs`). Sims must not invent new `propKinds` for links.
+
+## Weeds (design)
+
+**Design vocabulary only.** Do **not** add weed constants or weed `propKinds` to kit. A weed is still a `repoBranch` (often `role: stale` or a threatened `dependency`) plus optional host chrome (opacity, desaturate). Copy for notes:
+
+| Term | Meaning |
+|------|---------|
+| Stale shoot | Abandoned branch beside a healthy canopy |
+| Nutrient thieves | Conflicting shoots fighting the same trunk |
+| Invasive dual-table fork | Diverged fork inventing parallel schemas/tables |
+| Blight | Supply-chain scare / secrets leak on a shoot |
+
+See [`qa/simulations/README.md`](qa/simulations/README.md) and scenarios with `weedsNote`.
+
 ## Brand rules / bridge note
+
 
 - Mascot **unnamed** (never Casque); no he/him.
 - No silent dual growth tables beside kit.
