@@ -42,13 +42,6 @@ This repository was created to preserve a public, timestamped record of the desi
 The Mininja mark above is the official mascot of Thingscorp LLC.
 
 
-## Example use case
-
-
-https://github.com/user-attachments/assets/76965444-03ec-45f8-9dd7-a37f9d35fb0f
-
-
-The mark in use as a terminal-based ninja pet. The mascot's eyes change with its mood and state — focused, content, eating ("nom nom"), dirty ("needs a wash"), and clean ("squeaky clean") — while the app tracks health, hunger, energy, joy, and hygiene stats with feed, play, train, clean, sleep, and heal commands.
 
 
 ## Brand documentation
