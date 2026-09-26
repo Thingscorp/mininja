@@ -1,0 +1,4 @@
+Defect ID,Feature ID,Reproduction steps,Expected result,Actual result,Severity,Root cause hypothesis,Status,Owner,Notes,Last Seen Date
+DEFECT-CON-UI-001,CON-ROUTE-005,Throw a route error; view AppErrorComponent,Hubzz bg/fg tokens,zinc light/dark utility classes,low,Scaffold error screen not re-skinned,Open,Apps/Linear,Report-only — do not rewrite in QA loop,2026-09-25
+DEFECT-CON-DOC-001,CON-ROUTE-004,Run brand-check heuristics against buddy console,Buddy-appropriate og:type guidance,brand-check docs still emphasize x:game for canvas,low,Heuristic aimed at canvas/games,Open,Apps,Warn vs fail — docs/tests fix preferred,2026-09-25
+DEFECT-CON-QA-001,CON-PLUG-007,Compare plugins/qa/features.json Feature IDs to qa/monorepo-feature-matrix.csv,JSON mirrors canonical matrix,JSON still Aug Fnn register,medium,Register not regenerated after monorepo matrix,Open,Apps,Prefer regenerate JSON from CSV; no UI rewrite,2026-09-25
