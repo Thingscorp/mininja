@@ -9,9 +9,12 @@ See the exact `<pre>` contract the component emits:
 ```bash
 ./examples/react/preview.mjs
 ./examples/react/preview.mjs allowed --stage dock --action wave
+./examples/react/preview.mjs evaluating --motion search --action search
 ./examples/react/preview.mjs idle --facing left
 ./examples/react/preview.mjs --list
 ```
+
+`--motion` maps to `data-motion` + `data-state` (falls back to `--action` when omitted) — same seam as `Mininja`’s `motion` prop.
 
 ## In a React host
 
@@ -45,3 +48,5 @@ Facing left: mirror in the mark filter, then present.
 Do not import `adapters/mark/lockup.mjs` or `adapters/ansi/` in the browser — they use `node:fs`.
 
 Host owns scoot / patrol and `prefers-reduced-motion` → `reducedMotion`. Alt text is always **Mininja mark**.
+
+Presence sway/pulse + Messaged chip: [`../presence/`](../presence/) · [`adapters/presence`](../../adapters/presence).

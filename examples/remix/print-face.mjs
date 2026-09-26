@@ -6,6 +6,7 @@
  *   ./print-face.mjs allowed
  *   ./print-face.mjs allowed --ansi
  *   ./print-face.mjs allowed --facing left
+ *   ./print-face.mjs wink
  *   ./print-face.mjs --list
  *   ./print-face.mjs --motion
  */
@@ -24,7 +25,18 @@ const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "../..");
 
 function loadJson(path) {
-  return JSON.parse(readFileSync(path, "utf8"));
+  try {
+    return JSON.parse(readFileSync(path, "utf8"));
+  } catch (err) {
+    const code = err && typeof err === "object" && "code" in err ? err.code : "";
+    if (code === "ENOENT") {
+      console.error("print-face: missing file: " + path);
+    } else {
+      console.error("print-face: cannot read JSON: " + path);
+      console.error(String(err && err.message ? err.message : err));
+    }
+    process.exit(1);
+  }
 }
 
 /** Scene overlay merge — motion / geometry only (mark uses adapters/mark mergeMark). */
@@ -40,7 +52,7 @@ function mergeScene(base, overlay) {
 function usage() {
   process.stdout.write(`Usage: ./print-face.mjs [face] [options]
 
-  FACE          print remixed mark (default: allowed)
+  FACE          print remixed mark (default: allowed — shows overlay eyes)
   --ansi        colorize via adapters/ansi (Node terminal chrome)
   --facing DIR  left | right (default: right)
   --list        face ids after overlay merge
@@ -50,6 +62,14 @@ function usage() {
 Overlays: mark-overlay.json · scene-overlay.json
 Upstream kit stays untouched; adapters stay the studs.
 Mark merge uses adapters/mark mergeMark (same helper hosts should call).
+
+Examples:
+  ./print-face.mjs allowed
+  ./print-face.mjs allowed --ansi
+  ./print-face.mjs allowed --facing left
+  ./print-face.mjs wink
+  ./print-face.mjs --list
+  ./print-face.mjs --motion
 `);
 }
 
@@ -68,13 +88,18 @@ for (let i = 0; i < args.length; i++) {
   else if (a === "--ansi") wantAnsi = true;
   else if (a === "--motion") wantMotion = true;
   else if (a === "--facing") {
-    facing = args[++i] ?? "";
+    const next = args[++i];
+    if (next == null || next.startsWith("-")) {
+      console.error("print-face: --facing requires left or right");
+      process.exit(1);
+    }
+    facing = next;
     if (facing !== "left" && facing !== "right") {
-      console.error("facing must be left or right");
+      console.error("print-face: facing must be left or right (got: " + facing + ")");
       process.exit(1);
     }
   } else if (a.startsWith("-")) {
-    console.error("unknown option: " + a + " (try --help)");
+    console.error("print-face: unknown option: " + a + " (try --help)");
     process.exit(1);
   } else face = a;
 }
@@ -108,8 +133,9 @@ if (wantList) {
 }
 
 if (!hasFace(kit, face)) {
-  console.error("unknown face: " + face);
+  console.error("print-face: unknown face: " + face);
   console.error("try: " + listFaces(kit).join(", "));
+  console.error("(or: ./print-face.mjs --list)");
   process.exit(1);
 }
 

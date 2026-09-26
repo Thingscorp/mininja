@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # 60s path: print a Mininja face. Idle works without Node; moods need Node.
+# Run from anywhere — resolves the repo root from this script.
 set -euo pipefail
 ROOT="$(cd "${BASH_SOURCE[0]%/*}/.." && pwd)"
 FACE="idle"
@@ -23,6 +24,13 @@ Usage: ./examples/cli-banner.sh [face] [options]
 
 Idle always works (printf fallback if Node is missing).
 Other faces / facing need Node on PATH.
+
+Examples:
+  ./examples/cli-banner.sh
+  ./examples/cli-banner.sh allowed
+  ./examples/cli-banner.sh allowed -p
+  ./examples/cli-banner.sh allowed --facing left
+  ./examples/cli-banner.sh --list
 H
 }
 
@@ -34,7 +42,7 @@ while [[ $# -gt 0 ]]; do
       ;;
     --list|list|-l)
       if ! command -v node >/dev/null 2>&1; then
-        echo "list needs Node (reads kit/mark.json faces)." >&2
+        echo "cli-banner: --list needs Node (reads kit/mark.json faces)." >&2
         exit 1
       fi
       node --input-type=module -e "
@@ -49,18 +57,18 @@ process.stdout.write(listFaces().join('\n') + '\n');
       ;;
     --facing)
       if [[ $# -lt 2 ]]; then
-        echo "facing requires left or right" >&2
+        echo "cli-banner: --facing requires left or right" >&2
         exit 1
       fi
       FACING="$2"
       if [[ "$FACING" != "left" && "$FACING" != "right" ]]; then
-        echo "facing must be left or right" >&2
+        echo "cli-banner: facing must be left or right (got: ${FACING})" >&2
         exit 1
       fi
       shift 2
       ;;
     -*)
-      echo "unknown option: $1 (try --help)" >&2
+      echo "cli-banner: unknown option: $1 (try --help)" >&2
       exit 1
       ;;
     *)
@@ -72,7 +80,7 @@ done
 
 if ! command -v node >/dev/null 2>&1; then
   if [[ "$FACE" != "idle" || "$FACING" != "right" ]]; then
-    echo "Node not found; printing idle. Install Node for faces / facing." >&2
+    echo "cli-banner: Node not found — printing idle (right). Install Node for faces / facing." >&2
   fi
   idle_printf
   exit 0
@@ -85,8 +93,9 @@ const face = process.argv[1];
 const color = process.argv[2] === '1';
 const facing = process.argv[3];
 if (!hasFace(face)) {
-  console.error('unknown face: ' + face);
+  console.error('cli-banner: unknown face: ' + face);
   console.error('try: ' + listFaces().join(', '));
+  console.error('(or: ./examples/cli-banner.sh --list)');
   process.exit(1);
 }
 process.stdout.write(ansiLockup(face, { color, facing }) + '\n');

@@ -3,16 +3,17 @@
 **Kit** = brick specs. **Adapters** = studs. Keep the studs; change the bricks.
 
 ```bash
-# upstream face
-../cli-banner.sh allowed
+# from repo root — upstream face
+./examples/cli-banner.sh allowed
 
 # remixed allowed eyes (◆◆) via overlay — adapters/mark mergeMark + from-kit
+cd examples/remix
 ./print-face.mjs allowed
 ./print-face.mjs allowed --ansi
 ./print-face.mjs allowed --facing left
-./print-face.mjs wink
+./print-face.mjs wink                 # eyes-only overlay; from-kit derives lines
 ./print-face.mjs --list
-./print-face.mjs --motion   # scene-overlay speeds vs upstream
+./print-face.mjs --motion             # scene-overlay speeds vs upstream
 ```
 
 | File | Role |
@@ -39,4 +40,4 @@ const scene = {
 };
 ```
 
-Mascot has no name. Eyes-only overlay faces (no `lines`) are fine — from-kit derives the 5×3 lockup.
+Default face for `./print-face.mjs` is **allowed** so the overlay is visible on first run. Mascot has no name. Eyes-only overlay faces (no `lines`) are fine — from-kit derives the 5×3 lockup.

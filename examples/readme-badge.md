@@ -16,4 +16,5 @@ Want moods from a clone instead?
 
 ```bash
 ./examples/cli-banner.sh allowed
+./examples/cli-banner.sh allowed --facing left
 ```
