@@ -367,3 +367,12 @@ TC-DOC-ASSETS-001-a,DOC-ASSETS-001,happy,Exercise DOC-ASSETS-001 primary contrac
 TC-DOC-ASSETS-001-b,DOC-ASSETS-001,boundary,Edge counts/speeds/empty lists/truncation for DOC-ASSETS-001.,Contract holds per matrix Expected Behaviour; defects logged if not.,Passed,Executed 2026-09-25 ET (source/script/kit)
 TC-DOC-ASSETS-001-c,DOC-ASSETS-001,permission,Env/auth/brand gate for DOC-ASSETS-001; mascot remains unnamed.,Contract holds per matrix Expected Behaviour; defects logged if not.,Passed,Executed 2026-09-25 ET (source/script/kit)
 TC-DOC-ASSETS-001-d,DOC-ASSETS-001,security,No secrets; same-site/CSRF/Casque-negation checks for DOC-ASSETS-001.,Contract holds per matrix Expected Behaviour; defects logged if not.,Passed,Executed 2026-09-25 ET (source/script/kit)
+TC-KIT-VAL-004a,KIT-VAL-004,happy,Run check-consumers after Apps banner fix,exit 0; allowedLook includes 0.32/0.52,Passed,Phase6
+TC-KIT-VAL-004b,KIT-VAL-004,invalid,Hypothetical viewW*0.35 in banner,gate would fail look-ahead not in kit,Passed,Asserted via closed-set code + no 0.35 on tip
+TC-CON-TOOL-004a,CON-TOOL-004,happy,Read brand-check + __root,buddy website guidance; console website; no x:game coerce,Passed,Phase6
+TC-CON-BANNER-004a,CON-BANNER-004,happy,Read banner reduce-motion path,facing-aware 0.32/0.52; no 0.35,Passed,Phase6 + Apps a34f103
+TC-DOC-TM-001a,DOC-TM-001,happy,Read TRADEMARK.md,Thingscorp; unnamed; ™ not ®; no Casque,Passed,Phase6
+TC-DOC-CHANGE-001a,DOC-CHANGE-001,happy,Read CHANGELOG.md,1.6.0 + kit JSON pointers; no STAGE_SEED,Passed,Phase6
+TC-DOC-STYLE-001a,DOC-STYLE-001,happy,STYLEGUIDE ↔ kit emotions,alert/relieved/sad/startled present; bridge=15,Passed,Phase6
+TC-BOT-SHELL-001a,BOT-SHELL-001,happy,Parse engine.py SHELL,SHELL = COMMANDS + extras,Passed,Phase6
+TC-ADP-MARK-003a,ADP-MARK-003,happy,Read from-kit + README,facing always wins; linesFor; mirror helpers,Passed,Phase6

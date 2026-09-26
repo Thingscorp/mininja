@@ -14,7 +14,7 @@ Out of scope: recipe / IFTTT / outside-weather bridges (`RECIPES.md`). Stage `we
 | Weather enums (`clear`/`haze`/`night`/`sparks`/`scan`/`rain`) | StageDef + CSS | kit `weather` + stage weather + `.weather-*` CSS | **Already present** |
 | `registerEmotion` / `registerAction` / `registerStage` (+ get/has/list/catalog) | `scene.ts` | same | **Already present** |
 | `SceneIntent` / `applyIntent` / `composeLockup` | `scene.ts` | same | **Already present** |
-| Banner camera (look-ahead 0.32/0.52, follow λ=5.2, walk/run 170/280, patrol) | `banner.tsx` | identical; literals must match kit motion | **Already present** |
+| Banner camera (look-ahead 0.32/0.52, follow λ=5.2, walk/run 170/280, patrol) | `banner.tsx` | animation + reduce-motion snap must use kit `cameraLookAheadRight/Left` only (no legacy `0.35` dual); `check-consumers` enforces every `viewW*<n>` | **Present** — kit ratios; gate catches drift |
 | Prop kind CSS (`block`…`cable`) | `styles.css` | identical | **Already present** |
 | Brand scrub (mascot unnamed; never personal name) | prior suite wording | Mininja + `sandboxing` rename | **Done earlier on branch** |
 | Command→scene maps / legacy face bridge | in console `COMMAND_INTENT` | console yes; kit has `legacyFaceBridge` only | **Deferred** (not habitat chrome) |

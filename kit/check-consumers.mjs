@@ -91,13 +91,33 @@ if (existsSync(consoleDir) && g && m) {
   }
 
   // Banner camera look-ahead ratios from kit motion.
+  // Every viewW*<n> look-ahead literal must be kit cameraLookAheadRight/Left — no legacy dual (e.g. 0.35).
   const laR = m.cameraLookAheadRight;
   const laL = m.cameraLookAheadLeft;
   const follow = m.cameraFollowRatePerSec;
-  if (laR != null && !bannerTs.includes(`* ${laR}`) && !bannerTs.includes(`*${laR}`)) {
+  const allowedLook = new Set(
+    [laR, laL].filter((n) => typeof n === "number").map((n) => String(n)),
+  );
+  const lookAheadLits = [...bannerTs.matchAll(/viewW\s*\*\s*(\d+(?:\.\d+)?)/g)].map(
+    (m) => m[1],
+  );
+  if (allowedLook.size && lookAheadLits.length === 0) {
+    errors.push(
+      `console banner.tsx missing viewW* look-ahead (expected kit ${[...allowedLook].join("/")})`,
+    );
+  }
+  for (const lit of lookAheadLits) {
+    if (!allowedLook.has(lit)) {
+      errors.push(
+        `console banner.tsx look-ahead viewW*${lit} not in kit motion ` +
+          `(allowed ${[...allowedLook].join(", ")})`,
+      );
+    }
+  }
+  if (laR != null && !lookAheadLits.includes(String(laR))) {
     errors.push(`console banner.tsx missing cameraLookAheadRight ${laR}`);
   }
-  if (laL != null && !bannerTs.includes(`* ${laL}`) && !bannerTs.includes(`*${laL}`)) {
+  if (laL != null && !lookAheadLits.includes(String(laL))) {
     errors.push(`console banner.tsx missing cameraLookAheadLeft ${laL}`);
   }
   if (follow != null && !bannerTs.includes(String(follow))) {
