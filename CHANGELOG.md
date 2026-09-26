@@ -1,6 +1,7 @@
 ## Unreleased / next
 
-- Apps: per-pal LLM credential slots (assign/share/change/unshare) + provider host theme (Claude terracotta preview) — host-only `credentials.json`; never kit secrets ([bot/README.md](bot/README.md))
+- Apps: per-pal LLM credential slots (assign/share/change/unshare) — host-only `credentials.json`; never kit secrets. Host chrome stays stock (no provider brand tints; custom colors deferred to users) ([bot/README.md](bot/README.md))
+- Apps: **KILL** LLM-provider brand-color / theme concept — drop `body[data-llm-provider]` habitat tinting + Claude preview; credentials flow kept
 - Docs: per-pal LLM key seam — share one or split; editable host flow; secrets never in kit ([NORTH-STAR.md](NORTH-STAR.md), [GLANCE.md](GLANCE.md), [bot/README.md](bot/README.md))
 - Kit: `warning` eyes ◆◆ → ▲△ (still = solid+outline; distinct from sandboxing ◇◇); hosts MAY **flash** ▲▲↔△△ in sync (both eyes together; host-only, not kit motion) — mark.json **1.6.2**, STYLEGUIDE + assets
 - Ports craft: mark/ansi **facing wins** + deep `mergeMark` (anatomical eyes `[e_L,e_R]`; eyes-only patches re-derive lines) — [`adapters/mark`](adapters/mark), [`adapters/ansi`](adapters/ansi)

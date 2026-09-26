@@ -165,16 +165,10 @@ try {
   const cleared = await (await fetch(`${base}/api/state`)).json();
   assert(cleared.bots.find((b) => b.id === ada.id).credential == null, "ada cleared on slot delete");
 
-  // Claude preview static
-  const preview = await fetch(`${base}/themes/claude-preview.html`);
-  assert(preview.status === 200, "claude preview");
-  const previewHtml = await preview.text();
-  assert(/#de7356|data-llm-provider="anthropic"|Claude theme/i.test(previewHtml), "claude tokens in preview");
-
-  // UI source: theme + credential chrome
+  // UI source: credential chrome (no provider brand theme)
   const index = readFileSync(join(root, "bot", "static", "index.html"), "utf8");
-  assert(/data-llm-provider|paintProviderTheme|fCred|credential_id/.test(index), "UI credential+theme");
-  assert(/#de7356/.test(index), "anthropic terracotta in host CSS");
+  assert(/fCred|credential_id|unshare/.test(index), "UI credential chrome");
+  assert(!/data-llm-provider|paintProviderTheme|--llm-accent|#de7356/.test(index), "no provider brand theme CSS/JS");
   assert(!/sk-[a-zA-Z0-9]{10,}/.test(index), "no sk- secrets in UI");
 
   // credentials file must not be in git tree paths
@@ -182,7 +176,7 @@ try {
   assert(/shared-xai|claude/.test(credFile), "slots persisted");
   assert(!/test-fixture-xai-not-real/.test(credFile), "env value not persisted");
 
-  console.log("PASS  SUITE-BOT-KEY-001 (assign/share/change/unshare + Claude theme preview)");
+  console.log("PASS  SUITE-BOT-KEY-001 (assign/share/change/unshare; no provider theme)");
 } finally {
   child.kill("SIGTERM");
   await sleep(200);

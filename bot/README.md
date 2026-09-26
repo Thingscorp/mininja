@@ -112,19 +112,7 @@ Public APIs return metadata only (`has_secret`, label, env, provider, `bound_pal
 
 Endpoints: `GET/POST /api/credentials`, `PATCH/DELETE /api/credentials/:id`, `GET/POST /api/bots/:id/credential`. Local runs **fail closed** when unbound.
 
-### Provider theme (host chrome)
-
-Default habitat chrome reads as “the LLM that’s wired.” `body[data-llm-provider]` is set from the selected pal’s slot (else first bound pal; else unbound → neutral Mininja).
-
-| Provider | Accent | Habitat cue |
-|----------|--------|-------------|
-| `anthropic` (Claude) | `#de7356` terracotta | `#d4a27f` sand · cream `#f5e6d8` |
-| `openai` | `#10a37f` | mint habitat |
-| `xai` | `#7c8cff` | indigo (near default) |
-| `other` | `#735ffa` | violet |
-| unbound | stock `--color-accent` | steel |
-
-Tokens are host CSS only (`--llm-accent`, `--llm-habitat`, …) — **not** kit pal-color tables. Preview: [`static/themes/claude-preview.html`](static/themes/claude-preview.html).
+Host chrome stays stock Mininja tokens (no LLM-provider brand tints). Custom colors later = user-driven, not Apps inventing provider palettes.
 
 ## State
 

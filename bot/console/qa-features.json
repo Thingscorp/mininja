@@ -1524,7 +1524,7 @@
     "Feature ID": "BOT-UI-001",
     "Feature Name": "Teammate sidebar + console mode",
     "User Story": "As an operator I pick console or a named teammate.",
-    "Expected Behaviour": "static UI: bots list + console pseudo-bot; new bot form; tint; messages log; composer; grove/habitat chrome; ⌘N; LLM key slot assign/unshare + provider theme cue.",
+    "Expected Behaviour": "static UI: bots list + console pseudo-bot; new bot form; tint; messages log; composer; grove/habitat chrome; ⌘N; LLM key slot assign/unshare (stock host chrome; no provider brand tints).",
     "Edge Cases": "Empty bots; long names.",
     "Test Cases": "SUITE-BOT-UI-001: select console; create bot; Linear-bar density; see qa/monorepo-test-cases.csv",
     "Current Status": "TESTED",

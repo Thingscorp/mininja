@@ -50,10 +50,9 @@ assert(/palPresence|pal-dot/.test(html), "concurrent pal presence dots");
 assert(/--pal-tint/.test(html), "host --pal-tint habitat chrome");
 assert(!/palColors|agentId.*kit|kit\.pals/i.test(html), "no kit pal-color table");
 
-// P1: per-pal LLM key chrome + provider theme (host only)
+// P1: per-pal LLM key chrome (host only; no provider brand tints)
 assert(/fCred|paintCredSelect|credential_id|unshare/i.test(html), "LLM key assign/unshare chrome");
-assert(/paintProviderTheme|data-llm-provider|llmBadge/.test(html), "provider theme host cue");
-assert(/#de7356/.test(html), "Claude/Anthropic terracotta token");
+assert(!/paintProviderTheme|data-llm-provider|llmBadge|--llm-accent|#de7356/.test(html), "no provider brand theme");
 assert(!/api_key\s*:/.test(html), "no raw api_key fields in UI source");
 
 console.log(

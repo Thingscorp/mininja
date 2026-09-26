@@ -56,84 +56,6 @@
       --color-git-archives: #d2a8ff;
       --color-git-gate: #58a6ff;
       --color-git-rooftop: #f778ba;
-      /* LLM provider host themes (chrome only — not kit) */
-      --llm-accent: var(--color-accent);
-      --llm-accent-soft: color-mix(in srgb, var(--llm-accent) 28%, transparent);
-      --llm-ring: var(--color-ring);
-      --llm-habitat: var(--color-steel);
-      --text-mini: 12px;
-      --text-ui: 13px;
-      --text-lock: 14px;
-      --radius-sm: 6px;
-      --radius-md: 8px;
-    }
-    /* Neutral Mininja default when unbound */
-    body[data-llm-provider=""] , body:not([data-llm-provider]) {
-      --llm-accent: var(--color-accent);
-      --llm-habitat: var(--color-steel);
-      --llm-ring: var(--color-ring);
-    }
-    /* Anthropic / Claude — warm terracotta + cream on dark habitat */
-    body[data-llm-provider="anthropic"] {
-      --llm-accent: #de7356;
-      --llm-accent-soft: color-mix(in srgb, #de7356 32%, transparent);
-      --llm-ring: rgb(217 119 87 / 0.45);
-      --llm-habitat: #d4a27f;
-      --color-accent: #de7356;
-      --color-ring: rgb(217 119 87 / 0.45);
-      --color-steel-hot: #f5e6d8;
-    }
-    /* OpenAI — cool green */
-    body[data-llm-provider="openai"] {
-      --llm-accent: #10a37f;
-      --llm-accent-soft: color-mix(in srgb, #10a37f 28%, transparent);
-      --llm-ring: rgb(16 163 127 / 0.45);
-      --llm-habitat: #6ee7b7;
-      --color-accent: #10a37f;
-      --color-ring: rgb(16 163 127 / 0.45);
-    }
-    /* xAI — steel indigo (close to default Mininja) */
-    body[data-llm-provider="xai"] {
-      --llm-accent: #7c8cff;
-      --llm-accent-soft: color-mix(in srgb, #7c8cff 28%, transparent);
-      --llm-ring: rgb(124 140 255 / 0.45);
-      --llm-habitat: #a5b4fc;
-      --color-accent: #7c8cff;
-      --color-ring: rgb(124 140 255 / 0.45);
-    }
-    /* Generic bound / other */
-    body[data-llm-provider="other"] {
-      --llm-accent: #735ffa;
-      --llm-accent-soft: color-mix(in srgb, #735ffa 28%, transparent);
-      --llm-ring: rgb(115 95 250 / 0.45);
-      --llm-habitat: #c4b5fd;
-      --color-accent: #735ffa;
-      --color-ring: rgb(115 95 250 / 0.45);
-    }
-    /* Habitat glass picks up active LLM */
-    #banner {
-      box-shadow: inset 0 -1px 0 var(--llm-accent-soft);
-    }
-    .new-btn {
-      background: var(--llm-accent) !important;
-    }
-    .cred-chip:not(.is-none):not(.is-missing) {
-      border-color: color-mix(in srgb, var(--llm-accent) 55%, var(--color-line));
-      color: var(--llm-habitat);
-    }
-    .llm-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: var(--text-mini);
-      color: var(--llm-habitat);
-      letter-spacing: 0.02em;
-    }
-    .llm-badge .dot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: var(--llm-accent);
-      box-shadow: 0 0 0 2px var(--llm-accent-soft);
-    }
     * { box-sizing: border-box; }
     html {
       -webkit-font-smoothing: antialiased;
@@ -695,7 +617,6 @@
         <span class="banner-place" id="bannerPlace">dock · idle</span>
         <span class="banner-sticky" id="bannerSticky" hidden></span>
         <span class="banner-pals" id="bannerPals" aria-label="pals in habitat"></span>
-        <span class="llm-badge" id="llmBadge" hidden aria-label="active LLM provider"></span>
         <span class="banner-who" id="bannerWho">console</span>
       </div>
       <div class="scoot-track" id="track">
@@ -940,32 +861,6 @@
       return `<span class="cred-chip" title="${esc(c.label)}${c.env ? " → $" + esc(c.env) : ""}">${esc(c.label)}</span>`;
     }
 
-    /** Active LLM provider for host chrome — selected pal, else first bound, else unbound. */
-    function activeLlmProvider() {
-      const bot = currentBot();
-      if (bot && bot.credential && !bot.credential.missing && bot.credential.provider) {
-        return bot.credential.provider;
-      }
-      const bound = (state.bots || []).find((b) => b.credential && !b.credential.missing && b.credential.provider);
-      return (bound && bound.credential.provider) || "";
-    }
-
-    function paintProviderTheme() {
-      const provider = activeLlmProvider();
-      document.body.dataset.llmProvider = provider;
-      const badge = $("llmBadge");
-      if (!badge) return;
-      if (!provider) {
-        badge.hidden = true;
-        badge.innerHTML = "";
-        return;
-      }
-      const labels = { anthropic: "Claude", openai: "OpenAI", xai: "xAI", other: "LLM" };
-      badge.hidden = false;
-      badge.innerHTML = `<span class="dot" aria-hidden="true"></span>${esc(labels[provider] || provider)}`;
-    }
-
-
     /** Glance sticky interrupt — blocked > asking > busy (host chrome; no recipe runner). */
     function stickyInterrupt() {
       const bots = state.bots || [];
@@ -1101,7 +996,6 @@
         el.style.color = tint;
       }
       paintPalHabitat();
-      paintProviderTheme();
       paintGrove();
     }
 
