@@ -1,2 +1,4 @@
 Defect ID,Feature ID,Reproduction,Expected,Actual,Severity,Root Cause Hypothesis,Status
 DEFECT-DOC-001,KIT-SCENE-009,"Read TERMINAL-MOTION.md STYLEGUIDE face bridge row for idle/blink","Kit legacyFaceBridge omits stage (keep-current); doc should show — / keep-current","Previously listed stage=dock; fixed 2026-09-25 in dd4def8 to —",low,"Doc narrator inventing dock stage for progressive face-first omit","Fixed"
+DEFECT-DOC-002,KIT-DEP-008,"Read HABITAT-PORT.md SoT + stages row","Live kit version + registerFromKit; no console STAGE_SEED dual table","Claimed v1.5.0 and kit+console STAGE_SEED dual table",low,"Stale first-pass port note after registerFromKit landing","Fixed"
+DEFECT-DOC-003,KIT-DEP-006,"Read CONSTRUCTION.md Related","Must point at kit/mark.json as machine SoT while narrating grid/codepoints","Narrated kit numbers without kit/mark.json pointer",low,"Construction doc predated kit SoT pointer convention","Fixed"

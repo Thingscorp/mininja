@@ -87,6 +87,7 @@ See [STYLEGUIDE.md](STYLEGUIDE.md). Idle reference: ●●. States use the same 
 
 ## Related
 
+- [kit/mark.json](kit/mark.json) — machine SoT for grid, codepoints, faces, clearspace, min size
 - [STYLEGUIDE.md](STYLEGUIDE.md) — expression table and moods
 - [BRAND-RULES.md](BRAND-RULES.md) — clearspace, size, don'ts
 - [assets/](assets/) — monochrome SVG/PNG exports of each state as this glyph stack
