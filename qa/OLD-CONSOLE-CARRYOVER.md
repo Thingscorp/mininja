@@ -2,7 +2,7 @@
 
 **Audience:** Russ / Apps (console+bot UI) / Kit (mark+scene SoT only).  
 **Date:** 2026-09-26 (ET).  
-**Scope:** Inventory + ownership. **No kit JSON edits. No UI implementation.**
+**Scope:** Inventory + ownership (historical). **No kit JSON edits.** Bot `@` / rally / retarget rows updated 2026-09-26 — see [`OCCAM-UNIX-APPS.md`](OCCAM-UNIX-APPS.md).
 
 Product vocabulary: **pals** = agent creatures ([`GLANCE.md`](../GLANCE.md)). Habitat = glance / rubber-duck strip. Kit = `mark.json` + `scene.json`. Console/bot = Mininja Apps.
 
@@ -55,7 +55,7 @@ Shared program brain (ported twice): cardFor / engine plugins
   compound · qa · ralph · scene/feel/do/go · offline/wake/clear
 ```
 
-**Critical finding:** Russ’s “text composer to `@` any agent anytime” maps to **product intent + bot teammate composer**, not a shipped `@mention` parser. Neither old console nor bot parses `@Name` in the prompt. Targeting is **sidebar selection** (bot) or **single unnamed buddy** (React console).
+**Critical finding (updated 2026-09-26 ET):** Russ’s “text composer to `@` any agent anytime” is **shipped on monorepo bot** (`parseMention`, autocomplete, `@all` rally, `@console` programs — see [`seams/04-bot-host.md`](seams/04-bot-host.md)). React `console/` remains programs-only (single unnamed buddy). Old-suite history below still describes pre-monorepo bot (sidebar-select only). Prefer seams 03/04 over GAP rows marked **STALE**.
 
 ---
 
@@ -69,14 +69,14 @@ Concrete evidence paths. Essence only — not every file.
 |----------|----------------|---------------|
 | **Command composer (programs)** | Old: `src/components/mininja.tsx` (`aria-label="command"`, `run()`, `START` chips). Bot: `#composer` / `#task` / `#taskForm` in `bot/static/index.html` | Trim → dispatch; empty no-op; Enter send; console chips for verbs. |
 | **Teammate composer (tasks)** | `bot/static/index.html` `runLine()` → `POST /api/bots/:id/tasks` `{ text }` | Placeholder *“a task for {name}”* when a bot is selected. |
-| **Target = selected pal** | Bot sidebar `.bots` + `selected` (`"console"` \| bot id) | **Not** `@syntax`. Selecting a row paints tint + routes composer. |
+| **Target = selected pal** | Bot sidebar `.bots` + `selected` (`"console"` \| bot id) | Sidebar remains **fallback**. Monorepo bot also ships `@Name` / `@all` / `@console` in the same mouth. |
 | **Pull-off job** | `stop` button → `POST /api/bots/:id/stop` → `stop_bot()` (`bot/server.py`) | SIGTERM process group / cloud stop. Closest shipped “pull off.” |
 | **Refuse double-assign** | `start_task`: if `bot_id in RUNS` → `"already working"` | No silent retarget mid-flight. |
 | **Parallel cap** | `MAX_PARALLEL = 4` in `bot/server.py` | At most 4 working bots. |
 | **Assign loops (routines)** | Bot create/edit dialog → `routine: { enabled, interval_minutes, prompt }` | Scheduler thread fires `start_task` on interval. |
 | **Permission modes** | Bot `mode`: `draft` \| `auto` \| `free` → CLI flags (`--tools` draft / `--permission-mode auto` / `--always-approve`) | Fail-closed posture is product, not kit. |
-| **Rally-all / emergency blast** | — | **Not implemented** anywhere searched. Product gap (see GAP). |
-| **@-mention syntax** | — | **Not implemented.** Product gap (see GAP). |
+| **Rally-all / emergency blast** | Monorepo bot: `POST /api/rally` + `#rallyAll` + `@all …` | **Shipped on bot** (2026-09-26). Console still missing. Old GAP “not implemented” = **STALE** for bot. |
+| **@-mention syntax** | Monorepo bot: `parseMention` + mention menu | **Shipped on bot**. Console still missing. Old GAP = **STALE** for bot. |
 
 ### 2. Pals / bots / agents model — **P1**
 
@@ -105,7 +105,7 @@ Concrete evidence paths. Essence only — not every file.
 | Piece | Old | Carry essence |
 |-------|-----|---------------|
 | Frame table | `src/lib/mascot.ts` `FRAMES` / `MascotState` (comment said **Casque**) | Kit `mark.json` faces + `legacyFaceBridge`; console `mascot.ts` now kit-aligned (`sandboxing` not `sandbox`) |
-| Bot inline FRAMES | Hardcoded in `bot/static/index.html` (still has legacy key `sandbox`) | Apps should hydrate faces from kit / bridge — do not invent glyphs |
+| Bot inline FRAMES | `bot/static/index.html` — idle **on-ramp** + `hydrateMark` / `framesFromKit` from `/kit/mark.json`; host `sandbox`↔`sandboxing` alias only | **Lean:** no full glyph dual table; do not invent face ids |
 | After-command mood | `afterCommand` / `intentFromCommand` | Host chrome mapping; kit owns face/emotion/action ids |
 
 ### 5. Garden / plants / growth
@@ -184,22 +184,22 @@ Already in monorepo root (keep as SoT narration — invent **no** kit constants)
 
 | Pri | Gap | Evidence | Apps vs Kit |
 |-----|-----|----------|-------------|
-| **P0** | **Composer `@`-mention** — type `@Ada` (or `@all`) anytime without first clicking the sidebar; autocomplete roster | Not in old React or bot HTML/JS | **Apps** (syntax + routing). Kit: none. |
-| **P0** | **Pull-off / retarget / rally-all** as first-class ops — stop mid-job, reassign remaining work, emergency blast to all pals | Only `stop_bot` + “already working” refuse today; no rally | **Apps**. Kit: none. |
-| **P0** | **Unify composer surfaces** — React console is programs-only; bot has teammate composer. Product story wants one composer that can talk to any pal | Split across `console/` vs `bot/static` | **Apps** product call (bot README already marks launcher UI as deferred). Kit: none. |
+| **P0** | **Composer `@`-mention** — type `@Ada` (or `@all`) anytime; autocomplete roster | **Bot shipped** (`parseMention`, menu). **Console missing.** Old “not in bot” = **STALE**. | **Apps** — absorb into React. Kit: none. |
+| **P0** | **Pull-off / retarget / rally-all** as first-class ops | **Bot shipped** (`stop`/`pull`, `retarget`, `rally_all`). **Console missing.** Old “only stop / no rally” = **STALE**. | **Apps** — absorb when console gains pals. Kit: none. |
+| **P0** | **Unify composer surfaces** — React console is programs-only; bot has one-mouth teammate+programs | Split across `console/` vs `bot/static` — bot unified locally; **product still split** | **Apps** product absorb (see [`OCCAM-UNIX-APPS.md`](OCCAM-UNIX-APPS.md)). Kit: none. |
 | **P1** | **Multi-pal color in habitat glass** — concurrent pals, color-distinguished | **Shipped (host chrome):** bot banner pal-chips + sticky rank + presence dots; console `Banner` tint/pals/sticky props; `console/src/lib/tint.ts` ↔ `bot/console/tint.py`. **MUST NOT** kit pal-color table. | **Apps** |
 | **P1** | **Pal ↔ `repoBranch` plant binding** in UI | Design in GLANCE/GARDEN; kit has growth bricks; hosts don’t yet show multi-pal on plants | **Apps** visualization (**follow-up**). **Kit** already owns `repoBranch` / growth ids — do not invent new. |
-| **P2** | Bot inline `FRAMES` dual / `sandbox` vs kit `sandboxing` | `bot/static/index.html` FRAMES | **Apps** hydrate from kit. |
+| **P2** | Bot `FRAMES` dual (historical) | Idle on-ramp + kit hydrate; `sandbox` alias only | **Apps — lean cut this loop** ([`OCCAM-UNIX-APPS.md`](OCCAM-UNIX-APPS.md)). |
 | **P2** | Loop assignment UX beyond raw routine minutes | Dialog fields exist; no “assign this Ralph loop to pal” | **Apps** (optional). Ralph items stay host files. |
 | **P2** | Message log parity / shared stream across pals | Per-bot messages + separate console log | **Apps**. |
 | **P3** | React auth polish / multiplayer P2P | Present as optional scaffolding | **Apps** — low; not glance hero. |
 
 ### Composer `@`-mention: exists in new console/bot?
 
-| Surface | `@`-mention parser? | What exists instead |
-|---------|---------------------|---------------------|
-| `console/` (React) | **No** | Single program prompt |
-| `bot/static` + `bot/server.py` | **No** | Sidebar select → composer → `/api/bots/:id/tasks` |
+| Surface | `@`-mention parser? | What exists |
+|---------|---------------------|-------------|
+| `console/` (React) | **No** | Single program prompt (`aria-label="command"`) |
+| `bot/static` + `bot/server.py` | **Yes** — `parseMention` + autocomplete; sidebar = fallback | One mouth → `@pal` tasks / `@all` rally / `@console` programs / bare → selected |
 
 ---
 
@@ -247,9 +247,11 @@ From audit + product north star (Occam):
 
 Carry the **essence**:
 
-1. One composer that can address **any pal** (ship `@` or equivalent — old suite only had select-then-type).  
-2. **Stop / retarget / rally** as explicit ops (stop exists; rally does not).  
-3. **Tinted multi-pal** as host chrome + visual one-pal↔one-plant.  
-4. Keep program shell + kit-hydrated habitat.  
+1. One composer that can address **any pal** — **bot shipped**; React absorb is the remaining P0 (do not add a third mouth).  
+2. **Stop / retarget / rally** as explicit ops — **bot shipped**; console still missing.  
+3. **Tinted multi-pal** as host chrome + visual one-pal↔one-plant (viz still follow-up).  
+4. Keep program shell + kit-hydrated habitat (no dual seeds / no invented face ids).  
 
 Do **not** re-litigate kit constants, Casque, digipet, or dual scene seeds.
+
+Apps twin audit: [`OCCAM-UNIX-APPS.md`](OCCAM-UNIX-APPS.md). Prefer [`seams/04-bot-host.md`](seams/04-bot-host.md) over any leftover “@ / rally not implemented” narration in this file.

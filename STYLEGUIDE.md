@@ -90,7 +90,7 @@ Same bar as [`NORTH-STAR.md`](NORTH-STAR.md): one job per piece; kit JSON is the
 | Scope | Digipet / dashboard / acquisition / pal-color kit tables stay out |
 | Lane | Console/bot UI = Apps; adapter craft = Ports; this guide = brand narration of kit |
 
-Full audit: [`qa/OCCAM-UNIX-AUDIT.md`](qa/OCCAM-UNIX-AUDIT.md).
+Full audit: [`qa/OCCAM-UNIX-AUDIT.md`](qa/OCCAM-UNIX-AUDIT.md) (kit) · [`qa/OCCAM-UNIX-APPS.md`](qa/OCCAM-UNIX-APPS.md) (Apps).
 
 ## Sources
 

@@ -753,25 +753,11 @@
   </dialog>
 
   <script>
-    // Fallback seed mirrors kit/mark.json faces (hydrateMark overwrites from SoT).
+    // Bootstrap on-ramp only (first paint before GET /kit/mark.json).
+    // hydrateMark → framesFromKit replaces this entirely from kit faces.
+    // Do not invent face ids / glyphs here — kit/mark.json is SoT.
     let FRAMES = {
       idle: { lines: ["▚████", "██ ●●", "▀▀▀▀▀"], tone: "idle", label: "idle" },
-      blink: { lines: ["▚████", "██ ──", "▀▀▀▀▀"], tone: "idle", label: "idle" },
-      evaluating: { lines: ["▚████", "██ ◐◑", "▀▀▀▀▀"], tone: "accent", label: "evaluating" },
-      loadingRight: { lines: ["▚████", "██ ●●", "▀▀▀▀▀"], tone: "accent", label: "loading", motion: "pulse" },
-      loadingLeft: { lines: ["▚████", "██ ●●", "▀▀▀▀▀"], tone: "accent", label: "loading", motion: "pulse" },
-      executing: { lines: ["▚████", "██ ◣◢", "▀▀▀▀▀"], tone: "accent", label: "executing" },
-      completed: { lines: ["▚████", "██ ▴▴", "▀▀▀▀▀"], tone: "ok", label: "completed", motion: "bounce" },
-      allowed: { lines: ["▚████", "██ ><", "▀▀▀▀▀"], tone: "ok", label: "allowed", motion: "bounce" },
-      asking: { lines: ["▚████", "██ ??", "▀▀▀▀▀"], tone: "warn", label: "ask" },
-      denied: { lines: ["▚████", "██ ┃┃", "▀▀▀▀▀"], tone: "err", label: "denied", motion: "shake" },
-      sandboxing: { lines: ["▚████", "██ ◇◇", "▀▀▀▀▀"], tone: "idle", label: "sandboxing" },
-      // legacyFaceBridge: engine may still emit "sandbox"
-      sandbox: { lines: ["▚████", "██ ◇◇", "▀▀▀▀▀"], tone: "idle", label: "sandboxing" },
-      warning: { lines: ["▚████", "██ ▲△", "▀▀▀▀▀"], tone: "warn", label: "warning", motion: "bounce" },
-      cancelled: { lines: ["▚████", "██ ◦◦", "▀▀▀▀▀"], tone: "muted", label: "cancelled" },
-      error: { lines: ["▚████", "██ ××", "▀▀▀▀▀"], tone: "err", label: "error", motion: "shake" },
-      offline: { lines: ["▚████", "██ ‒‒", "▀▀▀▀▀"], tone: "muted", label: "offline" },
     };
 
     function framesFromKit(mark) {
@@ -780,17 +766,18 @@
       for (const [id, face] of Object.entries(faces)) {
         const lines = Array.isArray(face.lines) && face.lines.length === 3
           ? face.lines
-          : (FRAMES[id] && FRAMES[id].lines);
+          : undefined;
         if (!lines) continue;
         const tone = face.tone === "idle" ? "idle" : (face.tone || "idle");
         const motion = face.motion || undefined;
         out[id] = { lines, tone, label: id, ...(motion ? { motion } : {}) };
       }
-      // Host legacy alias — kit key is sandboxing
+      // Host legacy alias — kit key is sandboxing (engine may still emit "sandbox")
       if (out.sandboxing && !out.sandbox) {
         out.sandbox = { ...out.sandboxing, label: "sandboxing" };
       }
-      return Object.keys(out).length ? { ...FRAMES, ...out } : FRAMES;
+      // Hydrate-only catalog (+ alias). Keep on-ramp idle if kit empty/unreachable.
+      return Object.keys(out).length ? out : FRAMES;
     }
 
     async function hydrateMark() {

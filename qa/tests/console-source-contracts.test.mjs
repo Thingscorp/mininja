@@ -36,7 +36,7 @@ assert(/title.*Mininja|Mininja/.test(rootHead), "title Mininja");
 
 const err = read("console/src/lib/error-component.tsx");
 assert(/Something went wrong|TriangleAlert|error\.message/i.test(err), "error screen copy");
-assert(/bg-bg/.test(err) && /text-fg|text-muted|text-err/.test(err), "Hubzz tokens on error screen");
+assert(/bg-bg/.test(err) && /text-fg|text-muted|text-err/.test(err), "Linear tokens on error screen");
 assert(!/bg-zinc|text-zinc/.test(err), "no zinc utilities on error screen");
 
 // --- Boot ---

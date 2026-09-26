@@ -59,6 +59,8 @@ assert(/--color-hairline:\s*rgb\(255 255 255 \/ 0\.08\)/.test(html), "hairline m
 assert(/--text-mini:\s*12px/.test(html) && /--text-lock:\s*20px/.test(html), "type scale tokens");
 assert(!/--color-violet|#735ffa|#735FFA|#0E0F12/.test(html), "no stale Hubzz violet/bg");
 assert(/hydrateMark|framesFromKit|\/kit\/mark\.json/.test(html), "hydrates faces from kit mark");
+assert(/Bootstrap on-ramp only|hydrate-only catalog/.test(html), "FRAMES lean on-ramp documented");
+assert(!/loadingLeft:\s*\{\s*lines:\s*\["▚████",\s*"██ ●●"/.test(html), "no wrong loadingLeft glyph dual seed");
 assert(/sandboxing/.test(html), "kit face key sandboxing");
 assert(!/warning:.*◆◆/.test(html), "warning eyes not legacy ◆◆");
 assert(/focus-visible/.test(html), "focus-visible chrome");

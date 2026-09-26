@@ -114,6 +114,8 @@ node qa/tests/run-tests.mjs # monorepo docs + sims as wired
 
 ## Still open (not Kit)
 
+Apps twin audit: [`OCCAM-UNIX-APPS.md`](OCCAM-UNIX-APPS.md).
+
 1. Apps: pal↔`repoBranch` plant binding visualization (one-pal↔one-plant); multi-pal tint chrome shipped.  
 2. Apps: OX-APP-003/004 — keep unions kit-align green; no drive-by churn.  
 3. Ports: keep adapters one-job; no second expression catalogs.  

@@ -123,7 +123,7 @@ Checklist (pass before adding a page, table, or constant):
 - [ ] Pasting a hierarchy a third time? Thin to a link.
 - [ ] Apps UI / Ports craft? **File there** — kit stays data.
 
-Audit trail: [`qa/OCCAM-UNIX-AUDIT.md`](qa/OCCAM-UNIX-AUDIT.md). Style checklist twin: [`STYLEGUIDE.md`](STYLEGUIDE.md).
+Audit trail: [`qa/OCCAM-UNIX-AUDIT.md`](qa/OCCAM-UNIX-AUDIT.md) (kit) · [`qa/OCCAM-UNIX-APPS.md`](qa/OCCAM-UNIX-APPS.md) (console/bot). Style checklist twin: [`STYLEGUIDE.md`](STYLEGUIDE.md).
 
 ## Design rules this north star implies
 
@@ -136,7 +136,7 @@ Audit trail: [`qa/OCCAM-UNIX-AUDIT.md`](qa/OCCAM-UNIX-AUDIT.md). Style checklist
 7. **v1 ship = pal + habitat strip** — mark-only is the 60s on-ramp only. **MUST NOT** call mark-only “v1 done,” or hero the recipe runner / webhook bridges / full IFTTT/Zapier surface before the terrarium.
 8. **Mascot / pal unnamed** — **MUST NOT** use Casque or any personal name; no he/him.
 9. **Glance over feeds** — posture for peripheral awareness; one sticky interrupt; wins expire; plants peripheral ([`GLANCE.md`](GLANCE.md)).
-10. **Occam + Unix** — smallest sufficient SoT; pointers over paste; dual tables = shame ([`qa/OCCAM-UNIX-AUDIT.md`](qa/OCCAM-UNIX-AUDIT.md)).
+10. **Occam + Unix** — smallest sufficient SoT; pointers over paste; dual tables = shame ([`qa/OCCAM-UNIX-AUDIT.md`](qa/OCCAM-UNIX-AUDIT.md) · [`qa/OCCAM-UNIX-APPS.md`](qa/OCCAM-UNIX-APPS.md)).
 
 ---
 
