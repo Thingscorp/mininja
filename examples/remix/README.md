@@ -4,13 +4,28 @@
 
 ```bash
 # upstream face
-../../examples/cli-banner.sh allowed
+../cli-banner.sh allowed
 
 # remixed allowed eyes (◆◆) via overlay — still uses adapters/mark/from-kit
 node ./print-face.mjs allowed
+node ./print-face.mjs allowed --ansi
+node ./print-face.mjs --list
+node ./print-face.mjs --motion   # scene-overlay speeds vs upstream
 ```
 
-- [`mark-overlay.json`](mark-overlay.json) — swap faces only
-- [`scene-overlay.json`](scene-overlay.json) — swap speeds only (host merges onto `kit/scene.json`)
+| File | Role |
+|------|------|
+| [`mark-overlay.json`](mark-overlay.json) | Swap / add faces only |
+| [`scene-overlay.json`](scene-overlay.json) | Swap motion speeds only |
+| [`print-face.mjs`](print-face.mjs) | Merge overlay → adapters |
 
-You do **not** copy `console/` to change a face or a walk speed. Merge overlay → pass the object into `adapters/mark/from-kit.mjs` (and your own motion code reading scene). Mascot has no name.
+You do **not** copy `console/` to change a face or a walk speed. Merge overlay → pass the object into `adapters/mark/from-kit.mjs` (and your own motion code reading scene). Host merge for scene:
+
+```js
+const scene = {
+  ...baseScene,
+  motion: { ...baseScene.motion, ...overlay.motion },
+};
+```
+
+Mascot has no name.

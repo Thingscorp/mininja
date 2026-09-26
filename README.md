@@ -53,11 +53,11 @@ Mininja + environments are **modular Legos**. Pieces — **mark**, **faces**, **
 ### Remix in 60s
 
 ```bash
-# fork kit, then either:
-#   kit/scene.json → motion.walkPxPerSec  (170 → 220)
-#   kit/mark.json  → faces.wink = { "eyes": ["¬","●"], "tone": "accent", "motion": null, "mirrored": false }
-./examples/cli-banner.sh wink
-# overlay (no kit fork): examples/remix/
+# overlay (no kit fork) — works today:
+cd examples/remix && node ./print-face.mjs allowed   # ◆◆ eyes
+node ./print-face.mjs wink                           # eyes-only; from-kit derives lines
+node ./print-face.mjs --motion                       # scene speeds vs upstream
+# fork kit when you mean to — see PORTING.md
 ```
 
 ---

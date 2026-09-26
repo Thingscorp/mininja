@@ -2,13 +2,13 @@
 
 Copy three lines. Graduate when you want more. The mascot has no name and no he/him.
 
-Craft bar: inevitable defaults, clean contracts, zero footguns — remixable like Legos; optionally a **terrarium for Devs** (creature + habitat glass from kit). Event recipes ([`RECIPES.md`](RECIPES.md)) are a later plate. Ports must not invent parallel expression ids that recipes cannot target later. (Taste standard, not a company claim.)
-
 Machine data: [`kit/mark.json`](kit/mark.json) · [`kit/scene.json`](kit/scene.json).
 
-## The invitation (mark)
+Craft bar: inevitable defaults, clean contracts, zero footguns. Remixable like Legos. Event recipes ([`RECIPES.md`](RECIPES.md)) are a later plate — ports must not invent parallel expression ids that recipes cannot target.
 
-Paste this anywhere monospace is welcome:
+## First face (~60s)
+
+Paste anywhere monospace is welcome:
 
 ```
 ▚████
@@ -19,13 +19,45 @@ Paste this anywhere monospace is welcome:
 Or from a clone:
 
 ```bash
-./examples/cli-banner.sh            # idle (works without Node)
-./examples/cli-banner.sh allowed    # faces need Node
+./examples/cli-banner.sh              # idle (works without Node)
+./examples/cli-banner.sh allowed      # faces need Node
+./examples/cli-banner.sh allowed -p   # plain (no ANSI)
 ./examples/cli-banner.sh --list
 ```
 
-README paste: [`examples/readme-badge.md`](examples/readme-badge.md). Kit overlay without forking console: [`examples/remix/`](examples/remix/). Stop here unless you need faces.
+README paste: [`examples/readme-badge.md`](examples/readme-badge.md).  
+Kit overlay without forking console: [`examples/remix/`](examples/remix/).
 
+Stop here unless you need faces in code.
+
+## Node vs browser
+
+| Runtime | Load kit | Render strings | Color / present |
+|---------|----------|----------------|-----------------|
+| **Node** | [`adapters/mark/lockup.mjs`](adapters/mark/lockup.mjs) (reads disk) | `lockup` / `linesFor` | [`adapters/ansi`](adapters/ansi) |
+| **Browser** | import [`kit/mark.json`](kit/mark.json) yourself | [`adapters/mark/from-kit.mjs`](adapters/mark/from-kit.mjs) | CSS `currentColor` or [`adapters/react`](adapters/react) |
+
+Do **not** import `lockup.mjs` or `adapters/ansi/` in the browser — they use `node:fs`.
+
+**Node**
+
+```js
+import { lockup } from "./adapters/mark/lockup.mjs";
+import { ansiLockup } from "./adapters/ansi/render.mjs";
+
+process.stdout.write(lockup("allowed") + "\n");
+process.stdout.write(ansiLockup("executing") + "\n");
+```
+
+**Browser**
+
+```js
+import mark from "./kit/mark.json" with { type: "json" };
+import { linesFor } from "./adapters/mark/from-kit.mjs";
+// linesFor(mark, "allowed") → <Mininja lines={...} face="allowed" />
+```
+
+`lockup()` / `ansiLockup()` return **strings** (already joined). Adapters never import `console/`. Examples only compose adapters.
 
 ## Russ's law (Legos)
 
@@ -49,14 +81,18 @@ Pieces: **mark**, **faces**, **motion**, **stages**, **props**, **weather**.
 ### Remix in 60s
 
 ```bash
-# A) fork kit — change walk speed or add a face
-#    kit/scene.json → "walkPxPerSec": 220          # was 170
-#    kit/mark.json  → faces.wink = { "eyes": ["¬","●"], "tone": "accent", "motion": null, "mirrored": false }
-./examples/cli-banner.sh wink
+# A) overlay only (no kit fork) — works today:
+cd examples/remix
+node ./print-face.mjs allowed          # ◆◆ eyes via mark-overlay.json
+node ./print-face.mjs wink             # eyes-only face; from-kit derives lines
+node ./print-face.mjs --motion         # scene-overlay speeds vs upstream
 
-# B) overlay only (no kit fork) — same adapters:
-cd examples/remix && node ./print-face.mjs allowed
-# scene speeds: merge scene-overlay.json onto kit/scene.json in the host
+# B) fork kit — add a complete face (eyes + lines), then:
+#    kit/mark.json → faces.wink = {
+#      "eyes": ["¬","●"], "tone": "accent", "motion": null, "mirrored": false,
+#      "lines": ["▚████", "██ ¬●", "▀▀▀▀▀"]
+#    }
+#    ./examples/cli-banner.sh wink
 ```
 
 Worked overlays: [`examples/remix/`](examples/remix/).
@@ -97,30 +133,6 @@ kit/mark.json
 
 Do **not** drag scene into a favicon. Do **not** replace glyphs with a redrawn mascot — the Unicode stack **is** the mark.
 
-## Faces — one filter
-
-**Node** (loads kit from disk):
-
-```js
-import { lockup } from "./adapters/mark/lockup.mjs";
-process.stdout.write(lockup("allowed") + "\n");
-```
-
-```js
-import { ansiLockup } from "./adapters/ansi/render.mjs";
-process.stdout.write(ansiLockup("executing") + "\n");
-```
-
-**Browser** — do not import `lockup.mjs` or `ansi/` (`node:fs`). Pass kit JSON into the pure mark filter, then present:
-
-```js
-import mark from "./kit/mark.json" with { type: "json" };
-import { linesFor } from "./adapters/mark/from-kit.mjs";
-// linesFor(mark, "allowed") → adapters/react <Mininja lines={...} />
-```
-
-`lockup()` / `ansiLockup()` return **strings** (already joined). Adapters never import `console/`. Examples only compose adapters.
-
 ## Invariants (every port)
 
 - 5 columns × 3 rows; each line exactly 5 cells after render.
@@ -132,16 +144,15 @@ import { linesFor } from "./adapters/mark/from-kit.mjs";
 
 ## Port checklist
 
-1. Pull lines from `kit/mark.json` (or the mark adapter) — do not hand-type eyes.
+1. Pull lines from `kit/mark.json` (or the mark adapter) — do not hand-type eyes in production hosts.
 2. Pick a presence layer (mark / faces / scoot / scene); note it in the host app README.
 3. Keep alt text **Mininja mark** (never a character name).
 4. If you add motion, honor reduced-motion and [`TERMINAL-MOTION.md`](TERMINAL-MOTION.md).
 5. If you stay on upstream Thingscorp kit, scene geometry must match [`kit/scene.json`](kit/scene.json) (`stageWidthPx=420`, `anchorRatio=0.42`, seven stages). If you fork or overlay, document the new numbers as *your* SoT.
 
-
 ## Recipe-compatible seams
 
-Face, stage, and action **ids** stay kit SoT (`kit/mark.json`, `kit/scene.json`) so a later [`RECIPES.md`](RECIPES.md) plate can target them. Adapters must not grow parallel expression tables — pass ids through, render from kit. Recipes remain a later plate in the system graph (creature + habitat + garden).
+Face, stage, and action **ids** stay kit SoT (`kit/mark.json`, `kit/scene.json`) so a later [`RECIPES.md`](RECIPES.md) plate can target them. Adapters must not grow parallel expression tables — pass ids through, render from kit. React exposes `data-face` / `data-stage` / `data-action` for that seam. Recipes remain a later plate in the system graph (creature + habitat + garden).
 
 ## Adapter map
 

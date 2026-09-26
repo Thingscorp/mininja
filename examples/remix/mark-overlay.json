@@ -1,12 +1,28 @@
 {
-  "comment": "Local remix — not upstream Thingscorp kit. Keep 5×3 cells. Mascot has no name.",
+  "comment": "Local remix — not upstream Thingscorp kit. Keep 5×3 cells. Mascot has no name. lines optional when eyes are set (from-kit derives).",
   "faces": {
     "allowed": {
-      "eyes": ["◆", "◆"],
+      "eyes": [
+        "◆",
+        "◆"
+      ],
       "tone": "ok",
       "motion": null,
       "mirrored": false,
-      "lines": ["▚████", "██ ◆◆", "▀▀▀▀▀"]
+      "lines": [
+        "▚████",
+        "██ ◆◆",
+        "▀▀▀▀▀"
+      ]
+    },
+    "wink": {
+      "eyes": [
+        "¬",
+        "●"
+      ],
+      "tone": "accent",
+      "motion": null,
+      "mirrored": false
     }
   }
 }

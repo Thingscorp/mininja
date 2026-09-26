@@ -7,6 +7,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  hasFace as hasFaceKit,
   listFaces as listFacesKit,
   linesFor as linesForKit,
   lockup as lockupKit,
@@ -18,6 +19,14 @@ const kit = JSON.parse(readFileSync(join(root, "kit", "mark.json"), "utf8"));
 /** @returns {string[]} face ids */
 export function listFaces() {
   return listFacesKit(kit);
+}
+
+/**
+ * @param {string} face
+ * @returns {boolean}
+ */
+export function hasFace(face) {
+  return hasFaceKit(kit, face);
 }
 
 /**
@@ -36,6 +45,7 @@ export function lockup(face = "idle", facing = "right") {
 
 export { kit };
 export {
+  hasFaceKit as hasFaceFromKit,
   listFacesKit as listFacesFromKit,
   linesForKit as linesForFromKit,
   lockupKit as lockupFromKit,

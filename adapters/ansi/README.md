@@ -10,14 +10,15 @@ Colorize mark only. **Node** (default kit via `lockup.mjs`). Tone ids are kit So
 
 ```js
 import { ansiLockup, ansiLockupFromKit, colorize, toneForFace } from "./render.mjs";
-import { linesFor } from "../mark/lockup.mjs";
+import { linesFor, kit } from "../mark/lockup.mjs";
 
 ansiLockup("executing");
 ansiLockup("idle", { color: false });
-colorize(linesFor("allowed"), "ok");
+ansiLockup("idle", { facing: "left" });
+colorize(linesFor("allowed"), toneForFace(kit, "allowed"));
 // remix: ansiLockupFromKit(mergedKit, "allowed")
 ```
 
 Monochrome when `color: false`. Mood ANSI is optional chrome for kit tone ids. No `console/` imports.
 
-Browsers: render with `adapters/mark/from-kit.mjs` + CSS (`currentColor`) — skip this filter.
+**Browsers:** render with `adapters/mark/from-kit.mjs` + CSS (`currentColor`) — skip this filter.

@@ -1,9 +1,6 @@
-# Changelog
-
-Version history of the Mininja mark and this brand repository.
-
 ## Unreleased / next
 
+- Ports craft: stranger path hardened (`cli-banner --plain/--facing`, remix `--ansi/--motion/--list`, eyes-only face derive in `from-kit`); PORTING Node-vs-browser guide; drop broken wink copy-paste ([PORTING.md](PORTING.md), [adapters/](adapters/), [examples/](examples/))
 - Docs: one connected **system graph** (creature · habitat · garden · later recipes) — recipe seams kept open; recipes remain a later plate, not v1 required ([RECIPES.md](RECIPES.md), [GARDEN.md](GARDEN.md), [BRAND.md](BRAND.md), [PORTING.md](PORTING.md))
 
 ## 1.6.1 — 2026-09-25

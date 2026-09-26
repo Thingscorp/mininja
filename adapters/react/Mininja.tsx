@@ -1,15 +1,18 @@
 /**
  * Presentational mark. Levels 1–3.
- * Pass `lines` from adapters/mark/from-kit (or Node lockup.mjs) or kit/mark.json.
+ * Pass `lines` from adapters/mark/from-kit (or Node lockup.mjs).
  * Face / stage / action ids are kit SoT (recipe-compatible seams) — no parallel tables.
  * Mascot has no name — aria-label stays "Mininja mark".
  */
 import type { CSSProperties } from "react";
 
+/** Three mark rows; each row is five cells after render. */
+export type MarkLines = readonly [string, string, string];
+
 export type MininjaProps = {
   /**
-   * Kit face id (`kit/mark.json` faces.*). Host hint only — does not load kit.
-   * Later RECIPES plate targets these same ids.
+   * Kit face id (`kit/mark.json` faces.*). Host hint / recipe seam only —
+   * does not load kit. Render from `lines`.
    */
   face?: string;
   /**
@@ -21,12 +24,20 @@ export type MininjaProps = {
    */
   action?: string;
   facing?: "left" | "right";
-  /** Required: three mark lines from from-kit / lockup or kit/mark.json. */
-  lines: [string, string, string];
+  /** Required: three mark lines from from-kit / lockup (or a pasted idle). */
+  lines: MarkLines;
   className?: string;
   style?: CSSProperties;
   /** Host must disable walk/patrol when true. */
   reducedMotion?: boolean;
+};
+
+const markStyle: CSSProperties = {
+  margin: 0,
+  lineHeight: 1,
+  fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+  fontWeight: 500,
+  color: "currentColor",
 };
 
 /** Renders mark lines. No data loading. No motion. No console/ imports. */
@@ -49,14 +60,7 @@ export function Mininja({
       data-facing={facing}
       data-reduced-motion={reducedMotion ? "true" : "false"}
       aria-label="Mininja mark"
-      style={{
-        margin: 0,
-        lineHeight: 1,
-        fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-        fontWeight: 500,
-        color: "currentColor",
-        ...style,
-      }}
+      style={{ ...markStyle, ...style }}
     >
       {lines.join("\n")}
     </pre>
