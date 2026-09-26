@@ -1,6 +1,6 @@
 # adapters/ansi
 
-Colorize mark only. **Node** (default kit via `lockup.mjs`). Tone ids are kit SoT — `faces[].tone` ∈ `moodColorsUiOnly`. No parallel face→tone map.
+Colorize mark only. **Node** (default kit via `lockup.mjs`). Tone ids are kit SoT — `faces.*.tone` ∈ `moodColorsUiOnly`. No parallel face→tone map.
 
 | in | out |
 |----|-----|
@@ -9,16 +9,23 @@ Colorize mark only. **Node** (default kit via `lockup.mjs`). Tone ids are kit So
 | `lines` + tone | colorized string via `colorize` |
 
 ```js
-import { ansiLockup, ansiLockupFromKit, colorize, toneForFace } from "./render.mjs";
+import {
+  ansiLockup,
+  ansiLockupFromKit,
+  colorize,
+  toneForFace,
+  hasTone,
+} from "./render.mjs";
 import { linesFor, kit } from "../mark/lockup.mjs";
 
 ansiLockup("executing");
 ansiLockup("idle", { color: false });
 ansiLockup("idle", { facing: "left" });
 colorize(linesFor("allowed"), toneForFace(kit, "allowed"));
+hasTone(kit, "ok"); // true — moodColorsUiOnly key
 // remix: ansiLockupFromKit(mergedKit, "allowed")
 ```
 
-Monochrome when `color: false`. Mood ANSI is optional chrome for kit tone ids. No `console/` imports.
+Monochrome when `color: false`. Mood ANSI is optional chrome for the five upstream tone ids (`idle` · `accent` · `ok` · `warn` · `err`). Forks that add mood keys get idle chrome unless the host colorizes itself. No `console/` imports.
 
 **Browsers:** render with `adapters/mark/from-kit.mjs` + CSS (`currentColor`) — skip this filter.

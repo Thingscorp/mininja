@@ -11,6 +11,7 @@ import {
   listFaces as listFacesKit,
   linesFor as linesForKit,
   lockup as lockupKit,
+  mergeMark as mergeMarkKit,
 } from "./from-kit.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
@@ -43,10 +44,19 @@ export function lockup(face = "idle", facing = "right") {
   return lockupKit(kit, face, facing);
 }
 
+/**
+ * @param {object} overlay
+ * @returns {object} default kit merged with overlay
+ */
+export function mergeMark(overlay = {}) {
+  return mergeMarkKit(kit, overlay);
+}
+
 export { kit };
 export {
   hasFaceKit as hasFaceFromKit,
   listFacesKit as listFacesFromKit,
   linesForKit as linesForFromKit,
   lockupKit as lockupFromKit,
+  mergeMarkKit as mergeMarkFromKit,
 };
