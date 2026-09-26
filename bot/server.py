@@ -415,10 +415,21 @@ def stop_bot(bot_id: str) -> bool:
     return True
 
 
-def start_task(bot_id: str, prompt: str) -> tuple[bool, str]:
+def start_task(bot_id: str, prompt: str, *, retarget: bool = False) -> tuple[bool, str]:
+    """Assign work to a pal.
+
+    Refuse silent double-assign unless retarget=True (explicit pull-off + replace
+    on the same pal). MAX_PARALLEL still caps concurrent runs.
+    """
     prompt = (prompt or "").strip()
     if not prompt:
         return False, "empty task"
+    if retarget and (bot_id in RUNS or bot_id in CLOUD_RUNS):
+        stop_bot(bot_id)
+        # Let the process group wind down before re-assign.
+        deadline = time.time() + 2.0
+        while time.time() < deadline and (bot_id in RUNS or bot_id in CLOUD_RUNS):
+            time.sleep(0.05)
     with LOCK:
         if bot_id in RUNS:
             return False, "already working"
@@ -448,6 +459,64 @@ def start_task(bot_id: str, prompt: str) -> tuple[bool, str]:
     thread = threading.Thread(target=target, args=(bot_copy, prompt, grok), daemon=True)
     thread.start()
     return True, "ok"
+
+
+def retarget_task(from_id: str, to_id: str, prompt: str) -> tuple[bool, str]:
+    """Pull work off one pal and assign (remaining/new) text to another.
+
+    Explicit op — never a silent side-effect of a second assign.
+    """
+    prompt = (prompt or "").strip()
+    if not prompt:
+        return False, "empty task"
+    to_id = (to_id or "").strip()
+    if not to_id:
+        return False, "no target"
+    with LOCK:
+        state = load_state()
+        ids = {b["id"] for b in state["bots"]}
+        if to_id not in ids:
+            return False, "no such bot"
+        if from_id and from_id not in ids and from_id != to_id:
+            return False, "no such source bot"
+    if from_id and from_id != to_id:
+        stop_bot(from_id)
+        deadline = time.time() + 2.0
+        while time.time() < deadline and (from_id in RUNS or from_id in CLOUD_RUNS):
+            time.sleep(0.05)
+    return start_task(to_id, prompt, retarget=(from_id == to_id))
+
+
+def rally_all(prompt: str) -> dict:
+    """Emergency blast: assign the same task to every idle pal (up to MAX_PARALLEL).
+
+    Skips pals already working — no silent retarget. Callers that need replace
+    must use retarget_task explicitly.
+    """
+    prompt = (prompt or "").strip()
+    if not prompt:
+        return {"ok": False, "error": "empty task", "started": [], "skipped": []}
+    with LOCK:
+        bots = list(load_state().get("bots") or [])
+    if not bots:
+        return {"ok": False, "error": "no pals", "started": [], "skipped": []}
+    started: list[dict] = []
+    skipped: list[dict] = []
+    for bot in bots:
+        bid = bot["id"]
+        name = bot.get("name") or bid
+        if bid in RUNS or bid in CLOUD_RUNS:
+            skipped.append({"id": bid, "name": name, "reason": "already working"})
+            continue
+        if len(RUNS) >= MAX_PARALLEL:
+            skipped.append({"id": bid, "name": name, "reason": f"at most {MAX_PARALLEL} bots at once"})
+            continue
+        ok, msg = start_task(bid, prompt)
+        if ok:
+            started.append({"id": bid, "name": name})
+        else:
+            skipped.append({"id": bid, "name": name, "reason": msg})
+    return {"ok": True, "error": None, "started": started, "skipped": skipped}
 
 
 def ingest_event(bot_id: str, event: dict, text_buf: str, tools: list) -> tuple[str, list, bool]:
@@ -826,11 +895,24 @@ class Handler(BaseHTTPRequestHandler):
             self._json(201, new_bot(payload))
             return
         if len(parts) == 4 and parts[:2] == ["api", "bots"] and parts[3] == "tasks":
-            ok, msg = start_task(parts[2], payload.get("text") or payload.get("prompt") or "")
+            text = payload.get("text") or payload.get("prompt") or ""
+            retarget = bool(payload.get("retarget"))
+            ok, msg = start_task(parts[2], text, retarget=retarget)
             self._json(200 if ok else 400, {"ok": ok, "error": None if ok else msg})
             return
         if len(parts) == 4 and parts[:2] == ["api", "bots"] and parts[3] == "stop":
             self._json(200, {"ok": stop_bot(parts[2])})
+            return
+        if len(parts) == 4 and parts[:2] == ["api", "bots"] and parts[3] == "retarget":
+            to_id = (payload.get("to") or payload.get("to_id") or "").strip()
+            text = payload.get("text") or payload.get("prompt") or ""
+            ok, msg = retarget_task(parts[2], to_id, text)
+            self._json(200 if ok else 400, {"ok": ok, "error": None if ok else msg})
+            return
+        if parts == ["api", "rally"] or parts == ["api", "bots", "rally"]:
+            result = rally_all(payload.get("text") or payload.get("prompt") or "")
+            code = 200 if result.get("ok") else 400
+            self._json(code, result)
             return
         self._json(404, {"error": "not found"})
 
