@@ -11,7 +11,7 @@
 **Three lines of Unicode. That’s the whole brand.** Paste them, print them, or grow faces → scoot → scene only as far as you want. Kit = data. Unix-small. Spell it **Mininja** (not “minija”).
 
 Owned by [Thingscorp LLC](https://github.com/Thingscorp). The glyphs *are* the mark.  
-Positioning: [`BRAND.md`](BRAND.md).
+Positioning: [`BRAND.md`](BRAND.md) · north star: [`NORTH-STAR.md`](NORTH-STAR.md) (Giga Pets × Pebble × IFTTT).
 
 ---
 

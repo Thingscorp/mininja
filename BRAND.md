@@ -1,5 +1,7 @@
 # Brand positioning
 
+North star metaphor: **Giga Pets × Pebble × IFTTT** — [`NORTH-STAR.md`](NORTH-STAR.md) (creature · always-on face · later recipes on one graph).
+
 ## The Apple of Terminal Buddies
 
 Mininja aims to be **the Apple of Terminal Buddies** — a quality standard for how a terminal companion should feel:

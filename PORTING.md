@@ -4,6 +4,8 @@ Ship the idle lockup in about a minute. Grow faces, scoot, or scene only when yo
 
 **Kit** (`kit/mark.json`, `kit/scene.json`) is the source of truth. **Adapters** are tiny Unix filters over that data — compose them; do not grow them into apps. The brand name is **Mininja**; the mascot has **no personal name** and no he/him. Craft / Lego metaphors describe quality and modularity — not affiliation with Apple Inc.
 
+North star: Giga Pets × Pebble × IFTTT — [`NORTH-STAR.md`](NORTH-STAR.md). Presence ladder = progressive watchface; recipes stay later plate but kit **ids** stay targetable.
+
 Event recipes ([`RECIPES.md`](RECIPES.md)) are a later plate. Ports must keep face, stage, and action **ids** as kit strings so recipes can target them later — no parallel expression tables in adapters or hosts.
 
 ---

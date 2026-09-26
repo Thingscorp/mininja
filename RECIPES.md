@@ -6,7 +6,7 @@ First Mininja is the **terrarium** as creature + habitat glass only: Unicode mar
 
 Design only. Schema + intent for IFTTT-style links from notifications and events to Mininja faces, actions, stages, and mood chrome. **No runtime stubs in this doc.** Mascot unnamed. Spell it **Mininja**.
 
-> Quality / product metaphors only (“Apple of Terminal Buddies,” “terrarium for Devs,” “IFTTT-style”). **Not affiliated with Apple Inc. or IFTTT Inc.**
+> Quality / product metaphors only (“Apple of Terminal Buddies,” “terrarium for Devs,” “IFTTT-style,” Giga Pets × Pebble × IFTTT north star). **Not affiliated with Apple Inc., IFTTT Inc., Pebble Technology, or Bandai.** Full map: [`NORTH-STAR.md`](NORTH-STAR.md).
 
 ---
 
