@@ -154,6 +154,8 @@ Two progressive shapes (design only; host-interpreted):
 
 Growth targets the garden prop field in [GARDEN.md](GARDEN.md) / `kit/scene.json` → `garden`. It never paints the mark and never becomes weather chrome.
 
+**KPI meaning stays outside kit.** A canopy plant can mean “goals met” for whatever metric a pack cares about (revenue, users, …). Bridges + recipe packs name the goal; kit only stores the integer. One plant ≠ one fixed harvest type. Occam: remix packs, do not invent parallel growth vocabularies.
+
 ---
 
 ## 5. Example recipes

@@ -83,8 +83,19 @@ Discovery fixtures + edge cases: [`qa/simulations/`](qa/simulations/) (`scenario
 
 See [`qa/simulations/README.md`](qa/simulations/README.md) and scenarios with `weedsNote`.
 
-## Brand rules / bridge note
+## Goals / KPIs (design — no kit fields)
 
+**One visual channel.** A plant looks bountiful when its `growth` is high. Kit does **not** encode what that plant is scoring (fiat, users, uptime, …).
+
+| Layer | Owns |
+|-------|------|
+| Kit | `repoBranch` + growth **0..5** silhouette only |
+| Bridge | Normalize metric/events the user cares about |
+| Recipe pack (later) | `when` → `then.growth` on a labeled plant |
+
+Different plants may score different goals by swapping packs — same brick, different sensors. **Do not** add harvest-type / KPI-kind constants to kit. **Do not** treat garden as a digipet care loop or a second dashboard.
+
+## Brand rules / bridge note
 
 - Mascot **unnamed** (never Casque); no he/him.
 - No silent dual growth tables beside kit.
