@@ -15,6 +15,7 @@ import {
 import type { PigeonPose } from "@/lib/pigeon";
 import { isOn as refineOn } from "@/plugins/refine";
 import {
+  applyHabitatMentions,
   applyMentionText,
   mentionQuery,
   rosterSuggestions,
@@ -55,14 +56,15 @@ const START: [string, string][] = [
   ["go", "walk the banner"],
 ];
 
-function toChrome(bots: RosterPal[], selectedId?: string): PalChrome[] {
+function toChrome(bots: RosterPal[], selectedIds: string[] = []): PalChrome[] {
+  const sel = new Set(selectedIds);
   return bots.map((b) => ({
     id: b.id,
     name: b.name,
     tint: b.tint || STEEL,
     busy: Boolean(b.working),
     blocked: b.status === "error",
-    selected: Boolean(selectedId && b.id === selectedId),
+    selected: sel.has(b.id),
   }));
 }
 
@@ -80,6 +82,8 @@ export function Mininja() {
   const [lines, setLines] = useState<Line[]>([]);
   /** Sidebar fallback — "console" | bot id (bot SoT grammar). */
   const [selected, setSelected] = useState<string>("console");
+  /** Habitat multi-focus ids (shift+click); rings match is-sel. */
+  const [multiIds, setMultiIds] = useState<string[]>([]);
   const [roster, setRoster] = useState<RosterPal[]>([]);
   const [mentionItems, setMentionItems] = useState<MentionSuggestion[]>([]);
   const [mentionIndex, setMentionIndex] = useState(0);
@@ -104,7 +108,13 @@ export function Mininja() {
 
   const selectedPal = roster.find((b) => b.id === selected);
   const bannerTint = selectedPal ? selectedPal.tint || STEEL : undefined;
-  const bannerPals = toChrome(roster, selected === "console" ? undefined : selected);
+  const focusIds =
+    multiIds.length > 0
+      ? multiIds
+      : selected !== "console"
+        ? [selected]
+        : [];
+  const bannerPals = toChrome(roster, focusIds);
   // Asking face ≈ kit bridge curious+wait (listening / soft interrupt). Match bot stickyInterrupt.
   const liveAsking = !offline && live.emotion === "curious" && live.action === "wait";
   const bannerSticky = stickyFromRoster(roster, { asking: liveAsking });
@@ -123,8 +133,16 @@ export function Mininja() {
     }
     setBotUp(true);
     setRoster(state.bots || []);
-    if (selected !== "console" && !(state.bots || []).some((b) => b.id === selected)) {
+    const live = state.bots || [];
+    if (selected !== "console" && !live.some((b) => b.id === selected)) {
       setSelected("console");
+      setMultiIds([]);
+    } else {
+      setMultiIds((prev) => {
+        if (!prev.length) return prev;
+        const next = prev.filter((id) => live.some((b) => b.id === id));
+        return next.length === prev.length ? prev : next;
+      });
     }
   }, [selected]);
 
@@ -252,7 +270,7 @@ export function Mininja() {
     const id = typeof result.id === "string" ? result.id : null;
     setNewPalName("");
     setNewPalOpen(false);
-    if (id) setSelected(id);
+    if (id) setFocusPal(id);
     setScene((s) => applyIntent(s, listeningIntent()));
     pushCmdOut(`new ${name}`, {
       title: name,
@@ -311,13 +329,13 @@ export function Mininja() {
 
     if (route.op === "program" || route.op === "console") {
       const body = route.op === "console" ? route.body : route.text;
-      if (route.op === "console") setSelected("console");
+      if (route.op === "console") setFocusPal("console");
       runProgram(body);
       return;
     }
 
     if (route.op === "select-pal") {
-      setSelected(route.bot.id);
+      setFocusPal(route.bot.id);
       setScene((s) => applyIntent(s, listeningIntent()));
       pushCmdOut(text, {
         title: route.bot.name,
@@ -396,7 +414,7 @@ export function Mininja() {
           currentMode: to.mode,
         });
       }
-      setSelected(to.id);
+      setFocusPal(to.id);
       await settleBot("Retarget", text, result, {
         title: "Retarget",
         tag: to.name,
@@ -406,7 +424,7 @@ export function Mininja() {
     }
 
     if (route.op === "task") {
-      setSelected(route.bot.id);
+      setFocusPal(route.bot.id);
       const result = await startTaskWithMode(route.bot.id, route.body, permMode, {
         currentMode: route.bot.mode,
       });
@@ -430,6 +448,36 @@ export function Mininja() {
       });
       return;
     }
+  }
+
+  function setFocusPal(id: string, ids?: string[]) {
+    setSelected(id);
+    setMultiIds(ids ?? (id === "console" ? [] : [id]));
+  }
+
+  /** Habitat chip: click = solo @Name; shift+click = add @mentions. */
+  function focusHabitatPal(pal: PalChrome, shift: boolean) {
+    let nextIds: string[];
+    if (shift) {
+      const base =
+        multiIds.length > 0
+          ? multiIds
+          : selected !== "console"
+            ? [selected]
+            : [];
+      nextIds = base.includes(pal.id) ? base : [...base, pal.id];
+    } else {
+      nextIds = [pal.id];
+    }
+    setFocusPal(pal.id, nextIds);
+    const names = nextIds
+      .map((id) => roster.find((b) => b.id === id)?.name)
+      .filter((n): n is string => Boolean(n));
+    const next = applyHabitatMentions(input, names);
+    setInput(next);
+    setMentionItems([]);
+    setScene((s) => applyIntent(s, listeningIntent()));
+    inputRef.current?.focus();
   }
 
   function refreshMentionMenu(value: string) {
@@ -472,6 +520,7 @@ export function Mininja() {
             tint={bannerTint}
             pals={bannerPals}
             sticky={bannerSticky}
+            onPalClick={(pal, e) => focusHabitatPal(pal, e.shiftKey)}
           />
         </div>
       ) : (

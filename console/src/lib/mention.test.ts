@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
+  applyHabitatMentions,
   applyMentionText,
   mentionQuery,
   parseMention,
@@ -73,6 +74,22 @@ describe("mentionQuery + rosterSuggestions + applyMentionText", () => {
   it("applies suggestion into text", () => {
     assert.equal(applyMentionText("@Ad", "Ada"), "@Ada ");
     assert.equal(applyMentionText("x @p", "Piper"), "x @Piper ");
+  });
+});
+
+describe("applyHabitatMentions", () => {
+  it("sets @Name for single focus", () => {
+    assert.equal(applyHabitatMentions("", ["Ada"]), "@Ada ");
+    assert.equal(applyHabitatMentions("now", ["Ada"]), "@Ada ");
+  });
+
+  it("joins multi names", () => {
+    assert.equal(applyHabitatMentions("", ["Ada", "Bea"]), "@Ada @Bea ");
+  });
+
+  it("replaces incomplete trailing @query", () => {
+    assert.equal(applyHabitatMentions("@Ad", ["Ada"]), "@Ada ");
+    assert.equal(applyHabitatMentions("hi @p", ["Piper", "Scout"]), "hi @Piper @Scout ");
   });
 });
 

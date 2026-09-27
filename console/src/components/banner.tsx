@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import { Mascot } from "@/components/mascot";
 import {
   CAMERA_FOLLOW_RATE,
@@ -50,6 +50,8 @@ type BannerProps = {
    * scene props + pals via hostGardenOverlay (one pal, one plant).
    */
   garden?: GardenProp[];
+  /** Click an active habitat pal chip — shift = add to multi. */
+  onPalClick?: (pal: PalChrome, e: MouseEvent<HTMLButtonElement>) => void;
 };
 
 export function Banner({
@@ -61,6 +63,7 @@ export function Banner({
   pals = [],
   sticky = null,
   garden,
+  onPalClick,
 }: BannerProps) {
   const viewRef = useRef<HTMLDivElement>(null);
   const worldRef = useRef<HTMLDivElement>(null);
@@ -211,14 +214,21 @@ export function Banner({
         {pals.length > 0 ? (
           <span className="banner-pals" aria-label="pals in habitat">
             {pals.map((p) => (
-              <span
+              <button
                 key={p.id}
+                type="button"
                 className={`pal-chip${p.busy ? " is-busy" : ""}${p.blocked ? " is-blocked" : ""}${p.selected ? " is-sel" : ""}`}
                 style={{ ["--pal-tint"]: p.tint } as CSSProperties}
                 title={p.name}
+                aria-label={`@${p.name}`}
+                aria-pressed={Boolean(p.selected)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onPalClick?.(p, e);
+                }}
               >
                 {(p.name || "?").trim().slice(0, 1).toUpperCase() || "?"}
-              </span>
+              </button>
             ))}
           </span>
         ) : null}

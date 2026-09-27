@@ -73,6 +73,19 @@ export function applyMentionText(raw: string, name: string): string | null {
   return raw.slice(0, q.start) + "@" + name + " ";
 }
 
+/**
+ * Habitat chip click → composer @mentions.
+ * Incomplete trailing @query → replace from that token.
+ * Else set composer to `@A @B `.
+ */
+export function applyHabitatMentions(raw: string, names: string[]): string {
+  const clean = (names || []).map((n) => String(n || "").trim()).filter(Boolean);
+  const insert = clean.map((n) => `@${n}`).join(" ") + (clean.length ? " " : "");
+  const q = mentionQuery(raw || "");
+  if (q) return (raw || "").slice(0, q.start) + insert;
+  return insert;
+}
+
 export type ComposerRoute =
   | { op: "noop" }
   | { op: "pull"; who: string | null; bot: RosterPal | null }

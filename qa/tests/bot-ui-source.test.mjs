@@ -45,6 +45,8 @@ assert(/one mouth|@pal anytime|sidebar is fallback/i.test(html), "one-mouth cont
 
 // P1: multi-pal habitat glass (host tint chrome — not kit pal-color table)
 assert(/function paintPalHabitat|bannerPals|pal-chip/.test(html), "multi-pal habitat chips");
+assert(/function focusHabitatPal|applyHabitatMentions|selectedIds/.test(html), "habitat chip click → @mention");
+assert(/shiftKey|shift\+click|shift click/i.test(html), "shift+click multi habitat");
 assert(/function stickyInterrupt|bannerSticky/.test(html), "sticky interrupt chrome");
 assert(/palPresence|pal-dot/.test(html), "concurrent pal presence dots");
 assert(/--pal-tint/.test(html), "host --pal-tint habitat chrome");

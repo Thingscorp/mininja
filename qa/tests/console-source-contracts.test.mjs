@@ -188,6 +188,9 @@ assert(/createBot|POST.*\/api\/bots|\/api\/bots/.test(botApiSrc) && /export asyn
 assert(/stickyFromRoster\([^)]*asking|asking:\s*liveAsking/.test(mininjaUi) || /asking:\s*liveAsking/.test(mininjaUi), "sticky asking wired");
 assert(/\+ pal|createNewPal|createBot/.test(mininjaUi), "new-pal UI");
 assert(/is-sel/.test(read("console/src/styles.css")), "selected pal chip ring");
+assert(/onPalClick|focusHabitatPal|applyHabitatMentions/.test(mininjaUi), "habitat chip click → @mention");
+assert(/pointer-events:\s*auto/.test(read("console/src/styles.css")) && /pal-chip/.test(read("console/src/styles.css")), "habitat chips clickable over hud");
+assert(/export function applyHabitatMentions/.test(mentionSrc), "applyHabitatMentions helper");
 
 console.log("PASS  SUITE-CON-SOURCE-CONTRACTS (routes/boot/cmds/plugins/auth/theme)");
 

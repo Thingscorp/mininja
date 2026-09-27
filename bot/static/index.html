@@ -137,6 +137,7 @@
       justify-content: flex-end;
       min-width: 0;
       overflow: hidden;
+      pointer-events: auto;
     }
     .pal-chip {
       --pal-tint: var(--color-steel);
@@ -145,6 +146,8 @@
       justify-content: center;
       width: 1.1rem;
       height: 1.1rem;
+      border: none;
+      padding: 0;
       border-radius: 999px;
       font-size: 10px;
       font-weight: 700;
@@ -153,6 +156,12 @@
       background: var(--pal-tint);
       opacity: 0.55;
       flex: 0 0 auto;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .pal-chip:focus-visible {
+      outline: 1px solid color-mix(in srgb, var(--pal-tint) 80%, white);
+      outline-offset: 1px;
     }
     .pal-chip.is-busy { opacity: 1; }
     .pal-chip.is-sel {
@@ -795,8 +804,51 @@
     const $ = (id) => document.getElementById(id);
     let state = { bots: [], messages: {}, health: {}, credentials: [] };
     let selected = "console";
+    /** Habitat multi-focus ids (shift+click). */
+    let selectedIds = [];
     let editing = null;
     let face = "idle";
+
+    function setFocus(id, ids) {
+      selected = id || "console";
+      if (ids) selectedIds = ids.slice();
+      else selectedIds = selected === "console" ? [] : [selected];
+    }
+
+    function applyHabitatMentions(raw, names) {
+      const clean = (names || []).map((n) => String(n || "").trim()).filter(Boolean);
+      const insert = clean.map((n) => "@" + n).join(" ") + (clean.length ? " " : "");
+      const q = mentionQuery(raw || "");
+      if (q) return (raw || "").slice(0, q.start) + insert;
+      return insert;
+    }
+
+    function focusHabitatPal(bot, shift) {
+      if (!bot) return;
+      let nextIds;
+      if (shift) {
+        const base = selectedIds.length
+          ? selectedIds
+          : (selected !== "console" ? [selected] : []);
+        nextIds = base.includes(bot.id) ? base.slice() : base.concat([bot.id]);
+      } else {
+        nextIds = [bot.id];
+      }
+      setFocus(bot.id, nextIds);
+      const names = nextIds
+        .map((id) => (state.bots || []).find((b) => b.id === id))
+        .filter(Boolean)
+        .map((b) => b.name);
+      const task = $("task");
+      if (task) {
+        task.value = applyHabitatMentions(task.value || "", names);
+        hideMentionMenu();
+        task.focus();
+      }
+      setMascot("asking");
+      render();
+    }
+
 
     function esc(s) {
       return String(s ?? "").replace(/[&<>"']/g, (c) => ({
@@ -913,18 +965,30 @@
     /** Multi-pal habitat glass: tint chips + concurrent busy dots (host tint, not kit). */
     function paintPalHabitat() {
       const bots = state.bots || [];
+      const focus = new Set(
+        selectedIds.length
+          ? selectedIds
+          : (selected !== "console" ? [selected] : [])
+      );
       const palsEl = $("bannerPals");
       if (palsEl) {
         palsEl.innerHTML = bots.map((b) => {
           const cls = ["pal-chip"];
           if (b.working) cls.push("is-busy");
-          if (b.id === selected) cls.push("is-sel");
+          if (focus.has(b.id)) cls.push("is-sel");
           if (b.status === "error") cls.push("is-blocked");
           const t = b.tint || STEEL;
           const initial = ((b.name || "?").trim().slice(0, 1) || "?").toUpperCase();
           const tip = esc(b.name) + (b.working ? " · working" : b.status === "error" ? " · blocked" : "");
-          return `<span class="${cls.join(" ")}" style="--pal-tint:${esc(t)}" title="${tip}">${esc(initial)}</span>`;
+          return `<button type="button" class="${cls.join(" ")}" style="--pal-tint:${esc(t)}" title="${tip}" aria-label="@${esc(b.name)}" aria-pressed="${focus.has(b.id) ? "true" : "false"}" data-id="${esc(b.id)}">${esc(initial)}</button>`;
         }).join("");
+        palsEl.querySelectorAll(".pal-chip").forEach((btn) => {
+          btn.onclick = (e) => {
+            e.stopPropagation();
+            const bot = (state.bots || []).find((b) => b.id === btn.dataset.id);
+            focusHabitatPal(bot, e.shiftKey);
+          };
+        });
       }
       const sticky = stickyInterrupt();
       const st = $("bannerSticky");
@@ -1186,7 +1250,7 @@
       root.innerHTML = cons + bots;
       root.querySelectorAll(".bot").forEach((btn) => {
         btn.onclick = () => {
-          selected = btn.dataset.id;
+          setFocus(btn.dataset.id);
           document.querySelector("aside").classList.remove("open");
           render();
         };
@@ -1341,13 +1405,15 @@
       const res = await fetch("/api/state");
       state = await res.json();
       if (selected !== "console" && selected && !state.bots.some((b) => b.id === selected)) {
-        selected = "console";
+        setFocus("console");
+      } else if (selectedIds.length) {
+        selectedIds = selectedIds.filter((id) => state.bots.some((b) => b.id === id));
       }
       render();
     }
 
     async function runConsole(line) {
-      selected = "console";
+      setFocus("console");
       goPlace(line);
       setMascot("evaluating");
       await fetch("/api/cmd", {
@@ -1361,7 +1427,7 @@
     async function runTask(botId, line, opts) {
       opts = opts || {};
       setMascot("evaluating");
-      selected = botId;
+      setFocus(botId);
       const body = { text: line };
       if (opts.retarget) body.retarget = true;
       const res = await fetch("/api/bots/" + botId + "/tasks", {
@@ -1407,7 +1473,7 @@
       });
       let out = {};
       try { out = await res.json(); } catch (err) { out = {}; }
-      selected = toId;
+      setFocus(toId);
       await refresh();
       if (out && out.ok === false) setMascot("error");
       return out;
@@ -1463,7 +1529,7 @@
         }
         if (mention.kind === "pal" && mention.bot) {
           if (!mention.body) {
-            selected = mention.bot.id;
+            setFocus(mention.bot.id);
             render();
             return;
           }
@@ -1512,7 +1578,7 @@
       if (!b) return;
       if (!confirm("Delete " + b.name + "?")) return;
       await fetch("/api/bots/" + b.id, { method: "DELETE" });
-      selected = "console";
+      setFocus("console");
       await refresh();
     };
     $("stopBot").onclick = async () => {
@@ -1618,7 +1684,7 @@
           body: JSON.stringify(body),
         });
         const bot = await res.json();
-        selected = bot.id;
+        setFocus(bot.id);
       }
       $("dlg").close();
       await refresh();
