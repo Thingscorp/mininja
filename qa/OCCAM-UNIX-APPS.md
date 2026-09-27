@@ -3,7 +3,7 @@
 **Date:** 2026-09-26 (ET)  
 **Branch:** `feat/monorepo-public`  
 **Mandate:** same bar as kit twin ([`OCCAM-UNIX-AUDIT.md`](OCCAM-UNIX-AUDIT.md)); applied to `console/` + `bot/`.  
-**Tip:** OX-APP-D02 sticky asking + console new-pal create (bot API).  
+**Tip:** Occam garden root/leaf reading (host `role?`; height caps; PR leaves temporary).  
 **Bar:** Unix (one job; text/data interface; compose; silence; economy) × Occam (no entity without necessity; one vocabulary; demotion ≠ disconnection ≠ duplicate).  
 **Cartridge:** `kit/mark.json` + `kit/scene.json` = SoT; hosts = player; adapters = filters. Dual tables = shame. Linear.app quality / Occam UI.
 
@@ -145,6 +145,9 @@ Three words under the composer: **draft**, **auto**, **free**. Same meanings as 
 
 ### OX-APP-D03 notes (plain)
 
-Console habitat now shows **plant growth** (`repoBranch`, growth 0..5). Height comes from kit `garden.silhouetteHeightPx` (`12 + 12×growth`). When pals are on the roster, each pal gets one plant (tint on the plant). When the roster is empty, an ambient plant still shows so the garden is glanceable. No harvest / Farmville / KPI chrome — just quiet silhouettes.
+Console habitat now shows **plant growth** (`repoBranch`, growth 0..5). Height comes from kit `garden.silhouetteHeightPx` (`12 + 12×growth`). When pals are on the roster, each pal gets one plant (tint on the plant). When the roster is empty, an ambient **root** still shows so the garden is glanceable (demo leaves via fixture/`shoots`, not fake PRs). No harvest / Farmville / KPI chrome — just quiet silhouettes.
+
+**Occam root/leaf (locked):** only **root** uses the 0..5 height channel (clamp at canopy). **Leaf** = temporary PR twig (fixed small height, `.is-leaf`). Merge removes the leaf (+ optional one root tick); close without merge drops the leaf only. Roles stay host/authored overlay — not kit `propFields`. Full reading: [`GARDEN.md`](../GARDEN.md) § Locked reading.
+
 
 **Exit feel:** acting cool without trying — hosts play the cartridge; one mouth shared; no silent dual tables; docs match seams.

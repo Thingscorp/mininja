@@ -23,7 +23,7 @@ Companion: [`qa/OLD-CONSOLE-CARRYOVER.md`](../OLD-CONSOLE-CARRYOVER.md) · [`HAB
 | **Camera / patrol literals** | Banner: `viewW*0.32` / `0.52`, follow `5.2`, patrol `26` px/s, insets `56`/`90` · `banner.tsx` | **dual/risk** | Values **match** kit.motion today; check-consumers asserts literal equality. Banner does **not** import kit exports for camera/patrol (unlike walk/run) — drift if kit bumps and literals lag. |
 | **Weather sky class** | `stage.weather` → `.weather-*` · kit stages + `styles.css` | **kit field** (enum) + **host-only** (CSS paint) | Habitat chrome only (HABITAT-PORT); not outside-weather bridges. |
 | **Stage silhouettes + stock props** | `StageSilhouette`, `Prop` · `banner.tsx`; kinds in `StageProp` | **kit field** (layout) + **host-only** (CSS) | Stock stages have no `repoBranch`. `.prop-*` CSS for block…cable; **no `.prop-repoBranch`**. |
-| **Garden / `repoBranch` / growth** | Type + `growthHeight` / `hostGardenOverlay` · `lib/scene.ts`; `.prop-repoBranch` CSS; Banner `GardenPlant` | **kit field** (schema) · **host render shipped** | Height from kit silhouette; one pal → one plant tint binding. Ambient plant when roster empty. |
+| **Garden / `repoBranch` / growth** | Type + `growthHeight` / `plantDrawHeight` / `hostGardenOverlay` · `lib/scene.ts`; `.prop-repoBranch` (+ `.is-leaf`) CSS; Banner `GardenPlant` | **kit field** (schema) · **host render shipped** | Root uses kit height 0..5 (clamp canopy); leaf = fixed small twig. Optional host `role`/`parentLabel` overlay — not kit propFields. Locked: [`GARDEN.md`](../../GARDEN.md) § Locked reading. |
 | **Mascot lockup** | `composeLockup` · `lib/scene.ts`; `Mascot` · `mascot.tsx`; legacy `FRAMES` · `lib/mascot.ts` ← `legacyFaceBridge` | **kit field** | Eyes/tone/motion from kit emotions+actions; glyphs composed in host. Face ids bridged from kit. **Does not import `mark.json` faces lines** — compose path is scene-driven. |
 | **Typeface (lockup)** | `@font-face` IBM Plex Mono 400/500/600 · `styles.css`; `kit.mark.typeface` | **dual/risk** | Host CSS stack matches `mark.typeface.cssStack` by convention; **no import/hydrate from mark.json**. |
 | **Linear theme tokens** | `--color-bg/panel/hi/fg/muted/accent/ok/warn/err/steel…` · `styles.css` `@theme` | **host-only OK** | Linear-ish Apps chrome. Distinct from `mark.moodColorsUiOnly` (kit tone hex for mark/docs). Do not merge tables. |
@@ -137,9 +137,10 @@ Other carryover “ALREADY” items that **hold** for console: kit-hydrate habit
 
 | Seam | Owner | Console today | Port shape |
 |------|-------|---------------|------------|
-| Growth brick | **Kit** | Typed on `StageProp`; unused in stock stages | Keep `kit.garden` ids/numbers |
-| Silhouette render | Apps | **Shipped** `.prop-repoBranch` + `growthHeight` | Host CSS + kit `silhouetteHeightPx` |
-| Binding viz | Apps | **Shipped** `hostGardenOverlay` | One tinted pal at one plant; overlay props, not new kit fields |
+| Growth brick | **Kit** | Typed on `StageProp`; unused in stock stages | Keep `kit.garden` ids/numbers. Height channel = **root** only (Occam). |
+| Silhouette render | Apps | **Shipped** `.prop-repoBranch` + `plantDrawHeight` (root=`growthHeight`, leaf=fixed) | Host CSS + kit `silhouetteHeightPx`; `.is-leaf` |
+| Binding viz | Apps | **Shipped** `hostGardenOverlay` | One tinted pal ↔ one root; default one root per pal; `shoots?` + `exampleRootLeafGarden()` for leaf demo; host `role`/`parentLabel` |
+| Root/leaf reading | Apps + docs | **Locked** in [`GARDEN.md`](../../GARDEN.md) | Height channel root-only; PR leaves temporary; pals carry interrupts |
 
 ---
 
@@ -150,7 +151,7 @@ Other carryover “ALREADY” items that **hold** for console: kit-hydrate habit
 3. **moodColorsUiOnly** (kit) vs Linear `--color-*` (host) — intentional dual; document, don’t “fix” by baking Linear into kit.
 4. **`COMMAND_INTENT`** host map — safe while ids ⊂ kit; risk if new verbs invent stages/emotions.
 5. **Banner pal API unwired** — looks shipped in carryover; runtime still single anonymous actor.
-6. **Garden renderer shipped (D03)** — `.prop-repoBranch` + `growthHeight`; keep using kit numbers only.
+6. **Garden renderer shipped (D03)** — `.prop-repoBranch` + `plantDrawHeight` / `.is-leaf`; root height kit 0..5 only; roles host overlay — see GARDEN locked reading.
 7. Carryover GAP table **stale on bot P0** — update narrators when closing console seams.
 
 ---

@@ -204,5 +204,7 @@ console.log("PASS  SUITE-CON-SOURCE-CONTRACTS (routes/boot/cmds/plugins/auth/the
 const gardenCss = read("console/src/styles.css");
 assert(/\.prop-repoBranch/.test(gardenCss), "prop-repoBranch CSS");
 assert(/growthHeight/.test(sceneSrc), "growthHeight helper");
+assert(/plantDrawHeight|LEAF_HEIGHT_PX/.test(sceneSrc), "plantDrawHeight / leaf fixed height");
 assert(/hostGardenOverlay|GardenPlant|prop-repoBranch/.test(banner), "banner garden paint");
-console.log("PASS  garden plant growth (D03)");
+assert(/is-leaf|data-role/.test(banner + gardenCss), "leaf role chrome");
+console.log("PASS  garden plant growth (D03) + Occam root/leaf");

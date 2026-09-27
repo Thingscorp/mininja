@@ -12,6 +12,9 @@ import {
   hasStage,
   hostGardenOverlay,
   intentFromCommand,
+  exampleRootLeafGarden,
+  LEAF_HEIGHT_PX,
+  plantDrawHeight,
   sceneFromIntent,
 } from "./scene.ts";
 import kit from "../../../kit/scene.json" with { type: "json" };
@@ -130,5 +133,52 @@ describe("garden growth", () => {
     assert.ok(plants.length >= 1);
     assert.equal(plants[0]!.kind, "repoBranch");
     assert.ok(plants[0]!.growth === 0 || plants[0]!.growth === 3 || plants[0]!.growth == null || (plants[0]!.growth! >= 0 && plants[0]!.growth! <= 5));
+  });
+
+  it("default overlay plants are roots (one pal, one root)", () => {
+    const plants = hostGardenOverlay([{ id: "a", name: "Ada", tint: "#54a6c9" }]);
+    assert.equal(plants.length, 1);
+    assert.equal(plants[0]!.role, "root");
+  });
+
+  it("leaf ignores growth for height; root caps at canopy 5", () => {
+    assert.equal(plantDrawHeight({ role: "leaf", growth: 5 }), LEAF_HEIGHT_PX);
+    assert.equal(plantDrawHeight({ role: "leaf", growth: 0 }), LEAF_HEIGHT_PX);
+    assert.equal(plantDrawHeight({ role: "leaf", growth: 99 as never }), LEAF_HEIGHT_PX);
+    const canopy = growthHeight(5);
+    assert.equal(plantDrawHeight({ role: "root", growth: 5 }), canopy);
+    assert.equal(plantDrawHeight({ role: "root", growth: 99 as never }), growthHeight(undefined)); // clamp → default
+    assert.equal(plantDrawHeight({ growth: 5 }), canopy); // omit role → root channel
+    assert.ok(canopy === 72);
+    assert.ok(LEAF_HEIGHT_PX < growthHeight(2));
+    assert.equal(plantDrawHeight({ role: "root", h: 999 }), canopy); // never above canopy
+  });
+
+  it("exampleRootLeafGarden fixture shows root + leaf contracts", () => {
+    const plants = exampleRootLeafGarden();
+    assert.equal(plants.length, 2);
+    const root = plants.find((p) => p.role === "root")!;
+    const leaf = plants.find((p) => p.role === "leaf")!;
+    assert.ok(root && leaf);
+    assert.equal(plantDrawHeight(root), growthHeight(root.growth));
+    assert.equal(plantDrawHeight(leaf), LEAF_HEIGHT_PX);
+    assert.notEqual(plantDrawHeight(leaf), growthHeight(leaf.growth ?? 5));
+  });
+
+  it("shoots place temporary leaves near parent without changing roots", () => {
+    const pals = [{ id: "a", name: "Ada", tint: "#54a6c9" }];
+    const plants = hostGardenOverlay(pals, [
+      { label: "feat/x", parentLabel: "Ada", growth: 4 },
+    ]);
+    assert.equal(plants.length, 2);
+    const root = plants.find((p) => p.role === "root")!;
+    const leaf = plants.find((p) => p.role === "leaf")!;
+    assert.ok(root);
+    assert.ok(leaf);
+    assert.equal(leaf.parentLabel, "Ada");
+    assert.equal(leaf.label, "feat/x");
+    assert.equal(plantDrawHeight(leaf), LEAF_HEIGHT_PX);
+    assert.notEqual(plantDrawHeight(root), LEAF_HEIGHT_PX);
+    assert.ok(leaf.x > root.x);
   });
 });

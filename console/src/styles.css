@@ -478,6 +478,33 @@
   border-color: color-mix(in srgb, var(--pal-tint, #8a8f98) 45%, transparent);
 }
 
+/* PR/topic leaf — temporary shoot; fixed small, thinner. Not a growth meter. */
+.prop-repoBranch.is-leaf {
+  width: 8px;
+  opacity: 0.42;
+}
+.prop-repoBranch.is-leaf::before {
+  width: 1px;
+  height: 50%;
+}
+.prop-repoBranch.is-leaf::after {
+  width: 90%;
+  height: 55%;
+  border-radius: 45% 45% 35% 35%;
+  background: rgb(76 195 138 / 0.16);
+}
+.prop-repoBranch.is-stale {
+  opacity: 0.28;
+  filter: grayscale(0.55);
+}
+/* Optional merge wilt — host may add class; absence of leaf prop is enough. */
+.prop-repoBranch.is-wilt {
+  opacity: 0.18;
+  filter: grayscale(0.7);
+  transform: scaleY(0.85);
+  transform-origin: bottom center;
+}
+
 .banner-actor {
   position: absolute;
   bottom: 0.95rem;

@@ -70,6 +70,8 @@ const css = readFileSync(join(root, "console", "src", "styles.css"), "utf8");
 assert(/\.prop-repoBranch/.test(css), "CSS has .prop-repoBranch silhouette");
 assert(typeof kit.garden?.silhouetteHeightPx?.h0Px === "number", "kit garden h0");
 assert(scene.includes(String(kit.garden.silhouetteHeightPx.h0Px)) || /GARDEN_H0|h0Px/.test(scene), "scene uses kit h0");
+assert(/plantDrawHeight|LEAF_HEIGHT_PX/.test(scene), "Occam plantDrawHeight / leaf fixed height");
+assert(/is-leaf|data-role/.test(banner + css), "banner/CSS leaf role chrome");
 
 const align = spawnSync(process.execPath, [join(root, "console", "scripts", "kit-align.mjs")], {
   encoding: "utf8",

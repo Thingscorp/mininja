@@ -51,11 +51,36 @@ export type StageProp = {
 
 export type GrowthLevel = 0 | 1 | 2 | 3 | 4 | 5;
 
+/** Host/sim garden role — not a kit propField. Same vocab as qa/simulations. */
+export type GardenRole = "root" | "leaf" | "dependency" | "fork" | "stale";
+
+/** Temporary PR/topic shoot supplied by the host (no GitHub bridge yet). */
+export type GardenShoot = {
+  label: string;
+  /** Match a root plant label to sit nearby; naive x offset if found. */
+  parentLabel?: string;
+  /** Alias of parentLabel (GARDEN.md demo spelling). */
+  parent?: string;
+  role?: GardenRole;
+  growth?: GrowthLevel;
+  stageId?: string;
+  x?: number;
+  y?: number;
+  tint?: string;
+  palId?: string;
+};
+
 /** Host overlay plant — stage id + optional pal tint binding. Not kit stock. */
 export type GardenProp = StageProp & {
   stageId: string;
   palId?: string;
   tint?: string;
+  /** Host-only Occam reading; omit → treat as root for height. */
+  role?: GardenRole;
+  /** When role=leaf, optional pointer at parent root label. */
+  parentLabel?: string;
+  /** Alias of parentLabel (GARDEN.md demo spelling). */
+  parent?: string;
 };
 
 export type StageDef = {
@@ -121,6 +146,58 @@ export function growthHeight(growth?: number | null): number {
   return GARDEN_H0 + clampGrowth(growth ?? GARDEN_GROWTH_DEFAULT) * GARDEN_DH;
 }
 
+/** Fixed leaf silhouette — not a growth meter (GARDEN Locked reading). Between seed and sprout. */
+export const LEAF_HEIGHT_PX = 18;
+export const LEAF_WIDTH_PX = 8;
+
+/**
+ * Draw height for a garden plant.
+ * - leaf: fixed small (ignores growth)
+ * - root / omit / other: authored h or kit growthHeight (clamped 0..5)
+ */
+export function plantDrawHeight(prop: Pick<GardenProp, "role" | "growth" | "h">): number {
+  const canopy = growthHeight(5);
+  if (prop.role === "leaf") return Math.min(LEAF_HEIGHT_PX, canopy);
+  const h = prop.h ?? growthHeight(prop.growth);
+  return Math.min(h, canopy);
+}
+
+/** Tiny authored root + two leaves — docs/test fixture, not a live GitHub bridge. */
+export function exampleRootLeafGarden(): GardenProp[] {
+  return [
+    {
+      kind: "repoBranch",
+      stageId: "dock",
+      x: 280,
+      y: 40,
+      w: 24,
+      growth: 3,
+      label: "mininja",
+      role: "root",
+    },
+    {
+      kind: "repoBranch",
+      stageId: "dock",
+      x: 304,
+      y: 44,
+      w: LEAF_WIDTH_PX,
+      label: "feat/a",
+      role: "leaf",
+      parentLabel: "mininja",
+    },
+    {
+      kind: "repoBranch",
+      stageId: "dock",
+      x: 318,
+      y: 44,
+      w: LEAF_WIDTH_PX,
+      label: "feat/b",
+      role: "leaf",
+      parentLabel: "mininja",
+    },
+  ];
+}
+
 /** Every repoBranch prop on registered stages (kit + overlays via registerStage). */
 export function listRepoBranches(): GardenProp[] {
   const out: GardenProp[] = [];
@@ -136,58 +213,83 @@ export function listRepoBranches(): GardenProp[] {
 
 /**
  * Host garden overlay for the habitat strip.
- * - Roster empty: still show scene plants; if none, one ambient plant (GARDEN.md example).
- * - Multi-pal: one plant per pal (reuse scene plants first; pad with host plants). Tint = pal chrome.
+ * - Roster empty: still show scene plants; if none, one ambient **root** (GARDEN.md example).
+ * - Multi-pal: one **root** per pal (reuse scene plants first; pad with host plants). Tint = pal chrome.
+ * - Optional `shoots`: temporary PR/topic **leaves** (fixed small) — host-supplied; no GitHub yet.
  */
 export function hostGardenOverlay(
   pals: { id: string; name: string; tint: string }[] = [],
+  shoots: GardenShoot[] = [],
 ): GardenProp[] {
   const scenePlants = listRepoBranches();
-  if (pals.length === 0) {
-    if (scenePlants.length > 0) return scenePlants;
-    // Ambient glance plant when stock stages have no repoBranch (overlay by design).
-    return [
-      {
-        kind: "repoBranch",
-        stageId: "dock",
-        x: 280,
-        y: 40,
-        w: 24,
-        growth: 3,
-        label: "mininja",
-      },
-    ];
-  }
   const plants: GardenProp[] = [];
-  for (let i = 0; i < pals.length; i++) {
-    const pal = pals[i]!;
-    const base = scenePlants[i];
-    if (base) {
-      plants.push({
-        ...base,
-        label: base.label ?? pal.name,
-        palId: pal.id,
-        tint: pal.tint,
-      });
+  if (pals.length === 0) {
+    if (scenePlants.length > 0) {
+      for (const p of scenePlants) {
+        plants.push({ ...p, role: p.role ?? "root" });
+      }
     } else {
-      // Spread along dock; growth from kit default (seed) — host chrome, not a digipet level.
-      const gap = Math.min(56, Math.floor((STAGE_WIDTH - 80) / Math.max(pals.length, 1)));
-      plants.push({
-        kind: "repoBranch",
-        stageId: "dock",
-        x: 36 + i * gap,
-        y: 40,
-        w: 24,
-        growth: GARDEN_GROWTH_DEFAULT,
-        label: pal.name,
-        palId: pal.id,
-        tint: pal.tint,
-      });
+      // Ambient glance: root growth=3 + two PR leaves (authored demo — no GitHub).
+      for (const p of exampleRootLeafGarden()) plants.push({ ...p });
+    }
+  } else {
+    for (let i = 0; i < pals.length; i++) {
+      const pal = pals[i]!;
+      const base = scenePlants[i];
+      if (base) {
+        plants.push({
+          ...base,
+          label: base.label ?? pal.name,
+          palId: pal.id,
+          tint: pal.tint,
+          role: base.role ?? "root",
+        });
+      } else {
+        // Spread along dock; growth from kit default (seed) — host chrome, not a digipet level.
+        const gap = Math.min(56, Math.floor((STAGE_WIDTH - 80) / Math.max(pals.length, 1)));
+        plants.push({
+          kind: "repoBranch",
+          stageId: "dock",
+          x: 36 + i * gap,
+          y: 40,
+          w: 24,
+          growth: GARDEN_GROWTH_DEFAULT,
+          label: pal.name,
+          palId: pal.id,
+          tint: pal.tint,
+          role: "root",
+        });
+      }
+    }
+    // Leftover scene plants (more plants than pals) still render, unbound.
+    for (let i = pals.length; i < scenePlants.length; i++) {
+      const p = scenePlants[i]!;
+      plants.push({ ...p, role: p.role ?? "root" });
     }
   }
-  // Leftover scene plants (more plants than pals) still render, unbound.
-  for (let i = pals.length; i < scenePlants.length; i++) {
-    plants.push(scenePlants[i]!);
+  // Temporary leaves — sit near parent by label when possible.
+  for (let i = 0; i < shoots.length; i++) {
+    const s = shoots[i]!;
+    const parentKey = s.parentLabel ?? s.parent;
+    const parent = parentKey
+      ? plants.find((p) => p.label === parentKey && p.role !== "leaf")
+      : undefined;
+    const stageId = s.stageId ?? parent?.stageId ?? "dock";
+    const x = s.x ?? (parent != null ? parent.x + 16 + (i % 3) * 10 : 200 + i * 14);
+    const y = s.y ?? parent?.y ?? 40;
+    plants.push({
+      kind: "repoBranch",
+      stageId,
+      x,
+      y,
+      w: LEAF_WIDTH_PX,
+      growth: s.growth,
+      label: s.label,
+      role: s.role ?? "leaf",
+      parentLabel: parentKey,
+      ...(s.palId ? { palId: s.palId } : {}),
+      ...(s.tint ? { tint: s.tint } : parent?.tint ? { tint: parent.tint } : {}),
+    });
   }
   return plants;
 }

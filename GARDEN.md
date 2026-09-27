@@ -16,6 +16,34 @@ Inside the terrarium **habitat glass**, a repository can appear as a **branch th
 
 **Pal** = the unnamed agent presence (mark / faces). Habitat = stages / props / scene weather. Garden branches are **props** — silhouette décor, not a second product surface. Plants are **peripheral**; the pal’s face is **focal** ([`GLANCE.md`](GLANCE.md) attention layers).
 
+## Locked reading (Occam)
+
+Stupid simple. Kit stays one kind (`repoBranch`) + one height channel (**0..5**). Do **not** re-paste the growth table — SoT is [`kit/scene.json`](kit/scene.json) → `garden`. No new kit `propKinds`, growth levels, or weed constants.
+
+| Rule | Plain words |
+|------|-------------|
+| **Height ceiling** | Plants do not grow past canopy. Clamp at growth **5**; silhouette stops there. |
+| **Root** | Git repo home (default branch). **Only root** uses height 0..5. |
+| **Leaf** | Temporary PR / topic branch — small twig, **no** forever growth meter. Many PRs = many leaves, not a taller tree. |
+| **PR open** | Host authors a leaf overlay (+ optional thin `cable` toward root). |
+| **Merge** | Leaf folds into trunk (remove / wilt). Optional **one** growth tick on root toward 5, then stop. Win celebrate **expires on the pal**. |
+| **Close without merge** | Leaf goes away; trunk unchanged. |
+| **Pals carry interrupts** | Blocked CI / denied @ gate flips the **pal** face — plants stay peripheral ([`GLANCE.md`](GLANCE.md)). |
+
+**Unix:** compose leaves + cables as overlays. **Occam:** no second KPI bar, no Farmville.
+
+**Role:** `root` \| `leaf` \| `dependency` \| `fork` \| `stale` — design + sim vocabulary ([`qa/simulations/`](qa/simulations/)). **Not** in kit `garden.propFields` (optional today: `w` `h` `growth` `label`). Host may author `role` (and optional `parentLabel`) on overlay props; console types it optionally. No kit JSON edit.
+
+Demo overlay (authored — not a live GitHub bridge):
+
+```json
+[
+  { "kind": "repoBranch", "role": "root", "x": 280, "y": 40, "w": 24, "growth": 3, "label": "mininja" },
+  { "kind": "repoBranch", "role": "leaf", "x": 304, "y": 44, "w": 10, "label": "feat/a", "parentLabel": "mininja" },
+  { "kind": "repoBranch", "role": "leaf", "x": 318, "y": 44, "w": 10, "label": "feat/b", "parentLabel": "mininja" }
+]
+```
+
 ## Growth scale (SoT)
 
 Copied from `kit/scene.json` → `garden.growth` (do not invent parallel tables):

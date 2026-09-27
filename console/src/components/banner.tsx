@@ -6,9 +6,10 @@ import {
   CAMERA_LOOK_AHEAD_RIGHT,
   getAction,
   getStage,
-  growthHeight,
   clampGrowth,
   hostGardenOverlay,
+  plantDrawHeight,
+  LEAF_WIDTH_PX,
   listStages,
   PATROL_PX_PER_SEC,
   RUN_PX_PER_SEC,
@@ -47,9 +48,11 @@ type BannerProps = {
   sticky?: StickyRank | null;
   /**
    * Host garden plants (repoBranch + growth). When omitted, derived from
-   * scene props + pals via hostGardenOverlay (one pal, one plant).
+   * scene props + pals via hostGardenOverlay (one root per pal; optional shoots).
    */
   garden?: GardenProp[];
+  /** Habitat showPlants from host-config; default true. */
+  showPlants?: boolean;
   /** Click an active habitat pal chip — shift = add to multi. */
   onPalClick?: (pal: PalChrome, e: MouseEvent<HTMLButtonElement>) => void;
 };
@@ -63,6 +66,7 @@ export function Banner({
   pals = [],
   sticky = null,
   garden,
+  showPlants = true,
   onPalClick,
 }: BannerProps) {
   const viewRef = useRef<HTMLDivElement>(null);
@@ -252,7 +256,7 @@ export function Banner({
               .filter((p) => p.kind !== "repoBranch")
               .map((p, i) => <Prop key={`${s.id}-${i}`} stage={s} prop={p} />),
           )}
-          {(garden ?? hostGardenOverlay(pals)).map((p, i) => (
+          {(showPlants ? (garden ?? hostGardenOverlay(pals)) : []).map((p, i) => (
             <GardenPlant key={`garden-${p.stageId}-${p.palId ?? p.label ?? i}`} prop={p} />
           ))}
         </div>
@@ -298,22 +302,26 @@ function Prop({ stage, prop }: { stage: StageDef; prop: StageProp }) {
   );
 }
 
-/** repoBranch plant — height from authored h or kit garden.silhouetteHeightPx. */
+/** repoBranch plant — root uses kit growth height; leaf = fixed small (Occam). */
 function GardenPlant({ prop }: { prop: GardenProp }) {
   const stage = getStage(prop.stageId);
-  const growth = clampGrowth(prop.growth);
-  const h = prop.h ?? growthHeight(growth);
+  const role = prop.role ?? "root";
+  const growth = role === "leaf" ? undefined : clampGrowth(prop.growth);
+  const h = plantDrawHeight(prop);
+  const w = prop.w ?? (role === "leaf" ? LEAF_WIDTH_PX : undefined);
   const style: CSSProperties = {
     left: stage.x + prop.x,
     top: prop.y,
     height: h,
-    ...(prop.w != null ? { width: prop.w } : {}),
+    ...(w != null ? { width: w } : {}),
     ...(prop.tint ? ({ ["--pal-tint"]: prop.tint } as CSSProperties) : {}),
   };
+  const roleClass = role !== "root" ? ` is-${role}` : "";
   return (
     <span
-      className={`prop prop-repoBranch${prop.tint ? " has-pal" : ""}`}
+      className={`prop prop-repoBranch${prop.tint ? " has-pal" : ""}${roleClass}`}
       data-growth={growth}
+      data-role={role}
       data-label={prop.label || undefined}
       title={prop.label || undefined}
       style={style}
