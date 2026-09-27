@@ -192,12 +192,16 @@ function uniquePals(bots: RosterPal[]): RosterPal[] {
  */
 export function routeComposer(
   text: string,
-  opts: { bots: RosterPal[]; selected: string | null },
+  opts: { bots: RosterPal[]; selected: string | null; maxParallel?: number },
 ): ComposerRoute {
   const line = (text || "").trim();
   if (!line) return { op: "noop" };
   const bots = opts.bots || [];
   const selected = opts.selected;
+  const cap =
+    typeof opts.maxParallel === "number" && opts.maxParallel >= 1 && opts.maxParallel <= 16
+      ? Math.floor(opts.maxParallel)
+      : MAX_PARALLEL;
 
   const pull = line.match(/^(stop|pull)(?:\s+@?(\S+))?(?:\s+[\s\S]*)?$/i);
   if (pull) {
@@ -234,8 +238,8 @@ export function routeComposer(
       );
       if (!pals.length) return { op: "noop" };
       if (!split.body) return { op: "select-pals", bots: pals };
-      if (pals.length > MAX_PARALLEL) {
-        return { op: "fan-out-cap", count: pals.length, max: MAX_PARALLEL };
+      if (pals.length > cap) {
+        return { op: "fan-out-cap", count: pals.length, max: cap };
       }
       return { op: "fan-out", bots: pals, body: split.body };
     }

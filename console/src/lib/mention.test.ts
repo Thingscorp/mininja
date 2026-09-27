@@ -214,6 +214,16 @@ describe("routeComposer", () => {
     assert.equal(r.op === "fan-out-cap" ? r.max : null, 4);
   });
 
+  it("opts.maxParallel from host-config overrides default cap", () => {
+    const r = routeComposer("@Ada @Bea @Piper @Scout @Cara dig", {
+      bots,
+      selected: "console",
+      maxParallel: 6,
+    });
+    assert.equal(r.op, "fan-out");
+    assert.equal(r.op === "fan-out" ? r.bots.length : null, 5);
+  });
+
   it("dedupes repeated pal in fan-out", () => {
     const r = routeComposer("@Ada @Ada do X", { bots, selected: "console" });
     assert.equal(r.op, "fan-out");

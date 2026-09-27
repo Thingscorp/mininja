@@ -20,11 +20,12 @@ case "$cmd" in
   check) exec bash "$ROOT/scripts/check.sh" "$@" ;;
   sidecar) exec python3 "$ROOT/scripts/sidecar.py" "$@" ;;
   note) exec sh "$ROOT/scripts/note.sh" "$@" ;;
+  config) exec python3 "$ROOT/scripts/config.py" "$@" ;;
   serve) exec python3 server.py --open "$@" ;;
   --*) exec python3 server.py "$cmd" "$@" ;;
   *)
     echo "mininja: unknown command: $cmd" >&2
-    echo "usage: mininja [cmd|tint|seed|check|sidecar|note|serve]" >&2
+    echo "usage: mininja [cmd|tint|seed|check|sidecar|note|config|serve]" >&2
     exit 2
     ;;
 esac

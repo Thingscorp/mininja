@@ -28,13 +28,32 @@ from console.tint import tint as name_tint
 from console.store import apply as console_apply
 from console.store import public as console_public
 from console import credentials as creds
+from console import host_config as host_config
 
 STATIC = ROOT / "static"
 KIT_DIR = ROOT.parent / "kit"
 HOST = "127.0.0.1"
 PORT = 8787
 MAX_MESSAGES = 200
-MAX_PARALLEL = 4
+MAX_PARALLEL = 4  # default fallback; live value from host-config.json
+
+
+def max_parallel() -> int:
+    """Composer fan-out / start_task / rally cap — host-config SoT."""
+    try:
+        return host_config.get_max_parallel()
+    except Exception:
+        return MAX_PARALLEL
+
+
+def default_mode() -> str:
+    """Spawn default permission mode when payload omits mode."""
+    try:
+        return host_config.get_default_mode()
+    except Exception:
+        return "auto"
+
+
 DRAFT_TOOLS = "read_file,grep,list_dir,web_search,web_fetch"
 
 LOCK = threading.RLock()
@@ -176,9 +195,11 @@ def new_bot(payload: dict) -> dict:
     default_cwd = cloud.DEFAULT_CWD if computer == "remote" else str(Path.home())
     cwd = (payload.get("cwd") or default_cwd).strip()
     model = (payload.get("model") or "").strip()
-    mode = payload.get("mode") or "auto"
+    mode = payload.get("mode") or default_mode()
     if mode not in ("draft", "auto", "free"):
-        mode = "auto"
+        mode = default_mode()
+        if mode not in ("draft", "auto", "free"):
+            mode = "auto"
     credential_id = payload.get("credential_id")
     if credential_id is not None:
         credential_id = str(credential_id).strip() or None
@@ -468,8 +489,9 @@ def start_task(bot_id: str, prompt: str, *, retarget: bool = False) -> tuple[boo
     with LOCK:
         if bot_id in RUNS:
             return False, "already working"
-        if len(RUNS) >= MAX_PARALLEL:
-            return False, f"at most {MAX_PARALLEL} bots at once"
+        cap = max_parallel()
+        if len(RUNS) >= cap:
+            return False, f"at most {cap} bots at once"
         state = load_state()
         bot = next((b for b in state["bots"] if b["id"] == bot_id), None)
         if not bot:
@@ -555,8 +577,9 @@ def rally_all(prompt: str) -> dict:
         if bid in RUNS or bid in CLOUD_RUNS:
             skipped.append({"id": bid, "name": name, "reason": "already working"})
             continue
-        if len(RUNS) >= MAX_PARALLEL:
-            skipped.append({"id": bid, "name": name, "reason": f"at most {MAX_PARALLEL} bots at once"})
+        cap = max_parallel()
+        if len(RUNS) >= cap:
+            skipped.append({"id": bid, "name": name, "reason": f"at most {cap} bots at once"})
             continue
         ok, msg = start_task(bid, prompt)
         if ok:
@@ -945,6 +968,10 @@ class Handler(BaseHTTPRequestHandler):
             return
         if path == "/api/console":
             self._json(200, public_console())
+            return
+        if path == "/api/host-config":
+            host, port = self.server.server_address[:2]
+            self._json(200, host_config.public_payload(listen=f"{host}:{port}"))
             return
         if path == "/api/credentials":
             with LOCK:

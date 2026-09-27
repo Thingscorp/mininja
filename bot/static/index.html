@@ -815,7 +815,7 @@
       else selectedIds = selected === "console" ? [] : [selected];
     }
 
-    const MAX_PARALLEL = 4;
+    let MAX_PARALLEL = 4; // live from GET /api/host-config
 
     function applyHabitatMentions(raw, names) {
       const clean = (names || []).map((n) => String(n || "").trim()).filter(Boolean);
@@ -1437,9 +1437,20 @@
       paintIdentity();
     }
 
+    async function refreshHostConfig() {
+      try {
+        const res = await fetch("/api/host-config");
+        if (!res.ok) return;
+        const cfg = await res.json();
+        const n = Number(cfg.maxParallel ?? cfg.config?.maxParallel);
+        if (Number.isFinite(n) && n >= 1 && n <= 16) MAX_PARALLEL = n;
+      } catch (_) { /* bot down — keep last */ }
+    }
+
     async function refresh() {
       const res = await fetch("/api/state");
       state = await res.json();
+      refreshHostConfig();
       if (selected !== "console" && selected && !state.bots.some((b) => b.id === selected)) {
         setFocus("console");
       } else if (selectedIds.length) {

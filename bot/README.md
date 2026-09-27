@@ -15,7 +15,7 @@ Product intent: type to **any pal anytime** without sidebar-first targeting. Sid
 | Input | Route |
 |-------|--------|
 | `@Ada do X` | Task to pal Ada (roster match, case-insensitive). No sidebar click required. |
-| `@Ada @Bea do X` | **Fan-out** — same body to each named pal (parallel start). Cap `MAX_PARALLEL` (4); refuse above that (no partial surprise). Empty body → multi-focus only. Unknown in the run → error (no silent skip). Mixed `@Ada @console` → single-mention on the first token. |
+| `@Ada @Bea do X` | **Fan-out** — same body to each named pal (parallel start). Cap `maxParallel` from host-config (default 4); refuse above that (no partial surprise). Empty body → multi-focus only. Unknown in the run → error (no silent skip). Mixed `@Ada @console` → single-mention on the first token. |
 | `@all …` | **Rally-all** — emergency blast to every idle pal (`POST /api/rally`). Skips pals already working. |
 | `@console now` | Console program engine |
 | bare `now` / `todo` / … | Console programs **when** sidebar target is `console` |
@@ -25,7 +25,7 @@ Product intent: type to **any pal anytime** without sidebar-first targeting. Sid
 
 Autocomplete: typing `@` opens a Linear-minimal roster dropdown under the composer (`@all`, pals, `@console`).
 
-Guards: `MAX_PARALLEL` (4); silent double-assign still refused (`already working`) unless `retarget: true` or the explicit `retarget` / retarget API. Permission modes `draft` / `auto` / `free` unchanged. Tint stays host-side (`console/tint.py`) — no kit pal-color tables.
+Guards: `maxParallel` (host-config, default 4); silent double-assign still refused (`already working`) unless `retarget: true` or the explicit `retarget` / retarget API. Permission modes `draft` / `auto` / `free` unchanged. Tint stays host-side (`console/tint.py`) — no kit pal-color tables.
 
 React console shares this grammar (`console/src/lib/mention.ts`); teammate HTTP still terminates here. CORS enabled for console origins; Vite may proxy `/bot-api`.
 
@@ -41,6 +41,7 @@ Opens `http://127.0.0.1:8787/`.
 ```bash
 ./mininja cmd now       # one JSON card on stdout
 ./mininja tint Ada      # stable #rrggbb for a name
+./mininja config        # host settings (file SoT)
 ./mininja check         # last line: ALL GATES PASS
 ```
 
@@ -49,6 +50,43 @@ Double-clickable app (optional):
 ```bash
 ./scripts/install-app.sh
 ```
+
+
+## Config (host settings — CLI SoT)
+
+Host settings live in a JSON file beside credentials — **not** a settings screen.
+
+```text
+$MININJA_DATA/host-config.json
+# default: ~/Library/Application Support/MininjaBot/host-config.json
+```
+
+Schema: `{ "v": 1, …keys }`. Missing file → built-in defaults.
+
+| Aspect | Key | Default | Notes |
+|--------|-----|---------|-------|
+| general | `defaultMode` | `auto` | `draft` / `auto` / `free` — used when spawn omits mode |
+| habitat | `showPlants` | `true` | bool |
+| habitat | `showSticky` | `true` | bool |
+| composer | `maxParallel` | `4` | int, clamp 1–16 — `start_task` / rally / fan-out |
+| appearance | `reducedMotion` | `false` | stock only; no provider themes |
+| connection | *(env / console)* | — | bot URL is env/`VITE_BOT_URL`; `GET /api/host-config` may show `botListen` |
+| keys | *(slots)* | — | `mininja config keys` lists credential **labels** only |
+| cloud | *(env)* | — | `mininja config cloud` → MININJA_CLOUD_* set yes/no (hostname OK) |
+
+```bash
+./mininja config                 # list all
+./mininja config get maxParallel
+./mininja config set maxParallel 6
+./mininja config set defaultMode draft
+./mininja config unset maxParallel
+./mininja config keys            # credential slot labels (no secrets)
+./mininja config cloud           # remote env presence
+./mininja config path
+./mininja config --json          # machine-readable
+```
+
+Server reads `maxParallel` / `defaultMode` live from the file (constant `MAX_PARALLEL = 4` is fallback only). Read-only HTTP: `GET /api/host-config`. Writes stay CLI-only. See [`../qa/SETTINGS.md`](../qa/SETTINGS.md).
 
 ## Programs
 
@@ -135,7 +173,7 @@ bot/
   server.py         # local HTTP + SSE
   console/          # Python program engine (not the React app)
   static/           # UI (IBM Plex Mono under static/fonts/OFL.txt)
-  scripts/          # cmd, tint, seed, check, install-app
+  scripts/          # cmd, tint, config, seed, check, install-app
   seed/pages.txt    # public docs catalog (snapshots not vendored)
 ```
 

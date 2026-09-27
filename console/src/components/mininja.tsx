@@ -15,6 +15,7 @@ import {
 import type { PigeonPose } from "@/lib/pigeon";
 import { isOn as refineOn } from "@/plugins/refine";
 import {
+  MAX_PARALLEL,
   applyHabitatMentions,
   applyMentionText,
   mentionQuery,
@@ -27,6 +28,7 @@ import {
 import {
   createBot,
   fetchBotState,
+  fetchHostConfig,
   isPermissionMode,
   needsBotCard,
   PERMISSION_MODES,
@@ -85,6 +87,8 @@ export function Mininja() {
   /** Habitat multi-focus ids (shift+click); rings match is-sel. */
   const [multiIds, setMultiIds] = useState<string[]>([]);
   const [roster, setRoster] = useState<RosterPal[]>([]);
+  /** Live fan-out cap from bot host-config (CLI SoT); fallback MAX_PARALLEL. */
+  const [maxParallel, setMaxParallel] = useState(MAX_PARALLEL);
   const [mentionItems, setMentionItems] = useState<MentionSuggestion[]>([]);
   const [mentionIndex, setMentionIndex] = useState(0);
   /** Approval mode for next @-task — same draft|auto|free as bot spawn. */
@@ -133,6 +137,9 @@ export function Mininja() {
     }
     setBotUp(true);
     setRoster(state.bots || []);
+    const hc = await fetchHostConfig();
+    const n = Number(hc?.maxParallel ?? hc?.config?.maxParallel);
+    if (Number.isFinite(n) && n >= 1 && n <= 16) setMaxParallel(Math.floor(n));
     const live = state.bots || [];
     if (selected !== "console" && !live.some((b) => b.id === selected)) {
       setSelected("console");
@@ -323,7 +330,7 @@ export function Mininja() {
       return;
     }
 
-    const route = routeComposer(text, { bots: roster, selected });
+    const route = routeComposer(text, { bots: roster, selected, maxParallel });
 
     if (route.op === "noop") return;
 

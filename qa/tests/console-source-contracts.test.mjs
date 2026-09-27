@@ -192,6 +192,8 @@ assert(/onPalClick|focusHabitatPal|applyHabitatMentions/.test(mininjaUi), "habit
 assert(/pointer-events:\s*auto/.test(read("console/src/styles.css")) && /pal-chip/.test(read("console/src/styles.css")), "habitat chips clickable over hud");
 assert(/export function applyHabitatMentions/.test(mentionSrc), "applyHabitatMentions helper");
 assert(/export function splitLeadingMentions|fan-out|MAX_PARALLEL/.test(mentionSrc), "multi-@ fan-out grammar");
+assert(/maxParallel\?:/.test(mentionSrc) || /opts\.maxParallel|maxParallel/.test(mentionSrc), "routeComposer maxParallel override");
+assert(/fetchHostConfig|\/api\/host-config/.test(mininjaUi + read("console/src/lib/bot-api.ts")), "console fetches host-config");
 assert(/op === "fan-out"|fan-out-cap|select-pals/.test(mininjaUi), "mininja handles fan-out");
 assert(/Escape|applyHabitatMentions\(input, \[\]\)/.test(mininjaUi), "Escape strips leading @s keep body");
 

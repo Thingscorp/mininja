@@ -34,8 +34,8 @@ cleanup() { rm -rf "$DATA"; }
 trap cleanup EXIT
 
 # --- compile ---
-if python3 -m py_compile server.py cloud.py console/engine.py console/paths.py console/store.py console/tint.py console/credentials.py \
-    scripts/cmd.py scripts/cmd-smoke.py scripts/store-lock.py scripts/seed.py scripts/seed-diff.py scripts/sidecar.py scripts/tint.py; then
+if python3 -m py_compile server.py cloud.py console/engine.py console/paths.py console/store.py console/tint.py console/credentials.py console/host_config.py \
+    scripts/cmd.py scripts/cmd-smoke.py scripts/config.py scripts/config-smoke.py scripts/store-lock.py scripts/seed.py scripts/seed-diff.py scripts/sidecar.py scripts/tint.py; then
   ok "py_compile"
 else
   bad "py_compile"
@@ -309,6 +309,26 @@ if python3 scripts/credentials-smoke.py; then
   ok "credentials-smoke"
 else
   bad "credentials-smoke"
+fi
+
+# --- host config CLI ---
+if python3 scripts/config-smoke.py; then
+  ok "config-smoke"
+else
+  bad "config-smoke"
+fi
+if ./mininja config path >/dev/null && ./mininja config list >/dev/null; then
+  ok "config-cli"
+else
+  bad "config-cli"
+fi
+# dispatcher lists config in usage
+USAGE_OUT="$(./mininja nosuch 2>&1 || true)"
+if printf '%s
+' "$USAGE_OUT" | grep -q config; then
+  ok "config-in-usage"
+else
+  bad "config-in-usage" "mininja usage must list config: $USAGE_OUT"
 fi
 
 

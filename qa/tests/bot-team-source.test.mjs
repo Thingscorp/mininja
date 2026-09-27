@@ -26,6 +26,8 @@ assert(/def rally_all/.test(server), "rally_all");
 assert(/retarget:\s*bool\s*=\s*False|retarget=retarget/.test(server), "start_task retarget flag");
 assert(/already working/.test(server), "refuse silent double-assign");
 assert(/MAX_PARALLEL\s*=\s*4/.test(server), "MAX_PARALLEL cap");
+assert(/def max_parallel|host_config/.test(server), "max_parallel from host-config");
+assert(/\/api\/host-config/.test(server), "GET /api/host-config");
 assert(/api.*rally|parts == \["api", "rally"\]/.test(server), "POST /api/rally");
 assert(/parts\[3\] == "retarget"/.test(server), "POST /api/bots/:id/retarget");
 assert(/draft|auto|free/.test(server), "permission modes intact");

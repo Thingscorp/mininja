@@ -65,6 +65,28 @@ async function req(path: string, init?: RequestInit): Promise<BotApiResult> {
   }
 }
 
+export type HostConfig = {
+  v?: number;
+  path?: string;
+  maxParallel?: number;
+  defaultMode?: string;
+  botListen?: string;
+  config?: {
+    defaultMode?: string;
+    showPlants?: boolean;
+    showSticky?: boolean;
+    maxParallel?: number;
+    reducedMotion?: boolean;
+  };
+};
+
+/** Read-only host settings from bot (CLI is SoT for writes). */
+export async function fetchHostConfig(): Promise<HostConfig | null> {
+  const out = await req("/api/host-config");
+  if (!out.ok || out.needsBot) return null;
+  return out as HostConfig;
+}
+
 export async function fetchBotState(): Promise<BotPublicState | null> {
   const out = await req("/api/state");
   if (!out.ok || out.needsBot) return null;
@@ -169,10 +191,11 @@ export async function createBot(payload: CreateBotPayload): Promise<BotApiResult
   const body: Record<string, unknown> = {
     name,
     job: (payload.job || "").trim() || "General",
-    mode: payload.mode && isPermissionMode(payload.mode) ? payload.mode : "auto",
     description: payload.description || "",
     computer: payload.computer || "local",
   };
+  // Omit mode → bot applies host-config defaultMode (CLI SoT).
+  if (payload.mode && isPermissionMode(payload.mode)) body.mode = payload.mode;
   if (payload.cwd?.trim()) body.cwd = payload.cwd.trim();
   return req("/api/bots", {
     method: "POST",

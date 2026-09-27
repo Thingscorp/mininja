@@ -28,6 +28,9 @@ for (const p of consolePrograms) {
 }
 
 assert(existsSync(join(root, "bot", "scripts", "cmd.py")), "cmd.py");
+assert(existsSync(join(root, "bot", "scripts", "config.py")), "config.py");
+const disp = readFileSync(join(root, "bot", "mininja"), "utf8");
+assert(/config\)\s+exec/.test(disp), "mininja config arm");
 assert(existsSync(join(root, "bot", "scripts", "tint.py")), "tint.py");
 assert(existsSync(join(root, "bot", "scripts", "check.sh")), "check.sh");
 assert(existsSync(join(root, "bot", "scripts", "cmd-smoke.py")), "cmd-smoke.py");
