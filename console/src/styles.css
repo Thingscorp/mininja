@@ -130,6 +130,81 @@
   }
 }
 
+
+/* Face chrome — scoot track (from ralph/loop-install SoT; not banner diorama) */
+.scoot-track {
+  position: relative;
+  height: 7.25rem;
+  overflow: hidden;
+}
+.scoot-walker {
+  position: absolute;
+  right: auto;
+  bottom: 0;
+  left: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 0.35rem;
+}
+.scoot-walker.is-scooting {
+  animation: scoot 3s ease-in-out infinite;
+}
+@keyframes scoot {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(120px);
+  }
+}
+.lockups {
+  position: relative;
+}
+.lockups .face-back {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  visibility: hidden;
+}
+.scoot-walker.is-scooting .face-out {
+  animation: face-out 3s step-end infinite;
+}
+.scoot-walker.is-scooting .face-back {
+  animation: face-back 3s step-end infinite;
+}
+@keyframes face-out {
+  0%,
+  50% {
+    visibility: visible;
+  }
+  50.01%,
+  100% {
+    visibility: hidden;
+  }
+}
+@keyframes face-back {
+  0%,
+  50% {
+    visibility: hidden;
+  }
+  50.01%,
+  100% {
+    visibility: visible;
+  }
+}
+.scoot-walker pre,
+.lockup {
+  display: block;
+  margin: 0 0 -0.5em;
+  line-height: 1;
+  font-size: var(--text-lock);
+  font-weight: 500;
+  color: var(--color-steel);
+}
+
 .banner {
   position: relative;
   height: 9.25rem;
@@ -605,6 +680,11 @@
   .mascot-hop,
   .mascot-sway,
   .rise,
+  .roam-walker,
+  .scoot-walker,
+  .scoot-walker.is-scooting,
+  .scoot-walker.is-scooting .face-out,
+  .scoot-walker.is-scooting .face-back,
   .weather-rain .banner-sky::after {
     animation: none;
   }
