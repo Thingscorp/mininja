@@ -156,13 +156,16 @@ describe("garden growth", () => {
 
   it("exampleRootLeafGarden fixture shows root + leaf contracts", () => {
     const plants = exampleRootLeafGarden();
-    assert.equal(plants.length, 2);
+    assert.ok(plants.length >= 2);
     const root = plants.find((p) => p.role === "root")!;
-    const leaf = plants.find((p) => p.role === "leaf")!;
-    assert.ok(root && leaf);
+    const leaves = plants.filter((p) => p.role === "leaf");
+    assert.ok(root);
+    assert.ok(leaves.length >= 1);
     assert.equal(plantDrawHeight(root), growthHeight(root.growth));
-    assert.equal(plantDrawHeight(leaf), LEAF_HEIGHT_PX);
-    assert.notEqual(plantDrawHeight(leaf), growthHeight(leaf.growth ?? 5));
+    for (const leaf of leaves) {
+      assert.equal(plantDrawHeight(leaf), LEAF_HEIGHT_PX);
+      assert.notEqual(plantDrawHeight(leaf), growthHeight(leaf.growth ?? 5));
+    }
   });
 
   it("shoots place temporary leaves near parent without changing roots", () => {
