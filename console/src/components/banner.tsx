@@ -3,11 +3,15 @@ import { Mascot } from "@/components/mascot";
 import {
   getAction,
   getStage,
+  growthHeight,
+  clampGrowth,
+  hostGardenOverlay,
   listStages,
   RUN_PX_PER_SEC,
   stageCenter,
   WALK_PX_PER_SEC,
   worldWidth,
+  type GardenProp,
   type Scene,
   type StageDef,
   type StageProp,
@@ -35,6 +39,11 @@ type BannerProps = {
   pals?: PalChrome[];
   /** Glance sticky interrupt (blocked > asking > busy); host-owned. */
   sticky?: StickyRank | null;
+  /**
+   * Host garden plants (repoBranch + growth). When omitted, derived from
+   * scene props + pals via hostGardenOverlay (one pal, one plant).
+   */
+  garden?: GardenProp[];
 };
 
 export function Banner({
@@ -45,6 +54,7 @@ export function Banner({
   tint,
   pals = [],
   sticky = null,
+  garden,
 }: BannerProps) {
   const viewRef = useRef<HTMLDivElement>(null);
   const worldRef = useRef<HTMLDivElement>(null);
@@ -222,8 +232,13 @@ export function Banner({
         <div className="banner-ground" aria-hidden="true" />
         <div className="banner-props" aria-hidden="true">
           {listStages().map((s) =>
-            s.props.map((p, i) => <Prop key={`${s.id}-${i}`} stage={s} prop={p} />),
+            s.props
+              .filter((p) => p.kind !== "repoBranch")
+              .map((p, i) => <Prop key={`${s.id}-${i}`} stage={s} prop={p} />),
           )}
+          {(garden ?? hostGardenOverlay(pals)).map((p, i) => (
+            <GardenPlant key={`garden-${p.stageId}-${p.palId ?? p.label ?? i}`} prop={p} />
+          ))}
         </div>
         <div ref={actorEl} className="banner-actor" style={{ left: actorRef.current }}>
           {scene.line ? <div className="banner-line">{scene.line}</div> : <div className="banner-line is-empty" />}
@@ -263,6 +278,29 @@ function Prop({ stage, prop }: { stage: StageDef; prop: StageProp }) {
         width: prop.w,
         height: prop.h,
       }}
+    />
+  );
+}
+
+/** repoBranch plant — height from authored h or kit garden.silhouetteHeightPx. */
+function GardenPlant({ prop }: { prop: GardenProp }) {
+  const stage = getStage(prop.stageId);
+  const growth = clampGrowth(prop.growth);
+  const h = prop.h ?? growthHeight(growth);
+  const style: CSSProperties = {
+    left: stage.x + prop.x,
+    top: prop.y,
+    height: h,
+    ...(prop.w != null ? { width: prop.w } : {}),
+    ...(prop.tint ? ({ ["--pal-tint"]: prop.tint } as CSSProperties) : {}),
+  };
+  return (
+    <span
+      className={`prop prop-repoBranch${prop.tint ? " has-pal" : ""}`}
+      data-growth={growth}
+      data-label={prop.label || undefined}
+      title={prop.label || undefined}
+      style={style}
     />
   );
 }

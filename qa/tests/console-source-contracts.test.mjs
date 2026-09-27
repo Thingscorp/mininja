@@ -182,3 +182,10 @@ assert(/aria-label="mention roster"|mention roster/.test(mininjaUi), "mention me
 assert(/tint=\{bannerTint\}|pals=\{bannerPals\}|sticky=\{bannerSticky\}/.test(mininjaUi), "Banner tint/pals/sticky wired");
 
 console.log("PASS  SUITE-CON-SOURCE-CONTRACTS (routes/boot/cmds/plugins/auth/theme)");
+
+// --- Garden plants (OX-APP-D03) ---
+const gardenCss = read("console/src/styles.css");
+assert(/\.prop-repoBranch/.test(gardenCss), "prop-repoBranch CSS");
+assert(/growthHeight/.test(sceneSrc), "growthHeight helper");
+assert(/hostGardenOverlay|GardenPlant|prop-repoBranch/.test(banner), "banner garden paint");
+console.log("PASS  garden plant growth (D03)");

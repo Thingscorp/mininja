@@ -23,7 +23,7 @@ Companion: [`qa/OLD-CONSOLE-CARRYOVER.md`](../OLD-CONSOLE-CARRYOVER.md) · [`HAB
 | **Camera / patrol literals** | Banner: `viewW*0.32` / `0.52`, follow `5.2`, patrol `26` px/s, insets `56`/`90` · `banner.tsx` | **dual/risk** | Values **match** kit.motion today; check-consumers asserts literal equality. Banner does **not** import kit exports for camera/patrol (unlike walk/run) — drift if kit bumps and literals lag. |
 | **Weather sky class** | `stage.weather` → `.weather-*` · kit stages + `styles.css` | **kit field** (enum) + **host-only** (CSS paint) | Habitat chrome only (HABITAT-PORT); not outside-weather bridges. |
 | **Stage silhouettes + stock props** | `StageSilhouette`, `Prop` · `banner.tsx`; kinds in `StageProp` | **kit field** (layout) + **host-only** (CSS) | Stock stages have no `repoBranch`. `.prop-*` CSS for block…cable; **no `.prop-repoBranch`**. |
-| **Garden / `repoBranch` / growth** | Type: `kind: "repoBranch"`, `growth?: 0..5` · `lib/scene.ts`; schema `kit.garden` | **kit field** (schema) · **host-only gap** (render) | Prop renderer ignores `growth` / `garden.silhouetteHeightPx`. No plant binding UI. P1 gap. |
+| **Garden / `repoBranch` / growth** | Type + `growthHeight` / `hostGardenOverlay` · `lib/scene.ts`; `.prop-repoBranch` CSS; Banner `GardenPlant` | **kit field** (schema) · **host render shipped** | Height from kit silhouette; one pal → one plant tint binding. Ambient plant when roster empty. |
 | **Mascot lockup** | `composeLockup` · `lib/scene.ts`; `Mascot` · `mascot.tsx`; legacy `FRAMES` · `lib/mascot.ts` ← `legacyFaceBridge` | **kit field** | Eyes/tone/motion from kit emotions+actions; glyphs composed in host. Face ids bridged from kit. **Does not import `mark.json` faces lines** — compose path is scene-driven. |
 | **Typeface (lockup)** | `@font-face` IBM Plex Mono 400/500/600 · `styles.css`; `kit.mark.typeface` | **dual/risk** | Host CSS stack matches `mark.typeface.cssStack` by convention; **no import/hydrate from mark.json**. |
 | **Linear theme tokens** | `--color-bg/panel/hi/fg/muted/accent/ok/warn/err/steel…` · `styles.css` `@theme` | **host-only OK** | Linear-ish Apps chrome. Distinct from `mark.moodColorsUiOnly` (kit tone hex for mark/docs). Do not merge tables. |
@@ -90,7 +90,7 @@ Carryover dated 2026-09-26; **bot has moved ahead** of that GAP table. Console h
 | **P0** | Pull-off / retarget / rally-all | **Bot + Console shipped** (console → bot-api) | Needs bot process |
 | **P0** | Unify composer | **Absorbed** — one grammar; bot = launcher/API | Do not add a third mouth |
 | **P1** | Multi-pal color Banner wire | Console wires when bot roster up | Asking sticky face-rank still light |
-| **P1** | Pal ↔ `repoBranch` plant binding | Kit garden SoT yes; **neither host** renders growth silhouettes / one-pal-on-plant | **Console:** type accepts `repoBranch`+growth; **no CSS class, Prop ignores growth, no overlay UI** |
+| **P1** | Pal ↔ `repoBranch` plant binding | Kit garden SoT yes; **console paints growth silhouettes + one-pal-one-plant** | **DONE** (Apps D03) |
 
 Other carryover “ALREADY” items that **hold** for console: kit-hydrate habitat (`registerFromKit`), scrubbed mascot/`sandboxing`, program plugins, auth stack, no STAGE_SEED.
 
@@ -136,8 +136,8 @@ Other carryover “ALREADY” items that **hold** for console: kit-hydrate habit
 | Seam | Owner | Console today | Port shape |
 |------|-------|---------------|------------|
 | Growth brick | **Kit** | Typed on `StageProp`; unused in stock stages | Keep `kit.garden` ids/numbers |
-| Silhouette render | Apps | No `.prop-repoBranch`; `Prop` ignores `growth` | Host CSS + `h(g)=h0+g*dh` from `garden.silhouetteHeightPx` |
-| Binding viz | Apps | None | One tinted pal at one plant (GLANCE); overlay props, not new kit fields |
+| Silhouette render | Apps | **Shipped** `.prop-repoBranch` + `growthHeight` | Host CSS + kit `silhouetteHeightPx` |
+| Binding viz | Apps | **Shipped** `hostGardenOverlay` | One tinted pal at one plant; overlay props, not new kit fields |
 
 ---
 
@@ -148,7 +148,7 @@ Other carryover “ALREADY” items that **hold** for console: kit-hydrate habit
 3. **moodColorsUiOnly** (kit) vs Linear `--color-*` (host) — intentional dual; document, don’t “fix” by baking Linear into kit.
 4. **`COMMAND_INTENT`** host map — safe while ids ⊂ kit; risk if new verbs invent stages/emotions.
 5. **Banner pal API unwired** — looks shipped in carryover; runtime still single anonymous actor.
-6. **Garden type without renderer** — schema addressable, UI silent.
+6. **Garden renderer shipped (D03)** — `.prop-repoBranch` + `growthHeight`; keep using kit numbers only.
 7. Carryover GAP table **stale on bot P0** — update narrators when closing console seams.
 
 ---

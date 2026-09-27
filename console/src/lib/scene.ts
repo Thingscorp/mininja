@@ -45,6 +45,17 @@ export type StageProp = {
   h?: number;
   /** Garden growth 0..5 for kind repoBranch; omit → kit garden.growth.default. Data only — no GitHub bridge. */
   growth?: 0 | 1 | 2 | 3 | 4 | 5;
+  /** Optional plant label (kit garden.propFields); host chrome may show as title. */
+  label?: string;
+};
+
+export type GrowthLevel = 0 | 1 | 2 | 3 | 4 | 5;
+
+/** Host overlay plant — stage id + optional pal tint binding. Not kit stock. */
+export type GardenProp = StageProp & {
+  stageId: string;
+  palId?: string;
+  tint?: string;
 };
 
 export type StageDef = {
@@ -85,6 +96,97 @@ export const ANCHOR_RATIO = kit.geometry.anchorRatio;
 /** Locomotion from kit.motion — SoT; banner reads these (OX-APP-002). */
 export const WALK_PX_PER_SEC = kit.motion.walkPxPerSec;
 export const RUN_PX_PER_SEC = kit.motion.runPxPerSec;
+
+/** Kit garden growth default — omit field → this. */
+export const GARDEN_GROWTH_DEFAULT = kit.garden.growth.default as GrowthLevel;
+const GARDEN_H0 = kit.garden.silhouetteHeightPx.h0Px;
+const GARDEN_DH = kit.garden.silhouetteHeightPx.dhPx;
+
+/** Clamp to kit garden.growth 0..5 (integer). Invalid → default. */
+export function clampGrowth(n: unknown): GrowthLevel {
+  const min = kit.garden.growth.min;
+  const max = kit.garden.growth.max;
+  if (typeof n !== "number" || !Number.isInteger(n) || n < min || n > max) {
+    return GARDEN_GROWTH_DEFAULT;
+  }
+  return n as GrowthLevel;
+}
+
+/** Recommended repoBranch silhouette height from kit garden.silhouetteHeightPx. Authored prop h still wins in the renderer. */
+export function growthHeight(growth?: number | null): number {
+  return GARDEN_H0 + clampGrowth(growth ?? GARDEN_GROWTH_DEFAULT) * GARDEN_DH;
+}
+
+/** Every repoBranch prop on registered stages (kit + overlays via registerStage). */
+export function listRepoBranches(): GardenProp[] {
+  const out: GardenProp[] = [];
+  for (const s of listStages()) {
+    for (const p of s.props) {
+      if (p.kind === "repoBranch") {
+        out.push({ ...p, stageId: s.id });
+      }
+    }
+  }
+  return out;
+}
+
+/**
+ * Host garden overlay for the habitat strip.
+ * - Roster empty: still show scene plants; if none, one ambient plant (GARDEN.md example).
+ * - Multi-pal: one plant per pal (reuse scene plants first; pad with host plants). Tint = pal chrome.
+ */
+export function hostGardenOverlay(
+  pals: { id: string; name: string; tint: string }[] = [],
+): GardenProp[] {
+  const scenePlants = listRepoBranches();
+  if (pals.length === 0) {
+    if (scenePlants.length > 0) return scenePlants;
+    // Ambient glance plant when stock stages have no repoBranch (overlay by design).
+    return [
+      {
+        kind: "repoBranch",
+        stageId: "dock",
+        x: 280,
+        y: 40,
+        w: 24,
+        growth: 3,
+        label: "mininja",
+      },
+    ];
+  }
+  const plants: GardenProp[] = [];
+  for (let i = 0; i < pals.length; i++) {
+    const pal = pals[i]!;
+    const base = scenePlants[i];
+    if (base) {
+      plants.push({
+        ...base,
+        label: base.label ?? pal.name,
+        palId: pal.id,
+        tint: pal.tint,
+      });
+    } else {
+      // Spread along dock; growth from kit default (seed) — host chrome, not a digipet level.
+      const gap = Math.min(56, Math.floor((STAGE_WIDTH - 80) / Math.max(pals.length, 1)));
+      plants.push({
+        kind: "repoBranch",
+        stageId: "dock",
+        x: 36 + i * gap,
+        y: 40,
+        w: 24,
+        growth: GARDEN_GROWTH_DEFAULT,
+        label: pal.name,
+        palId: pal.id,
+        tint: pal.tint,
+      });
+    }
+  }
+  // Leftover scene plants (more plants than pals) still render, unbound.
+  for (let i = pals.length; i < scenePlants.length; i++) {
+    plants.push(scenePlants[i]!);
+  }
+  return plants;
+}
 
 const emotions = new Map<string, EmotionDef>();
 const actions = new Map<string, ActionDef>();
@@ -157,6 +259,9 @@ if (typeof ANCHOR_RATIO !== "number" || !(ANCHOR_RATIO > 0) || !(ANCHOR_RATIO < 
 }
 if (typeof WALK_PX_PER_SEC !== "number" || typeof RUN_PX_PER_SEC !== "number") {
   throw new Error("kit motion walkPxPerSec/runPxPerSec missing");
+}
+if (typeof GARDEN_H0 !== "number" || typeof GARDEN_DH !== "number") {
+  throw new Error("kit garden.silhouetteHeightPx h0Px/dhPx missing");
 }
 
 /** Load kit catalogs into the register maps. Props/weather ride on StageDef — no separate registerProp/Weather. */

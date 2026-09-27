@@ -47,6 +47,14 @@ assert(banner.includes(String(kitLeft)), `look-ahead left ${kitLeft}`);
 assert(/registerFromKit/.test(scene) && /kit\/scene\.json/.test(scene), "registerFromKit");
 assert(!/\bSTAGE_SEED\b|\bEMOTION_SEED\b|\bACTION_SEED\b/.test(scene), "no dual seeds");
 
+// garden plant growth — host paints kit silhouetteHeightPx (OX-APP-D03)
+assert(/growthHeight|silhouetteHeightPx|h0Px/.test(scene), "scene exports growthHeight from kit garden");
+assert(/prop-repoBranch|GardenPlant|hostGardenOverlay/.test(banner), "banner paints repoBranch plants");
+const css = readFileSync(join(root, "console", "src", "styles.css"), "utf8");
+assert(/\.prop-repoBranch/.test(css), "CSS has .prop-repoBranch silhouette");
+assert(typeof kit.garden?.silhouetteHeightPx?.h0Px === "number", "kit garden h0");
+assert(scene.includes(String(kit.garden.silhouetteHeightPx.h0Px)) || /GARDEN_H0|h0Px/.test(scene), "scene uses kit h0");
+
 const align = spawnSync(process.execPath, [join(root, "console", "scripts", "kit-align.mjs")], {
   encoding: "utf8",
 });
