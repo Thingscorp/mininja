@@ -32,17 +32,33 @@ assert(
   /export const RUN_PX_PER_SEC\s*=\s*kit\.motion\.runPxPerSec/.test(scene),
   `scene exports run ${kit.motion.runPxPerSec}`,
 );
-assert(banner.includes(String(kit.motion.patrolPxPerSec)), `patrol ${kit.motion.patrolPxPerSec}`);
+assert(
+  banner.includes("PATROL_PX_PER_SEC") &&
+    /export const PATROL_PX_PER_SEC\s*=\s*kit\.motion\.patrolPxPerSec/.test(scene),
+  `patrol export ${kit.motion.patrolPxPerSec}`,
+);
 assert(banner.includes(String(kit.motion.arriveEpsilonPx)) || /gap\s*>\s*6|epsilon|6/.test(banner), "arrive epsilon");
 assert(/56/.test(banner) && /90/.test(banner), "patrol insets");
 
-// camera look-ahead must match kit asymmetric ratios (no legacy 0.35)
+// camera look-ahead via kit.motion exports (OX-APP-D04) — no legacy 0.35
 const kitRight = kit.motion.cameraLookAheadRight;
 const kitLeft = kit.motion.cameraLookAheadLeft;
 assert(typeof kitRight === "number" && typeof kitLeft === "number", "kit look-ahead");
 assert(!/viewW\s*\*\s*0\.35/.test(banner), "no legacy 0.35 look-ahead");
-assert(banner.includes(String(kitRight)), `look-ahead right ${kitRight}`);
-assert(banner.includes(String(kitLeft)), `look-ahead left ${kitLeft}`);
+assert(
+  banner.includes("CAMERA_LOOK_AHEAD_RIGHT") && banner.includes("CAMERA_LOOK_AHEAD_LEFT"),
+  `look-ahead exports ${kitRight}/${kitLeft}`,
+);
+assert(
+  /export const CAMERA_LOOK_AHEAD_RIGHT\s*=\s*kit\.motion\.cameraLookAheadRight/.test(scene) &&
+    /export const CAMERA_LOOK_AHEAD_LEFT\s*=\s*kit\.motion\.cameraLookAheadLeft/.test(scene),
+  "scene exports camera look-ahead from kit",
+);
+assert(
+  banner.includes("CAMERA_FOLLOW_RATE") &&
+    /export const CAMERA_FOLLOW_RATE\s*=\s*kit\.motion\.cameraFollowRatePerSec/.test(scene),
+  "camera follow rate export",
+);
 
 assert(/registerFromKit/.test(scene) && /kit\/scene\.json/.test(scene), "registerFromKit");
 assert(!/\bSTAGE_SEED\b|\bEMOTION_SEED\b|\bACTION_SEED\b/.test(scene), "no dual seeds");

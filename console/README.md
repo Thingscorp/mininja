@@ -40,7 +40,9 @@ Same grammar as [`../bot/README.md`](../bot/README.md) § Composer contract — 
 | `retarget @Bob …` | Explicit retarget |
 | bare text with a pal focused | Task to that pal |
 
-When bot is down, pal ops show a clear **Needs bot server** card; programs still work offline. Autocomplete: type `@` for Linear-minimal roster (`@all`, pals, `@console`). Sidebar focus is fallback (`@Ada` with no body selects). Permission modes `draft`/`auto`/`free` stay on bot until console gains spawn UI (**DEFER**).
+When bot is down, pal ops show a clear **Needs bot server** card; programs still work offline. Autocomplete: type `@` for Linear-minimal roster (`@all`, pals, `@console`). Sidebar focus is fallback (`@Ada` with no body selects).
+
+**Approval modes** near the composer: `draft` · `auto` · `free` (same words as the bot spawn form). Clicking a mode updates the focused pal via `PATCH /api/bots/:id` (`mode` field). Sending an `@`-task applies the chosen mode first, then starts the task. No new backend — same bot field.
 
 ## Layout
 

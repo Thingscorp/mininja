@@ -6,6 +6,15 @@
 
 import type { RosterPal } from "./mention";
 
+/** Bot permission modes — same field as bot/server.py new_bot / patch_bot. */
+export type PermissionMode = "draft" | "auto" | "free";
+
+export const PERMISSION_MODES: PermissionMode[] = ["draft", "auto", "free"];
+
+export function isPermissionMode(v: unknown): v is PermissionMode {
+  return v === "draft" || v === "auto" || v === "free";
+}
+
 export type BotPublicState = {
   bots: RosterPal[];
   messages?: Record<string, unknown>;
@@ -84,6 +93,41 @@ export async function startTask(
     method: "POST",
     body: JSON.stringify(body),
   });
+}
+
+/** PATCH bot fields — mode uses the same draft|auto|free values as spawn. */
+export async function patchBot(
+  botId: string,
+  patch: { mode?: PermissionMode },
+): Promise<BotApiResult> {
+  return req(`/api/bots/${encodeURIComponent(botId)}`, {
+    method: "PATCH",
+    body: JSON.stringify(patch),
+  });
+}
+
+/**
+ * If the pal's mode differs, PATCH then run the task.
+ * Mode is a bot field (not a task body field) — same as bot spawn form.
+ */
+export async function startTaskWithMode(
+  botId: string,
+  text: string,
+  mode: PermissionMode,
+  opts?: { retarget?: boolean; currentMode?: string | null },
+): Promise<BotApiResult> {
+  if (opts?.currentMode !== mode) {
+    const patched = await patchBot(botId, { mode });
+    if (patched.needsBot) return patched;
+    if (!patched.ok) {
+      return {
+        ok: false,
+        error: patched.error || `could not set mode to ${mode}`,
+        needsBot: patched.needsBot,
+      };
+    }
+  }
+  return startTask(botId, text, opts?.retarget ? { retarget: true } : undefined);
 }
 
 export async function stopBot(botId: string): Promise<BotApiResult> {

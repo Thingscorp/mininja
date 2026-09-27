@@ -11,6 +11,8 @@ export type RosterPal = {
   tint?: string;
   working?: boolean;
   status?: string;
+  /** Permission mode from bot — draft | auto | free. */
+  mode?: string;
 };
 
 export type Mention =

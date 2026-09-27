@@ -61,7 +61,7 @@ function read(rel) {
   assert(!/viewW\s*\*\s*0\.35/.test(banner), "CON-BANNER-004: no legacy 0.35");
   assert(
     new RegExp(
-      String.raw`facing\s*===\s*["']right["']\s*\?\s*${laR}\s*:\s*${laL}`,
+      String.raw`facing\s*===\s*["']right["']\s*\?\s*(?:${laR}|CAMERA_LOOK_AHEAD_RIGHT)\s*:\s*(?:${laL}|CAMERA_LOOK_AHEAD_LEFT)`,
     ).test(banner),
     "CON-BANNER-004: reduce-motion facing-aware kit look-aheads",
   );

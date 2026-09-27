@@ -27,7 +27,17 @@ const anchorOk =
   sceneSrc.includes(`*${g.anchorRatio}`);
 const derivesMotion =
   /export const WALK_PX_PER_SEC\s*=\s*kit\.motion\.walkPxPerSec/.test(sceneSrc) &&
-  /export const RUN_PX_PER_SEC\s*=\s*kit\.motion\.runPxPerSec/.test(sceneSrc);
+  /export const RUN_PX_PER_SEC\s*=\s*kit\.motion\.runPxPerSec/.test(sceneSrc) &&
+  /export const PATROL_PX_PER_SEC\s*=\s*kit\.motion\.patrolPxPerSec/.test(sceneSrc) &&
+  /export const CAMERA_LOOK_AHEAD_RIGHT\s*=\s*kit\.motion\.cameraLookAheadRight/.test(
+    sceneSrc,
+  ) &&
+  /export const CAMERA_LOOK_AHEAD_LEFT\s*=\s*kit\.motion\.cameraLookAheadLeft/.test(
+    sceneSrc,
+  ) &&
+  /export const CAMERA_FOLLOW_RATE\s*=\s*kit\.motion\.cameraFollowRatePerSec/.test(
+    sceneSrc,
+  );
 const loadsKit =
   sceneSrc.includes("kit/scene.json") && sceneSrc.includes("registerFromKit");
 const dualTable =
@@ -45,7 +55,7 @@ if (!anchorOk) {
   errors.push(`scene.ts missing anchorRatio ${g.anchorRatio} (kit SoT)`);
 }
 if (!derivesMotion) {
-  errors.push("scene.ts must export WALK/RUN_PX_PER_SEC from kit.motion");
+  errors.push("scene.ts must export WALK/RUN/PATROL + CAMERA_* from kit.motion");
 }
 if ((kit.stages?.length ?? 0) !== g.stageCount) {
   errors.push(`kit stages length ${kit.stages?.length} != stageCount ${g.stageCount}`);

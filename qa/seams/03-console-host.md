@@ -41,7 +41,7 @@ Companion: [`qa/OLD-CONSOLE-CARRYOVER.md`](../OLD-CONSOLE-CARRYOVER.md) · [`HAB
 | **Preview host bridge / P2P** | `preview-host-bridge*`, `lib/multiplayer/p2p.ts` | **host-only OK** (low pri) | Not glance hero; P2P “roster” ≠ pal roster. |
 | **@-mention / roster / targeting** | `lib/mention.ts` + menu in `mininja.tsx` | **shipped (Apps)** | Parity with bot `parseMention`; roster from bot-api. |
 | **Pull-off / retarget / rally-all** | `routeComposer` + `bot-api.ts` | **shipped (Apps)** | Calls bot `stop` / `retarget` / `rally`; needs-bot card when down. |
-| **Permission modes (draft/auto/free)** | — in `console/` | **host-only OK** (bot surface) | Teammate CLI posture lives on bot; console has no pal permission UI. |
+| **Permission modes (draft/auto/free)** | Composer labels → `patchBot` / `startTaskWithMode` | **shipped (Apps)** | Same bot `mode` field; PATCH then task. Spawn form stays bot. |
 
 ---
 

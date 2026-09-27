@@ -95,7 +95,7 @@ Prefer [`04-bot-host.md`](04-bot-host.md) over stale rows in [`OLD-CONSOLE-CARRY
 | **Unify composer** (one mouth) | **Shared grammar** · bot Mac launcher + API | **host** | Do not add a third mouth. |
 | **Multi-pal color** in habitat | Bot **live** · Console Banner wired when bot roster up | **host** | MUST NOT kit pal table. |
 | **Pal ↔ repoBranch** growth viz | Kit schema ready · **Console shipped** (`growthHeight` + `.prop-repoBranch` + one-pal-one-plant overlay) · bot grove ≠ garden | kit schema · **host** viz | Bot may match later; no new kit ids. |
-| **Permission modes** draft\|auto\|free | Bot **shipped** · Console N/A | **host** | Keep fail-closed; expose when console gains teammate spawn. |
+| **Permission modes** draft\|auto\|free | Bot **shipped** · Console **shipped** (composer labels → PATCH `mode`) | **host** | Fail-closed; spawn/create form still bot-only. |
 | **Roster + tint** | Bot **shipped** · Console lag | **host** | Console: pass live roster into Banner. |
 | Converge **FRAMES / composeLockup** onto from-kit (static faces) | Bot inline FRAMES + hydrate (P2 debt: loadingLeft/cancelled/offline reliability) · Console composeLockup habitat-OK | **adapter** + host | Static faces → from-kit; keep composeLockup for habitat; delete FRAMES drift; alias `sandbox` at edge only — **don’t invent kit keys**. |
 | Recipe `then.emotion` / facing / intensity | Kit bricks exist; RECIPES face-first | **kit** design · host runner | Prefer face → bridge; opt-in later — no new ids. |

@@ -3,7 +3,7 @@
 **Date:** 2026-09-26 (ET)  
 **Branch:** `feat/monorepo-public`  
 **Mandate:** same bar as kit twin ([`OCCAM-UNIX-AUDIT.md`](OCCAM-UNIX-AUDIT.md)); applied to `console/` + `bot/`.  
-**Tip:** OX-APP-D03 plant growth in habitat shipped (one pal, one plant).  
+**Tip:** Modes draft|auto|free in console + OX-APP-D04 banner camera imports.  
 **Bar:** Unix (one job; text/data interface; compose; silence; economy) × Occam (no entity without necessity; one vocabulary; demotion ≠ disconnection ≠ duplicate).  
 **Cartridge:** `kit/mark.json` + `kit/scene.json` = SoT; hosts = player; adapters = filters. Dual tables = shame. Linear.app quality / Occam UI.
 
@@ -18,7 +18,7 @@ Standing maps: [`seams/00-HOST-SEAMS.md`](seams/00-HOST-SEAMS.md) · [`03-consol
 | Bucket | Count (this pass) | Notes |
 |--------|------------------:|-------|
 | **MUST FIX** (Apps, this tip) | 4 remediated | FRAMES lean; stale `@`/rally docs; Hubzz chrome lies; this audit |
-| **DEFER** | 2 open (+ D02 partial) | Banner asking-sticky polish; camera import style |
+| **DEFER** | 1 open (D02 partial) | Banner asking-sticky / face-rank still bot-only |
 | **WAIVE** | several | Host routing maps; intentional Linear vs moodColors; type mirrors |
 | **ALREADY LEAN** | several | registerFromKit; engine kit hydrate; zones hydrate; provider theme killed |
 | **Ports / Kit (file only)** | — | Adapters stay filters; no Apps UI there |
@@ -43,7 +43,7 @@ Standing maps: [`seams/00-HOST-SEAMS.md`](seams/00-HOST-SEAMS.md) · [`03-consol
 | **OX-APP-D01** | **Unify composer** — port bot one-mouth `@` / stop / retarget / rally into React console | **DONE** this tip — `lib/mention.ts` + `lib/bot-api.ts` + `mininja.tsx` one mouth; bot remains Mac launcher SoT | — |
 | **OX-APP-D02** | Console `Banner` `tint` / `pals` / `sticky` from live roster | **Partial** — wired when bot `/api/state` reachable; empty when bot down | Asking sticky (face-rank) still bot-only; no local roster CRUD |
 | **OX-APP-D03** | Pal ↔ `repoBranch` growth silhouette viz | **DONE** this tip — console paints plants with kit `h(g)`; one pal, one plant host binding | — |
-| **OX-APP-D04** | Banner camera/patrol **literals** (`viewW*0.32/0.52`, `26` px/s) vs importing `kit.motion` exports | Values match today (`check-consumers`); import style drift risk | Prefer export imports when touching banner next |
+| **OX-APP-D04** | Banner camera/patrol **literals** vs importing `kit.motion` exports | **DONE** this tip — `CAMERA_LOOK_AHEAD_*` / `PATROL_PX_PER_SEC` / `CAMERA_FOLLOW_RATE` from scene → banner | — |
 
 ---
 
@@ -129,11 +129,15 @@ node qa/tests/run-tests.mjs
 
 ## Still open (Apps)
 
-1. **OX-APP-D02** Banner asking-sticky / roster CRUD (partial wire done when bot up).  
+1. **OX-APP-D02** Banner asking-sticky / roster CRUD (partial wire done when bot up). Asking face-rank still bot-only.  
 2. **OX-APP-D03** ~~pal↔plant growth viz~~ — **DONE** (console habitat). Bot grove still stage-trees ≠ garden plants (intentional).  
-3. **OX-APP-D04** banner camera import hygiene.  
-4. Permission modes draft|auto|free in console spawn UI (**DEFER** — bot SoT; no obvious console spawn control to copy into).  
+3. **OX-APP-D04** ~~banner camera import hygiene~~ — **DONE** (kit.motion exports via scene.ts).  
+4. ~~Permission modes draft|auto|free in console~~ — **DONE** (composer labels → `PATCH` bot `mode`; `@`-task applies mode then starts). Spawn/create form still bot-only (Mac launcher).  
 5. Keep type unions kit-align green (no drive-by churn).
+
+### Modes notes (plain)
+
+Three words under the composer: **draft**, **auto**, **free**. Same meanings as the bot Approval select. They set the pal's `mode` field on the bot server (not a new API). Pick a mode, then `@Ada do X` — console patches mode if needed, then posts the task.
 
 ### OX-APP-D03 notes (plain)
 

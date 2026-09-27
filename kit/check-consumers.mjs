@@ -109,20 +109,45 @@ if (existsSync(consoleDir) && g && m) {
     }
   }
 
-  // Banner camera look-ahead ratios from kit motion.
-  // Every viewW*<n> look-ahead literal must be kit cameraLookAheadRight/Left — no legacy dual (e.g. 0.35).
+  // OX-APP-D04: camera / patrol from kit.motion via scene exports (or legacy literals).
   const laR = m.cameraLookAheadRight;
   const laL = m.cameraLookAheadLeft;
   const follow = m.cameraFollowRatePerSec;
+  const patrol = m.patrolPxPerSec;
+  const derivesCam =
+    /export const CAMERA_LOOK_AHEAD_RIGHT\s*=\s*kit\.motion\.cameraLookAheadRight/.test(
+      sceneTs,
+    ) &&
+    /export const CAMERA_LOOK_AHEAD_LEFT\s*=\s*kit\.motion\.cameraLookAheadLeft/.test(
+      sceneTs,
+    );
+  const derivesFollow =
+    /export const CAMERA_FOLLOW_RATE\s*=\s*kit\.motion\.cameraFollowRatePerSec/.test(
+      sceneTs,
+    );
+  const derivesPatrol =
+    /export const PATROL_PX_PER_SEC\s*=\s*kit\.motion\.patrolPxPerSec/.test(sceneTs);
+  const bannerUsesCam =
+    bannerTs.includes("CAMERA_LOOK_AHEAD_RIGHT") &&
+    bannerTs.includes("CAMERA_LOOK_AHEAD_LEFT");
+  const bannerUsesFollow = bannerTs.includes("CAMERA_FOLLOW_RATE");
+  const bannerUsesPatrol = bannerTs.includes("PATROL_PX_PER_SEC");
   const allowedLook = new Set(
     [laR, laL].filter((n) => typeof n === "number").map((n) => String(n)),
   );
   const lookAheadLits = [...bannerTs.matchAll(/viewW\s*\*\s*(\d+(?:\.\d+)?)/g)].map(
     (m) => m[1],
   );
-  if (allowedLook.size && lookAheadLits.length === 0) {
+  const camLiteralOk =
+    allowedLook.size > 0 &&
+    lookAheadLits.length > 0 &&
+    lookAheadLits.every((lit) => allowedLook.has(lit)) &&
+    lookAheadLits.includes(String(laR)) &&
+    lookAheadLits.includes(String(laL));
+  if (!(derivesCam && bannerUsesCam) && !camLiteralOk) {
     errors.push(
-      `console banner.tsx missing viewW* look-ahead (expected kit ${[...allowedLook].join("/")})`,
+      `console banner camera look-ahead must read kit.motion ` +
+        `(CAMERA_LOOK_AHEAD_* exports or viewW*${laR}/${laL})`,
     );
   }
   for (const lit of lookAheadLits) {
@@ -133,14 +158,11 @@ if (existsSync(consoleDir) && g && m) {
       );
     }
   }
-  if (laR != null && !lookAheadLits.includes(String(laR))) {
-    errors.push(`console banner.tsx missing cameraLookAheadRight ${laR}`);
-  }
-  if (laL != null && !lookAheadLits.includes(String(laL))) {
-    errors.push(`console banner.tsx missing cameraLookAheadLeft ${laL}`);
-  }
-  if (follow != null && !bannerTs.includes(String(follow))) {
+  if (follow != null && !(derivesFollow && bannerUsesFollow) && !bannerTs.includes(String(follow))) {
     errors.push(`console banner.tsx missing cameraFollowRatePerSec ${follow}`);
+  }
+  if (patrol != null && !(derivesPatrol && bannerUsesPatrol) && !bannerTs.includes(String(patrol))) {
+    errors.push(`console banner.tsx missing patrolPxPerSec ${patrol}`);
   }
 
   // Prop kinds closed set — every kit kind must appear in console seed or types.

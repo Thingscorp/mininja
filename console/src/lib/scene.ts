@@ -93,9 +93,13 @@ export const STAGE_WIDTH = kit.geometry.stageWidthPx;
 /** Rest-point ratio inside a stage; kit.geometry.anchorRatio. */
 export const ANCHOR_RATIO = kit.geometry.anchorRatio;
 
-/** Locomotion from kit.motion — SoT; banner reads these (OX-APP-002). */
+/** Locomotion from kit.motion — SoT; banner reads these (OX-APP-002 / D04). */
 export const WALK_PX_PER_SEC = kit.motion.walkPxPerSec;
 export const RUN_PX_PER_SEC = kit.motion.runPxPerSec;
+export const PATROL_PX_PER_SEC = kit.motion.patrolPxPerSec;
+export const CAMERA_LOOK_AHEAD_RIGHT = kit.motion.cameraLookAheadRight;
+export const CAMERA_LOOK_AHEAD_LEFT = kit.motion.cameraLookAheadLeft;
+export const CAMERA_FOLLOW_RATE = kit.motion.cameraFollowRatePerSec;
 
 /** Kit garden growth default — omit field → this. */
 export const GARDEN_GROWTH_DEFAULT = kit.garden.growth.default as GrowthLevel;

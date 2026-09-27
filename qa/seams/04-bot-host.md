@@ -70,12 +70,12 @@ Serve roots: `STATIC = bot/static`, `KIT_DIR = repo/kit` via `GET /kit/*`.
 | Stop / pull-off | Yes — API + button + composer verbs | **Yes** — via bot-api |
 | Retarget (explicit) | Yes — API + `retarget @Name` | **Yes** — via bot-api |
 | Rally-all | Yes — API + button + `@all` | **Yes** — via bot-api |
-| Permission modes draft/auto/free | Yes | No (no CLI teammate spawn) |
+| Permission modes draft/auto/free | Yes | **Yes** — composer labels PATCH bot `mode` (spawn form still bot) |
 | Routines (interval assign) | Yes — scheduler thread | No |
 | Per-pal credential bind | Yes | No |
 | Computers local/remote/codex | Yes | No |
 | Teammate SSE message stream | Yes | Console has its own stream/plugins, not multi-pal |
-| Host tint on habitat chips / presence dots | Yes (live from roster) | Banner **props** exist (`tint`/`pals`/`sticky`) but no live multi-pal roster wiring |
+| Host tint on habitat chips / presence dots | Yes (live from roster) | Banner wired from bot roster when up |
 | Program shell (`now`/`todo`/…) | Python twin in `bot/console/` | Canonical React + plugins |
 
 **Bottom line:** multi-pal **HTTP** lives in **bot**; React console **shares the composer grammar** and calls bot when up. Programs stay richest in React. Do not add a third mouth.

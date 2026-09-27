@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Mascot } from "@/components/mascot";
 import {
+  CAMERA_FOLLOW_RATE,
+  CAMERA_LOOK_AHEAD_LEFT,
+  CAMERA_LOOK_AHEAD_RIGHT,
   getAction,
   getStage,
   growthHeight,
   clampGrowth,
   hostGardenOverlay,
   listStages,
+  PATROL_PX_PER_SEC,
   RUN_PX_PER_SEC,
   stageCenter,
   WALK_PX_PER_SEC,
@@ -90,7 +94,7 @@ export function Banner({
     if (!reduce) return;
     const dest = stageCenter(scene.stage);
     actorRef.current = dest;
-    camRef.current = Math.max(0, dest - viewW * (scene.facing === "right" ? 0.32 : 0.52));
+    camRef.current = Math.max(0, dest - viewW * (scene.facing === "right" ? CAMERA_LOOK_AHEAD_RIGHT : CAMERA_LOOK_AHEAD_LEFT));
     if (actorEl.current) actorEl.current.style.left = `${dest}px`;
     if (worldRef.current) worldRef.current.style.transform = `translate3d(${-Math.round(camRef.current)}px,0,0)`;
     setTraveling(false);
@@ -131,7 +135,7 @@ export function Banner({
           const stage = getStage(s.stage);
           const min = stage.x + 56;
           const max = stage.x + stage.width - 90;
-          actorRef.current += patrol.current.dir * 26 * dt;
+          actorRef.current += patrol.current.dir * PATROL_PX_PER_SEC * dt;
           if (actorRef.current > max) {
             patrol.current.dir = -1;
             actorRef.current = max;
@@ -158,11 +162,11 @@ export function Banner({
       const here = nearestVisible(actorRef.current).id;
       setPlace((prev) => (prev === here ? prev : here));
 
-      const look = faceRef.current === "right" ? viewW * 0.32 : viewW * 0.52;
+      const look = faceRef.current === "right" ? viewW * CAMERA_LOOK_AHEAD_RIGHT : viewW * CAMERA_LOOK_AHEAD_LEFT;
       const desired = actorRef.current - look;
       const maxCam = Math.max(0, worldWidth() - viewW);
       const clamped = Math.min(maxCam, Math.max(0, desired));
-      const k = 1 - Math.exp(-dt * 5.2);
+      const k = 1 - Math.exp(-dt * CAMERA_FOLLOW_RATE);
       camRef.current += (clamped - camRef.current) * k;
       paint();
 

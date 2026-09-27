@@ -25,12 +25,16 @@ import {
 } from "@/lib/mention";
 import {
   fetchBotState,
+  isPermissionMode,
   needsBotCard,
+  PERMISSION_MODES,
+  patchBot,
   rallyAll,
   retargetTask,
-  startTask,
+  startTaskWithMode,
   stopBot,
   type BotApiResult,
+  type PermissionMode,
 } from "@/lib/bot-api";
 /** Host steel — parity with lib/tint STEEL (avoid node:crypto in browser). */
 const STEEL = "#8a8f98";
@@ -77,6 +81,8 @@ export function Mininja() {
   const [roster, setRoster] = useState<RosterPal[]>([]);
   const [mentionItems, setMentionItems] = useState<MentionSuggestion[]>([]);
   const [mentionIndex, setMentionIndex] = useState(0);
+  /** Approval mode for next @-task — same draft|auto|free as bot spawn. */
+  const [permMode, setPermMode] = useState<PermissionMode>("auto");
 
   const ready = boot >= 6;
   const live: Scene = offline
@@ -93,6 +99,12 @@ export function Mininja() {
   const bannerTint = selectedPal ? selectedPal.tint || STEEL : undefined;
   const bannerPals = toChrome(roster);
   const bannerSticky = stickyFromRoster(roster);
+
+  useEffect(() => {
+    if (selectedPal && isPermissionMode(selectedPal.mode)) {
+      setPermMode(selectedPal.mode);
+    }
+  }, [selectedPal?.id, selectedPal?.mode]);
 
   const refreshRoster = useCallback(async () => {
     const state = await fetchBotState();
@@ -195,6 +207,14 @@ export function Mininja() {
         setScene((s) => applyIntent(s, { action: "idle", line: s.line, emotion: s.emotion }));
       }, hold);
     }, 650);
+  }
+
+  async function setMode(next: PermissionMode) {
+    setPermMode(next);
+    if (!selectedPal) return;
+    const result = await patchBot(selectedPal.id, { mode: next });
+    if (result.needsBot || !result.ok) return;
+    await refreshRoster();
   }
 
   async function settleBot(opLabel: string, text: string, result: BotApiResult, okCard: Card) {
@@ -312,9 +332,23 @@ export function Mininja() {
       const from = selectedPal;
       let result: BotApiResult;
       if (from) {
+        if (to.mode !== permMode) {
+          const patched = await patchBot(to.id, { mode: permMode });
+          if (patched.needsBot || !patched.ok) {
+            await settleBot("Mode", text, patched, {
+              title: "Mode",
+              tag: to.name,
+              bottom: `could not set ${permMode}`,
+            });
+            return;
+          }
+        }
         result = await retargetTask(from.id, to.id, route.body);
       } else {
-        result = await startTask(to.id, route.body, { retarget: true });
+        result = await startTaskWithMode(to.id, route.body, permMode, {
+          retarget: true,
+          currentMode: to.mode,
+        });
       }
       setSelected(to.id);
       await settleBot("Retarget", text, result, {
@@ -327,7 +361,9 @@ export function Mininja() {
 
     if (route.op === "task") {
       setSelected(route.bot.id);
-      const result = await startTask(route.bot.id, route.body);
+      const result = await startTaskWithMode(route.bot.id, route.body, permMode, {
+        currentMode: route.bot.mode,
+      });
       await settleBot("Task", text, result, {
         title: route.bot.name,
         tag: "task",
@@ -338,7 +374,9 @@ export function Mininja() {
 
     if (route.op === "sidebar-task") {
       const bot = roster.find((b) => b.id === route.botId);
-      const result = await startTask(route.botId, route.text);
+      const result = await startTaskWithMode(route.botId, route.text, permMode, {
+        currentMode: bot?.mode,
+      });
       await settleBot("Task", text, result, {
         title: bot?.name || route.botId,
         tag: "task",
@@ -481,7 +519,7 @@ export function Mininja() {
                 placeholder={placeholder}
               />
             </form>
-            <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-mini text-muted">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-mini text-muted">
               {START.map(([cmd]) => (
                 <button
                   key={cmd}
@@ -496,6 +534,32 @@ export function Mininja() {
                 </button>
               ))}
               <span className="text-steel">@ · stop · retarget · @all</span>
+              <span className="text-steel" aria-hidden="true">
+                ·
+              </span>
+              <span className="inline-flex items-center gap-2" role="group" aria-label="approval mode">
+                {PERMISSION_MODES.map((m) => (
+                  <button
+                    key={m}
+                    type="button"
+                    aria-pressed={permMode === m}
+                    title={
+                      m === "draft"
+                        ? "read / search / web only"
+                        : m === "auto"
+                          ? "routine work proceeds, risky calls fail closed"
+                          : "always-approve (deny rm -rf)"
+                    }
+                    className={permMode === m ? "text-hi" : "hover:text-hi"}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      void setMode(m);
+                    }}
+                  >
+                    {m}
+                  </button>
+                ))}
+              </span>
             </div>
           </div>
         ) : (

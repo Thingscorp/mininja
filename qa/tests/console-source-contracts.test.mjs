@@ -80,11 +80,13 @@ assert(
     /280/.test(banner),
   "run speed via kit motion",
 );
-assert(/26/.test(banner), "patrol speed");
+assert(banner.includes("PATROL_PX_PER_SEC") || /26/.test(banner), "patrol speed");
 assert(/translate3d/.test(banner), "camera translate3d");
 assert(!/viewW\s*\*\s*0\.35/.test(banner), "no legacy 0.35 look-ahead");
-assert(banner.includes(String(kit.motion.cameraLookAheadRight)), "look-ahead right");
-assert(banner.includes(String(kit.motion.cameraLookAheadLeft)), "look-ahead left");
+assert(
+  banner.includes("CAMERA_LOOK_AHEAD_RIGHT") && banner.includes("CAMERA_LOOK_AHEAD_LEFT"),
+  "look-ahead kit exports",
+);
 
 // --- Scene catalog ids ---
 const sceneSrc = read("console/src/lib/scene.ts");
@@ -180,6 +182,8 @@ assert(/from "@\/lib\/mention"|routeComposer/.test(mininjaUi), "mininja uses men
 assert(/from "@\/lib\/bot-api"|startTask|rallyAll/.test(mininjaUi), "mininja uses bot-api");
 assert(/aria-label="mention roster"|mention roster/.test(mininjaUi), "mention menu");
 assert(/tint=\{bannerTint\}|pals=\{bannerPals\}|sticky=\{bannerSticky\}/.test(mininjaUi), "Banner tint/pals/sticky wired");
+assert(/PERMISSION_MODES|approval mode|draft/.test(mininjaUi), "mode control near composer");
+assert(/patchBot|startTaskWithMode|PermissionMode/.test(botApiSrc), "bot-api mode PATCH");
 
 console.log("PASS  SUITE-CON-SOURCE-CONTRACTS (routes/boot/cmds/plugins/auth/theme)");
 
