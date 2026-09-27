@@ -123,12 +123,17 @@ describe("routeComposer", () => {
 });
 
 describe("stickyFromRoster", () => {
-  it("ranks blocked over busy", () => {
+  it("ranks blocked > asking > busy", () => {
     assert.equal(stickyFromRoster(bots), "blocked");
+    assert.equal(
+      stickyFromRoster([{ id: "x", name: "X", working: true }], { asking: true }),
+      "asking",
+    );
     assert.equal(
       stickyFromRoster([{ id: "x", name: "X", working: true }]),
       "busy",
     );
+    assert.equal(stickyFromRoster([{ id: "x", name: "X" }], { asking: true }), "asking");
     assert.equal(stickyFromRoster([{ id: "x", name: "X" }]), null);
   });
 });

@@ -28,6 +28,8 @@ export type PalChrome = {
   tint: string;
   busy?: boolean;
   blocked?: boolean;
+  /** Focused pal in habitat glass (host chrome). */
+  selected?: boolean;
 };
 
 export type StickyRank = "blocked" | "asking" | "busy";
@@ -211,7 +213,7 @@ export function Banner({
             {pals.map((p) => (
               <span
                 key={p.id}
-                className={`pal-chip${p.busy ? " is-busy" : ""}${p.blocked ? " is-blocked" : ""}`}
+                className={`pal-chip${p.busy ? " is-busy" : ""}${p.blocked ? " is-blocked" : ""}${p.selected ? " is-sel" : ""}`}
                 style={{ ["--pal-tint"]: p.tint } as CSSProperties}
                 title={p.name}
               >

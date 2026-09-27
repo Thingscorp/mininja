@@ -183,6 +183,10 @@
   opacity: 0.7;
 }
 .pal-chip.is-busy { opacity: 1; }
+.pal-chip.is-sel {
+  opacity: 1;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--pal-tint) 70%, transparent);
+}
 .pal-chip.is-blocked {
   box-shadow: 0 0 0 1px var(--color-err);
 }

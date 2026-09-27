@@ -153,9 +153,15 @@ export function routeComposer(
   return { op: "sidebar-task", botId: selected, text: line };
 }
 
-/** Glance sticky interrupt — blocked > busy (asking is face/runtime). */
-export function stickyFromRoster(bots: RosterPal[]): "blocked" | "busy" | null {
+export type StickyRank = "blocked" | "asking" | "busy";
+
+/** Glance sticky interrupt — blocked > asking > busy (host chrome; matches bot stickyInterrupt). */
+export function stickyFromRoster(
+  bots: RosterPal[],
+  opts?: { asking?: boolean },
+): StickyRank | null {
   if ((bots || []).some((b) => b.status === "error")) return "blocked";
+  if (opts?.asking) return "asking";
   if ((bots || []).some((b) => b.working)) return "busy";
   return null;
 }

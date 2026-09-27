@@ -184,6 +184,10 @@ assert(/aria-label="mention roster"|mention roster/.test(mininjaUi), "mention me
 assert(/tint=\{bannerTint\}|pals=\{bannerPals\}|sticky=\{bannerSticky\}/.test(mininjaUi), "Banner tint/pals/sticky wired");
 assert(/PERMISSION_MODES|approval mode|draft/.test(mininjaUi), "mode control near composer");
 assert(/patchBot|startTaskWithMode|PermissionMode/.test(botApiSrc), "bot-api mode PATCH");
+assert(/createBot|POST.*\/api\/bots|\/api\/bots/.test(botApiSrc) && /export async function createBot/.test(botApiSrc), "bot-api createBot");
+assert(/stickyFromRoster\([^)]*asking|asking:\s*liveAsking/.test(mininjaUi) || /asking:\s*liveAsking/.test(mininjaUi), "sticky asking wired");
+assert(/\+ pal|createNewPal|createBot/.test(mininjaUi), "new-pal UI");
+assert(/is-sel/.test(read("console/src/styles.css")), "selected pal chip ring");
 
 console.log("PASS  SUITE-CON-SOURCE-CONTRACTS (routes/boot/cmds/plugins/auth/theme)");
 

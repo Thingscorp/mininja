@@ -41,7 +41,9 @@ Companion: [`qa/OLD-CONSOLE-CARRYOVER.md`](../OLD-CONSOLE-CARRYOVER.md) · [`HAB
 | **Preview host bridge / P2P** | `preview-host-bridge*`, `lib/multiplayer/p2p.ts` | **host-only OK** (low pri) | Not glance hero; P2P “roster” ≠ pal roster. |
 | **@-mention / roster / targeting** | `lib/mention.ts` + menu in `mininja.tsx` | **shipped (Apps)** | Parity with bot `parseMention`; roster from bot-api. |
 | **Pull-off / retarget / rally-all** | `routeComposer` + `bot-api.ts` | **shipped (Apps)** | Calls bot `stop` / `retarget` / `rally`; needs-bot card when down. |
-| **Permission modes (draft/auto/free)** | Composer labels → `patchBot` / `startTaskWithMode` | **shipped (Apps)** | Same bot `mode` field; PATCH then task. Spawn form stays bot. |
+| **Permission modes (draft/auto/free)** | Composer labels → `patchBot` / `startTaskWithMode` | **shipped (Apps)** | Same bot `mode` field; PATCH then task. |
+| **New-pal create** | `createBot` → `POST /api/bots` · `+ pal` near composer | **shipped (Apps, minimal)** | Name + mode. Keys/remote/cwd/routines = Mac launcher. |
+| **Sticky asking** | `stickyFromRoster(..., { asking })` · listening / focus | **shipped (Apps)** | blocked > asking > busy; selected chip ring. |
 
 ---
 
@@ -89,7 +91,7 @@ Carryover dated 2026-09-26; **bot has moved ahead** of that GAP table. Console h
 | **P0** | `@`-mention | **Bot + Console shipped** (shared grammar) | — |
 | **P0** | Pull-off / retarget / rally-all | **Bot + Console shipped** (console → bot-api) | Needs bot process |
 | **P0** | Unify composer | **Absorbed** — one grammar; bot = launcher/API | Do not add a third mouth |
-| **P1** | Multi-pal color Banner wire | Console wires when bot roster up | Asking sticky face-rank still light |
+| **P1** | Multi-pal color Banner wire | Console wires when bot roster up | Sticky asking + selected chip shipped |
 | **P1** | Pal ↔ `repoBranch` plant binding | Kit garden SoT yes; **console paints growth silhouettes + one-pal-one-plant** | **DONE** (Apps D03) |
 
 Other carryover “ALREADY” items that **hold** for console: kit-hydrate habitat (`registerFromKit`), scrubbed mascot/`sandboxing`, program plugins, auth stack, no STAGE_SEED.

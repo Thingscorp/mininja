@@ -44,6 +44,10 @@ When bot is down, pal ops show a clear **Needs bot server** card; programs still
 
 **Approval modes** near the composer: `draft` · `auto` · `free` (same words as the bot spawn form). Clicking a mode updates the focused pal via `PATCH /api/bots/:id` (`mode` field). Sending an `@`-task applies the chosen mode first, then starts the task. No new backend — same bot field.
 
+**Glance sticky** on the habitat strip: `blocked` > `asking` > `busy` (same rank as the Mac bot). Asking shows while you type, or right after you focus a pal. The focused pal’s chip is ringed.
+
+**+ pal** (when bot is up): smallest create path — name + current mode → `POST /api/bots`. Working folder, remote computer, LLM keys, and routines stay in the Mac launcher form.
+
 ## Layout
 
 ```

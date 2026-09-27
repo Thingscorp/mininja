@@ -24,6 +24,7 @@ import {
   type RosterPal,
 } from "@/lib/mention";
 import {
+  createBot,
   fetchBotState,
   isPermissionMode,
   needsBotCard,
@@ -54,13 +55,14 @@ const START: [string, string][] = [
   ["go", "walk the banner"],
 ];
 
-function toChrome(bots: RosterPal[]): PalChrome[] {
+function toChrome(bots: RosterPal[], selectedId?: string): PalChrome[] {
   return bots.map((b) => ({
     id: b.id,
     name: b.name,
     tint: b.tint || STEEL,
     busy: Boolean(b.working),
     blocked: b.status === "error",
+    selected: Boolean(selectedId && b.id === selectedId),
   }));
 }
 
@@ -83,6 +85,11 @@ export function Mininja() {
   const [mentionIndex, setMentionIndex] = useState(0);
   /** Approval mode for next @-task — same draft|auto|free as bot spawn. */
   const [permMode, setPermMode] = useState<PermissionMode>("auto");
+  /** Bot launcher reachable — roster / create need it. */
+  const [botUp, setBotUp] = useState(false);
+  /** Tiny new-pal form (name + current mode). */
+  const [newPalOpen, setNewPalOpen] = useState(false);
+  const [newPalName, setNewPalName] = useState("");
 
   const ready = boot >= 6;
   const live: Scene = offline
@@ -97,8 +104,10 @@ export function Mininja() {
 
   const selectedPal = roster.find((b) => b.id === selected);
   const bannerTint = selectedPal ? selectedPal.tint || STEEL : undefined;
-  const bannerPals = toChrome(roster);
-  const bannerSticky = stickyFromRoster(roster);
+  const bannerPals = toChrome(roster, selected === "console" ? undefined : selected);
+  // Asking face ≈ kit bridge curious+wait (listening / soft interrupt). Match bot stickyInterrupt.
+  const liveAsking = !offline && live.emotion === "curious" && live.action === "wait";
+  const bannerSticky = stickyFromRoster(roster, { asking: liveAsking });
 
   useEffect(() => {
     if (selectedPal && isPermissionMode(selectedPal.mode)) {
@@ -108,7 +117,11 @@ export function Mininja() {
 
   const refreshRoster = useCallback(async () => {
     const state = await fetchBotState();
-    if (!state) return;
+    if (!state) {
+      setBotUp(false);
+      return;
+    }
+    setBotUp(true);
     setRoster(state.bots || []);
     if (selected !== "console" && !(state.bots || []).some((b) => b.id === selected)) {
       setSelected("console");
@@ -217,6 +230,38 @@ export function Mininja() {
     await refreshRoster();
   }
 
+  /** Smallest create path — name + mode via bot POST /api/bots. Rich spawn stays Mac launcher. */
+  async function createNewPal() {
+    const name = newPalName.trim();
+    if (!name) return;
+    const result = await createBot({ name, mode: permMode });
+    if (result.needsBot) {
+      pushCmdOut(`new ${name}`, needsBotCard("New pal", result.error));
+      setScene((s) => applyIntent(s, { emotion: "worried", action: "wait", line: "bot offline" }));
+      return;
+    }
+    if (!result.ok) {
+      pushCmdOut(`new ${name}`, {
+        title: "New pal",
+        tag: "error",
+        bottom: String(result.error || "could not create"),
+      });
+      setScene((s) => applyIntent(s, { emotion: "worried", action: "wait", line: "" }));
+      return;
+    }
+    const id = typeof result.id === "string" ? result.id : null;
+    setNewPalName("");
+    setNewPalOpen(false);
+    if (id) setSelected(id);
+    setScene((s) => applyIntent(s, listeningIntent()));
+    pushCmdOut(`new ${name}`, {
+      title: name,
+      tag: "new",
+      bottom: `Created ${name} (${permMode}). Keys / remote / routines: Mac launcher.`,
+    });
+    await refreshRoster();
+  }
+
   async function settleBot(opLabel: string, text: string, result: BotApiResult, okCard: Card) {
     if (result.needsBot) {
       pushCmdOut(text, needsBotCard(opLabel, result.error));
@@ -273,6 +318,7 @@ export function Mininja() {
 
     if (route.op === "select-pal") {
       setSelected(route.bot.id);
+      setScene((s) => applyIntent(s, listeningIntent()));
       pushCmdOut(text, {
         title: route.bot.name,
         tag: "focus",
@@ -560,6 +606,59 @@ export function Mininja() {
                   </button>
                 ))}
               </span>
+              {botUp ? (
+                <>
+                  <span className="text-steel" aria-hidden="true">
+                    ·
+                  </span>
+                  {newPalOpen ? (
+                    <form
+                      className="inline-flex items-center gap-2"
+                      onClick={(e) => e.stopPropagation()}
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        void createNewPal();
+                      }}
+                    >
+                      <input
+                        value={newPalName}
+                        onChange={(e) => setNewPalName(e.target.value)}
+                        className="w-24 bg-transparent text-hi outline-none placeholder:text-muted"
+                        placeholder="name"
+                        aria-label="new pal name"
+                        autoComplete="off"
+                        spellCheck={false}
+                        autoFocus
+                      />
+                      <button type="submit" className="text-hi hover:underline" disabled={!newPalName.trim()}>
+                        add
+                      </button>
+                      <button
+                        type="button"
+                        className="hover:text-hi"
+                        onClick={() => {
+                          setNewPalOpen(false);
+                          setNewPalName("");
+                        }}
+                      >
+                        cancel
+                      </button>
+                    </form>
+                  ) : (
+                    <button
+                      type="button"
+                      className="hover:text-hi"
+                      title="Create a pal on the bot server"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setNewPalOpen(true);
+                      }}
+                    >
+                      + pal
+                    </button>
+                  )}
+                </>
+              ) : null}
             </div>
           </div>
         ) : (

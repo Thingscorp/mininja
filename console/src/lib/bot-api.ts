@@ -152,6 +152,34 @@ export async function rallyAll(text: string): Promise<BotApiResult> {
   });
 }
 
+/** Create a pal via bot POST /api/bots — same fields as Mac launcher spawn (minimal). */
+export type CreateBotPayload = {
+  name: string;
+  job?: string;
+  mode?: PermissionMode;
+  description?: string;
+  /** Defaults to local. remote/codex + cwd + credentials stay Mac-launcher rich. */
+  computer?: "local" | "remote" | "codex";
+  cwd?: string;
+};
+
+export async function createBot(payload: CreateBotPayload): Promise<BotApiResult> {
+  const name = (payload.name || "").trim();
+  if (!name) return { ok: false, error: "name required" };
+  const body: Record<string, unknown> = {
+    name,
+    job: (payload.job || "").trim() || "General",
+    mode: payload.mode && isPermissionMode(payload.mode) ? payload.mode : "auto",
+    description: payload.description || "",
+    computer: payload.computer || "local",
+  };
+  if (payload.cwd?.trim()) body.cwd = payload.cwd.trim();
+  return req("/api/bots", {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+}
+
 export function needsBotCard(op: string, detail?: string | null) {
   return {
     title: "Needs bot server",
