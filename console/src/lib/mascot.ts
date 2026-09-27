@@ -1,15 +1,13 @@
 import {
-  composeLockup,
-  DEFAULT_SCENE,
   intentFromCommand,
-  intentFromLegacy,
   sceneFromIntent,
   type Scene,
   type SceneIntent,
   type Tone,
 } from "./scene.ts";
 
-/** Official Mininja frames. Body stays the lockup. Eyes, pose, and the banner change. The mascot has no name. */
+/** Official Mininja frames. Body is static. Only eyes (and the wrap on scan) change.
+ * Glyphs: ralph/loop-install SoT (Thingscorp/mininja-console). Id `sandboxing` matches kit. */
 export type MascotState =
   | "idle"
   | "blink"
@@ -36,30 +34,68 @@ export type Frame = {
   motion?: "pulse" | "bounce" | "shake";
 };
 
-function legacyFrame(state: MascotState): Frame {
-  const intent = intentFromLegacy(state) ?? {};
-  const scene = sceneFromIntent({ ...intent, facing: state === "loadingLeft" ? "left" : "right" }, DEFAULT_SCENE);
-  const built = composeLockup(scene, 0, state === "blink");
-  const motion = built.motion === "pulse" || built.motion === "bounce" || built.motion === "shake" ? built.motion : undefined;
-  return { lines: built.lines, tone: built.tone, label: built.label.split(" ")[0] ?? state, motion };
-}
-
+/** Hardcoded expression stocks — do not derive via composeLockup (glyph drift). */
 export const FRAMES: Record<MascotState, Frame> = {
-  idle: legacyFrame("idle"),
-  blink: legacyFrame("blink"),
-  evaluating: legacyFrame("evaluating"),
-  loadingRight: legacyFrame("loadingRight"),
-  loadingLeft: legacyFrame("loadingLeft"),
-  allowed: legacyFrame("allowed"),
-  asking: legacyFrame("asking"),
-  denied: legacyFrame("denied"),
-  sandboxing: legacyFrame("sandboxing"),
-  executing: legacyFrame("executing"),
-  completed: legacyFrame("completed"),
-  warning: legacyFrame("warning"),
-  error: legacyFrame("error"),
-  cancelled: legacyFrame("cancelled"),
-  offline: legacyFrame("offline"),
+  idle: { lines: ["▚████", "██ ●●", "▀▀▀▀▀"], tone: "idle", label: "idle" },
+  blink: { lines: ["▚████", "██ ──", "▀▀▀▀▀"], tone: "idle", label: "idle" },
+  evaluating: {
+    lines: ["▚████", "██ ◐◑", "▀▀▀▀▀"],
+    tone: "accent",
+    label: "evaluating",
+    motion: "pulse",
+  },
+  loadingRight: {
+    lines: ["▚████", "██ ●●", "▀▀▀▀▀"],
+    tone: "accent",
+    label: "loading",
+    motion: "pulse",
+  },
+  loadingLeft: {
+    lines: ["████▞", "●● ██", "▀▀▀▀▀"],
+    tone: "accent",
+    label: "loading",
+    motion: "pulse",
+  },
+  allowed: {
+    lines: ["▚████", "██ ><", "▀▀▀▀▀"],
+    tone: "ok",
+    label: "allowed",
+    motion: "bounce",
+  },
+  asking: { lines: ["▚████", "██ ??", "▀▀▀▀▀"], tone: "warn", label: "ask" },
+  denied: {
+    lines: ["▚████", "██ ┃┃", "▀▀▀▀▀"],
+    tone: "err",
+    label: "denied",
+    motion: "shake",
+  },
+  sandboxing: { lines: ["▚████", "██ ◇◇", "▀▀▀▀▀"], tone: "muted", label: "sandbox" },
+  executing: {
+    lines: ["▚████", "██ ◣◢", "▀▀▀▀▀"],
+    tone: "accent",
+    label: "executing",
+    motion: "pulse",
+  },
+  completed: {
+    lines: ["▚████", "██ ▴▴", "▀▀▀▀▀"],
+    tone: "ok",
+    label: "completed",
+    motion: "bounce",
+  },
+  warning: {
+    lines: ["▚████", "██ ◆◆", "▀▀▀▀▀"],
+    tone: "warn",
+    label: "warning",
+    motion: "bounce",
+  },
+  error: {
+    lines: ["▚████", "██ ××", "▀▀▀▀▀"],
+    tone: "err",
+    label: "error",
+    motion: "shake",
+  },
+  cancelled: { lines: ["▚████", "██ ◦◦", "▀▀▀▀▀"], tone: "muted", label: "cancelled" },
+  offline: { lines: ["▚████", "██ ‒‒", "▀▀▀▀▀"], tone: "muted", label: "offline" },
 };
 
 export function lockup(state: MascotState): [string, string, string] {

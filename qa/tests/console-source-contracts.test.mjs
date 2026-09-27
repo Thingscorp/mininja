@@ -165,6 +165,8 @@ assert(/x:game|og:type|MAX_CARD/i.test(brand), "brand-check heuristics");
 const mascot = read("console/src/components/mascot.tsx");
 assert(/idle|blink|facing|lines/i.test(mascot), "mascot lockup");
 assert(!/Casque/i.test(mascot), "no Casque in mascot");
+assert(/FRAMES\[state\]/.test(mascot), "mascot paints FRAMES for state=");
+assert(/composeLockup/.test(mascot), "composeLockup still available for scene= path");
 
 
 // --- Composer absorb (OX-APP-D01) ---
@@ -181,15 +183,17 @@ assert(/needsBotCard|Needs bot/i.test(botApiSrc), "needs-bot path");
 assert(/from "@\/lib\/mention"|routeComposer/.test(mininjaUi), "mininja uses mention");
 assert(/from "@\/lib\/bot-api"|startTask|rallyAll/.test(mininjaUi), "mininja uses bot-api");
 assert(/aria-label="mention roster"|mention roster/.test(mininjaUi), "mention menu");
-assert(/<Banner[\s>]/.test(mininjaUi), "early casque Banner mounted (stock props SoT)");
-assert(/showPlants=\{false\}/.test(mininjaUi), "showPlants false — stock props only, no garden stalks");
+assert(/scoot-track/.test(mininjaUi) && /scoot-walker/.test(mininjaUi), "ralph scoot-track header");
+assert(/<Mascot state=\{face\}/.test(mininjaUi) || /Mascot state=\{face\}/.test(mininjaUi), "Mascot face header (not Banner diorama)");
+assert(!/<Banner[\s>]/.test(mininjaUi), "Banner diorama not mounted in default header");
 assert(!/GardenStrip/.test(mininjaUi), "garden-strip not mounted");
-assert(/\.prop-moon/.test(read("console/src/styles.css")) && /\.prop-crate/.test(read("console/src/styles.css")) && /\.prop-lamp/.test(read("console/src/styles.css")), "stock prop CSS (moon/crate/lamp)");
+assert(/showPlants/.test(mininjaUi), "showPlants retained (dormant)");
 assert(/PERMISSION_MODES|approval mode|draft/.test(mininjaUi), "mode control near composer");
 assert(/patchBot|startTaskWithMode|PermissionMode/.test(botApiSrc), "bot-api mode PATCH");
 assert(/createBot|POST.*\/api\/bots|\/api\/bots/.test(botApiSrc) && /export async function createBot/.test(botApiSrc), "bot-api createBot");
 assert(/\+ pal|createNewPal|createBot/.test(mininjaUi), "new-pal UI");
 assert(/is-sel/.test(read("console/src/styles.css")), "selected pal chip ring");
+assert(/\.scoot-track/.test(read("console/src/styles.css")) && /\.scoot-walker/.test(read("console/src/styles.css")), "scoot CSS restored");
 assert(/focusHabitatPal|applyHabitatMentions/.test(mininjaUi), "habitat focus / @mention helpers retained");
 assert(/pointer-events:\s*auto/.test(read("console/src/styles.css")) && /pal-chip/.test(read("console/src/styles.css")), "pal-chip CSS retained");
 assert(/export function applyHabitatMentions/.test(mentionSrc), "applyHabitatMentions helper");
@@ -202,17 +206,20 @@ assert(/Escape|applyHabitatMentions\(input, \[\]\)/.test(mininjaUi), "Escape str
 
 console.log("PASS  SUITE-CON-SOURCE-CONTRACTS (routes/boot/cmds/plugins/auth/theme)");
 
-// --- Stock props (early casque da272c1) — Banner mounts; garden stalks NOT shown ---
+// --- Scoot face + ralph FRAMES (expression stocks) — no banner diorama / garden strip ---
 const gardenCss = read("console/src/styles.css");
-const bannerSrc = read("console/src/components/banner.tsx");
-assert(/\.prop-moon/.test(gardenCss) && /\.prop-crate/.test(gardenCss), "stock prop silhouettes");
-assert(/prop-moon|prop-crate|prop-lamp|prop-screen/.test(bannerSrc) || /prop-\$\{prop\.kind\}/.test(bannerSrc), "Banner paints stock props");
-assert(/kind !== "repoBranch"|filter.*repoBranch/.test(bannerSrc), "Banner filters repoBranch from stage props");
-assert(/showPlants/.test(bannerSrc), "Banner gates garden via showPlants");
+const mascotLib = read("console/src/lib/mascot.ts");
+assert(/scoot-track/.test(mininjaUi) && /Mascot state=\{face\}/.test(mininjaUi), "scoot header paints Mascot from FRAMES");
+assert(!/<Banner[\s>]/.test(mininjaUi), "no Banner in default header");
+assert(!existsSync(join(root, "console/src/components/garden-strip.tsx")), "garden-strip.tsx removed");
+assert(!/\.garden-strip/.test(gardenCss), "no garden-strip CSS");
+assert(/"██ \?\?"/.test(mascotLib) || /██ \?\?/.test(mascotLib), "FRAMES asking ??");
+assert(/██ ××/.test(mascotLib) || /"██ ××"/.test(mascotLib), "FRAMES error ××");
+assert(/██ ┃┃/.test(mascotLib), "FRAMES denied ┃┃");
+assert(/██ ◇◇/.test(mascotLib), "FRAMES sandboxing ◇◇");
+assert(/sandboxing:/.test(mascotLib) && /legacyFrame/.test(mascotLib) === false, "hardcoded FRAMES (no legacyFrame)");
 assert(/growthHeight/.test(sceneSrc), "growthHeight helper retained in scene");
 assert(/plantDrawHeight|LEAF_HEIGHT_PX/.test(sceneSrc), "plantDrawHeight retained");
 assert(/hostGardenOverlay/.test(sceneSrc), "hostGardenOverlay retained (off in header)");
 assert(/exampleRootLeafGarden/.test(sceneSrc), "demo root+leaf fixture retained");
-assert(!existsSync(join(root, "console/src/components/garden-strip.tsx")), "garden-strip.tsx removed");
-assert(!/\.garden-strip/.test(gardenCss), "no garden-strip CSS");
-console.log("PASS  early casque stock props on Banner; garden stalks removed");
+console.log("PASS  scoot-track + ralph FRAMES; no banner/garden");
