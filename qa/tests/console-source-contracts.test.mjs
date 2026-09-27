@@ -181,9 +181,10 @@ assert(/needsBotCard|Needs bot/i.test(botApiSrc), "needs-bot path");
 assert(/from "@\/lib\/mention"|routeComposer/.test(mininjaUi), "mininja uses mention");
 assert(/from "@\/lib\/bot-api"|startTask|rallyAll/.test(mininjaUi), "mininja uses bot-api");
 assert(/aria-label="mention roster"|mention roster/.test(mininjaUi), "mention menu");
-assert(/scoot-track/.test(mininjaUi) && /scoot-walker/.test(mininjaUi), "ralph scoot-track header");
-assert(/<Mascot state=\{face\}/.test(mininjaUi) || /Mascot state=\{face\}/.test(mininjaUi), "Mascot face header (not Banner diorama)");
-assert(!/<Banner[\s>]/.test(mininjaUi), "Banner diorama not mounted in default header");
+assert(/<Banner[\s>]/.test(mininjaUi), "early casque Banner mounted (stock props SoT)");
+assert(/showPlants=\{false\}/.test(mininjaUi), "showPlants false — stock props only, no garden stalks");
+assert(!/GardenStrip/.test(mininjaUi), "garden-strip not mounted");
+assert(/\.prop-moon/.test(read("console/src/styles.css")) && /\.prop-crate/.test(read("console/src/styles.css")) && /\.prop-lamp/.test(read("console/src/styles.css")), "stock prop CSS (moon/crate/lamp)");
 assert(/PERMISSION_MODES|approval mode|draft/.test(mininjaUi), "mode control near composer");
 assert(/patchBot|startTaskWithMode|PermissionMode/.test(botApiSrc), "bot-api mode PATCH");
 assert(/createBot|POST.*\/api\/bots|\/api\/bots/.test(botApiSrc) && /export async function createBot/.test(botApiSrc), "bot-api createBot");
@@ -191,7 +192,6 @@ assert(/\+ pal|createNewPal|createBot/.test(mininjaUi), "new-pal UI");
 assert(/is-sel/.test(read("console/src/styles.css")), "selected pal chip ring");
 assert(/focusHabitatPal|applyHabitatMentions/.test(mininjaUi), "habitat focus / @mention helpers retained");
 assert(/pointer-events:\s*auto/.test(read("console/src/styles.css")) && /pal-chip/.test(read("console/src/styles.css")), "pal-chip CSS retained");
-assert(/\.scoot-track/.test(read("console/src/styles.css")) && /\.scoot-walker/.test(read("console/src/styles.css")), "scoot CSS restored");
 assert(/export function applyHabitatMentions/.test(mentionSrc), "applyHabitatMentions helper");
 assert(/export function splitLeadingMentions|fan-out|MAX_PARALLEL/.test(mentionSrc), "multi-@ fan-out grammar");
 assert(/maxParallel\?:/.test(mentionSrc) || /opts\.maxParallel|maxParallel/.test(mentionSrc), "routeComposer maxParallel override");
@@ -202,21 +202,17 @@ assert(/Escape|applyHabitatMentions\(input, \[\]\)/.test(mininjaUi), "Escape str
 
 console.log("PASS  SUITE-CON-SOURCE-CONTRACTS (routes/boot/cmds/plugins/auth/theme)");
 
-// --- Garden plants (OX-APP-D03) — scoot-track + lean garden-strip (not Banner diorama) ---
+// --- Stock props (early casque da272c1) — Banner mounts; garden stalks NOT shown ---
 const gardenCss = read("console/src/styles.css");
-const gardenStrip = read("console/src/components/garden-strip.tsx");
-assert(/\.prop-repoBranch/.test(gardenCss), "prop-repoBranch CSS");
-assert(/\.garden-strip/.test(gardenCss), "garden-strip CSS under scoot-track");
-assert(/growthHeight/.test(sceneSrc), "growthHeight helper");
-assert(/plantDrawHeight|LEAF_HEIGHT_PX/.test(sceneSrc), "plantDrawHeight / leaf fixed height");
-assert(/hostGardenOverlay/.test(gardenStrip), "garden-strip uses hostGardenOverlay");
-assert(/prop-repoBranch/.test(gardenStrip), "garden-strip paints prop-repoBranch");
-assert(/is-leaf|data-role/.test(gardenStrip + gardenCss), "leaf role chrome");
-assert(/is-wilt/.test(gardenCss), "optional wilt class");
-assert(/showPlants/.test(gardenStrip), "garden-strip respects showPlants");
-assert(/showPlants/.test(mininjaUi), "mininja wires showPlants");
-assert(/<GardenStrip[\s>]/.test(mininjaUi) || /GardenStrip/.test(mininjaUi), "mininja mounts GardenStrip");
-assert(!/<Banner[\s>]/.test(mininjaUi), "Banner diorama still not mounted");
-assert(/exampleRootLeafGarden/.test(sceneSrc), "demo root+leaf fixture");
-// banner.tsx may keep unused GardenPlant helpers — optional, not required chrome
-console.log("PASS  garden plant growth (D03) + Occam root/leaf under scoot-track");
+const bannerSrc = read("console/src/components/banner.tsx");
+assert(/\.prop-moon/.test(gardenCss) && /\.prop-crate/.test(gardenCss), "stock prop silhouettes");
+assert(/prop-moon|prop-crate|prop-lamp|prop-screen/.test(bannerSrc) || /prop-\$\{prop\.kind\}/.test(bannerSrc), "Banner paints stock props");
+assert(/kind !== "repoBranch"|filter.*repoBranch/.test(bannerSrc), "Banner filters repoBranch from stage props");
+assert(/showPlants/.test(bannerSrc), "Banner gates garden via showPlants");
+assert(/growthHeight/.test(sceneSrc), "growthHeight helper retained in scene");
+assert(/plantDrawHeight|LEAF_HEIGHT_PX/.test(sceneSrc), "plantDrawHeight retained");
+assert(/hostGardenOverlay/.test(sceneSrc), "hostGardenOverlay retained (off in header)");
+assert(/exampleRootLeafGarden/.test(sceneSrc), "demo root+leaf fixture retained");
+assert(!existsSync(join(root, "console/src/components/garden-strip.tsx")), "garden-strip.tsx removed");
+assert(!/\.garden-strip/.test(gardenCss), "no garden-strip CSS");
+console.log("PASS  early casque stock props on Banner; garden stalks removed");

@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cardFor, type Card } from "@/lib/mininja";
 import { findBlocker } from "@/lib/blockers";
-import { Mascot } from "@/components/mascot";
-import { GardenStrip } from "@/components/garden-strip";
+import { Banner, type PalChrome } from "@/components/banner";
 import { Pigeon } from "@/components/pigeon";
 import { Gantt } from "@/components/gantt";
 import {
@@ -13,7 +12,6 @@ import {
   intentFromCommand,
   type Scene,
 } from "@/lib/scene";
-import { afterCommand, type MascotState } from "@/lib/mascot";
 import type { PigeonPose } from "@/lib/pigeon";
 import { isOn as refineOn } from "@/plugins/refine";
 import {
@@ -23,6 +21,7 @@ import {
   mentionQuery,
   rosterSuggestions,
   routeComposer,
+  stickyFromRoster,
   type MentionSuggestion,
   type RosterPal,
 } from "@/lib/mention";
@@ -41,6 +40,9 @@ import {
   type BotApiResult,
   type PermissionMode,
 } from "@/lib/bot-api";
+/** Host steel — parity with lib/tint STEEL (avoid node:crypto in browser). */
+const STEEL = "#8a8f98";
+
 type Line =
   | { kind: "cmd"; id: number; text: string }
   | { kind: "out"; id: number; card: Card };
@@ -56,6 +58,18 @@ const START: [string, string][] = [
   ["go", "walk the banner"],
 ];
 
+function toChrome(bots: RosterPal[], selectedIds: string[] = []): PalChrome[] {
+  const sel = new Set(selectedIds);
+  return bots.map((b) => ({
+    id: b.id,
+    name: b.name,
+    tint: b.tint || STEEL,
+    busy: Boolean(b.working),
+    blocked: b.status === "error",
+    selected: sel.has(b.id),
+  }));
+}
+
 export function Mininja() {
   const inputRef = useRef<HTMLInputElement>(null);
   const logRef = useRef<HTMLDivElement>(null);
@@ -68,8 +82,6 @@ export function Mininja() {
   const [offline, setOffline] = useState(false);
   const [reduce, setReduce] = useState(true);
   const [lines, setLines] = useState<Line[]>([]);
-  const [mood, setMood] = useState<MascotState>("idle");
-  const walkerRef = useRef<HTMLDivElement>(null);
   /** Sidebar fallback — "console" | bot id (bot SoT grammar). */
   const [selected, setSelected] = useState<string>("console");
   /** Habitat multi-focus ids (shift+click); rings match is-sel. */
@@ -77,8 +89,6 @@ export function Mininja() {
   const [roster, setRoster] = useState<RosterPal[]>([]);
   /** Live fan-out cap from bot host-config (CLI SoT); fallback MAX_PARALLEL. */
   const [maxParallel, setMaxParallel] = useState(MAX_PARALLEL);
-  /** Habitat plants toggle from host-config (default true). */
-  const [showPlants, setShowPlants] = useState(true);
   const [mentionItems, setMentionItems] = useState<MentionSuggestion[]>([]);
   const [mentionIndex, setMentionIndex] = useState(0);
   /** Approval mode for next @-task — same draft|auto|free as bot spawn. */
@@ -90,22 +100,28 @@ export function Mininja() {
   const [newPalName, setNewPalName] = useState("");
 
   const ready = boot >= 6;
-  const scooting = ready && !offline && mood === "idle" && !input && !reduce;
-  const face: MascotState = offline
-    ? "offline"
-    : mood !== "idle"
-      ? mood
-      : blink
-        ? "blink"
-        : input
-          ? "asking"
-          : "idle";
+  const live: Scene = offline
+    ? applyIntent(scene, { emotion: "sleepy", action: "sleep", stage: "nightwatch", line: "type wake to return" })
+    : input && scene.action === "idle"
+      ? applyIntent(scene, listeningIntent())
+      : scene;
 
   const lastOut = [...lines].reverse().find((l) => l.kind === "out");
   const lastCard = lastOut?.kind === "out" ? lastOut.card : undefined;
   const bird: PigeonPose | undefined = lastCard?.bird;
 
   const selectedPal = roster.find((b) => b.id === selected);
+  const bannerTint = selectedPal ? selectedPal.tint || STEEL : undefined;
+  const focusIds =
+    multiIds.length > 0
+      ? multiIds
+      : selected !== "console"
+        ? [selected]
+        : [];
+  const bannerPals = toChrome(roster, focusIds);
+  // Asking face ≈ kit bridge curious+wait (listening / soft interrupt). Match bot stickyInterrupt.
+  const liveAsking = !offline && live.emotion === "curious" && live.action === "wait";
+  const bannerSticky = stickyFromRoster(roster, { asking: liveAsking });
 
   useEffect(() => {
     if (selectedPal && isPermissionMode(selectedPal.mode)) {
@@ -124,8 +140,6 @@ export function Mininja() {
     const hc = await fetchHostConfig();
     const n = Number(hc?.maxParallel ?? hc?.config?.maxParallel);
     if (Number.isFinite(n) && n >= 1 && n <= 16) setMaxParallel(Math.floor(n));
-    const plants = hc?.config?.showPlants;
-    if (typeof plants === "boolean") setShowPlants(plants);
     const live = state.bots || [];
     if (selected !== "console" && !live.some((b) => b.id === selected)) {
       setSelected("console");
@@ -203,7 +217,7 @@ export function Mininja() {
 
   useEffect(() => {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
-  }, [lines, mood, scene]);
+  }, [lines, scene]);
 
   function pushCmdOut(text: string, card: Card) {
     setLines((prev) => [
@@ -218,21 +232,16 @@ export function Mininja() {
     if (card.title === "__clear__") {
       setLines([]);
       setScene(DEFAULT_SCENE);
-      setMood("idle");
       return;
     }
     setLines((prev) => [...prev, { kind: "cmd", id: n.current++, text }]);
-    setMood("evaluating");
     setScene((s) => applyIntent(s, evaluatingIntent()));
     window.setTimeout(() => {
       const intent = intentFromCommand(text, card.title, card.face, card.scene);
-      const next = afterCommand(text, card.title, card.face);
-      setMood(next);
       setScene((s) => applyIntent(s, intent));
       setLines((prev) => [...prev, { kind: "out", id: n.current++, card }]);
       const hold = intent.holdMs || (intent.emotion === "confused" || intent.emotion === "worried" ? 1400 : 1800);
       window.setTimeout(() => {
-        setMood("idle");
         setScene((s) => applyIntent(s, { action: "idle", line: s.line, emotion: s.emotion }));
       }, hold);
     }, 650);
@@ -306,14 +315,12 @@ export function Mininja() {
 
     if (text.toLowerCase() === "offline" || text.toLowerCase() === "sleep") {
       setOffline(true);
-      setMood("offline");
       setScene((s) => applyIntent(s, { emotion: "sleepy", action: "sleep", stage: "nightwatch", line: "type wake to return" }));
       pushCmdOut(text, { title: "Offline", tag: "sleeping", bottom: "Type wake to return." });
       return;
     }
     if (text.toLowerCase() === "wake" || text.toLowerCase() === "online" || text.toLowerCase() === "reconnect") {
       setOffline(typeof navigator !== "undefined" && navigator.onLine === false);
-      setMood("idle");
       setScene((s) => applyIntent(s, { emotion: "alert", action: "wave", stage: "dock", line: "watching again" }));
       pushCmdOut(text, { title: "Online", bottom: "Watching again." });
       return;
@@ -528,7 +535,7 @@ export function Mininja() {
   }
 
   /** Habitat chip: click = solo @Name; shift+click = add / toggle off @mentions. */
-  function focusHabitatPal(pal: { id: string }, shift: boolean) {
+  function focusHabitatPal(pal: PalChrome, shift: boolean) {
     let nextIds: string[];
     if (shift) {
       const base =
@@ -583,35 +590,26 @@ export function Mininja() {
   return (
     <div className="flex h-dvh flex-col bg-bg text-fg" onClick={() => inputRef.current?.focus()}>
       {boot >= 1 ? (
-        <header className="relative shrink-0 border-b border-hairline">
-          <div className="pointer-events-none absolute right-4 top-2 z-10 flex items-start gap-3">
+        <div className="relative shrink-0">
+          <div className="pointer-events-none absolute right-4 top-2 z-20 flex items-start gap-3">
             {refineOn() ? <span className="pointer-events-auto text-mini text-warn">refine</span> : null}
             {bird ? <Pigeon pose={bird} /> : null}
           </div>
-          <div className="scoot-track">
-            <div ref={walkerRef} className={`scoot-walker${scooting ? " is-scooting" : ""}`}>
-              <div className="say" aria-hidden="true" />
-              {scooting ? (
-                <div className="lockups">
-                  <pre className="lockup face-out" aria-label="mininja idle">{`▚████\n██ ●●\n▀▀▀▀▀`}</pre>
-                  <pre className="lockup face-back" aria-hidden="true">{`████▞\n●● ██\n▀▀▀▀▀`}</pre>
-                </div>
-              ) : (
-                <Mascot state={face} />
-              )}
-            </div>
-            <GardenStrip
-              showPlants={showPlants}
-              pals={roster.map((b) => ({
-                id: b.id,
-                name: b.name,
-                tint: b.tint || "#8a8f98",
-              }))}
-            />
-          </div>
-        </header>
+          {/* Early casque stock props (da272c1 / SCENERY.md) — garden plants off */}
+          <Banner
+            scene={live}
+            blink={blink}
+            reduce={reduce}
+            ready={ready}
+            tint={bannerTint}
+            pals={bannerPals}
+            sticky={bannerSticky}
+            showPlants={false}
+            onPalClick={(pal, e) => focusHabitatPal(pal, e.shiftKey)}
+          />
+        </div>
       ) : (
-        <div className="h-16" />
+        <div className="h-32" />
       )}
 
       <div className="mx-auto flex min-h-0 w-full max-w-2xl flex-1 flex-col px-4 py-3 sm:px-6 sm:py-4">
