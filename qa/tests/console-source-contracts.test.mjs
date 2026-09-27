@@ -191,6 +191,10 @@ assert(/is-sel/.test(read("console/src/styles.css")), "selected pal chip ring");
 assert(/onPalClick|focusHabitatPal|applyHabitatMentions/.test(mininjaUi), "habitat chip click → @mention");
 assert(/pointer-events:\s*auto/.test(read("console/src/styles.css")) && /pal-chip/.test(read("console/src/styles.css")), "habitat chips clickable over hud");
 assert(/export function applyHabitatMentions/.test(mentionSrc), "applyHabitatMentions helper");
+assert(/export function splitLeadingMentions|fan-out|MAX_PARALLEL/.test(mentionSrc), "multi-@ fan-out grammar");
+assert(/op === "fan-out"|fan-out-cap|select-pals/.test(mininjaUi), "mininja handles fan-out");
+assert(/Escape|applyHabitatMentions\(input, \[\]\)/.test(mininjaUi), "Escape strips leading @s keep body");
+
 
 console.log("PASS  SUITE-CON-SOURCE-CONTRACTS (routes/boot/cmds/plugins/auth/theme)");
 

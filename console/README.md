@@ -34,6 +34,7 @@ Same grammar as [`../bot/README.md`](../bot/README.md) § Composer contract — 
 | Input | Route |
 |-------|--------|
 | `@Ada do X` | Task to pal Ada (roster from bot `/api/state`) |
+| `@Ada @Bea do X` | Fan-out same body to each named pal (cap 4; empty body = multi-focus) |
 | `@all …` | Rally-all (`POST /api/rally`) |
 | `@console now` / bare `now` | Program engine (`cardFor`) |
 | `stop` / `pull` / `stop @Ada` | Pull-off |
@@ -44,7 +45,7 @@ When bot is down, pal ops show a clear **Needs bot server** card; programs still
 
 **Approval modes** near the composer: `draft` · `auto` · `free` (same words as the bot spawn form). Clicking a mode updates the focused pal via `PATCH /api/bots/:id` (`mode` field). Sending an `@`-task applies the chosen mode first, then starts the task. No new backend — same bot field.
 
-**Glance sticky** on the habitat strip: `blocked` > `asking` > `busy` (same rank as the Mac bot). Asking shows while you type, or right after you focus a pal. The focused pal’s chip is ringed. Click a habitat chip to `@Name` in the composer (shift+click adds more).
+**Glance sticky** on the habitat strip: `blocked` > `asking` > `busy` (same rank as the Mac bot). Asking shows while you type, or right after you focus a pal. The focused pal’s chip is ringed. Click a habitat chip to `@Name` in the composer (shift+click adds or toggles off; keeps the task body after leading @s). Escape clears multi rings and strips leading @s but keeps the body.
 
 **+ pal** (when bot is up): smallest create path — name + current mode → `POST /api/bots`. Working folder, remote computer, LLM keys, and routines stay in the Mac launcher form.
 

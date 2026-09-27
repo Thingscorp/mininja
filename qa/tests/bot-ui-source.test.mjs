@@ -47,6 +47,9 @@ assert(/one mouth|@pal anytime|sidebar is fallback/i.test(html), "one-mouth cont
 assert(/function paintPalHabitat|bannerPals|pal-chip/.test(html), "multi-pal habitat chips");
 assert(/function focusHabitatPal|applyHabitatMentions|selectedIds/.test(html), "habitat chip click → @mention");
 assert(/shiftKey|shift\+click|shift click/i.test(html), "shift+click multi habitat");
+assert(/function splitLeadingMentions|MAX_PARALLEL/.test(html), "multi-@ fan-out helpers");
+assert(/base\.filter\(|toggle off|id !== bot\.id/.test(html), "shift+click toggles off");
+
 assert(/function stickyInterrupt|bannerSticky/.test(html), "sticky interrupt chrome");
 assert(/palPresence|pal-dot/.test(html), "concurrent pal presence dots");
 assert(/--pal-tint/.test(html), "host --pal-tint habitat chrome");

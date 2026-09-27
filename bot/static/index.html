@@ -815,12 +815,25 @@
       else selectedIds = selected === "console" ? [] : [selected];
     }
 
+    const MAX_PARALLEL = 4;
+
     function applyHabitatMentions(raw, names) {
       const clean = (names || []).map((n) => String(n || "").trim()).filter(Boolean);
       const insert = clean.map((n) => "@" + n).join(" ") + (clean.length ? " " : "");
-      const q = mentionQuery(raw || "");
-      if (q) return (raw || "").slice(0, q.start) + insert;
-      return insert;
+      const trimmed = String(raw || "").trimStart();
+      if (!trimmed.startsWith("@")) return insert;
+      let rest = trimmed;
+      let body = "";
+      while (rest.startsWith("@")) {
+        const m = rest.match(/^@([^\s]+)(?:\s+([\s\S]*))?$/);
+        if (!m) break;
+        const after = m[2] || "";
+        if (after.startsWith("@")) { rest = after; continue; }
+        body = after.trim();
+        break;
+      }
+      if (!clean.length) return body;
+      return body ? insert + body : insert;
     }
 
     function focusHabitatPal(bot, shift) {
@@ -830,11 +843,14 @@
         const base = selectedIds.length
           ? selectedIds
           : (selected !== "console" ? [selected] : []);
-        nextIds = base.includes(bot.id) ? base.slice() : base.concat([bot.id]);
+        nextIds = base.includes(bot.id)
+          ? base.filter((id) => id !== bot.id)
+          : base.concat([bot.id]);
       } else {
         nextIds = [bot.id];
       }
-      setFocus(bot.id, nextIds);
+      if (!nextIds.length) setFocus("console", []);
+      else setFocus(nextIds[nextIds.length - 1], nextIds);
       const names = nextIds
         .map((id) => (state.bots || []).find((b) => b.id === id))
         .filter(Boolean)
@@ -1127,6 +1143,28 @@
       return cmds.includes(head);
     }
 
+    /** Peel leading consecutive @tokens + trailing body. */
+    function splitLeadingMentions(text) {
+      let rest = String(text || "").trim();
+      if (!rest.startsWith("@")) return null;
+      const tokens = [];
+      while (rest.startsWith("@")) {
+        const m = rest.match(/^@([^\s]+)(?:\s+([\s\S]*))?$/);
+        if (!m) break;
+        tokens.push(m[1]);
+        rest = m[2] || "";
+        if (!rest.startsWith("@")) return { tokens, body: rest.trim() };
+      }
+      return tokens.length ? { tokens, body: rest.trim() } : null;
+    }
+
+    function findRosterPal(bots, token) {
+      const t = String(token || "").toLowerCase();
+      return (bots || []).find((b) => (b.name || "").toLowerCase() === t)
+        || (bots || []).find((b) => b.id === token)
+        || (bots || []).find((b) => (b.name || "").toLowerCase().startsWith(t));
+    }
+
     /** Match @Name / @all at start of composer text (case-insensitive roster). */
     function parseMention(text, bots) {
       const raw = String(text || "");
@@ -1137,9 +1175,7 @@
       const lower = token.toLowerCase();
       if (lower === "all") return { kind: "all", token, body, bot: null };
       if (lower === "console") return { kind: "console", token, body, bot: null };
-      const roster = bots || [];
-      const hit = roster.find((b) => (b.name || "").toLowerCase() === lower)
-        || roster.find((b) => (b.name || "").toLowerCase().startsWith(lower));
+      const hit = findRosterPal(bots, token);
       if (!hit) return { kind: "unknown", token, body, bot: null };
       return { kind: "pal", token, body, bot: hit };
     }
@@ -1512,7 +1548,49 @@
       }
 
       // @-mention anytime — does not require sidebar-first
-      const mention = parseMention(line, state.bots || []);
+      // Multi-@: consecutive leading known pals → fan-out same body (cap MAX_PARALLEL).
+      // Mixed @Ada @console → single-mention on first token. Unknown in run → error.
+      const split = splitLeadingMentions(line);
+      const roster = state.bots || [];
+      if (split && split.tokens.length > 1) {
+        const kinds = split.tokens.map((token) => {
+          const lower = token.toLowerCase();
+          if (lower === "all") return { kind: "all", token };
+          if (lower === "console") return { kind: "console", token };
+          const bot = findRosterPal(roster, token);
+          if (!bot) return { kind: "unknown", token };
+          return { kind: "pal", token, bot };
+        });
+        const unknown = kinds.find((k) => k.kind === "unknown");
+        if (unknown) { setMascot("error"); return; }
+        const mixed = kinds.some((k) => k.kind === "all" || k.kind === "console");
+        if (!mixed) {
+          const seen = new Set();
+          const pals = [];
+          for (const k of kinds) {
+            if (k.kind !== "pal" || !k.bot) continue;
+            if (seen.has(k.bot.id)) continue;
+            seen.add(k.bot.id);
+            pals.push(k.bot);
+          }
+          if (!pals.length) return;
+          if (!split.body) {
+            setFocus(pals[0].id, pals.map((b) => b.id));
+            render();
+            return;
+          }
+          if (pals.length > MAX_PARALLEL) {
+            setMascot("error");
+            return;
+          }
+          setFocus(pals[0].id, pals.map((b) => b.id));
+          await Promise.all(pals.map((b) => runTask(b.id, split.body)));
+          return;
+        }
+        // Mixed → fall through to single-mention on first token.
+      }
+
+      const mention = parseMention(line, roster);
       if (mention) {
         if (mention.kind === "all") {
           if (!mention.body) { setMascot("asking"); return; }
@@ -1728,6 +1806,17 @@
           hideMentionMenu();
           return;
         }
+      }
+      if (e.key === "Escape") {
+        e.preventDefault();
+        hideMentionMenu();
+        const task = $("task");
+        if (selectedIds.length || selected !== "console" || (task && /^@\S/.test((task.value || "").trimStart()))) {
+          setFocus("console", []);
+          if (task) task.value = applyHabitatMentions(task.value || "", []);
+          render();
+        }
+        return;
       }
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();

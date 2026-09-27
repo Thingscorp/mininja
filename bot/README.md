@@ -15,6 +15,7 @@ Product intent: type to **any pal anytime** without sidebar-first targeting. Sid
 | Input | Route |
 |-------|--------|
 | `@Ada do X` | Task to pal Ada (roster match, case-insensitive). No sidebar click required. |
+| `@Ada @Bea do X` | **Fan-out** — same body to each named pal (parallel start). Cap `MAX_PARALLEL` (4); refuse above that (no partial surprise). Empty body → multi-focus only. Unknown in the run → error (no silent skip). Mixed `@Ada @console` → single-mention on the first token. |
 | `@all …` | **Rally-all** — emergency blast to every idle pal (`POST /api/rally`). Skips pals already working. |
 | `@console now` | Console program engine |
 | bare `now` / `todo` / … | Console programs **when** sidebar target is `console` |

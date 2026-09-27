@@ -39,7 +39,7 @@ Companion: [`qa/OLD-CONSOLE-CARRYOVER.md`](../OLD-CONSOLE-CARRYOVER.md) · [`HAB
 | **Auth / gates / login** | `lib/auth/*`, `gates.tsx`, `/login` | **host-only OK** | Product optional Better Auth; not kit. |
 | **Window / layout / focus rings** | `h-dvh` shell, max-w-2xl column, Linear `:focus-visible` · `mininja.tsx` + `styles.css` | **host-only OK** | Explicit Linear chrome comment in CSS. |
 | **Preview host bridge / P2P** | `preview-host-bridge*`, `lib/multiplayer/p2p.ts` | **host-only OK** (low pri) | Not glance hero; P2P “roster” ≠ pal roster. |
-| **@-mention / roster / targeting** | `lib/mention.ts` + menu in `mininja.tsx` | **shipped (Apps)** | Parity with bot `parseMention`; roster from bot-api. |
+| **@-mention / roster / targeting** | `lib/mention.ts` + menu in `mininja.tsx` | **shipped (Apps)** | Parity with bot `parseMention` / multi-@ fan-out / habitat shift-toggle; roster from bot-api. |
 | **Pull-off / retarget / rally-all** | `routeComposer` + `bot-api.ts` | **shipped (Apps)** | Calls bot `stop` / `retarget` / `rally`; needs-bot card when down. |
 | **Permission modes (draft/auto/free)** | Composer labels → `patchBot` / `startTaskWithMode` | **shipped (Apps)** | Same bot `mode` field; PATCH then task. |
 | **New-pal create** | `createBot` → `POST /api/bots` · `+ pal` near composer | **shipped (Apps, minimal)** | Name + mode. Keys/remote/cwd/routines = Mac launcher. |

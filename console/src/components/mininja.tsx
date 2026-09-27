@@ -345,6 +345,29 @@ export function Mininja() {
       return;
     }
 
+    if (route.op === "select-pals") {
+      const ids = route.bots.map((b) => b.id);
+      setFocusPal(ids[0]!, ids);
+      const names = route.bots.map((b) => b.name).join(", ");
+      setScene((s) => applyIntent(s, listeningIntent()));
+      pushCmdOut(text, {
+        title: "Focus",
+        tag: "focus",
+        bottom: `Selected ${names}. Type a task, or @mention anytime.`,
+      });
+      return;
+    }
+
+    if (route.op === "fan-out-cap") {
+      pushCmdOut(text, {
+        title: "Too many pals",
+        tag: "error",
+        bottom: `At most ${route.max} at once — you named ${route.count}. Trim the @list and try again.`,
+      });
+      setScene((s) => applyIntent(s, { emotion: "confused", action: "wait", line: "" }));
+      return;
+    }
+
     if (route.op === "unknown-mention") {
       pushCmdOut(text, {
         title: "Unknown pal",
@@ -436,6 +459,55 @@ export function Mininja() {
       return;
     }
 
+    if (route.op === "fan-out") {
+      const ids = route.bots.map((b) => b.id);
+      setFocusPal(ids[0]!, ids);
+      setScene((s) => applyIntent(s, evaluatingIntent()));
+      const results = await Promise.all(
+        route.bots.map((bot) =>
+          startTaskWithMode(bot.id, route.body, permMode, { currentMode: bot.mode }),
+        ),
+      );
+      const parts: string[] = [];
+      let anyOk = false;
+      let needsBot = false;
+      for (let i = 0; i < route.bots.length; i++) {
+        const bot = route.bots[i]!;
+        const result = results[i]!;
+        if (result.needsBot) {
+          needsBot = true;
+          parts.push(`${bot.name}: bot offline`);
+          continue;
+        }
+        if (!result.ok) {
+          parts.push(`${bot.name}: ${String(result.error || "failed")}`);
+          continue;
+        }
+        anyOk = true;
+        parts.push(`${bot.name}: ok`);
+      }
+      if (needsBot && !anyOk) {
+        pushCmdOut(text, needsBotCard("Fan-out", results[0]?.error));
+        setScene((s) => applyIntent(s, { emotion: "worried", action: "wait", line: "bot offline" }));
+        return;
+      }
+      pushCmdOut(text, {
+        title: "Fan-out",
+        tag: anyOk ? "task" : "error",
+        bottom: `${route.body} → ${parts.join("; ")}`,
+      });
+      setScene((s) =>
+        applyIntent(
+          s,
+          anyOk
+            ? { emotion: "focused", action: "type", line: "" }
+            : { emotion: "worried", action: "wait", line: "" },
+        ),
+      );
+      await refreshRoster();
+      return;
+    }
+
     if (route.op === "sidebar-task") {
       const bot = roster.find((b) => b.id === route.botId);
       const result = await startTaskWithMode(route.botId, route.text, permMode, {
@@ -455,7 +527,7 @@ export function Mininja() {
     setMultiIds(ids ?? (id === "console" ? [] : [id]));
   }
 
-  /** Habitat chip: click = solo @Name; shift+click = add @mentions. */
+  /** Habitat chip: click = solo @Name; shift+click = add / toggle off @mentions. */
   function focusHabitatPal(pal: PalChrome, shift: boolean) {
     let nextIds: string[];
     if (shift) {
@@ -465,11 +537,15 @@ export function Mininja() {
           : selected !== "console"
             ? [selected]
             : [];
-      nextIds = base.includes(pal.id) ? base : [...base, pal.id];
+      nextIds = base.includes(pal.id) ? base.filter((id) => id !== pal.id) : [...base, pal.id];
     } else {
       nextIds = [pal.id];
     }
-    setFocusPal(pal.id, nextIds);
+    if (!nextIds.length) {
+      setFocusPal("console", []);
+    } else {
+      setFocusPal(nextIds[nextIds.length - 1]!, nextIds);
+    }
     const names = nextIds
       .map((id) => roster.find((b) => b.id === id)?.name)
       .filter((n): n is string => Boolean(n));
@@ -596,6 +672,19 @@ export function Mininja() {
                   refreshMentionMenu(e.target.value);
                 }}
                 onKeyDown={(e) => {
+                  if (e.key === "Escape") {
+                    e.preventDefault();
+                    if (mentionItems.length) {
+                      setMentionItems([]);
+                      return;
+                    }
+                    // Clear multi rings; strip leading @s but keep task body.
+                    if (multiIds.length || selected !== "console" || /^@\S/.test(input.trimStart())) {
+                      setFocusPal("console", []);
+                      setInput(applyHabitatMentions(input, []));
+                    }
+                    return;
+                  }
                   if (!mentionItems.length) return;
                   if (e.key === "ArrowDown") {
                     e.preventDefault();
@@ -603,8 +692,6 @@ export function Mininja() {
                   } else if (e.key === "ArrowUp") {
                     e.preventDefault();
                     setMentionIndex((i) => Math.max(i - 1, 0));
-                  } else if (e.key === "Escape") {
-                    setMentionItems([]);
                   }
                 }}
                 className="min-w-0 flex-1 bg-transparent text-hi outline-none placeholder:text-muted"
