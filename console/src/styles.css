@@ -205,6 +205,31 @@
   color: var(--color-steel);
 }
 
+
+/* Quiet garden stalks under scoot-track — early lean strip, not banner diorama */
+.garden-strip {
+  position: absolute;
+  left: 7.5rem;
+  right: 1.25rem;
+  bottom: 0.4rem;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 0.45rem;
+  height: 4.75rem;
+  pointer-events: none;
+  overflow: hidden;
+}
+.garden-strip .prop {
+  position: relative;
+  flex-shrink: 0;
+  align-self: flex-end;
+}
+.garden-strip .prop-repoBranch.is-leaf {
+  margin-left: -0.15rem;
+}
+
 .banner {
   position: relative;
   height: 9.25rem;

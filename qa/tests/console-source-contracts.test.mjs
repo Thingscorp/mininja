@@ -202,15 +202,21 @@ assert(/Escape|applyHabitatMentions\(input, \[\]\)/.test(mininjaUi), "Escape str
 
 console.log("PASS  SUITE-CON-SOURCE-CONTRACTS (routes/boot/cmds/plugins/auth/theme)");
 
-// --- Garden plants (OX-APP-D03) ---
+// --- Garden plants (OX-APP-D03) — scoot-track + lean garden-strip (not Banner diorama) ---
 const gardenCss = read("console/src/styles.css");
+const gardenStrip = read("console/src/components/garden-strip.tsx");
 assert(/\.prop-repoBranch/.test(gardenCss), "prop-repoBranch CSS");
+assert(/\.garden-strip/.test(gardenCss), "garden-strip CSS under scoot-track");
 assert(/growthHeight/.test(sceneSrc), "growthHeight helper");
 assert(/plantDrawHeight|LEAF_HEIGHT_PX/.test(sceneSrc), "plantDrawHeight / leaf fixed height");
-assert(/hostGardenOverlay|GardenPlant|prop-repoBranch/.test(banner), "banner garden paint");
-assert(/is-leaf|data-role/.test(banner + gardenCss), "leaf role chrome");
+assert(/hostGardenOverlay/.test(gardenStrip), "garden-strip uses hostGardenOverlay");
+assert(/prop-repoBranch/.test(gardenStrip), "garden-strip paints prop-repoBranch");
+assert(/is-leaf|data-role/.test(gardenStrip + gardenCss), "leaf role chrome");
 assert(/is-wilt/.test(gardenCss), "optional wilt class");
-assert(/showPlants/.test(banner), "Banner respects showPlants");
-assert(/showPlants/.test(read("console/src/components/mininja.tsx")), "mininja wires showPlants");
+assert(/showPlants/.test(gardenStrip), "garden-strip respects showPlants");
+assert(/showPlants/.test(mininjaUi), "mininja wires showPlants");
+assert(/<GardenStrip[\s>]/.test(mininjaUi) || /GardenStrip/.test(mininjaUi), "mininja mounts GardenStrip");
+assert(!/<Banner[\s>]/.test(mininjaUi), "Banner diorama still not mounted");
 assert(/exampleRootLeafGarden/.test(sceneSrc), "demo root+leaf fixture");
-console.log("PASS  garden plant growth (D03) + Occam root/leaf");
+// banner.tsx may keep unused GardenPlant helpers — optional, not required chrome
+console.log("PASS  garden plant growth (D03) + Occam root/leaf under scoot-track");

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { cardFor, type Card } from "@/lib/mininja";
 import { findBlocker } from "@/lib/blockers";
 import { Mascot } from "@/components/mascot";
+import { GardenStrip } from "@/components/garden-strip";
 import { Pigeon } from "@/components/pigeon";
 import { Gantt } from "@/components/gantt";
 import {
@@ -599,6 +600,14 @@ export function Mininja() {
                 <Mascot state={face} />
               )}
             </div>
+            <GardenStrip
+              showPlants={showPlants}
+              pals={roster.map((b) => ({
+                id: b.id,
+                name: b.name,
+                tint: b.tint || "#8a8f98",
+              }))}
+            />
           </div>
         </header>
       ) : (
