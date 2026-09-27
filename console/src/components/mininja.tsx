@@ -89,6 +89,8 @@ export function Mininja() {
   const [roster, setRoster] = useState<RosterPal[]>([]);
   /** Live fan-out cap from bot host-config (CLI SoT); fallback MAX_PARALLEL. */
   const [maxParallel, setMaxParallel] = useState(MAX_PARALLEL);
+  /** Habitat plants toggle from host-config (default true). */
+  const [showPlants, setShowPlants] = useState(true);
   const [mentionItems, setMentionItems] = useState<MentionSuggestion[]>([]);
   const [mentionIndex, setMentionIndex] = useState(0);
   /** Approval mode for next @-task — same draft|auto|free as bot spawn. */
@@ -140,6 +142,8 @@ export function Mininja() {
     const hc = await fetchHostConfig();
     const n = Number(hc?.maxParallel ?? hc?.config?.maxParallel);
     if (Number.isFinite(n) && n >= 1 && n <= 16) setMaxParallel(Math.floor(n));
+    const plants = hc?.config?.showPlants;
+    if (typeof plants === "boolean") setShowPlants(plants);
     const live = state.bots || [];
     if (selected !== "console" && !live.some((b) => b.id === selected)) {
       setSelected("console");
@@ -603,6 +607,7 @@ export function Mininja() {
             tint={bannerTint}
             pals={bannerPals}
             sticky={bannerSticky}
+            showPlants={showPlants}
             onPalClick={(pal, e) => focusHabitatPal(pal, e.shiftKey)}
           />
         </div>

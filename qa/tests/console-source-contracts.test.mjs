@@ -207,4 +207,8 @@ assert(/growthHeight/.test(sceneSrc), "growthHeight helper");
 assert(/plantDrawHeight|LEAF_HEIGHT_PX/.test(sceneSrc), "plantDrawHeight / leaf fixed height");
 assert(/hostGardenOverlay|GardenPlant|prop-repoBranch/.test(banner), "banner garden paint");
 assert(/is-leaf|data-role/.test(banner + gardenCss), "leaf role chrome");
+assert(/is-wilt/.test(gardenCss), "optional wilt class");
+assert(/showPlants/.test(banner), "Banner respects showPlants");
+assert(/showPlants/.test(read("console/src/components/mininja.tsx")), "mininja wires showPlants");
+assert(/exampleRootLeafGarden/.test(sceneSrc), "demo root+leaf fixture");
 console.log("PASS  garden plant growth (D03) + Occam root/leaf");

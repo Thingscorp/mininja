@@ -128,11 +128,18 @@ describe("garden growth", () => {
     assert.equal(plants[0]!.tint, "#54a6c9");
   });
 
-  it("empty roster still shows a plant from overlay", () => {
+  it("empty roster shows demo root + two leaves (no GitHub)", () => {
     const plants = hostGardenOverlay([]);
-    assert.ok(plants.length >= 1);
-    assert.equal(plants[0]!.kind, "repoBranch");
-    assert.ok(plants[0]!.growth === 0 || plants[0]!.growth === 3 || plants[0]!.growth == null || (plants[0]!.growth! >= 0 && plants[0]!.growth! <= 5));
+    assert.ok(plants.length >= 3);
+    const roots = plants.filter((p) => p.role === "root");
+    const leaves = plants.filter((p) => p.role === "leaf");
+    assert.equal(roots.length, 1);
+    assert.ok(leaves.length >= 2);
+    assert.equal(roots[0]!.kind, "repoBranch");
+    assert.equal(roots[0]!.growth, 3);
+    for (const leaf of leaves) {
+      assert.equal(plantDrawHeight(leaf), LEAF_HEIGHT_PX);
+    }
   });
 
   it("default overlay plants are roots (one pal, one root)", () => {
@@ -154,13 +161,13 @@ describe("garden growth", () => {
     assert.equal(plantDrawHeight({ role: "root", h: 999 }), canopy); // never above canopy
   });
 
-  it("exampleRootLeafGarden fixture shows root + leaf contracts", () => {
+  it("exampleRootLeafGarden fixture shows root + two leaf contracts", () => {
     const plants = exampleRootLeafGarden();
-    assert.ok(plants.length >= 2);
+    assert.equal(plants.length, 3);
     const root = plants.find((p) => p.role === "root")!;
     const leaves = plants.filter((p) => p.role === "leaf");
     assert.ok(root);
-    assert.ok(leaves.length >= 1);
+    assert.equal(leaves.length, 2);
     assert.equal(plantDrawHeight(root), growthHeight(root.growth));
     for (const leaf of leaves) {
       assert.equal(plantDrawHeight(leaf), LEAF_HEIGHT_PX);

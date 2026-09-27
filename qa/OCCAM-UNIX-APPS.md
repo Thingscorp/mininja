@@ -145,7 +145,7 @@ Three words under the composer: **draft**, **auto**, **free**. Same meanings as 
 
 ### OX-APP-D03 notes (plain)
 
-Console habitat now shows **plant growth** (`repoBranch`, growth 0..5). Height comes from kit `garden.silhouetteHeightPx` (`12 + 12×growth`). When pals are on the roster, each pal gets one plant (tint on the plant). When the roster is empty, an ambient **root** still shows so the garden is glanceable (demo leaves via fixture/`shoots`, not fake PRs). No harvest / Farmville / KPI chrome — just quiet silhouettes.
+Console habitat now shows **plant growth** (`repoBranch`, growth 0..5). Height comes from kit `garden.silhouetteHeightPx` (`12 + 12×growth`). When pals are on the roster, each pal gets one plant (tint on the plant). When the roster is empty, an ambient **root + two leaves** demo still shows so the garden is glanceable (`exampleRootLeafGarden` — not a live GitHub bridge). No harvest / Farmville / KPI chrome — just quiet silhouettes.
 
 **Occam root/leaf (locked):** only **root** uses the 0..5 height channel (clamp at canopy). **Leaf** = temporary PR twig (fixed small height, `.is-leaf`). Merge removes the leaf (+ optional one root tick); close without merge drops the leaf only. Roles stay host/authored overlay — not kit `propFields`. Full reading: [`GARDEN.md`](../GARDEN.md) § Locked reading.
 
