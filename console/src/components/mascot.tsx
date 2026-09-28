@@ -33,7 +33,7 @@ export function Mascot({
   tick?: number;
   blink?: boolean;
 }) {
-  // Scoot-track header uses state= only → hardcoded FRAMES (ralph stocks).
+  // Scoot-track header uses state= only → FRAMES hydrated from kit/mark.json.
   // Banner/scene path may pass scene= for composeLockup; never mix into scoot eyes.
   const legacy = FRAMES[state];
   const frame = scene ? composeLockup(scene, tick, blink) : undefined;

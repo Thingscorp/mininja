@@ -226,6 +226,38 @@ if (existsSync(consoleDir) && g && m) {
   }
 }
 
+// OX-APP-101: bot bootstrap FRAMES must stay idle-on-ramp only (hydrate fills the rest).
+const botHtmlPath = join(root, "bot", "static", "index.html");
+if (existsSync(botHtmlPath)) {
+  const botHtml = readFileSync(botHtmlPath, "utf8");
+  if (!/hydrateMark|framesFromKit/.test(botHtml) || !botHtml.includes("/kit/mark.json")) {
+    errors.push(
+      "bot/static/index.html must hydrateMark / framesFromKit from /kit/mark.json (OX-APP-101)",
+    );
+  }
+  const boot = botHtml.match(/let FRAMES\s*=\s*\{([\s\S]*?)\n\s*\};/);
+  if (!boot) {
+    errors.push("bot/static/index.html missing bootstrap let FRAMES = { ... } (OX-APP-101)");
+  } else {
+    const body = boot[1];
+    // Face keys in bootstrap (idle on-ramp only — no full hardcoded catalog).
+    const keys = [...body.matchAll(/\b([a-zA-Z][a-zA-Z0-9]*)\s*:\s*\{/g)].map((m) => m[1]);
+    const kitFaceIds = Object.keys(mark.faces || {});
+    const extra = keys.filter((k) => k !== "idle" && kitFaceIds.includes(k));
+    if (extra.length) {
+      errors.push(
+        `bot bootstrap FRAMES must be idle-on-ramp only; found kit face keys: ${extra.join(", ")} (OX-APP-101)`,
+      );
+    }
+    if (!keys.includes("idle")) {
+      errors.push("bot bootstrap FRAMES must include idle on-ramp (OX-APP-101)");
+    }
+  }
+  if (/◆◆/.test(botHtml)) {
+    errors.push("bot/static/index.html must not contain legacy warning ◆◆ (OX-APP-101)");
+  }
+}
+
 if (errors.length) {
   console.error("kit/check-consumers FAIL:");
   for (const e of errors) console.error(" -", e);
@@ -239,5 +271,6 @@ const bits = [
   m ? `walk=${m.walkPxPerSec} run=${m.runPxPerSec}` : null,
   scene.stages ? `stages=${scene.stages.length}` : null,
   existsSync(consoleDir) ? "console habitat aligned" : "console absent (skipped)",
+  existsSync(botHtmlPath) ? "bot FRAMES idle-on-ramp" : null,
 ].filter(Boolean);
 console.log(`kit/check-consumers OK — ${bits.join(" · ")}`);

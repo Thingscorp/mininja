@@ -54,7 +54,7 @@ Standing maps: [`seams/00-HOST-SEAMS.md`](seams/00-HOST-SEAMS.md) · [`03-consol
 | **OX-APP-W01** | `COMMAND_INTENT` / `CMD_STAGE` host routing tables | Host chrome OK; ids ⊂ kit stages/emotions/actions. Not silent catalogs. |
 | **OX-APP-W02** | Linear `--color-*` vs kit `moodColorsUiOnly` | Intentional dual: Apps chrome ≠ mark tone hex. Do not bake Linear into kit. |
 | **OX-APP-W03** | Console `MascotState` / `Weather` / `PropKind` / `Tone` closed unions | Type mirrors of kit enums (kit OX-APP-003/004). Runtime via bridge / registerFromKit. Churn only if kit-align breaks. |
-| **OX-APP-W04** | Console `mascot.ts` `FRAMES` built via `composeLockup` / `legacyFaceBridge` | Not a glyph dual table — already lean (kit OX-A04). |
+| **OX-APP-W04** | Console `mascot.ts` `FRAMES` hydrated from `kit/mark.json` (`framesFromKit`, OX-APP-FRAMES / 958dfe2); habitat still uses `composeLockup` | Not a glyph dual table — eyes/tone/motion from kit faces. Scoot header reads FRAMES; Banner/garden path keeps compose. |
 | **OX-APP-W05** | Habitat `composeLockup` (scene-driven eyes/pose) vs adapter `from-kit` for static chips | Seams adapter rule: habitat compose OK; static faces → from-kit. |
 | **OX-APP-W06** | Bot static + React console grammars | **Absorbed** — shared `mention` grammar; bot UI may keep static copy until console is primary. **Do not** add a third. |
 | **OX-APP-W07** | Stage tree ink CSS (`--color-git-*`) | Host paint over kit stage ids; not a stage catalog. |
@@ -74,6 +74,7 @@ Standing maps: [`seams/00-HOST-SEAMS.md`](seams/00-HOST-SEAMS.md) · [`03-consol
 | **OX-APP-A06** | Tint host-only (`console/src/lib/tint.ts` ↔ `bot/console/tint.py`); no kit pal-color table. |
 | **OX-APP-A07** | Bot one-mouth composer shipped (`parseMention`, rally, retarget, pull-off). |
 | **OX-APP-A08** | No vendored React under `bot/` (static HTML + Python only). |
+| **OX-APP-A09** | Console `FRAMES` = `framesFromKit(mark)` from `kit/mark.json` (OX-APP-FRAMES / 958dfe2). Bot bootstrap idle-on-ramp + `hydrateMark`. |
 
 ---
 
@@ -82,7 +83,7 @@ Standing maps: [`seams/00-HOST-SEAMS.md`](seams/00-HOST-SEAMS.md) · [`03-consol
 | Smell | Status |
 |-------|--------|
 | Silent dual stage/emotion/action seeds | **Clean** (console + bot) |
-| Host redraw lockup glyphs inventing ids | **Remediated** bot FRAMES; console composeLockup OK |
+| Host redraw lockup glyphs inventing ids | **Remediated** bot idle-on-ramp+hydrate; console FRAMES from kit; habitat composeLockup OK |
 | Dead dual-path FRAMES seed vs kit overwrite | **Remediated** hydrate-only |
 | Third composer mouth | **Absent** — React + bot share grammar (D01 done) |
 | Doc lies vs seams (`@`/rally) | **Remediated** carry-over |

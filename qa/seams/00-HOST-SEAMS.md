@@ -1,7 +1,7 @@
 # Host seams checklist — kit vs adapters vs console/bot
 
 **Audience:** Apps · Kit · Ports · Russ  
-**Date:** 2026-09-26 (ET)  
+**Date:** 2026-09-28 (ET) · FRAMES truth-up  
 **Branch:** `feat/monorepo-public`  
 **Scope:** Canonical ownership map. No kit JSON edits. No feature impl.
 
@@ -18,7 +18,7 @@
 | Concern | Kit | Ports (adapters) | Apps console | Apps bot | Host-chrome-ok |
 |---------|-----|------------------|--------------|----------|----------------|
 | Face / emotion / action / stage / growth / weather / propKinds ids | **SoT** | Emit face/stage/action/motion chrome only | Consume via `registerFromKit` | Consume via `hydrateMark` / `hydrateZones` | — |
-| Glyph lockup lines | SoT (`faces.*`, idle stacks) | **`from-kit` / `lockup`** primary | Habitat: `composeLockup` (scene-driven); static faces → from-kit | Hydrate FRAMES from kit (P2 debt) | — |
+| Glyph lockup lines | SoT (`faces.*`, idle stacks) | **`from-kit` / `lockup`** primary | Habitat: `composeLockup` (scene-driven); scoot/static FRAMES **hydrated from `kit/mark.json`** (958dfe2 / OX-APP-FRAMES) | Bootstrap **idle-on-ramp only**; `hydrateMark` → `framesFromKit` | — |
 | Geometry + motion speeds | SoT (`geometry.*`, `motion.*`) | — | Import / match kit numbers | Grove uses kit stages | — |
 | Typeface (IBM Plex Mono) | SoT `mark.typeface` | React/presence assume stack | CSS must match | Static fonts must match | Load fonts |
 | Pal tint / roster labels | **Forbidden** | Presence `--fg` / chip hooks only | `tint.ts` + Banner props (unwired) | **Shipped** live chips/dots | **Yes — required** |
@@ -97,7 +97,7 @@ Prefer [`04-bot-host.md`](04-bot-host.md) over stale rows in [`OLD-CONSOLE-CARRY
 | **Pal ↔ repoBranch** growth viz | Kit schema ready · **Console shipped** (`growthHeight` + `.prop-repoBranch` + one-pal-one-plant overlay) · bot grove ≠ garden | kit schema · **host** viz | Bot may match later; no new kit ids. |
 | **Permission modes** draft\|auto\|free | Bot **shipped** · Console **shipped** (composer labels → PATCH `mode`) | **host** | Fail-closed; spawn/create form still bot-only. |
 | **Roster + tint** | Bot **shipped** · Console lag | **host** | Console: pass live roster into Banner. |
-| Converge **FRAMES / composeLockup** onto from-kit (static faces) | Bot inline FRAMES + hydrate (P2 debt: loadingLeft/cancelled/offline reliability) · Console composeLockup habitat-OK | **adapter** + host | Static faces → from-kit; keep composeLockup for habitat; delete FRAMES drift; alias `sandbox` at edge only — **don’t invent kit keys**. |
+| **FRAMES** (static faces) + habitat `composeLockup` | Bot: idle-on-ramp + `hydrateMark` · Console: FRAMES from `kit/mark.json` (OX-APP-FRAMES / 958dfe2); habitat `composeLockup` OK — **do not remount Banner/garden** | **host** (+ adapter for static chips) | Keep habitat compose; static faces stay kit-hydrated; alias `sandbox` at edge only — **don’t invent kit keys**. |
 | Recipe `then.emotion` / facing / intensity | Kit bricks exist; RECIPES face-first | **kit** design · host runner | Prefer face → bridge; opt-in later — no new ids. |
 
 ---

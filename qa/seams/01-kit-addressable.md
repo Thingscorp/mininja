@@ -292,7 +292,7 @@ From [`qa/OLD-CONSOLE-CARRYOVER.md`](../OLD-CONSOLE-CARRYOVER.md). Ownership tag
 | G8 | **Recipe `then.facing` / `intensity` / `holdMs`** | In defaultScene / SceneIntent; not in RECIPES `then` examples | **gap-needs-design** | Scene runner already has them; recipe plate may opt-in later — do not invent new ids. |
 | G9 | **Tone `muted`** for scene chrome | Emotions use `muted`; mark `moodColorsUiOnly` has 5 keys only | **host-chrome-ok** | Documented host/scene tone; do not add `muted` to mark mood table unless intentional kit change. |
 | G10 | **Glance sticky priority runner** | Design in GLANCE/RECIPES only | **gap-needs-design** | Host/pack intent; not a kit JSON field. |
-| G11 | **Bot inline FRAMES / `sandbox` alias** | Kit face is `sandboxing` | **host-chrome-ok** | Apps hydrate from kit; alias map is host debt (P2 carry-over). |
+| G11 | **Bot FRAMES bootstrap + `sandbox` alias** | Kit face is `sandboxing` | **host-chrome-ok** | Bootstrap is **idle-on-ramp only**; `hydrateMark` fills catalog from kit. Alias `sandbox`→`sandboxing` stays host-edge debt. |
 | G12 | **Command→stage map** | Narrated TERMINAL-MOTION; not kit enum | **host-chrome-ok** | `COMMAND_INTENT` lives in console; kit owns stage ids only. |
 | G13 | **Routines / MAX_PARALLEL / SSE** | N/A | **host-chrome-ok** | Bot runtime. |
 | G14 | **Auth / storage / Better Auth** | N/A | **host-chrome-ok** | Apps infra. |
@@ -311,7 +311,7 @@ Places console/bot/adapters might invent parallel tables beside kit:
 |------|-------------------|------------|
 | **STAGE_SEED / EMOTION_SEED / ACTION_SEED** | Old console pattern; forbidden in monorepo `scene.ts` | `check-consumers` + `console/scripts/kit-align.mjs` |
 | **Hardcoded walk/run/camera literals** | `banner.tsx` legacy `0.35` look-ahead | Gate: derive `WALK/RUN_PX_PER_SEC`, kit camera ratios only |
-| **Inline FRAMES glyph table** | `bot/static/index.html` FRAMES; `console/src/lib/mascot.ts` FRAMES | Hydrate from `mark.json`; bridge for scene; delete drift |
+| **Inline FRAMES glyph table** | Was: bot full seed catalog; console hardcoded ralph stocks in `mascot.ts` | **Done:** bot idle-on-ramp + `hydrateMark`; console FRAMES from `kit/mark.json` (958dfe2 / OX-APP-FRAMES). Habitat keeps `composeLockup`. Gate: `check-consumers`. |
 | **`sandbox` vs `sandboxing`** | Bot engine alias / old FRAMES key | Normalize to kit `sandboxing`; alias only at host edge |
 | **Casque name revival** | Comments, tags, copy | `forbiddenNames` + check-consumers Casque scan |
 | **Parallel eye/glyph tables in docs** | STYLEGUIDE/CONSTRUCTION drift from mark.json | Docs narrate; CoS vocab review |
