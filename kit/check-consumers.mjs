@@ -165,13 +165,53 @@ if (existsSync(consoleDir) && g && m) {
     errors.push(`console banner.tsx missing patrolPxPerSec ${patrol}`);
   }
 
-  // OX-APP-FRAMES: console FRAMES mid-row eyes must match kit/mark.json faces.
+  // OX-APP-FRAMES: console FRAMES eyes+tone+motion from kit/mark.json faces.
   const mascotTs = readFileSync(join(consoleDir, "src", "lib", "mascot.ts"), "utf8");
+  const hydratesFrames =
+    mascotTs.includes("kit/mark.json") && /mark\.faces|framesFromKit/.test(mascotTs);
+  if (!hydratesFrames) {
+    errors.push(
+      "console mascot.ts must import kit/mark.json and build FRAMES from mark.faces (OX-APP-FRAMES)",
+    );
+  }
   for (const [id, face] of Object.entries(mark.faces || {})) {
     const eyes = face?.eyes;
     if (!Array.isArray(eyes) || eyes.length < 2) continue;
     const mid = `██ ${eyes[0]}${eyes[1]}`;
-    if (!mascotTs.includes(mid)) {
+    // Dual-table guard: hardcoded face blocks must match kit eyes/tone/motion.
+    const blockRe = new RegExp(
+      String.raw`${id}:\s*\{[\s\S]*?(?=\n\s*(?:[a-zA-Z]+:\s*\{|\};))`,
+    );
+    const block = mascotTs.match(blockRe)?.[0];
+    if (block && /lines\s*:/.test(block)) {
+      if (!block.includes(`${eyes[0]}${eyes[1]}`) && !block.includes(mid)) {
+        errors.push(
+          `console mascot.ts FRAMES ${id} eyes fork kit (want "${mid}") (OX-APP-FRAMES)`,
+        );
+      }
+      const toneM = block.match(/tone:\s*"([^"]+)"/);
+      if (toneM && face.tone && toneM[1] !== face.tone) {
+        errors.push(
+          `console mascot.ts FRAMES ${id} tone "${toneM[1]}" != kit "${face.tone}" (OX-APP-FRAMES)`,
+        );
+      }
+      const motionM = block.match(/motion:\s*"([^"]+)"/);
+      if (face.motion == null || face.motion === undefined) {
+        if (motionM) {
+          errors.push(
+            `console mascot.ts FRAMES ${id} motion "${motionM[1]}" but kit null (OX-APP-FRAMES)`,
+          );
+        }
+      } else if (motionM && motionM[1] !== face.motion) {
+        errors.push(
+          `console mascot.ts FRAMES ${id} motion "${motionM[1]}" != kit "${face.motion}" (OX-APP-FRAMES)`,
+        );
+      } else if (!motionM) {
+        errors.push(
+          `console mascot.ts FRAMES ${id} missing motion "${face.motion}" (OX-APP-FRAMES)`,
+        );
+      }
+    } else if (!hydratesFrames && !mascotTs.includes(mid)) {
       errors.push(
         `console mascot.ts FRAMES missing kit face ${id} mid-row "${mid}" (OX-APP-FRAMES)`,
       );
