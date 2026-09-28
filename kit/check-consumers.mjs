@@ -165,6 +165,19 @@ if (existsSync(consoleDir) && g && m) {
     errors.push(`console banner.tsx missing patrolPxPerSec ${patrol}`);
   }
 
+  // OX-APP-FRAMES: console FRAMES mid-row eyes must match kit/mark.json faces.
+  const mascotTs = readFileSync(join(consoleDir, "src", "lib", "mascot.ts"), "utf8");
+  for (const [id, face] of Object.entries(mark.faces || {})) {
+    const eyes = face?.eyes;
+    if (!Array.isArray(eyes) || eyes.length < 2) continue;
+    const mid = `██ ${eyes[0]}${eyes[1]}`;
+    if (!mascotTs.includes(mid)) {
+      errors.push(
+        `console mascot.ts FRAMES missing kit face ${id} mid-row "${mid}" (OX-APP-FRAMES)`,
+      );
+    }
+  }
+
   // Prop kinds closed set — every kit kind must appear in console seed or types.
   for (const kind of scene.propKinds || []) {
     if (!sceneTs.includes(`"${kind}"`) && !sceneTs.includes(`'${kind}'`)) {

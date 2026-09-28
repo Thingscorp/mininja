@@ -217,6 +217,8 @@ assert(/"██ \?\?"/.test(mascotLib) || /██ \?\?/.test(mascotLib), "FRAMES
 assert(/██ ××/.test(mascotLib) || /"██ ××"/.test(mascotLib), "FRAMES error ××");
 assert(/██ ┃┃/.test(mascotLib), "FRAMES denied ┃┃");
 assert(/██ ◇◇/.test(mascotLib), "FRAMES sandboxing ◇◇");
+assert(/██ ▲△/.test(mascotLib), "FRAMES warning ▲△");
+assert(!/██ ◆◆/.test(mascotLib), "FRAMES warning not legacy ◆◆");
 assert(/sandboxing:/.test(mascotLib) && /legacyFrame/.test(mascotLib) === false, "hardcoded FRAMES (no legacyFrame)");
 assert(/growthHeight/.test(sceneSrc), "growthHeight helper retained in scene");
 assert(/plantDrawHeight|LEAF_HEIGHT_PX/.test(sceneSrc), "plantDrawHeight retained");

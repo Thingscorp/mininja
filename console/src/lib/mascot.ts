@@ -34,7 +34,7 @@ export type Frame = {
   motion?: "pulse" | "bounce" | "shake";
 };
 
-/** Hardcoded expression stocks — do not derive via composeLockup (glyph drift). */
+/** Expression stocks. Eye glyphs must match kit/mark.json faces (gate: OX-APP-FRAMES). */
 export const FRAMES: Record<MascotState, Frame> = {
   idle: { lines: ["▚████", "██ ●●", "▀▀▀▀▀"], tone: "idle", label: "idle" },
   blink: { lines: ["▚████", "██ ──", "▀▀▀▀▀"], tone: "idle", label: "idle" },
@@ -83,7 +83,7 @@ export const FRAMES: Record<MascotState, Frame> = {
     motion: "bounce",
   },
   warning: {
-    lines: ["▚████", "██ ◆◆", "▀▀▀▀▀"],
+    lines: ["▚████", "██ ▲△", "▀▀▀▀▀"],
     tone: "warn",
     label: "warning",
     motion: "bounce",
